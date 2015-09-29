@@ -1,0 +1,11 @@
+DESCRIPTION = "Metrological Basic Packagegroup"
+
+inherit packagegroup
+
+PACKAGES = "\
+     packagegroup-ml \
+         "
+
+RDEPENDS_packagegroup-ml = "\
+     cppsdk"
+"
