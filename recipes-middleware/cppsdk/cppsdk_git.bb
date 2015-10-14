@@ -7,15 +7,23 @@ LIC_FILES_CHKSUM = "file://README.md;md5=21e48c57fe5a5f9881e15eb895867622"
 
 DEPENDS = "zlib"
 
-SRCREV = "391a3e13a7a08e6ccb1e8d5c6ec589e23ff8e9be"
+SRCREV = "ed436fa551441f2723faee776f1d55881e047109"
 
-PV = "1.0-r${SRCPV}"
+PV = "1.0"
 
 SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=cmake"
 
 S = "${WORKDIR}/git"
 
-EXTRA_OECMAKE=""
+EXTRA_OECMAKE="\
+         -DINSTALL_HEADERS_TO_TARGET=ON \
+         -DCPPSDK_DEBUG=OFF \
+         -DCPPSDK_UNIT_TESTS=OFF \
+         -DCPPSDK_GENERICS=ON  \
+         -DCPPSDK_CRYPTALGO=ON \
+         -DCPPSDK_WEBSOCKET=ON \
+         -DCPPSDK_TRACING=ON \
+         -DCPPSDK_DEVICES=ON"
 
 inherit pkgconfig cmake
 

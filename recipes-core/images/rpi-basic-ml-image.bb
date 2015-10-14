@@ -8,7 +8,6 @@ IMAGE_FEATURES += " \
     splash \
 "
 
-IMAGE_INSTALL_append = " \
-    packagegroup-ml-basic \
-    packagegroup-ml-test \
+IMAGE_INSTALL_append = "\
+   packagegroup-ml-middleware \
 "
