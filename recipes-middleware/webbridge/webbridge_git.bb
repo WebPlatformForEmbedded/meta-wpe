@@ -9,7 +9,7 @@ DEPENDS = "zlib cppsdk"
 
 SRCREV = "b1b27c39f45d4cb1eefa949501d49abf246c8b94"
 
-PV = "1.0"
+PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=cmake"
 

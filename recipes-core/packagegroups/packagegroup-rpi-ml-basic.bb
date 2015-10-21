@@ -8,15 +8,24 @@ PACKAGES = "\
     packagegroup-ml-middleware \
     packagegroup-ml-multimedia \
     packagegroup-ml-wpe \
+    packagegroup-ml-qt5browser \
          "
 
 RDEPENDS_packagegroup-ml-middleware = "\
     cppsdk \
     webbridge \
+    dxdrm \ 
 "
 
 RDEPENDS_packagegroup-ml-multimedia = "\
 "
 
 RDEPENDS_packagegroup-ml-wpe = "\
+"
+
+RDEPENDS_packagegroup-ml-qt5browser = "\
+    qtbase \
+    qtbase-fonts \
+    qtbase-plugins  \
+    qtbrowser \
 "
