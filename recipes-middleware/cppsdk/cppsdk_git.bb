@@ -1,20 +1,22 @@
 SUMMARY = "Metrological's CPP SDK abstraction layer"
-SECTION = "metrological"
 HOMEPAGE = "http://www.metrological.com/"
+SECTION = "metrological"
 LICENSE = "CLOSED"
 
 DEPENDS = "zlib"
-
-# Default features, can be overridden. 
-CPPSDK_FEATURES ??= "generics cryptalgo websocket tracing websocket devices"
-
-SRCREV = "ed0ed767a6ebae4305acc974600f30d7637d42df"
 
 PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh"
 
+SRCREV = "ed0ed767a6ebae4305acc974600f30d7637d42df"
+
 S = "${WORKDIR}/git"
+
+inherit cmake pkgconfig
+
+# Default features, can be overridden.
+CPPSDK_FEATURES ??= "generics cryptalgo websocket tracing websocket devices"
 
 EXTRA_OECMAKE= '\
     -DINSTALL_HEADERS_TO_TARGET=ON \
@@ -26,6 +28,3 @@ EXTRA_OECMAKE= '\
     ${@bb.utils.contains("CPPSDK_FEATURES", "tracing", "-DCPPSDK_TRACING=ON", "-DCPPSDK_TRACING=OFF",d)} \
     ${@bb.utils.contains("CPPSDK_FEATURES", "devices", "-DCPPSDK_DEVICES=ON", "-DCPPSDK_DEVICES=OFF",d)} \
 '
-
-inherit pkgconfig cmake
-
