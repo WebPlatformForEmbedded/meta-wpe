@@ -1,4 +1,5 @@
 require recipes-qt/qt5/qt5.inc
+require qtwebkit_features.inc
 
 LICENSE = "BSD & LGPLv2+ | GPL-2.0"
 LIC_FILES_CHKSUM = " \
@@ -20,7 +21,7 @@ PV = "5.4.1+metro+git${SRCPV}"
 
 SRC_URI = "git://github.com/Metrological/qtwebkit.git;branch=qt5.4;protocol=http"
 
-SRCREV = "10a7ba4d2a1c3161234c8f3ecfb1f2761d03238c"
+SRCREV = "bf14b0e5b3178efe9326df8cb4a3c21214199cd5"
 
 S = "${WORKDIR}/git"
 
@@ -65,22 +66,8 @@ do_configure_prepend() {
 
 # qtwebkit gets terribly big when linking with all debug info, disable by default
 QTWEBKIT_DEBUG = "QMAKE_CFLAGS+=-g0 QMAKE_CXXFLAGS+=-g0"
-EXTRA_QMAKEVARS_PRE += "${QTWEBKIT_DEBUG}"
 
-EXTRA_QMAKEVARS_PRE += "\
-  WEBKIT_CONFIG+=media_source \
-  WEBKIT_CONFIG+=web_audio \
-"
-
-# ---- DXDRM ----- #
-EXTRA_QMAKEVARS_PRE += "\
-  WEBKIT_CONFIG+=use_dxdrm \
-  LIBS+=-lDxDrm \
-"
-DEPENDS += "dxdrm"
-# If libprosioning is available uncomment 
-# EXTRA_QMAKEVARS_PRE += "LIBS+=-lprovisionproxy"
-# --- END DXDRM --- #
+EXTRA_QMAKEVARS_PRE += "${QTWEBKIT_DEBUG} ${QT5WEBKIT_CONFIG} ${QT5WEBKIT_EXTRA_LIBRARIES}"
 
 # remove default ${PN}-examples-dbg ${PN}-examples set in qt5.inc, because it conflicts with ${PN} from separate webkit-examples recipe
 PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN} ${PN}-qmlplugins-dbg ${PN}-tools-dbg ${PN}-plugins-dbg ${PN}-qmlplugins ${PN}-tools ${PN}-plugins ${PN}-mkspecs "
