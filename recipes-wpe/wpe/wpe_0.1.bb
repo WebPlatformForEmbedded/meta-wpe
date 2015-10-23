@@ -1,21 +1,26 @@
 LICENSE = "CLOSED"
 
 DEPENDS += " \
-   flex bison gperf ruby ninja-native pkgconfig zlib pcre \
-   cairo freetype fontconfig harfbuzz icu libxml2 perl \
-   libxslt sqlite libinput libsoup-2.4 libwebp harfbuzz-native \
+    bison-native gperf-native harfbuzz-native ninja-native ruby-native \
+    cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
+    libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
+    virtual/egl virtual/libgles2 \
 "
+
+# Temp hack to satisfy dependency on libgdl.
+# Eventually this dependency should be handled via a .bbappend in meta-bsp-intelce
+DEPENDS_append_7401 = " intelce-display"
+
+SRCREV = "5f0b6b16e74a60d86717789fd6fc54e6c91ac3e4"
+
+SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=intelce"
+
+S = "${WORKDIR}/git"
+
+inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 FULL_OPTIMIZATION_append = " -DNDEBUG"
-
-inherit pythonnative
-inherit perlnative
-inherit cmake
-
-SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;rev=5f0b6b16e74a60d86717789fd6fc54e6c91ac3e4;branch=intelce"
-
-S = "${WORKDIR}/git"
 
 EXTRA_OECMAKE += " \
   -DCMAKE_COLOR_MAKEFILE=OFF -DBUILD_SHARED_LIBS=ON -DPORT=WPE  \
@@ -113,19 +118,15 @@ do_compile() {
 }
 
 do_install() {
-   # Create dirs.
-   install -d ${D}/${includedir}/WPE
-   install -d ${D}/${includedir}/WebKit
-   install -m755 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
-   install -d ${D}${libdir}
+   install -d ${D}${includedir}/WPE
+   install -m644 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
 
-   # Copy headers.
+   install -d ${D}${includedir}/WebKit
    cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
    cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
    cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
    cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
 
-   # Copy libs.
+   install -d ${D}${libdir}
    cp ${B}/lib/* ${D}${libdir}
 }
-
