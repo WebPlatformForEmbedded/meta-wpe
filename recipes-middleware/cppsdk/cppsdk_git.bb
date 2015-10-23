@@ -1,9 +1,7 @@
 SUMMARY = "Metrological's CPP SDK abstraction layer"
 SECTION = "metrological"
 HOMEPAGE = "http://www.metrological.com/"
-LICENSE = "Proprietary"
-
-LIC_FILES_CHKSUM = "file://README.md;md5=21e48c57fe5a5f9881e15eb895867622"
+LICENSE = "CLOSED"
 
 DEPENDS = "zlib"
 
