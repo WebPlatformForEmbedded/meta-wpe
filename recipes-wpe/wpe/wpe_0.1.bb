@@ -8,7 +8,7 @@ DEPENDS += " \
 "
 
 # Temp hack to satisfy dependency on libgdl.
-# Eventually this dependency should be handled via a .bbappend in meta-bsp-intelce
+# Machine specific dependencies should be handled via .bbappend's in the BSP layers.
 DEPENDS_append_7401 = " intelce-display"
 
 SRCREV = "5f0b6b16e74a60d86717789fd6fc54e6c91ac3e4"
@@ -118,15 +118,54 @@ do_compile() {
 }
 
 do_install() {
-   install -d ${D}${includedir}/WPE
-   install -m644 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
+    install -d ${D}${includedir}/WPE
+    install -m644 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
 
-   install -d ${D}${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
+    install -d ${D}${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
 
-   install -d ${D}${libdir}
-   cp ${B}/lib/* ${D}${libdir}
+    install -d ${D}${libdir}
+    cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
+    cp -av ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
+
+    # Hack: Remove the RPATH embedded in libWPEWebKit.so
+    chrpath --delete ${D}${libdir}/libWPEWebKit.so
+
+    install -d ${D}${bindir}
+    install -m755 ${B}/bin/WPELauncher ${D}${bindir}/
+    install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
+
+    # Hack: Remove RPATHs embedded in apps
+    chrpath --delete ${D}${bindir}/WPELauncher
+    chrpath --delete ${D}${bindir}/WPENetworkProcess
+    chrpath --delete ${D}${bindir}/WPEWebProcess
+
+    # Hack: Since libs were installed using 'cp', files will be owned by
+    # the build user, which will trigger a QA warning. Fix them up manually.
+    chown -R 0:0 ${D}${libdir}
 }
+
+LEAD_SONAME = "libWPEWebKit.so"
+
+# libWPE.so isn't versioned, so force it into the runtime package.
+# Also then over-ride the default FILES_SOLIBSDEV wildcard list so that only
+# the remaining .so files (ie libWPEWebKit.so) end up in the -dev package.
+FILES_${PN} += "${libdir}/libWPE.so"
+FILES_SOLIBSDEV = "${libdir}/libWPEWebKit.so"
+
+# Create separate packages for the binaries.
+# Fixme, do we need to care about these at all?
+PACKAGES =+ "${PN}-launcher-dbg ${PN}-launcher"
+PACKAGES =+ "${PN}-networkprocess-dbg ${PN}-networkprocess"
+PACKAGES =+ "${PN}-webprocess-dbg ${PN}-webprocess"
+
+FILES_${PN}-launcher = "${bindir}/WPELauncher"
+FILES_${PN}-launcher-dbg = "${bindir}/.debug/WPELauncher"
+FILES_${PN}-networkprocess = "${bindir}/WPENetworkProcess"
+FILES_${PN}-networkprocess-dbg = "${bindir}/.debug/WPENetworkProcess"
+FILES_${PN}-webprocess = "${bindir}/WPEWebProcess"
+FILES_${PN}-webprocess-dbg = "${bindir}/.debug/WPEWebProcess"
