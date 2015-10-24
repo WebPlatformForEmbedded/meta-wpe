@@ -1,21 +1,26 @@
 LICENSE = "CLOSED"
 
 DEPENDS += " \
-   flex bison gperf ruby ninja-native pkgconfig zlib pcre \
-   cairo freetype fontconfig harfbuzz icu libxml2 perl \
-   libxslt sqlite libinput libsoup-2.4 libwebp harfbuzz-native \
+    bison-native gperf-native harfbuzz-native ninja-native ruby-native \
+    cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
+    libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
+    virtual/egl virtual/libgles2 \
 "
+
+# Temp hack to satisfy dependency on libgdl.
+# Machine specific dependencies should be handled via .bbappend's in the BSP layers.
+DEPENDS_append_7401 = " intelce-display"
+
+SRCREV = "5f0b6b16e74a60d86717789fd6fc54e6c91ac3e4"
+
+SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=intelce"
+
+S = "${WORKDIR}/git"
+
+inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 FULL_OPTIMIZATION_append = " -DNDEBUG"
-
-inherit pythonnative
-inherit perlnative
-inherit cmake
-
-SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;rev=5f0b6b16e74a60d86717789fd6fc54e6c91ac3e4;branch=intelce"
-
-S = "${WORKDIR}/git"
 
 EXTRA_OECMAKE += " \
   -DCMAKE_COLOR_MAKEFILE=OFF -DBUILD_SHARED_LIBS=ON -DPORT=WPE  \
@@ -113,19 +118,31 @@ do_compile() {
 }
 
 do_install() {
-   # Create dirs.
-   install -d ${D}/${includedir}/WPE
-   install -d ${D}/${includedir}/WebKit
-   install -m755 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
-   install -d ${D}${libdir}
+    install -d ${D}${includedir}/WPE
+    install -m644 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
 
-   # Copy headers.
-   cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
-   cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
+    install -d ${D}${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
+    cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
 
-   # Copy libs.
-   cp ${B}/lib/* ${D}${libdir}
+    install -d ${D}${libdir}
+    cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
+    cp -av ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
+
+    # Hack: Remove the RPATH embedded in libWPEWebKit.so
+    chrpath --delete ${D}${libdir}/libWPEWebKit.so
+
+    # Hack: Since libs were installed using 'cp', files will be owned by
+    # the build user, which will trigger a QA warning. Fix them up manually.
+    chown -R 0:0 ${D}${libdir}
 }
 
+LEAD_SONAME = "libWPEWebKit.so"
+
+# libWPE.so isn't versioned, so force it into the runtime package.
+# Also then over-ride the default FILES_SOLIBSDEV wildcard list so that only
+# the remaining .so files (ie libWPEWebKit.so) end up in the -dev package.
+FILES_${PN} += "${libdir}/libWPE.so"
+FILES_SOLIBSDEV = "${libdir}/libWPEWebKit.so"
