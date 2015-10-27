@@ -20,9 +20,9 @@ S = "${WORKDIR}/git"
 inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
-FULL_OPTIMIZATION_append = " -DNDEBUG"
 
 EXTRA_OECMAKE += " \
+  -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_COLOR_MAKEFILE=OFF -DBUILD_SHARED_LIBS=ON -DPORT=WPE  \
   -G Ninja  \
   -DENABLE_ACCELERATED_2D_CANVAS=ON  \
@@ -137,6 +137,14 @@ do_install() {
     # Hack: Since libs were installed using 'cp', files will be owned by
     # the build user, which will trigger a QA warning. Fix them up manually.
     chown -R 0:0 ${D}${libdir}
+
+    install -d ${D}${bindir}
+    install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
+
+    # Hack: Remove RPATHs embedded in apps
+    chrpath --delete ${D}${bindir}/WPENetworkProcess
+    chrpath --delete ${D}${bindir}/WPEWebProcess
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
