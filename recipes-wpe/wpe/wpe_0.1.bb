@@ -17,7 +17,9 @@ inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 
-PACKAGECONFIG ?= "intelce"
+WTF_PLATFORM ?= "intelce"
+
+PACKAGECONFIG ?= "${WTF_PLATFORM}"
 
 PACKAGECONFIG[intelce] = "-DWTF_PLATFORM_INTEL_CE=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DWTF_PLATFORM_BCM_NEXUS=ON,,broadcom-refsw"
