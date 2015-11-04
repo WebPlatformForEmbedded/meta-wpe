@@ -7,19 +7,22 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-# Temp hack to satisfy dependency on libgdl.
-# Machine specific dependencies should be handled via .bbappend's in the BSP layers.
-DEPENDS_append_7401 = " intelce-display"
+SRCREV = "a93073f857d99ad31420377ab59da1704fef5a3f"
 
-SRCREV = "5f0b6b16e74a60d86717789fd6fc54e6c91ac3e4"
-
-SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=intelce"
+SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
+
+PACKAGECONFIG ?= "intelce"
+
+PACKAGECONFIG[intelce] = "-DWTF_PLATFORM_INTEL_CE=ON,,intelce-display"
+PACKAGECONFIG[nexus] = "-DWTF_PLATFORM_BCM_NEXUS=ON,,broadcom-refsw"
+PACKAGECONFIG[rpi] = "-DWTF_PLATFORM_BCM_RPI=ON,,"
+PACKAGECONFIG[wayland] = "-DWTF_PLATFORM_WAYLAND=ON,,"
 
 EXTRA_OECMAKE += " \
   -DCMAKE_BUILD_TYPE=Release \
