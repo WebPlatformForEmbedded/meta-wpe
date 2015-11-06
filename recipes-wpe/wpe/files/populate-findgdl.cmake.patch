@@ -1,0 +1,24 @@
+From 033bff39bd6204ad0e34433a819b15debaa3372d Mon Sep 17 00:00:00 2001
+From: Rob Vogelaar <revogelaar@gmail.com>
+Date: Thu, 5 Nov 2015 17:00:11 -0800
+Subject: [PATCH] populate FindGDL.cmake required for IntelCE
+
+---
+ Source/cmake/FindGDL.cmake | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 Source/cmake/FindGDL.cmake
+
+diff --git a/Source/cmake/FindGDL.cmake b/Source/cmake/FindGDL.cmake
+new file mode 100644
+index 0000000..29f45f4
+--- /dev/null
++++ b/Source/cmake/FindGDL.cmake
+@@ -0,0 +1,8 @@
++
++find_package(PkgConfig)
++pkg_check_modules(GDL gdl)
++
++include(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(GDL DEFAULT_MSG GDL_LIBRARIES)
++
++mark_as_advanced(GDL_INCLUDE_DIRS GDL_LIBRARIES)

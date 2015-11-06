@@ -11,6 +11,8 @@ SRCREV = "8b61daed6eba083ea883fb6d6a57edc9fe2ca7ad"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 
+SRC_URI += "file://populate-findgdl.cmake.patch"
+
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
