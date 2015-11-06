@@ -7,11 +7,9 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-SRCREV = "8b61daed6eba083ea883fb6d6a57edc9fe2ca7ad"
+SRCREV = "e57c852936f62d4bb06480dbb5e8a3d5c9af9bd4"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
-
-SRC_URI += "file://populate-findgdl.cmake.patch"
 
 S = "${WORKDIR}/git"
 
