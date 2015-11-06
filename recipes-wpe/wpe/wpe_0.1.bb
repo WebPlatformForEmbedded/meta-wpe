@@ -7,9 +7,11 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-SRCREV = "a93073f857d99ad31420377ab59da1704fef5a3f"
+SRCREV = "8b61daed6eba083ea883fb6d6a57edc9fe2ca7ad"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+
+SRC_URI += "file://populate-findgdl.cmake.patch"
 
 S = "${WORKDIR}/git"
 
@@ -17,14 +19,14 @@ inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 
-WTF_PLATFORM ?= "intelce"
+WPE_BACKEND ?= "intelce"
 
-PACKAGECONFIG ?= "${WTF_PLATFORM}"
+PACKAGECONFIG ?= "${WPE_BACKEND}"
 
-PACKAGECONFIG[intelce] = "-DWTF_PLATFORM_INTEL_CE=ON,,intelce-display"
-PACKAGECONFIG[nexus] = "-DWTF_PLATFORM_BCM_NEXUS=ON,,broadcom-refsw"
-PACKAGECONFIG[rpi] = "-DWTF_PLATFORM_BCM_RPI=ON,,"
-PACKAGECONFIG[wayland] = "-DWTF_PLATFORM_WAYLAND=ON,,"
+PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
+PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw"
+PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,"
+PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON,,"
 
 EXTRA_OECMAKE += " \
   -DCMAKE_BUILD_TYPE=Release \
@@ -77,7 +79,7 @@ EXTRA_OECMAKE += " \
   -DENABLE_LINK_PREFETCH=OFF  \
   -DENABLE_MATHML=OFF  \
   -DENABLE_MEDIA_CAPTURE=OFF  \
-  -DENABLE_MEDIA_SOURCE=OFF  \
+  -DENABLE_MEDIA_SOURCE=ON  \
   -DENABLE_MEDIA_STATISTICS=OFF  \
   -DENABLE_METER_ELEMENT=ON  \
   -DENABLE_MHTML=OFF  \
@@ -107,9 +109,9 @@ EXTRA_OECMAKE += " \
   -DENABLE_TOUCH_SLIDER=OFF  \
   -DENABLE_USER_TIMING=ON  \
   -DENABLE_VIBRATION=OFF  \
-  -DENABLE_VIDEO=OFF  \
-  -DENABLE_VIDEO_TRACK=OFF  \
-  -DENABLE_WEB_AUDIO=OFF  \
+  -DENABLE_VIDEO=ON  \
+  -DENABLE_VIDEO_TRACK=ON  \
+  -DENABLE_WEB_AUDIO=ON  \
   -DENABLE_WEBGL=ON  \
   -DENABLE_WEB_REPLAY=OFF  \
   -DENABLE_WEB_SOCKETS=ON  \
@@ -124,14 +126,7 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}${includedir}/WPE
-    install -m644 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
-
-    install -d ${D}${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
+    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit2/cmake_install.cmake
 
     install -d ${D}${libdir}
     cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
