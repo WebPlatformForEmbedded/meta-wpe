@@ -126,14 +126,7 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}${includedir}/WPE
-    install -m644 ${S}/Source/WebKit2/Shared/API/c/wpe/WebKit.h ${D}/${includedir}/WPE
-
-    install -d ${D}${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/Shared/API/c/* ${D}/${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/Shared/API/c/wpe/* ${D}/${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/UIProcess/API/C/* ${D}/${includedir}/WebKit
-    cp -r ${S}/Source/WebKit2/UIProcess/API/C/wpe/* ${D}/${includedir}/WebKit
+    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit2/cmake_install.cmake
 
     install -d ${D}${libdir}
     cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
