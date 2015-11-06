@@ -17,14 +17,14 @@ inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 
-WTF_PLATFORM ?= "intelce"
+WPE_BACKEND ?= "intelce"
 
-PACKAGECONFIG ?= "${WTF_PLATFORM}"
+PACKAGECONFIG ?= "${WPE_BACKEND}"
 
-PACKAGECONFIG[intelce] = "-DWTF_PLATFORM_INTEL_CE=ON,,intelce-display"
-PACKAGECONFIG[nexus] = "-DWTF_PLATFORM_BCM_NEXUS=ON,,broadcom-refsw"
-PACKAGECONFIG[rpi] = "-DWTF_PLATFORM_BCM_RPI=ON,,"
-PACKAGECONFIG[wayland] = "-DWTF_PLATFORM_WAYLAND=ON,,"
+PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON,,intelce-display"
+PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw"
+PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,"
+PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON,,"
 
 EXTRA_OECMAKE += " \
   -DCMAKE_BUILD_TYPE=Release \
