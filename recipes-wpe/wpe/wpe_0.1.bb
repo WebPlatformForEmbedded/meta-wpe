@@ -3,6 +3,7 @@ LICENSE = "CLOSED"
 DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
+    gstreamer1.0 gstreamer1.0-plugins-base \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
@@ -24,7 +25,7 @@ WPE_BACKEND_raspberrypi2 = "rpi"
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
-PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw"
+PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw gstreamer1.0-plugins-bad"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON,,"
 
