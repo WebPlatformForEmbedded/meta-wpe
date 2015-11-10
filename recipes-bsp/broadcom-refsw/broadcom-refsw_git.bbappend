@@ -1,4 +1,7 @@
-REFSW_GIT_URL = "git@github.com/Metrological/bcm-refsw.git"
-REFSW_SRCREV = "397161e53d3703a5f800737c7b4821bd4dcc508a"
 
-S = "${WORKDIR}/git/refsw_release_unified_20150619.src.tar.xz"
+REFSW_GIT_URL = "git@github.com/Metrological/bcm-refsw.git"
+REFSW_SRCREV = "6b075cb3b98abeac116bd63795c8b7860d64f6bd"
+
+RPROVIDES_${PN} += "libgl"
+
+S = "${WORKDIR}/git"
