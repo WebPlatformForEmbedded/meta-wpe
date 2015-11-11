@@ -1,0 +1,92 @@
+From 74901204b9eae34247c72df22e670a393059ad50 Mon Sep 17 00:00:00 2001
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 10 Nov 2015 23:23:59 -0800
+Subject: [PATCH] respect libs listed in egl.pc and glesv2.pc pkg-config files
+
+By default FindEGL.cmake and FindOpenGLES2.cmake check for pkg-config
+files but then ignore the list of libraries they return and always
+assume libraries are called libEGL.so and libGLESv2.so.
+
+That works OK if the the real libraries are single libraries and can
+be linked against via symlinks from the expected names. However it
+doesn't work if the real libraries are split into multiple separate
+libraries and all of them need to be included when linking.
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ Source/cmake/FindEGL.cmake       | 17 ++++++++++++-----
+ Source/cmake/FindOpenGLES2.cmake | 17 ++++++++++++-----
+ 2 files changed, 24 insertions(+), 10 deletions(-)
+
+diff --git a/Source/cmake/FindEGL.cmake b/Source/cmake/FindEGL.cmake
+index a85ebb1..0acb755 100644
+--- a/Source/cmake/FindEGL.cmake
++++ b/Source/cmake/FindEGL.cmake
+@@ -36,6 +36,18 @@ pkg_check_modules(PC_EGL egl)
+ 
+ if (PC_EGL_FOUND)
+     set(EGL_DEFINITIONS ${PC_EGL_CFLAGS_OTHER})
++    set(EGL_NAMES ${PC_EGL_LIBRARIES})
++    foreach (_library ${EGL_NAMES})
++        find_library(EGL_LIBRARIES_${_library} ${_library}
++	    HINTS ${PC_EGL_LIBDIR} ${PC_EGL_LIBRARY_DIRS}
++        )
++        set(EGL_LIBRARIES ${EGL_LIBRARIES} ${EGL_LIBRARIES_${_library}})
++    endforeach ()
++else ()
++    set(EGL_NAMES ${EGL_NAMES} egl EGL)
++    find_library(EGL_LIBRARIES NAMES ${EGL_NAMES}
++        HINTS ${PC_EGL_LIBDIR} ${PC_EGL_LIBRARY_DIRS}
++    )
+ endif ()
+ 
+ find_path(EGL_INCLUDE_DIRS NAMES EGL/egl.h
+@@ -44,11 +56,6 @@ find_path(EGL_INCLUDE_DIRS NAMES EGL/egl.h
+ 
+ set(EGL_INCLUDE_DIRS ${PC_EGL_INCLUDE_DIRS} CACHE FILEPATH "FIXME")
+ 
+-set(EGL_NAMES ${EGL_NAMES} egl EGL)
+-find_library(EGL_LIBRARIES NAMES ${EGL_NAMES}
+-    HINTS ${PC_EGL_LIBDIR} ${PC_EGL_LIBRARY_DIRS}
+-)
+-
+ include(FindPackageHandleStandardArgs)
+ FIND_PACKAGE_HANDLE_STANDARD_ARGS(EGL DEFAULT_MSG EGL_INCLUDE_DIRS EGL_LIBRARIES)
+ 
+diff --git a/Source/cmake/FindOpenGLES2.cmake b/Source/cmake/FindOpenGLES2.cmake
+index 5c616a9..faf6c0b 100644
+--- a/Source/cmake/FindOpenGLES2.cmake
++++ b/Source/cmake/FindOpenGLES2.cmake
+@@ -10,17 +10,24 @@ pkg_check_modules(PC_OPENGLES2 glesv2)
+ 
+ if (PC_OPENGLES2_FOUND)
+     set(OPENGLES2_DEFINITIONS ${PC_OPENGLES2_CFLAGS_OTHER})
++    set(OPENGLES2_NAMES ${PC_OPENGLES2_LIBRARIES})
++    foreach (_library ${OPENGLES2_NAMES})
++        find_library(OPENGLES2_LIBRARIES_${_library} ${_library}
++	    HINTS ${PC_OPENGLES2_LIBDIR} ${PC_OPENGLES2_LIBRARY_DIRS}
++        )
++        set(OPENGLES2_LIBRARIES ${OPENGLES2_LIBRARIES} ${OPENGLES2_LIBRARIES_${_library}})
++    endforeach ()
++else ()
++    set(OPENGLES2_NAMES ${OPENGLES2_NAMES} glesv2 GLESv2)
++    find_library(OPENGLES2_LIBRARIES NAMES ${OPENGLES2_NAMES}
++        HINTS ${PC_OPENGLES2_LIBDIR} ${PC_OPENGLES2_LIBRARY_DIRS}
++    )
+ endif ()
+ 
+ find_path(OPENGLES2_INCLUDE_DIRS NAMES GLES2/gl2.h
+     HINTS ${PC_OPENGLES2_INCLUDEDIR} ${PC_OPENGLES2_INCLUDE_DIRS}
+ )
+ 
+-set(OPENGLES2_NAMES ${OPENGLES2_NAMES} glesv2 GLESv2)
+-find_library(OPENGLES2_LIBRARIES NAMES ${OPENGLES2_NAMES}
+-    HINTS ${PC_OPENGLES2_LIBDIR} ${PC_OPENGLES2_LIBRARY_DIRS}
+-)
+-
+ find_path(OPENGLES2_INCLUDE_DIRS
+     NAMES GLES2/gl2.h
+     HINTS ${PC_OPENGLES2_INCLUDE_DIRS}
+-- 
+1.9.1
+

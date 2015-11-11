@@ -11,6 +11,7 @@ DEPENDS += " \
 SRCREV = "c591f2b305537df006310d8fa2264e46d23d0ef1"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+SRC_URI += "file://respect-libs-listed-in-egl.pc-and-glesv2.pc-pkg-conf.patch"
 
 S = "${WORKDIR}/git"
 
