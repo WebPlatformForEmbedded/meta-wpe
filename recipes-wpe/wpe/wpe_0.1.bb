@@ -8,9 +8,10 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-SRCREV = "e57c852936f62d4bb06480dbb5e8a3d5c9af9bd4"
+SRCREV = "c591f2b305537df006310d8fa2264e46d23d0ef1"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+SRC_URI += "file://respect-libs-listed-in-egl.pc-and-glesv2.pc-pkg-conf.patch"
 
 S = "${WORKDIR}/git"
 
@@ -25,7 +26,7 @@ WPE_BACKEND_raspberrypi2 = "rpi"
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
-PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw gstreamer1.0-plugins-bad"
+PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw gstreamer1.0-plugins-bad"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON,,"
 
@@ -123,7 +124,7 @@ EXTRA_OECMAKE += " \
 "
 
 do_compile() {
-   ${STAGING_BINDIR_NATIVE}/ninja ${BUILDDIR}
+   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE}
 }
 
 do_install() {
