@@ -123,7 +123,7 @@ EXTRA_OECMAKE += " \
 "
 
 do_compile() {
-   ${STAGING_BINDIR_NATIVE}/ninja ${BUILDDIR}
+   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} ${BUILDDIR}
 }
 
 do_install() {
