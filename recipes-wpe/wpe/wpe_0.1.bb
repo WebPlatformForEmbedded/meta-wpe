@@ -8,10 +8,9 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-SRCREV = "c591f2b305537df006310d8fa2264e46d23d0ef1"
+SRCREV = "898a768d4f1c61b33fb2f96afcf2202495ab2a6a"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
-SRC_URI += "file://respect-libs-listed-in-egl.pc-and-glesv2.pc-pkg-conf.patch"
 
 S = "${WORKDIR}/git"
 
