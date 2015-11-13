@@ -9,13 +9,13 @@ PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh"
 
-SRCREV = "8c81147a79bcd34a0a6cc3649bed0c93f177448a"
+SRCREV = "46654c35e0ce824f64495f44348f7ca951b2637a"
 
 S = "${WORKDIR}/git"
 
 inherit pkgconfig cmake
  
-PACKAGECONFIG ??= "web-ui delayedresponse deviceinfo fancontrol fileserver i2ccontrol provisioning spicontrol systeminformer tempcontol tracecontrol webproxy"
+PACKAGECONFIG ??= "web-ui delayedresponse deviceinfo fancontrol fileserver i2ccontrol provisioning spicontrol systeminformer tempcontol tracecontrol webproxy dailserver webkitbrowser"
 
 PACKAGECONFIG[debug]              = "-DWEBBRIDGE_DEBUG=ON,-DWEBBRIDGE_DEBUG=OFF,"
 PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OFF,"
@@ -34,6 +34,8 @@ PACKAGECONFIG[tempcontol]         = "-DWEBBRIDGE_PLUGIN_TEMPCONTROL=ON,-DWEBBRID
 PACKAGECONFIG[tracecontrol]       = "-DWEBBRIDGE_PLUGIN_TRACECONTROL=ON,-DWEBBRIDGE_PLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[webproxy]           = "-DWEBBRIDGE_PLUGIN_WEBPROXY=ON,-DWEBBRIDGE_PLUGIN_WEBPROXY=OFF,"
 PACKAGECONFIG[wificontrol]        = "-DWEBBRIDGE_PLUGIN_WIFICONTROL=ON,-DWEBBRIDGE_PLUGIN_WIFICONTROL=OFF,"
+PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
+PACKAGECONFIG[webkitbrowser]      = "-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=ON,-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=OFF,wpe"
 
 EXTRA_OECMAKE = "\
     -DINSTALL_HEADERS_TO_TARGET=ON \
