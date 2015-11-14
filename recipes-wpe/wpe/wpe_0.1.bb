@@ -1,4 +1,9 @@
-LICENSE = "CLOSED"
+SUMMARY = "WebKit for Wayland port pairs the WebKit engine with the Wayland display protocol, \
+           allowing embedders to create simple and performant systems based on Web platform technologies. \
+           It is designed with hardware acceleration in mind, relying on EGL, the Wayland EGL platform, and OpenGL ES."
+HOMEPAGE = "http://www.webkitforwayland.org/"
+LICENSE = "BSD & LGPLv2+"
+LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 "
 
 DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
