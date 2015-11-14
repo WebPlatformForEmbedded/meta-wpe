@@ -161,3 +161,5 @@ LEAD_SONAME = "libWPEWebKit.so"
 # the remaining .so files (ie libWPEWebKit.so) end up in the -dev package.
 FILES_${PN} += "${libdir}/libWPE.so"
 FILES_SOLIBSDEV = "${libdir}/libWPEWebKit.so"
+
+RRECOMMENDS_${PN} += "ca-certificates"
