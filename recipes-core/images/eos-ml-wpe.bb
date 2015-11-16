@@ -6,7 +6,7 @@ PREFERRED_VERSION_stblinux = "3.14-1.6"
 PREFERRED_VERSION_broadcom-refsw = "15.2+git%"
 
 IMAGE_INSTALL += "\
-    packagegroup-ml-broadcom_refsw \
+    packagegroup-ml-broadcomrefsw \
     packagegroup-ml-wpe \
     packagegroup-ml-middleware \
 "

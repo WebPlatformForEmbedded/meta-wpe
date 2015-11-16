@@ -4,12 +4,12 @@ LICENSE = "MIT"
 inherit packagegroup
 
 PACKAGES = "\
-    packagegroup-ml-broadcom_refsw \
+    packagegroup-ml-broadcomrefsw \
 "
 
-RDEPENDS_packagegroup-ml-broadcom_refsw = "\
+RDEPENDS_packagegroup-ml-broadcomrefsw = "\
     broadcom-refsw \
 "
 
 # Additional OSS packages etc, which are only needed for broadcom_refsw based images.
-RDEPENDS_packagegroup-ml-broadcom_refsw += ""
+RDEPENDS_packagegroup-ml-broadcomrefsw += ""
