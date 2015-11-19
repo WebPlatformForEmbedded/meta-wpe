@@ -1,0 +1,35 @@
+From 93b20c387c59f7897d6901fb2be4bb3c25d6b6f0 Mon Sep 17 00:00:00 2001
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 18 Nov 2015 16:40:08 -0800
+Subject: [PATCH] JavaScriptCore: disable backtrace for musl libc
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ Source/JavaScriptCore/inspector/JSGlobalObjectInspectorController.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Source/JavaScriptCore/inspector/JSGlobalObjectInspectorController.cpp b/Source/JavaScriptCore/inspector/JSGlobalObjectInspectorController.cpp
+index 53114f4..93d428d 100644
+--- a/Source/JavaScriptCore/inspector/JSGlobalObjectInspectorController.cpp
++++ b/Source/JavaScriptCore/inspector/JSGlobalObjectInspectorController.cpp
+@@ -48,7 +48,7 @@
+ #include <wtf/Stopwatch.h>
+ 
+ #include <cxxabi.h>
+-#if OS(DARWIN) || (OS(LINUX) && !PLATFORM(GTK)) && !defined(__UCLIBC__)
++#if OS(DARWIN) || (OS(LINUX) && !PLATFORM(GTK)) && defined (__GLIBC__) && !defined(__UCLIBC__)
+ #include <dlfcn.h>
+ #include <execinfo.h>
+ #endif
+@@ -185,7 +185,7 @@ void JSGlobalObjectInspectorController::pause()
+ 
+ void JSGlobalObjectInspectorController::appendAPIBacktrace(ScriptCallStack* callStack)
+ {
+-#if OS(DARWIN) || (OS(LINUX) && !PLATFORM(GTK)) && !defined(__UCLIBC__)
++#if OS(DARWIN) || (OS(LINUX) && !PLATFORM(GTK)) && defined (__GLIBC__) && !defined(__UCLIBC__)
+     static const int framesToShow = 31;
+     static const int framesToSkip = 3; // WTFGetBacktrace, appendAPIBacktrace, reportAPIException.
+ 
+-- 
+1.9.1
+
