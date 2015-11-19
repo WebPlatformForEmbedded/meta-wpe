@@ -19,6 +19,8 @@ SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;bran
 
 SRC_URI += "file://JavaScriptCore-disable-backtrace-for-musl-libc.patch"
 SRC_URI += "file://WTF-disable-backtrace-for-musl-libc.patch"
+SRC_URI += "file://WTF-disable-use-of-dladdr-with-musl-libc.patch"
+SRC_URI += "file://don-t-attempt-to-call-malloc_trim-with-musl-libc.patch"
 
 S = "${WORKDIR}/git"
 
