@@ -13,9 +13,14 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-SRCREV = "b0562f15f94b6aff84692262ae7fb42a33d101c2"
+SRCREV = "6f8c543a146765448b95605f914c98bb65f58dfd"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+
+SRC_URI += "file://JavaScriptCore-disable-backtrace-for-musl-libc.patch"
+SRC_URI += "file://WTF-disable-backtrace-for-musl-libc.patch"
+SRC_URI += "file://WTF-disable-use-of-dladdr-with-musl-libc.patch"
+SRC_URI += "file://don-t-attempt-to-call-malloc_trim-with-musl-libc.patch"
 
 S = "${WORKDIR}/git"
 

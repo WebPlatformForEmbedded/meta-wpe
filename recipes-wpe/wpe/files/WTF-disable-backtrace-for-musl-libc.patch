@@ -1,0 +1,35 @@
+From 174b50219ad94060933af37e50c81f1ccbb3812c Mon Sep 17 00:00:00 2001
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 18 Nov 2015 16:40:45 -0800
+Subject: [PATCH] WTF: disable backtrace for musl libc
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ Source/WTF/wtf/Assertions.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Source/WTF/wtf/Assertions.cpp b/Source/WTF/wtf/Assertions.cpp
+index 5513444..44d8641 100644
+--- a/Source/WTF/wtf/Assertions.cpp
++++ b/Source/WTF/wtf/Assertions.cpp
+@@ -68,7 +68,7 @@
+ #include <unistd.h>
+ #endif
+ 
+-#if OS(DARWIN) || (OS(LINUX) && !defined(__UCLIBC__))
++#if OS(DARWIN) || (OS(LINUX) && defined (__GLIBC__) && !defined(__UCLIBC__))
+ #include <cxxabi.h>
+ #include <dlfcn.h>
+ #include <execinfo.h>
+@@ -225,7 +225,7 @@ void WTFReportArgumentAssertionFailure(const char* file, int line, const char* f
+ 
+ void WTFGetBacktrace(void** stack, int* size)
+ {
+-#if OS(DARWIN) || (OS(LINUX) && !defined(__UCLIBC__))
++#if OS(DARWIN) || (OS(LINUX) && defined (__GLIBC__) && !defined(__UCLIBC__))
+     *size = backtrace(stack, *size);
+ #elif OS(WINDOWS)
+     // The CaptureStackBackTrace function is available in XP, but it is not defined
+-- 
+1.9.1
+
