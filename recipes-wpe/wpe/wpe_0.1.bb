@@ -15,14 +15,9 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV = "4d683a0be07827556707c5c61920f2b1d1a745c9"
+SRCREV = "3ab84c504adcb99179987c3827964292d0b76091"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
-
-SRC_URI += "file://JavaScriptCore-disable-backtrace-for-musl-libc.patch"
-SRC_URI += "file://WTF-disable-backtrace-for-musl-libc.patch"
-SRC_URI += "file://WTF-disable-use-of-dladdr-with-musl-libc.patch"
-SRC_URI += "file://don-t-attempt-to-call-malloc_trim-with-musl-libc.patch"
 
 S = "${WORKDIR}/git"
 
