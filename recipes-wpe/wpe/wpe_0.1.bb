@@ -13,6 +13,8 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
+PV = "0.1+git${SRCPV}"
+
 SRCREV = "4d683a0be07827556707c5c61920f2b1d1a745c9"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
