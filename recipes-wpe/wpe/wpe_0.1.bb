@@ -19,6 +19,9 @@ SRCREV = "3ab84c504adcb99179987c3827964292d0b76091"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 
+# Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
+SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
+
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
