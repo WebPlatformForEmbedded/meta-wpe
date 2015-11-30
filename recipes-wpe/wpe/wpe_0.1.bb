@@ -18,6 +18,7 @@ PV = "0.1+git${SRCPV}"
 SRCREV = "5e8808a238e4dc919b133d485dd2b57cf1205b67"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
 SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
