@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV = "5e8808a238e4dc919b133d485dd2b57cf1205b67"
+SRCREV = "a659e5ea7974ade2cc68adcb0699bcd09f5ec282"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
@@ -138,7 +138,9 @@ do_compile() {
 }
 
 do_install() {
+
     DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit2/cmake_install.cmake
+    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/JavaScriptCore/cmake_install.cmake
 
     install -d ${D}${libdir}
     cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
