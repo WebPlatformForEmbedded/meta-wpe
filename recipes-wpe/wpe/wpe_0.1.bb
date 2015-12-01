@@ -162,10 +162,4 @@ do_install() {
 
 LEAD_SONAME = "libWPEWebKit.so"
 
-# libWPE.so isn't versioned, so force it into the runtime package.
-# Also then over-ride the default FILES_SOLIBSDEV wildcard list so that only
-# the remaining .so files (ie libWPEWebKit.so) end up in the -dev package.
-FILES_${PN} += "${libdir}/libWPE.so"
-FILES_SOLIBSDEV = "${libdir}/libWPEWebKit.so"
-
 RRECOMMENDS_${PN} += "ca-certificates"
