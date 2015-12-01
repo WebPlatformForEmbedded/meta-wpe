@@ -1,0 +1,36 @@
+Source/WTF/wtf/DisallowCType.h tries to prevent any use of libc ctype
+functions by replacing isalpha() etc with macros which break the build
+if used.
+
+Unfortunately, when creating a toolchain for musl libc, libstdc++
+(part of gcc) is configured to use a fall-back "os/generic" version of
+ctype_inline.h ( gcc/libstdc++-v3/config/os/generic/ctype_inline.h ),
+which implements ctype::is in terms of the libc ctype functions and
+therefore causes build failures if WebKit's DisallowCType.h macros are
+in use. (Similar issues are not seen for glibc or uclibc as libstdc++
+includes specific optimised ctype_inline.h implementations for both of
+these libc targets).
+
+The workaround below is taken from:
+
+  https://cgit.gentoo.org/proj/musl.git/tree/net-libs/webkit-gtk/files
+
+diff -Naur webkitgtk-2.4.9.orig/Source/WTF/wtf/DisallowCType.h webkitgtk-2.4.9/Source/WTF/wtf/DisallowCType.h
+--- webkitgtk-2.4.9.orig/Source/WTF/wtf/DisallowCType.h	2015-05-20 05:03:24.000000000 -0400
++++ webkitgtk-2.4.9/Source/WTF/wtf/DisallowCType.h	2015-07-19 14:44:26.855225521 -0400
+@@ -29,6 +29,8 @@
+ #ifndef WTF_DisallowCType_h
+ #define WTF_DisallowCType_h
+ 
++#if 0 // BRAIN DEAD - The detection here makes some bad assumptions.
++
+ // The behavior of many of the functions in the <ctype.h> header is dependent
+ // on the current locale. But almost all uses of these functions are for
+ // locale-independent, ASCII-specific purposes. In WebKit code we use our own
+@@ -81,4 +83,6 @@
+ 
+ #endif
+ 
++#endif // BRAIN DEAD
++
+ #endif

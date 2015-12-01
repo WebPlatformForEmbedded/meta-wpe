@@ -15,9 +15,13 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV = "3ab84c504adcb99179987c3827964292d0b76091"
+SRCREV = "5e8808a238e4dc919b133d485dd2b57cf1205b67"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
+
+# Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
+SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
 
 S = "${WORKDIR}/git"
 
@@ -157,11 +161,5 @@ do_install() {
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
-
-# libWPE.so isn't versioned, so force it into the runtime package.
-# Also then over-ride the default FILES_SOLIBSDEV wildcard list so that only
-# the remaining .so files (ie libWPEWebKit.so) end up in the -dev package.
-FILES_${PN} += "${libdir}/libWPE.so"
-FILES_SOLIBSDEV = "${libdir}/libWPEWebKit.so"
 
 RRECOMMENDS_${PN} += "ca-certificates"
