@@ -8,9 +8,30 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
-    gstreamer1.0 gstreamer1.0-plugins-base \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
+    gstreamer1.0 gstreamer1.0-plugins-base \
     virtual/egl virtual/libgles2 \
+"
+
+# plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
+# plugins-bad config option 'hls' -> gstreamer1.0-plugins-bad-fragmented
+# plugins-bad config option 'videoparsers' -> gstreamer1.0-plugins-bad-videoparsersbad
+
+RDEPENDS_${PN} += " \
+    gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-base-gio \
+    gstreamer1.0-plugins-base-videoconvert \
+    gstreamer1.0-plugins-good-audiofx \
+    gstreamer1.0-plugins-good-audioparsers \
+    gstreamer1.0-plugins-good-autodetect \
+    gstreamer1.0-plugins-good-interleave \
+    gstreamer1.0-plugins-good-souphttpsrc \
+    gstreamer1.0-plugins-bad-dashdemux \
+    gstreamer1.0-plugins-bad-fragmented \
+    gstreamer1.0-plugins-bad-mpegtsdemux \
+    gstreamer1.0-plugins-bad-mpg123 \
+    gstreamer1.0-plugins-bad-smoothstreaming \
+    gstreamer1.0-plugins-bad-videoparsersbad \
 "
 
 PV = "0.1+git${SRCPV}"
