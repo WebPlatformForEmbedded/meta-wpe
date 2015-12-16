@@ -15,7 +15,19 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ??= "cryptalgo devices generics tracing websocket"
+CPPSDK_PLATFORM ?= "platform-pc"
+CPPSDK_PLATFORM_7401 = "platform-intelce"
+CPPSDK_PLATFORM_dawn = "platform-dawn"
+CPPSDK_PLATFORM_eos = "platform-eos"
+CPPSDK_PLATFORM_rpi = "platform-rpi"
+
+PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo devices generics tracing websocket"
+
+PACKAGECONFIG[platform-dawn] = "-DCPPSDK_PLATFORM=DAWN,,"
+PACKAGECONFIG[platform-eos] = "-DCPPSDK_PLATFORM=EOS,,"
+PACKAGECONFIG[platform-intelce] = "-DCPPSDK_PLATFORM=INTELCE,,intelce-osal"
+PACKAGECONFIG[platform-pc] = "-DCPPSDK_PLATFORM=PC_UNIX,,"
+PACKAGECONFIG[platform-rpi] = "-DCPPSDK_PLATFORM=RPI,,"
 
 PACKAGECONFIG[cryptalgo] = "-DCPPSDK_CRYPTALGO=ON,-DCPPSDK_CRYPTALGO=OFF,"
 PACKAGECONFIG[debug] = "-DCPPSDK_DEBUG=ON,-DCPPSDK_DEBUG=OFF,"
