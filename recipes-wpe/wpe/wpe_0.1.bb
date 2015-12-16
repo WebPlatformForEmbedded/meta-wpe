@@ -51,8 +51,7 @@ inherit cmake pkgconfig perlnative pythonnative
 FULL_OPTIMIZATION_remove = "-g"
 
 WPE_BACKEND ?= "intelce"
-WPE_BACKEND_raspberrypi = "rpi"
-WPE_BACKEND_raspberrypi2 = "rpi"
+WPE_BACKEND_rpi = "rpi"
 
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
