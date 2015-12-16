@@ -36,7 +36,7 @@ RDEPENDS_${PN} += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV = "d1bdbb9b18ffb96b5ce8b304c3a4c8542b813c52"
+SRCREV = "599b705a3bec46711d7564fa88b332c6961ba731"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
@@ -51,14 +51,13 @@ inherit cmake pkgconfig perlnative pythonnative
 FULL_OPTIMIZATION_remove = "-g"
 
 WPE_BACKEND ?= "intelce"
-WPE_BACKEND_raspberrypi = "rpi"
-WPE_BACKEND_raspberrypi2 = "rpi"
+WPE_BACKEND_rpi = "rpi"
 
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw gstreamer1.0-plugins-bad"
-PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,"
+PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-plugins-bad"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON,,"
 
 EXTRA_OECMAKE += " \

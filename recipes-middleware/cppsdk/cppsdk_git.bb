@@ -9,13 +9,25 @@ PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh"
 
-SRCREV = "bbbc42114d62f5f7ddb0fbf1b7fb5ef30f7a7580"
+SRCREV = "7c79619c0261f66afbc4e034245b85ab8061f08c"
 
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ??= "cryptalgo devices generics tracing websocket"
+CPPSDK_PLATFORM ?= "platform-pc"
+CPPSDK_PLATFORM_7401 = "platform-intelce"
+CPPSDK_PLATFORM_dawn = "platform-dawn"
+CPPSDK_PLATFORM_eos = "platform-eos"
+CPPSDK_PLATFORM_rpi = "platform-rpi"
+
+PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo devices generics tracing websocket"
+
+PACKAGECONFIG[platform-dawn] = "-DCPPSDK_PLATFORM=DAWN,,"
+PACKAGECONFIG[platform-eos] = "-DCPPSDK_PLATFORM=EOS,,"
+PACKAGECONFIG[platform-intelce] = "-DCPPSDK_PLATFORM=INTELCE,,intelce-osal"
+PACKAGECONFIG[platform-pc] = "-DCPPSDK_PLATFORM=PC_UNIX,,"
+PACKAGECONFIG[platform-rpi] = "-DCPPSDK_PLATFORM=RPI,,"
 
 PACKAGECONFIG[cryptalgo] = "-DCPPSDK_CRYPTALGO=ON,-DCPPSDK_CRYPTALGO=OFF,"
 PACKAGECONFIG[debug] = "-DCPPSDK_DEBUG=ON,-DCPPSDK_DEBUG=OFF,"
