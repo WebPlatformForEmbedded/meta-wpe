@@ -11,7 +11,7 @@ DEPENDS += " \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
     gstreamer1.0 gstreamer1.0-plugins-base \
     virtual/egl virtual/libgles2 \
-    libinput libxkbcommon xkeyboard-config \
+    libxkbcommon xkeyboard-config \
 "
 
 # plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
