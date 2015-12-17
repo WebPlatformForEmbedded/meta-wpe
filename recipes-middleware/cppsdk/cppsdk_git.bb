@@ -25,7 +25,7 @@ PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo devices generics tracing websocke
 
 PACKAGECONFIG[platform-dawn] = "-DCPPSDK_PLATFORM=DAWN,,"
 PACKAGECONFIG[platform-eos] = "-DCPPSDK_PLATFORM=EOS,,"
-PACKAGECONFIG[platform-intelce] = "-DCPPSDK_PLATFORM=INTELCE,,intelce-osal"
+PACKAGECONFIG[platform-intelce] = "-DCPPSDK_PLATFORM=INTELCE,,intelce-osal intelce-cosai"
 PACKAGECONFIG[platform-pc] = "-DCPPSDK_PLATFORM=PC_UNIX,,"
 PACKAGECONFIG[platform-rpi] = "-DCPPSDK_PLATFORM=RPI,,"
 
