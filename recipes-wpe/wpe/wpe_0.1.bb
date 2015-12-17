@@ -11,7 +11,7 @@ DEPENDS += " \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
     gstreamer1.0 gstreamer1.0-plugins-base \
     virtual/egl virtual/libgles2 \
-    libinput libxkbcommon xkeyboard-config \
+    libxkbcommon xkeyboard-config \
 "
 
 # plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
@@ -37,7 +37,7 @@ RDEPENDS_${PN} += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV = "fd869d4334e56d7e586e82d286cd54524727d3be"
+SRCREV = "a2d7d8ca3df2b15335b252c727296d75a633c3e3"
 
 SRC_URI = "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
