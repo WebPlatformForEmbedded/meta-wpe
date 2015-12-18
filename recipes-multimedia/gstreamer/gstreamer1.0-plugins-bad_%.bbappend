@@ -5,11 +5,7 @@
 # in meta-oe) and requires whitelisting as it sets the commercial license flag.
 # Enabling mpg123 here is therefore an experimental change, to be reviewed...
 
-DEPENDS += " \
-   faad2 \
-"
-
-PACKAGECONFIG_append = " mpg123 faad"
+PACKAGECONFIG_append = " mpg123"
 
 # Enable extra options for rpi. Fixme, needs review.
 # We need to define a new PACKAGECONFIG option because --enable-egl appended to
