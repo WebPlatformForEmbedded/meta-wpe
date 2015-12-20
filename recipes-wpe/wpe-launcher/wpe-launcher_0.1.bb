@@ -2,7 +2,7 @@ LICENSE = "CLOSED"
 
 DEPENDS += "wpe glib-2.0"
 
-SRCREV = "f1244c0e4fd9f74350f97bfe21dd7369056ee9e2"
+SRCREV = "fc1c4ceeb2e5d9c102a4d7e6ae5f43625e79d9b5"
 
 SRC_URI = "git://github.com/Metrological/wpe-launcher.git;protocol=http;branch=master"
 
