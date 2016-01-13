@@ -40,3 +40,5 @@ PACKAGECONFIG[webkitbrowser]      = "-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=ON,-DWEBBR
 EXTRA_OECMAKE = "\
     -DINSTALL_HEADERS_TO_TARGET=ON \
 "
+
+FILES_${PN}-dbg += "/usr/share/webbridge/*/.debug"
