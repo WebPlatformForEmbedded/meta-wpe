@@ -36,14 +36,12 @@ RDEPENDS_${PN} += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "d344c4d4bd7cfb3ed0e8608e4ad8bc708a176067"
+SRCREV ?= "b8a0479c99c6696979b338c69100474437c3e95a"
 
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
 SRC_URI += "file://youtube-disable-atlas-update.patch"
-SRC_URI += "file://mse-max-time-seekable.patch"
-SRC_URI += "file://mse-improve-seek.patch"
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
 SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
