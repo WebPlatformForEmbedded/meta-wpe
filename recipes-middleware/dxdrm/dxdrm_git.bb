@@ -27,7 +27,7 @@ RDEPENDS_${PN} += "libcurl"
 # This resovles: WARNING: QA Issue: No GNU_HASH in the elf binary...
 INSANE_SKIP_${PN} = "ldflags"
 
-SRCREV = "4f73fb06d8949f56c5c9881327137b12407bed5d"
+SRCREV = "1618e7a55a06d4738279cff56f5310cdb53e928e"
 PV = "1.0.gitr${SRCPV}"
 SRC_URI = "git://git@github.com/Metrological/dxdrm.git;protocol=ssh"
 
