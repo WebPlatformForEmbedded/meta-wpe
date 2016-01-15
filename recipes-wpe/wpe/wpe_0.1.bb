@@ -27,7 +27,7 @@ RDEPENDS_${PN} += " \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-souphttpsrc \
     gstreamer1.0-plugins-bad-dashdemux \
-    gstreamer1.0-plugins-bad-fragmented \
+    gstreamer1.0-plugins-bad-hls \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-mpg123 \
     gstreamer1.0-plugins-bad-smoothstreaming \
