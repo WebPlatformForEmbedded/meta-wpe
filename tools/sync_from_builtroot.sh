@@ -10,7 +10,7 @@ wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/wpe-lau
 wget -q https://raw.githubusercontent.com/Metrological/buildroot-wpe/master/package/cppsdk/cppsdk.mk
 wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/dxdrm/dxdrm.mk
 wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/webbridge/webbridge.mk
-wget -q https://github.com/Metrological/buildroot-wpe/blob/master/package/netflix/netflix.mk
+wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/netflix/netflix.mk
 cd ..
 
 echo "Checking and updating revs"
@@ -22,6 +22,6 @@ python ./tools/check_srcrevs.py -i ./tmp/webbridge.mk -o ./recipes-middleware/we
 python ./tools/check_srcrevs.py -i ./tmp/netflix.mk -o ./recipes-netflix/netflix/netflix_git.bb
 
 echo "Cleaning up tmp"
-rm -r ./tmp
+#rm -r ./tmp
 
 echo "Done."
