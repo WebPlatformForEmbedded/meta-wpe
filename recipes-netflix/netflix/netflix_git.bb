@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares curl graphite2"
 
-SRCREV = "6603a12316e50e603e0b44558adf7a5eb8cac166"
+SRCREV = "4264949267281777ce053b8c522c6096bad111fe"
 PV = "4.2.2+git${SRCPV}"
 
 FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
