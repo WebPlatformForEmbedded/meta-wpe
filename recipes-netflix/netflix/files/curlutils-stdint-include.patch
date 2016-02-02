@@ -1,0 +1,12 @@
+diff --git a/partner/dpi/reference/CurlUtils.h b/partner/dpi/reference/CurlUtils.h
+index a5392f4..f6ac693 100644
+--- a/partner/dpi/reference/CurlUtils.h
++++ b/partner/dpi/reference/CurlUtils.h
+@@ -14,6 +14,7 @@
+ #include <string>
+ #include <vector>
+ #include <curl/curl.h>
++#include <stdint.h>
+ 
+ namespace netflix {
+ namespace device {
