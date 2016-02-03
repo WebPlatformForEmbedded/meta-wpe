@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
 
 inherit pkgconfig cmake
  
-PACKAGECONFIG ??= "web-ui delayedresponse deviceinfo fancontrol fileserver i2ccontrol provisioning spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
+PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol provisioning spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
 
 PACKAGECONFIG[debug]              = "-DWEBBRIDGE_DEBUG=ON,-DWEBBRIDGE_DEBUG=OFF,"
 PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OFF,"
