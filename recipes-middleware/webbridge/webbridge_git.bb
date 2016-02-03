@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.metrological.com/"
 SECTION = "metrological"
 LICENSE = "CLOSED"
 
-DEPENDS = "zlib cppsdk"
+DEPENDS = "zlib cppsdk wpe"
 
 PV = "1.0+gitr${SRCPV}"
 
