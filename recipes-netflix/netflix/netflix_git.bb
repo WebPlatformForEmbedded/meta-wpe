@@ -27,15 +27,17 @@ NETFLIX_BACKEND_nexus = "nexus"
 NETFLIX_BACKEND_egl = "egl"
 NETFLIX_BACKEND_gles = "gles"
 NETFLIX_BACKEND_rpi = "rpi"
+NETFLIX_BACKEND_7401 = "intelce"
 
 PACKAGECONFIG ?= "${NETFLIX_BACKEND}"
 
 PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl -DGIBBON_PLATFORM=rpi -DDPI_IMPLEMENTATION=gstreamer,,userland gstreamer1.0 gstreamer1.0-plugins-base  virtual/egl virtual/libgles2"
 PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,bcm-refsw gstreamer1.0"
+PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0-fsmd"
 PACKAGECONFIG[egl] = "-DGIBBON_GRAPHICS=gles2-egl -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
 PACKAGECONFIG[gles] = "-DGIBBON_GRAPHICS=gles2 -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
 PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
-			  -DGIBBON_PLATFORM=posixi \
+			  -DGIBBON_PLATFORM=posix \
 			  -DDPI_IMPLEMENTATION=reference \
                           -DDPI_REFERENCE_VIDEO_DECODER=openmax-il \
                           -DDPI_REFERENCE_AUDIO_DECODER=ffmpeg \
