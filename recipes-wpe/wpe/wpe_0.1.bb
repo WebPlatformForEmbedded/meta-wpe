@@ -52,10 +52,6 @@ inherit cmake pkgconfig perlnative pythonnative
 FULL_OPTIMIZATION_remove = "-g"
 
 WPE_BACKEND ?= "rpi"
-WPE_BACKEND_rpi = "rpi"
-WPE_BACKEND_7401 = "intelce"
-WPE_BACKEND_eos = "nexus"
-WPE_BACKEND_dawn = "nexus"
 
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
