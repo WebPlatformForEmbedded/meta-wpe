@@ -27,7 +27,7 @@ RDEPENDS_${PN} += " \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-souphttpsrc \
     gstreamer1.0-plugins-bad-dashdemux \
-    gstreamer1.0-plugins-bad-hls \
+    gstreamer1.0-plugins-bad-fragmented \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-mpg123 \
     gstreamer1.0-plugins-bad-smoothstreaming \
@@ -52,10 +52,6 @@ inherit cmake pkgconfig perlnative pythonnative
 FULL_OPTIMIZATION_remove = "-g"
 
 WPE_BACKEND ?= "rpi"
-WPE_BACKEND_rpi = "rpi"
-WPE_BACKEND_7401 = "intelce"
-WPE_BACKEND_eos = "nexus"
-WPE_BACKEND_dawn = "nexus"
 
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
