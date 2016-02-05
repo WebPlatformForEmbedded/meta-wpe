@@ -14,6 +14,8 @@ SRCREV = "5e90cd89f721341162d114d31f4bc1bf8be1a70d"
 S = "${WORKDIR}/git"
 
 inherit pkgconfig cmake
+
+EXTRA_OECMAKE = "${EXTRA_OEMAKE}"
  
 PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol provisioning spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
 
