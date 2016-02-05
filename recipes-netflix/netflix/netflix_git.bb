@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares curl graphite2"
 
-SRCREV = "4264949267281777ce053b8c522c6096bad111fe"
+SRCREV = "7194c6520fa171e60e34def4ed24fe52e480869f"
 PV = "4.2.2+git${SRCPV}"
 
 FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
@@ -31,17 +31,17 @@ NETFLIX_BACKEND_7401 = "intelce"
 
 PACKAGECONFIG ?= "${NETFLIX_BACKEND}"
 
-PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl -DGIBBON_PLATFORM=rpi -DDPI_IMPLEMENTATION=gstreamer,,userland gstreamer1.0 gstreamer1.0-plugins-base  virtual/egl virtual/libgles2"
-PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,bcm-refsw gstreamer1.0"
-PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0-fsmd"
+PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl -DGIBBON_PLATFORM=rpi -DDPI_IMPLEMENTATION=gstreamer,,userland gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
+PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,bcm-refsw gstreamer1.0 virtual/egl virtual/libgles2"
+PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0-fsmd virtual/egl virtual/libgles2"
 PACKAGECONFIG[egl] = "-DGIBBON_GRAPHICS=gles2-egl -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
 PACKAGECONFIG[gles] = "-DGIBBON_GRAPHICS=gles2 -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
 PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
 			  -DGIBBON_PLATFORM=posix \
 			  -DDPI_IMPLEMENTATION=reference \
-                          -DDPI_REFERENCE_VIDEO_DECODER=openmax-il \
+			   -DDPI_REFERENCE_VIDEO_DECODER=openmax-il \
                           -DDPI_REFERENCE_AUDIO_DECODER=ffmpeg \
-                          -DDPI_REFERENCE_AUDIO_RENDERER=openmax-il \
+			   -DDPI_REFERENCE_AUDIO_RENDERER=openmax-il \
                           -DDPI_REFERENCE_AUDIO_MIXER=none \
                           ,,ffmpeg libomxil"
 
