@@ -36,8 +36,7 @@ RDEPENDS_${PN} += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "301a849b63d8fb1a80251bf5ad2ca4fb6ae0e956"
-
+SRCREV ?= "da1cfec7e5cab8d9219038bcd64646cf31c78f57"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
@@ -69,7 +68,8 @@ EXTRA_OECMAKE += " \
   -DENABLE_WEB_AUDIO=ON  \
   -DENABLE_MEDIA_SOURCE=ON \
   -DENABLE_ACCELERATED_2D_CANVAS=ON \
-  -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON  \  
+  -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON \
+  -DENABLE_FULLSCREEN_API=ON \
 "
 
 do_compile() {
