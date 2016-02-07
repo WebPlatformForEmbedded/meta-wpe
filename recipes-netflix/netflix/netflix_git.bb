@@ -7,11 +7,6 @@ DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares
 SRCREV = "7194c6520fa171e60e34def4ed24fe52e480869f"
 PV = "4.2.2+git${SRCPV}"
 
-FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
-               ${datadir}/*"
-
-FILES_${PN}-dev = "${bindir}/netflix ${libdir}/libJavaScriptCore.so"
-
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master"
 SRC_URI += "file://curlutils-stdint-include.patch"
 S = "${WORKDIR}/git"
@@ -97,3 +92,8 @@ do_install() {
 	# same hack for the fonts
 	chown -R 0:0 ${D}${datadir}
 }
+FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
+               ${datadir}/*"
+
+FILES_SOLIBSDEV = ""
+INSANE_SKIP_${PN} += "dev-so"
