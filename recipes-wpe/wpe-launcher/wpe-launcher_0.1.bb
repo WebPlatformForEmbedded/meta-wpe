@@ -11,3 +11,7 @@ S = "${WORKDIR}/git"
 FULL_OPTIMIZATION_remove = "-g"
 
 inherit cmake
+
+FILES_SOLIBSDEV = ""
+INSANE_SKIP ="dev-so"
+FILES_${PN} += "${libdir}/*.so"
