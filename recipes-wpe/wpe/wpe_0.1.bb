@@ -50,14 +50,13 @@ inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 
-WPE_BACKEND ?= "rpi"
-
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'rpi', d)}"
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw gstreamer1.0-plugins-bad"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-plugins-bad"
-PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON,,"
+PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,-DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,wayland libxkbcommon"
 
 EXTRA_OECMAKE += " \
   -DCMAKE_BUILD_TYPE=Release \
@@ -68,12 +67,11 @@ EXTRA_OECMAKE += " \
   -DENABLE_WEB_AUDIO=ON  \
   -DENABLE_MEDIA_SOURCE=ON \
   -DENABLE_ACCELERATED_2D_CANVAS=ON \
-  -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON \
   -DENABLE_FULLSCREEN_API=ON \
 "
 
 do_compile() {
-   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE}
+   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPE{Web,Network}Process
 }
 
 do_install() {
@@ -84,7 +82,7 @@ do_install() {
     install -d ${D}${libdir}
     cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
     cp -av ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
-
+    install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPEWebKit.so
 
@@ -104,3 +102,9 @@ do_install() {
 LEAD_SONAME = "libWPEWebKit.so"
 
 RRECOMMENDS_${PN} += "ca-certificates"
+
+PACKAGES =+ "${PN}-web-inspector-plugin"
+
+FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
+INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
+
