@@ -15,9 +15,11 @@ S = "${WORKDIR}/git"
 
 inherit pkgconfig cmake
 
-EXTRA_OECMAKE = "${EXTRA_OEMAKE}"
- 
-PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol provisioning spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
+# dxdrm doesn't currently support MIPS
+PROVISIONING ?= "provisioning"
+PROVISIONING_mipsel = ""
+
+PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol ${PROVISIONING} spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
 
 PACKAGECONFIG[debug]              = "-DWEBBRIDGE_DEBUG=ON,-DWEBBRIDGE_DEBUG=OFF,"
 PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OFF,"
@@ -38,9 +40,10 @@ PACKAGECONFIG[wificontrol]        = "-DWEBBRIDGE_PLUGIN_WIFICONTROL=ON,-DWEBBRID
 PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
 PACKAGECONFIG[webkitbrowser]      = "-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=ON,-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=OFF,wpe"
 
+EXTRA_OECMAKE = "${EXTRA_OEMAKE}"
+ 
 EXTRA_OECMAKE = "\
     -DINSTALL_HEADERS_TO_TARGET=ON \
 "
 
 FILES_${PN}-dbg += "${datadir}/webbridge/*/.debug"
-
