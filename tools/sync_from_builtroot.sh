@@ -22,6 +22,6 @@ python ./tools/check_srcrevs.py -i ./tmp/webbridge.mk -o ./recipes-middleware/we
 python ./tools/check_srcrevs.py -i ./tmp/netflix.mk -o ./recipes-netflix/netflix/netflix_git.bb
 
 echo "Cleaning up tmp"
-#rm -r ./tmp
+rm -r ./tmp
 
 echo "Done."
