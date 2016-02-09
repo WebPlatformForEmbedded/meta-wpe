@@ -10,6 +10,7 @@ DEPENDS += " \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
     gstreamer1.0 gstreamer1.0-plugins-base \
+    gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad \
     virtual/egl virtual/libgles2 \
 "
 
@@ -19,13 +20,23 @@ DEPENDS += " \
 
 RDEPENDS_${PN} += " \
     gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-base-audioconvert \
+    gstreamer1.0-plugins-base-audioresample \
+    gstreamer1.0-plugins-base-playback \
     gstreamer1.0-plugins-base-gio \
     gstreamer1.0-plugins-base-videoconvert \
+    gstreamer1.0-plugins-base-videoscale \
+    gstreamer1.0-plugins-base-volume \
+    gstreamer1.0-plugins-base-typefindfunctions \
     gstreamer1.0-plugins-good-audiofx \
     gstreamer1.0-plugins-good-audioparsers \
     gstreamer1.0-plugins-good-autodetect \
+    gstreamer1.0-plugins-good-avi \
+    gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-souphttpsrc \
+    gstreamer1.0-plugins-good-isomp4 \
+    gstreamer1.0-plugins-good-wavparse \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-fragmented \
     gstreamer1.0-plugins-bad-mpegtsdemux \
