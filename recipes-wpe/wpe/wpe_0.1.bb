@@ -71,7 +71,7 @@ EXTRA_OECMAKE += " \
 "
 
 do_compile() {
-   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPE{Web,Network}Process
+   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess
 }
 
 do_install() {
