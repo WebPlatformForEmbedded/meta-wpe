@@ -96,4 +96,4 @@ FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
                ${datadir}/*"
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-so"
+INSANE_SKIP_${PN} += "dev-so already-stripped"

@@ -69,3 +69,5 @@ do_install() {
     install -m 644 ${S}/${DXDRM_LOCATOR}/include/provision/*.h ${D}${includedir}/provision; \
   fi
 }
+
+INSANE_SKIP_${PN} += "already-stripped"
