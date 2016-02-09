@@ -51,6 +51,7 @@ SRCREV ?= "827566cbfe23d598ea30bf4846c53c0bfe1081fb"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
+SRC_URI += "file://0002-timeouts.patch"
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
 SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
@@ -79,6 +80,10 @@ EXTRA_OECMAKE += " \
   -DENABLE_MEDIA_SOURCE=ON \
   -DENABLE_ACCELERATED_2D_CANVAS=ON \
   -DENABLE_FULLSCREEN_API=ON \
+  -DENABLE_GEOLOCATION=ON \
+  -DENABLE_SUBTLE_CRYPTO=ON \
+  -DENABLE_SHADOW_DOM=ON \
+  -DENABLE_NOTIFICATIONS=ON \
 "
 
 do_compile() {
