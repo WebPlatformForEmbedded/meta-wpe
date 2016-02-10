@@ -69,31 +69,26 @@ do_configure_prepend() {
 	mkdir -p ${S}/netflix/src/platform/gibbon/data/etc/conf
 	cp -f ${S}/netflix/resources/configuration/common.xml ${S}/netflix/src/platform/gibbon/data/etc/conf/common.xml
 	cp -f ${S}/netflix/resources/configuration/config.xml ${S}/netflix/src/platform/gibbon/data/etc/conf/config.xml
-        
+
 	# to support $STAGING_DIR references in the gstreamer cmake list
 	export STAGING_DIR="${STAGING_DIR_HOST}"
 }
 
 do_install() {
-	install -d ${D}${libdir}/
-	cp -av ${B}/src/platform/gibbon/libJavaScriptCore.so ${D}${libdir}/
-
-	# hack to avoid QA warnings on ownership of the library
-	chown -R 0:0 ${D}${libdir}
-
-	install -d ${D}${bindir}/
-	cp -av ${B}/src/platform/gibbon/netflix ${D}${bindir}/
-	
+	install -D -m 0755 ${B}/src/platform/gibbon/libJavaScriptCore.so ${D}${libdir}/libJavaScriptCore.so
+	install -D -m 0755 ${B}/src/platform/gibbon/netflix ${D}${bindir}/netflix
 	install -d ${D}${datadir}/fonts/netflix
 	cp -av ${B}/src/platform/gibbon/data/fonts/* ${D}${datadir}/fonts/netflix/
-	
-	cp -av ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/	
+
+	install -D -m 0644 ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/LastResort.ttf
 
 	# same hack for the fonts
 	chown -R 0:0 ${D}${datadir}
+	# remove RPATH from binary
+	chrpath --delete ${D}${bindir}/netflix
 }
 FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
                ${datadir}/*"
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-so"
+INSANE_SKIP_${PN} += "dev-so already-stripped"
