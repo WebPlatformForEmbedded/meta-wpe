@@ -51,7 +51,6 @@ SRCREV ?= "334b8eb3206c0cbb7cca0d7d14dbdac883a1beb1"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
-SRC_URI += "file://0002-timeouts.patch"
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
 SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
