@@ -3,6 +3,7 @@
 IMAGE_FEATURES += " \
     ssh-server-openssh \
     splash \
+    package-management \
 "
 
 # selected based on browser type override
