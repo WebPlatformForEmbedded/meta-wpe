@@ -1,6 +1,10 @@
+
+QT5WEBKIT_DXDRM ?= "dxdrm-eme"
+QT5WEBKIT_DXDRM_mipsel = ""
+
 QT5WEBKIT_FEATURES ??= '\
                ${@bb.utils.contains('PACKAGECONFIG', 'gstreamer','gstreamer1', '', d)} \
-               dxdrm-eme \
+               ${QT5WEBKIT_DXDRM} \
 '
 
 QT5WEBKIT_CONFIG += '\
