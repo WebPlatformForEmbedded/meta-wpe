@@ -18,6 +18,7 @@ inherit pkgconfig cmake
 # dxdrm doesn't currently support MIPS
 PROVISIONING ?= "provisioning"
 PROVISIONING_mipsel = ""
+PROVISIONING_libc-musl = ""
 
 PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol ${PROVISIONING} spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
 

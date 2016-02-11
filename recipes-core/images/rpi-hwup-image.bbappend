@@ -3,6 +3,7 @@
 IMAGE_FEATURES += " \
     ssh-server-openssh \
     splash \
+    package-management \
 "
 
 # selected based on browser type override
@@ -10,6 +11,7 @@ IMAGE_FEATURES += " \
 IMAGE_INSTALL_append = "\
    packagegroup-ml-middleware \
    packagegroup-ml-wpe \
-   netflix \
    ${@bb.utils.contains('BROWSER', 'qt', 'packagegroup-ml-qt5browser', '', d)} \
 "
+
+IMAGE_INSTALL_append_libc-glibc = " netflix "
