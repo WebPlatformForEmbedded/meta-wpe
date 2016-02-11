@@ -10,6 +10,8 @@ PACKAGES = "\
 RDEPENDS_packagegroup-ml-middleware = "\
     cppsdk \
     webbridge \
-    dxdrm \ 
 "
 
+RDEPENDS_packagegroup-ml-middleware_append_libc-glibc = "\
+    dxdrm \
+"
