@@ -45,6 +45,11 @@ RDEPENDS_${PN} += " \
     gstreamer1.0-plugins-bad-videoparsersbad \
 "
 
+RDEPENDS_${PN}_append_rpi = "\
+    gstreamer1.0-omx \
+    gstreamer1.0-plugins-bad-opengl \
+"
+
 PV = "0.1+git${SRCPV}"
 
 SRCREV ?= "21423fe555e3196179b44acdd0787e1540d23098"
@@ -66,7 +71,7 @@ PACKAGECONFIG ?= "${WPE_BACKEND} logs"
 
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw gstreamer1.0-plugins-bad"
-PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-plugins-bad"
+PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-plugins-bad gstreamer1.0-omx"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,-DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,wayland libxkbcommon gstreamer1.0-plugins-bad"
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 
