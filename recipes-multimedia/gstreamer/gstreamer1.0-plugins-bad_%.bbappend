@@ -16,3 +16,6 @@ PACKAGECONFIG_append = " mpg123"
 
 PACKAGECONFIG_append_rpi = " zzrpiextras"
 PACKAGECONFIG[zzrpiextras] = "--enable-gles2 --enable-egl --enable-gl --enable-dispmanx,,virtual/libgles2 virtual/egl"
+
+PACKAGECONFIG_append_rpi = " hls libmms faad"
+
