@@ -67,6 +67,9 @@ inherit cmake pkgconfig perlnative pythonnative
 
 FULL_OPTIMIZATION_remove = "-g"
 
+# WPEWebProcess crashes when built with ARM mode on RPi
+ARM_INSTRUCTION_SET_armv7ve = "thumb"
+
 WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'rpi', d)}"
 PACKAGECONFIG ?= "${WPE_BACKEND} logs"
 
