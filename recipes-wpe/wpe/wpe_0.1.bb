@@ -27,11 +27,6 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-FULL_OPTIMIZATION_remove = "-g"
-
-# WPEWebProcess crashes when built with ARM mode on RPi
-ARM_INSTRUCTION_SET_armv7ve = "thumb"
-
 WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'rpi', d)}"
 
 PACKAGECONFIG ?= "${WPE_BACKEND} logs"
@@ -59,6 +54,12 @@ EXTRA_OECMAKE += " \
   -DENABLE_GAMEPAD=ON \
   -DENABLE_DEVICE_ORIENTATION=ON \
 "
+
+FULL_OPTIMIZATION_remove = "-g"
+
+# WPEWebProcess crashes when built with ARM mode on RPi
+ARM_INSTRUCTION_SET_armv7a = "thumb"
+ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess
