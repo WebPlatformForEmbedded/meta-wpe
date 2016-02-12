@@ -47,6 +47,7 @@ RDEPENDS_${PN} += " \
 
 RDEPENDS_${PN}_append_rpi = "\
     gstreamer1.0-omx \
+    gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-opengl \
 "
 
