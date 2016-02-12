@@ -13,43 +13,6 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-# plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
-# plugins-bad config option 'hls' -> gstreamer1.0-plugins-bad-fragmented
-# plugins-bad config option 'videoparsers' -> gstreamer1.0-plugins-bad-videoparsersbad
-
-RDEPENDS_${PN} += " \
-    gstreamer1.0-plugins-base-app \
-    gstreamer1.0-plugins-base-audioconvert \
-    gstreamer1.0-plugins-base-audioresample \
-    gstreamer1.0-plugins-base-playback \
-    gstreamer1.0-plugins-base-gio \
-    gstreamer1.0-plugins-base-videoconvert \
-    gstreamer1.0-plugins-base-videoscale \
-    gstreamer1.0-plugins-base-volume \
-    gstreamer1.0-plugins-base-typefindfunctions \
-    gstreamer1.0-plugins-good-audiofx \
-    gstreamer1.0-plugins-good-audioparsers \
-    gstreamer1.0-plugins-good-autodetect \
-    gstreamer1.0-plugins-good-avi \
-    gstreamer1.0-plugins-good-deinterlace \
-    gstreamer1.0-plugins-good-interleave \
-    gstreamer1.0-plugins-good-souphttpsrc \
-    gstreamer1.0-plugins-good-isomp4 \
-    gstreamer1.0-plugins-good-wavparse \
-    gstreamer1.0-plugins-bad-dashdemux \
-    gstreamer1.0-plugins-bad-fragmented \
-    gstreamer1.0-plugins-bad-mpegtsdemux \
-    gstreamer1.0-plugins-bad-mpg123 \
-    gstreamer1.0-plugins-bad-smoothstreaming \
-    gstreamer1.0-plugins-bad-videoparsersbad \
-"
-
-RDEPENDS_${PN}_append_rpi = "\
-    gstreamer1.0-omx \
-    gstreamer1.0-plugins-bad-faad \
-    gstreamer1.0-plugins-bad-opengl \
-"
-
 PV = "0.1+git${SRCPV}"
 
 SRCREV ?= "21423fe555e3196179b44acdd0787e1540d23098"
@@ -128,10 +91,46 @@ do_install() {
 
 LEAD_SONAME = "libWPEWebKit.so"
 
-RRECOMMENDS_${PN} += "ca-certificates"
-
 PACKAGES =+ "${PN}-web-inspector-plugin"
 
 FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
+# plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
+# plugins-bad config option 'hls' -> gstreamer1.0-plugins-bad-fragmented
+# plugins-bad config option 'videoparsers' -> gstreamer1.0-plugins-bad-videoparsersbad
+
+RDEPENDS_${PN} += " \
+    gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-base-audioconvert \
+    gstreamer1.0-plugins-base-audioresample \
+    gstreamer1.0-plugins-base-playback \
+    gstreamer1.0-plugins-base-gio \
+    gstreamer1.0-plugins-base-videoconvert \
+    gstreamer1.0-plugins-base-videoscale \
+    gstreamer1.0-plugins-base-volume \
+    gstreamer1.0-plugins-base-typefindfunctions \
+    gstreamer1.0-plugins-good-audiofx \
+    gstreamer1.0-plugins-good-audioparsers \
+    gstreamer1.0-plugins-good-autodetect \
+    gstreamer1.0-plugins-good-avi \
+    gstreamer1.0-plugins-good-deinterlace \
+    gstreamer1.0-plugins-good-interleave \
+    gstreamer1.0-plugins-good-souphttpsrc \
+    gstreamer1.0-plugins-good-isomp4 \
+    gstreamer1.0-plugins-good-wavparse \
+    gstreamer1.0-plugins-bad-dashdemux \
+    gstreamer1.0-plugins-bad-fragmented \
+    gstreamer1.0-plugins-bad-mpegtsdemux \
+    gstreamer1.0-plugins-bad-mpg123 \
+    gstreamer1.0-plugins-bad-smoothstreaming \
+    gstreamer1.0-plugins-bad-videoparsersbad \
+"
+
+RDEPENDS_${PN}_append_rpi = "\
+    gstreamer1.0-omx \
+    gstreamer1.0-plugins-bad-faad \
+    gstreamer1.0-plugins-bad-opengl \
+"
+
+RRECOMMENDS_${PN} += "ca-certificates"
