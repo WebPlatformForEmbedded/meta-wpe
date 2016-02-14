@@ -11,7 +11,7 @@ DXDRM_CONFIG_append_x86 = " x86"
 
 # Add OpenSSL and CPPSDK to the dependency list if external provisioning is used.
 DEPENDS += '\
-    ${@bb.utils.contains("DXDRM_CONFIG", "external", "openssl cppsdk", "",d)} \
+    ${@bb.utils.contains("DXDRM_CONFIG", "external", "openssl cppsdk libprovision", "",d)} \
     '
 # Don't add any whitspace to DXDRM_ARCH and DXDRM_LOCATOR ;-)
 DXDRM_ARCH = '\
@@ -27,7 +27,7 @@ RDEPENDS_${PN} += "libcurl"
 # This resovles: WARNING: QA Issue: No GNU_HASH in the elf binary...
 INSANE_SKIP_${PN} = "ldflags"
 
-SRCREV = "1618e7a55a06d4738279cff56f5310cdb53e928e"
+SRCREV = "44c1cf3dca6d203c1a92fb4425ce02e99494f686"
 PV = "1.0.gitr${SRCPV}"
 SRC_URI = "git://git@github.com/Metrological/dxdrm.git;protocol=ssh"
 
@@ -35,7 +35,7 @@ S = "${WORKDIR}/git"
 
 # Add the libraries to the correct package
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/lib*.so"   
+FILES_${PN} += "${libdir}/lib*.so"
 
 do_install() {
   install -d ${D}${libdir}
@@ -47,27 +47,15 @@ do_install() {
 
   install -d ${D}${sysconfdir}/dxdrm
   install -m 644 ${@S}/external/dxdrm.config ${D}${sysconfdir}/dxdrm
-  
+
   install -d ${D}${libdir}/pkgconfig
   install -m 644 ${@S}/external/dxdrm.pc ${D}${libdir}/pkgconfig
-  
+
   if ${@bb.utils.contains("DXDRM_CONFIG","internal", "true", "false",d)}; then \
     install -m 644 ${S}/${DXDRM_LOCATOR}/credentials/* ${D}${sysconfdir}/dxdrm; \
   fi
 
   echo "BRAM DEBUG ${@bb.utils.contains("DXDRM_CONFIG","external", "true", "false",d)}"
-  
-  if ${@bb.utils.contains("DXDRM_CONFIG","external", "true", "false",d)}; then \
-    install -m 755 ${S}/${DXDRM_LOCATOR}/${DXDRM_ARCH}/release/libprovision.so ${D}${libdir}; \
-    install -m 755 ${S}/${DXDRM_LOCATOR}/${DXDRM_ARCH}/release/libprovisionproxy.so ${D}${libdir}; \ 
-    install -m 644 ${@S}/external/provision.pc ${D}${libdir}/pkgconfig
-    
-    install -d  ${D}${includedir}/rpc; \
-    install -m 644 ${S}/${DXDRM_LOCATOR}/include/rpc/*.h ${D}${includedir}/rpc; \
-
-    install -d  ${D}${includedir}/provision; \
-    install -m 644 ${S}/${DXDRM_LOCATOR}/include/provision/*.h ${D}${includedir}/provision; \
-  fi
 }
 
 INSANE_SKIP_${PN} += "already-stripped"
