@@ -19,6 +19,7 @@ inherit pkgconfig cmake
 PROVISIONING ?= "provisioning"
 PROVISIONING_mipsel = ""
 PROVISIONING_libc-musl = ""
+PROVISIONING_i686 = ""
 
 PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol ${PROVISIONING} spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
 
