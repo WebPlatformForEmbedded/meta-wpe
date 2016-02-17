@@ -9,7 +9,6 @@ SRCREV = "7193f983d5a07207a67dd22ec0ef0877b885e4fc"
 PV = "2.0.11+gitr${SRCPV}"
 
 SRC_URI = "git://github.com/Metrological/qtbrowser.git;protocol=http"
-# SRC_URI += "file://remove_WebSecurityEnabled.patch"
 
 S = "${WORKDIR}/git"
 
@@ -21,4 +20,3 @@ do_install() {
     install -d ${D}${bindir}
     install -m 0755 ${B}/qtbrowser ${D}${bindir}/
 }
-

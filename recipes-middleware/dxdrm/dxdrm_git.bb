@@ -1,8 +1,7 @@
 # TODO: FIX WARNING: QA Issue: dxdrm requires libgenerics.so, but no providers in its RDEPENDS [file-rdeps]
 SUMMARY = "Discretix PlayReady DRM implementation."
 HOMEPAGE = "https://www.metrological.com"
-LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://README.md;md5=184cc4b37dd17190ad70309772bbbd8c"
+LICENSE = "CLOSED"
 
 # Set dxdrm config
 DXDRM_CONFIG ??= "external"
