@@ -3,22 +3,25 @@
 
 DESCRIPTION = "Provisioning support library"
 HOMEPAGE = "https://github.com/Metrological/libprovision"
-LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/Proprietary;md5=0557f9d92cf58f2ccdd50f62f8ac0b28"
 SECTION = "libs"
+LICENSE = "CLOSED"
+
 DEPENDS = "cppsdk openssl"
 
-SRCREV = "3b68f177bf8ec51b3c36ba1e7e160a349ede328d"
 PV = "1.0.gitr${SRCPV}"
-SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh"
-# Set dxdrm config
 
-PROV_ARCH ?= ""
-PROV_ARCH_x86 = "i686"
-PROV_ARCH_arm = "arm"
+SRCREV = "3b68f177bf8ec51b3c36ba1e7e160a349ede328d"
+SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh"
 
 S = "${WORKDIR}/git"
 
+COMPATIBLE_HOST = '(i.86|arm).*-linux'
+
+PROV_ARCH ?= ""
+PROV_ARCH_arm = "arm"
+PROV_ARCH_x86 = "i686"
+
+do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 
 do_install() {
@@ -42,4 +45,3 @@ INSANE_SKIP_${PN} += "already-stripped"
 # whoever provides these precompiled objects should note to add
 # "-Wl,--hash-style=gnu" to LDFLAGS when generating these objects
 INSANE_SKIP_${PN}_append_arm = " ldflags"
-
