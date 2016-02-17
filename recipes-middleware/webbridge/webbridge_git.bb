@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.metrological.com/"
 SECTION = "metrological"
 LICENSE = "CLOSED"
 
-DEPENDS = "zlib cppsdk wpe libprovision"
+DEPENDS = "wpe cppsdk zlib"
 
 PV = "1.0+gitr${SRCPV}"
 
@@ -15,11 +15,11 @@ S = "${WORKDIR}/git"
 
 inherit pkgconfig cmake
 
-# dxdrm doesn't currently support MIPS
+# The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
-PROVISIONING_mipsel = ""
 PROVISIONING_libc-musl = ""
-PROVISIONING_i686 = ""
+PROVISIONING_mipsel = ""
+PROVISIONING_x86 = ""
 
 PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol ${PROVISIONING} spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
 
