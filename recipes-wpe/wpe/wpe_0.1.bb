@@ -29,7 +29,13 @@ inherit cmake pkgconfig perlnative pythonnative
 
 WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'rpi', d)}"
 
-PACKAGECONFIG ?= "${WPE_BACKEND} logs provisioning"
+# The libprovision prebuilt libs currently support glibc ARM only.
+PROVISIONING ?= "provisioning"
+PROVISIONING_libc-musl = ""
+PROVISIONING_mipsel = ""
+PROVISIONING_x86 = ""
+
+PACKAGECONFIG ?= "${WPE_BACKEND} logs ${PROVISIONING}"
 
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw"
@@ -136,4 +142,3 @@ RDEPENDS_${PN}_append_rpi = "\
 "
 
 RRECOMMENDS_${PN} += "ca-certificates"
-
