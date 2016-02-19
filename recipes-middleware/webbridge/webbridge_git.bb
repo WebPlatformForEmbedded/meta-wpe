@@ -21,7 +21,7 @@ PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 
-PACKAGECONFIG ??= "web-ui remotecontrol delayedresponse deviceinfo fancontrol fileserver i2ccontrol ${PROVISIONING} spicontrol tempcontol tracecontrol webproxy dailserver webkitbrowser"
+PACKAGECONFIG ??= "web-ui remotecontrol deviceinfo ${PROVISIONING} tracecontrol webproxy dailserver webkitbrowser"
 
 PACKAGECONFIG[debug]              = "-DWEBBRIDGE_DEBUG=ON,-DWEBBRIDGE_DEBUG=OFF,"
 PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OFF,"
