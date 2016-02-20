@@ -55,3 +55,5 @@ EXTRA_OECMAKE = "\
 "
 
 FILES_${PN}-dbg += "${datadir}/webbridge/*/.debug"
+
+TOOLCHAIN = "gcc"
