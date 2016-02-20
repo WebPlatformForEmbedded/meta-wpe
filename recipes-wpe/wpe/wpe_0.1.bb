@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "b1a92126d9d56453832a9a23048c1b0ba174f505"
+SRCREV ?= "c2eeac988ce88a39301375726377056d87c9ea69"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
@@ -62,7 +62,10 @@ EXTRA_OECMAKE += " \
   -DENABLE_DEVICE_ORIENTATION=ON \
 "
 
+# don't build debug and do not use -Os
 FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION_remove = "-Os"
+FULL_OPTIMIZATION_append = " -O2"
 
 # WPEWebProcess crashes when built with ARM mode on RPi
 ARM_INSTRUCTION_SET_armv7a = "thumb"
