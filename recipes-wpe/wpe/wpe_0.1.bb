@@ -9,7 +9,7 @@ DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
-    gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad \
+    gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
     virtual/egl virtual/libgles2 \
 "
 
