@@ -9,9 +9,14 @@ PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh"
 
-SRCREV = "1cb45102ce8f8dfda31d15dfb76bf6d9e0a3373b"
+SRCREV = "59f6d2bce8689edb6f355fdda1592b3b1de466f6"
 
 S = "${WORKDIR}/git"
+
+# don't build debug and do not use -Os
+FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION_remove = "-Os"
+FULL_OPTIMIZATION_append = " -O2"
 
 inherit pkgconfig cmake
 
