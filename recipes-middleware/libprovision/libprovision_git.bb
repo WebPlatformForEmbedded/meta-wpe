@@ -29,9 +29,6 @@ do_install() {
     install -Dm 755 ${S}/${PROV_ARCH}/libprovisionproxy.so ${D}${libdir}/libprovisionproxy.so
     install -Dm 644 ${S}/provision.pc ${D}${libdir}/pkgconfig/provision.pc
 
-    install -d  ${D}${includedir}/rpc
-    install -m 644 ${S}/include/rpc/*.h ${D}${includedir}/rpc
-
     install -d  ${D}${includedir}/provision
     install -m 644 ${S}/include/provision/*.h ${D}${includedir}/provision
 }

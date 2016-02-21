@@ -11,7 +11,7 @@ SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=mas
 SRC_URI += "file://curlutils-stdint-include.patch"
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig pythonnative 
+inherit cmake pkgconfig pythonnative
 
 export TARGET_CROSS="$(GNU_TARGET_NAME)-"
 
@@ -92,3 +92,6 @@ FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
 
 FILES_SOLIBSDEV = ""
 INSANE_SKIP_${PN} += "dev-so already-stripped"
+
+PARALLEL_MAKE = ""
+
