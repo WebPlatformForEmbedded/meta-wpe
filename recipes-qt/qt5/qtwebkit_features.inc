@@ -11,12 +11,12 @@ QT5WEBKIT_FEATURES ??= '\
 '
 
 QT5WEBKIT_CONFIG += '\
-   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=video',         '', d)} \   
-   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=use_gstreamer', '', d)} \ 
-   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=media_source',  '', d)} \ 
-   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=web_audio',     '', d)} \ 
+   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=video',         'WEBKIT_CONFIG-=video',         d)} \   
+   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=use_gstreamer', 'WEBKIT_CONFIG-=use_gstreamer', d)} \ 
+   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=media_source',  'WEBKIT_CONFIG-=media_source',  d)} \ 
+   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'gstreamer1', 'WEBKIT_CONFIG+=web_audio',     'WEBKIT_CONFIG-=web_audio',     d)} \ 
    \
-   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'dxdrm-eme',  'WEBKIT_CONFIG+=use_dxdrm',     '', d)} \ 
+   ${@bb.utils.contains('QT5WEBKIT_FEATURES', 'dxdrm-eme',  'WEBKIT_CONFIG+=use_dxdrm',     'WEBKIT_CONFIG-=use_dxdrm',     d)} \ 
 '
 
 DEPENDS += '\
