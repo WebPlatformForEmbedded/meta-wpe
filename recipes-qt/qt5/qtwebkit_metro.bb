@@ -38,7 +38,7 @@ SRC_URI += "\
 
 PACKAGECONFIG ??= "${@bb.utils.contains('MACHINE_FEATURES', 'gst010', 'gstreamer010', 'gstreamer', d)}"
 
-PACKAGECONFIG[gstreamer] = "OE_GSTREAMER_ENABLED,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad,gstreamer1.0-plugins-bad-videoparsersbad"
+PACKAGECONFIG[gstreamer] = "OE_GSTREAMER_ENABLED,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_GST}"
 PACKAGECONFIG[gstreamer010] = "OE_GSTREAMER010_ENABLED,,gstreamer gst-plugins-base"
 PACKAGECONFIG[qtlocation] = "OE_QTLOCATION_ENABLED,,qtlocation"
 PACKAGECONFIG[qtmultimedia] = "OE_QTMULTIMEDIA_ENABLED,,qtmultimedia"
@@ -78,3 +78,14 @@ PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE
 # we need to replace it too (a bit longer version without importing re)
 RUBY_SYS = "${@ '${BUILD_SYS}'.replace('i486', 'i386').replace('i586', 'i386').replace('i686', 'i386') }"
 export RUBYLIB="${STAGING_DATADIR_NATIVE}/rubygems:${STAGING_LIBDIR_NATIVE}/ruby:${STAGING_LIBDIR_NATIVE}/ruby/${RUBY_SYS}"
+
+# Fixme: this is a default set and could probably be optimised.
+RDEPS_GST = "\
+    gstreamer1.0-meta-base \
+    gstreamer1.0-meta-audio \
+    gstreamer1.0-meta-video \
+    gstreamer1.0-meta-debug \
+    gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-good-isomp4 \
+    gstreamer1.0-plugins-bad-videoparsersbad \
+"
