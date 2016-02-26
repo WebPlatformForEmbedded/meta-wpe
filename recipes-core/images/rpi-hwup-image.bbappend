@@ -15,3 +15,6 @@ IMAGE_INSTALL_append = "\
 "
 
 IMAGE_INSTALL_append_libc-glibc = " netflix "
+
+IMAGE_FSTYPES += "${INITRAMFS_FSTYPES}"
+
