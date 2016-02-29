@@ -9,7 +9,7 @@ PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh"
 
-SRCREV = "823e18ba5ee21b977c68a49f09d0b0f8822d6045"
+SRCREV = "51da94178c0032a945afaece08c646721a396daa"
 
 S = "${WORKDIR}/git"
 
