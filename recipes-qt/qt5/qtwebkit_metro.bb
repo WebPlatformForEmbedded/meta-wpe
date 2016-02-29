@@ -22,7 +22,7 @@ PV = "5.4.1+metro+git${SRCPV}"
 
 SRC_URI = "git://github.com/Metrological/qtwebkit.git;branch=qt5.4;protocol=http"
 
-SRCREV = "bf14b0e5b3178efe9326df8cb4a3c21214199cd5"
+SRCREV = "95b96a1781b2030d8487bef374dac7239187580f"
 
 S = "${WORKDIR}/git"
 
