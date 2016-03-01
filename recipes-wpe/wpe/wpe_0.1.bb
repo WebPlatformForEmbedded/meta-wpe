@@ -9,7 +9,7 @@ DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
-    gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
+    gstreamer1.0 \
     virtual/egl virtual/libgles2 \
 "
 
@@ -35,7 +35,7 @@ PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 
-PACKAGECONFIG ?= "${WPE_BACKEND} ${PROVISIONING} logs video videotrack webaudio mediasource 2dcanvas fullscreenapi geolocation subtlecrypto shadowdom notifications gamepad deviceorientation"
+PACKAGECONFIG ?= "${WPE_BACKEND} ${PROVISIONING} logs video webaudio mediasource 2dcanvas fullscreenapi geolocation subtlecrypto shadowdom notifications gamepad deviceorientation"
 
 # device specific configs
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
@@ -46,10 +46,10 @@ PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEME
 # WPE features
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 PACKAGECONFIG[provisioning] = "-DENABLE_PROVISIONING=ON,-DENABLE_PROVISIONING=OFF,libprovision,libprovision"
-PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON,-DENABLE_VIDEO=OFF,"
-PACKAGECONFIG[videotrack] = "-DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO_TRACK=OFF,"
-PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,"
-PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,"
+PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
+PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good"
+PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0-plugins-good"
+PACKAGECONFIG[encryptedmedia] = "-DENABLE_ENCRYPTED_MEDIA=ON,-DENABLE_ENCRYPTED_MEDIA=OFF,"
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
 PACKAGECONFIG[fullscreenapi] = "-DENABLE_FULLSCREEN_API=ON,-DENABLE_FULLSCREEN_API=OFF,"
 PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,"
@@ -114,10 +114,8 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 # plugins-bad config option 'videoparsers' -> gstreamer1.0-plugins-bad-videoparsersbad
 
 RDEPENDS_${PN} += " \
-    gstreamer1.0-plugins-base-app \
     gstreamer1.0-plugins-base-audioconvert \
     gstreamer1.0-plugins-base-audioresample \
-    gstreamer1.0-plugins-base-playback \
     gstreamer1.0-plugins-base-gio \
     gstreamer1.0-plugins-base-videoconvert \
     gstreamer1.0-plugins-base-videoscale \
@@ -129,13 +127,10 @@ RDEPENDS_${PN} += " \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
-    gstreamer1.0-plugins-good-souphttpsrc \
-    gstreamer1.0-plugins-good-isomp4 \
-    gstreamer1.0-plugins-good-wavparse \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-fragmented \
     gstreamer1.0-plugins-bad-mpegtsdemux \
-    gstreamer1.0-plugins-bad-mpg123 \
+    gstreamer1.0-plugins-bad-mpg123 \    
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
 "
@@ -145,5 +140,20 @@ RDEPENDS_${PN}_append_rpi = "\
     gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-opengl \
 "
+
+RDEPENDS_${PN}_append_webaudio = "\
+    gstreamer1.0-plugins-good-wavparse \
+"
+
+RDEPENDS_${PN}_append_video = "\
+    gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-base-playback \
+    gstreamer1.0-plugins-good-souphttpsrc \
+"
+
+RDEPENDS_${PN}_append_mediasource = "\
+    gstreamer1.0-plugins-good-isomp4 \
+"
+
 
 RRECOMMENDS_${PN} += "ca-certificates"
