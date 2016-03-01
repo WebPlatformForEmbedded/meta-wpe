@@ -62,10 +62,8 @@ EXTRA_OECMAKE += " \
   -DENABLE_DEVICE_ORIENTATION=ON \
 "
 
-# don't build debug and do not use -Os
+# don't build debug
 FULL_OPTIMIZATION_remove = "-g"
-FULL_OPTIMIZATION_remove = "-Os"
-FULL_OPTIMIZATION_append = " -O2"
 
 # WPEWebProcess crashes when built with ARM mode on RPi
 ARM_INSTRUCTION_SET_armv7a = "thumb"
