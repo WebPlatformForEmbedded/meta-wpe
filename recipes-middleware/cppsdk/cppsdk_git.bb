@@ -13,11 +13,6 @@ SRCREV = "51da94178c0032a945afaece08c646721a396daa"
 
 S = "${WORKDIR}/git"
 
-# don't build debug and do not use -Os
-FULL_OPTIMIZATION_remove = "-g"
-FULL_OPTIMIZATION_remove = "-Os"
-FULL_OPTIMIZATION_append = " -O2"
-
 inherit cmake pkgconfig
 
 CPPSDK_PLATFORM ?= "platform-pc"
