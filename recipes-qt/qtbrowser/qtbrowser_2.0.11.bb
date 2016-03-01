@@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f73069ee5fe10af114e5300a37d32d44"
 DEPENDS = "qtbase qtwebkit"
 
 SRCREV = "7193f983d5a07207a67dd22ec0ef0877b885e4fc"
-PV = "2.0.11+gitr${SRCPV}"
 
 SRC_URI = "git://github.com/Metrological/qtbrowser.git;protocol=http"
 
