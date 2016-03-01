@@ -13,11 +13,6 @@ SRCREV = "6db5934fd1320e73ef5a414da58b8c88710c122d"
 
 S = "${WORKDIR}/git"
 
-# don't build debug and do not use -Os
-FULL_OPTIMIZATION_remove = "-g"
-FULL_OPTIMIZATION_remove = "-Os"
-FULL_OPTIMIZATION_append = " -O2"
-
 inherit pkgconfig cmake
 
 # The libprovision prebuilt libs currently support glibc ARM only.
