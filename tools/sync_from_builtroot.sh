@@ -17,10 +17,10 @@ cd ..
 echo "Checking and updating revs"
 python ./tools/check_srcrevs.py -i ./tmp/wpe.mk -o ./recipes-wpe/wpe/wpe_0.1.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpe-launcher.mk -o ./recipes-wpe/wpe-launcher/wpe-launcher_0.1.bb
-python ./tools/check_srcrevs.py -i ./tmp/cppsdk.mk -o ./recipes-middleware/cppsdk/cppsdk_git.bb
-python ./tools/check_srcrevs.py -i ./tmp/dxdrm.mk -o ./recipes-middleware/dxdrm/dxdrm_git.bb
-python ./tools/check_srcrevs.py -i ./tmp/libprovision.mk -o ./recipes-middleware/libprovision/libprovision_git.bb
-python ./tools/check_srcrevs.py -i ./tmp/webbridge.mk -o ./recipes-middleware/webbridge/webbridge_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/cppsdk.mk -o ./recipes-metrological/cppsdk/cppsdk_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/dxdrm.mk -o ./recipes-metrological/dxdrm/dxdrm_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/libprovision.mk -o ./recipes-metrological/libprovision/libprovision_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/webbridge.mk -o ./recipes-metrological/webbridge/webbridge_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/netflix.mk -o ./recipes-netflix/netflix/netflix_git.bb
 
 echo "Cleaning up tmp"
