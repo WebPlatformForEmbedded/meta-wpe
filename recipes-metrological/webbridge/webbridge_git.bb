@@ -49,6 +49,10 @@ EXTRA_OECMAKE = "\
     -DINSTALL_HEADERS_TO_TARGET=ON \
 "
 
-FILES_${PN}-dbg += "${datadir}/webbridge/*/.debug"
+# libproxystubs.so is installed in /usr/lib/webbridge/proxystubs
+FILES_${PN}-dbg += "${libdir}/webbridge/proxystubs/.debug"
+
+# libWPEInjectedBundle.so is installed in /usr/share/webbridge/WebKitBrowser
+FILES_${PN}-dbg += "${datadir}/webbridge/WebKitBrowser/.debug"
 
 TOOLCHAIN = "gcc"
