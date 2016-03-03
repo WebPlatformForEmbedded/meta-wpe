@@ -45,9 +45,9 @@ PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEME
 
 # WPE features
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
-PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
-PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good"
-PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0-plugins-good"
+PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,gstreamer1.0-plugins-base-app gstreamer1.0-plugins-base-playback gstreamer1.0-plugins-good-souphttpsrc"
+PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,gstreamer1.0-plugins-good-wavparse"
+PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0-plugins-good,gstreamer1.0-plugins-good-isomp4"
 PACKAGECONFIG[encryptedmedia] = "-DENABLE_ENCRYPTED_MEDIA=ON,-DENABLE_ENCRYPTED_MEDIA=OFF,"
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
 PACKAGECONFIG[fullscreenapi] = "-DENABLE_FULLSCREEN_API=ON,-DENABLE_FULLSCREEN_API=OFF,"
@@ -143,20 +143,5 @@ RDEPENDS_${PN}_append_rpi = "\
     gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-opengl \
 "
-
-RDEPENDS_${PN}_append_webaudio = "\
-    gstreamer1.0-plugins-good-wavparse \
-"
-
-RDEPENDS_${PN}_append_video = "\
-    gstreamer1.0-plugins-base-app \
-    gstreamer1.0-plugins-base-playback \
-    gstreamer1.0-plugins-good-souphttpsrc \
-"
-
-RDEPENDS_${PN}_append_mediasource = "\
-    gstreamer1.0-plugins-good-isomp4 \
-"
-
 
 RRECOMMENDS_${PN} += "ca-certificates"
