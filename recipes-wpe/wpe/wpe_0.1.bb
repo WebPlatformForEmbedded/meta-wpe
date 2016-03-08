@@ -19,6 +19,7 @@ SRCREV ?= "0f69916ffd37ace5652180398941073726fa7e72"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
+SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch"
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
 SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
