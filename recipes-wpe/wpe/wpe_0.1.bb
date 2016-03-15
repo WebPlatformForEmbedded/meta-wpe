@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "ec260b1ab6e603ae55e5ba6bfb289ba138fd95f9"
+SRCREV ?= "0ea6536a6643dda73ff01fc9cbc35f34835461ab"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
@@ -36,7 +36,7 @@ PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 
-PACKAGECONFIG ?= "${WPE_BACKEND} ${PROVISIONING} logs video webaudio mediasource 2dcanvas fullscreenapi geolocation subtlecrypto shadowdom notifications gamepad deviceorientation"
+PACKAGECONFIG ?= "${WPE_BACKEND} ${PROVISIONING} logs video webaudio mediasource 2dcanvas fullscreenapi geolocation subtlecrypto shadowdom notifications gamepad deviceorientation indexeddb"
 
 # device specific configs
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
@@ -59,6 +59,7 @@ PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS
 PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,"
 PACKAGECONFIG[deviceorientation] = "-DENABLE_DEVICE_ORIENTATION=ON,-DENABLE_DEVICE_ORIENTATION=OFF,"
 PACKAGECONFIG[mediastream] = "-DENABLE_MEDIA_STREAM=ON,-DENABLE_MEDIA_STREAM=OFF,openwebrtc"
+PACKAGECONFIG[indexeddb] = "-DENABLE_DATABASE_PROCESS=ON -DENABLE_INDEXED_DATABASE=ON,-DENABLE_DATABASE_PROCESS=OFF -DENABLE_INDEXED_DATABASE=OFF,"
 
 # DRM
 PACKAGECONFIG[provisioning] = "-DENABLE_PROVISIONING=ON,-DENABLE_PROVISIONING=OFF,libprovision,libprovision"
@@ -78,7 +79,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess
+   ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess
 }
 
 do_install() {
@@ -100,6 +101,7 @@ do_install() {
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEDatabaseProcess ${D}${bindir}/
 
     # Hack: Remove RPATHs embedded in apps
     chrpath --delete ${D}${bindir}/WPENetworkProcess
