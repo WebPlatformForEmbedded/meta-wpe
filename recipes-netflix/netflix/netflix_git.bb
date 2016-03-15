@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares curl graphite2"
 
-SRCREV = "6627e4e60be5fd7b5910f3bb2956219ff44c29fa"
+SRCREV = "1b15036ebc8dd87592dd95e8694bf1402960bb57"
 PV = "4.2.2+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master"
@@ -56,12 +56,20 @@ EXTRA_OECMAKE += " \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX=/netflix \
 	-DBUILD_COMPILE_RESOURCES=1 \
-	-DNRDP_HAS_IPV6=0 \
+	-DBUILD_QA=0 \
 	-DBUILD_SHARED_LIBS=0 \
 	-DGIBBON_MODE=executable \
 	-DGIBBON_SCRIPT_JSC_DYNAMIC=1 \
 	-DGIBBON_SCRIPT_JSC_DEBUG=0 \
 	-DGIBBON_INPUT=devinput \
+	-DNRDP_HAS_IPV6=0 \
+	-DNRDP_HAS_TRACING=0 \
+	-DNRDP_HAS_TEST_INSTRUMENTATION=0 \
+	-DNRDP_HAS_ON_INSTRUMENTATION=0 \
+	-DNRDP_HAS_DEBUG_INSTRUMENTATION=0 \
+	-DNRDP_HAS_SWITCHED_INSTRUMENTATION=0 \
+	-DNRDP_HAS_INSTRUMENTATION=0 \
+	-DNRDP_CRASH_REPORTING="off" \
 	-DNRDP_TOOLS=manufSSgenerator \
 "
 
