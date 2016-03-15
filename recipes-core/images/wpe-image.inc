@@ -1,13 +1,6 @@
-# extend the rpi-hwup-image
-
-IMAGE_FEATURES += " \
-    ssh-server-openssh \
-    splash \
-    package-management \
-"
-
 # selected based on browser type override
 # browser must be select through env variable: export BROWSER=qt and whitelisted with: export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE BROWSER"
+
 IMAGE_INSTALL_append = "\
    packagegroup-ml-middleware \
    packagegroup-ml-wpe \
@@ -16,4 +9,3 @@ IMAGE_INSTALL_append = "\
 
 IMAGE_INSTALL_append_libc-glibc = " netflix "
 
-IMAGE_FSTYPES_append_rpi = " ${INITRAMFS_FSTYPES}"
