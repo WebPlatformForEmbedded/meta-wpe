@@ -7,5 +7,5 @@ LICENSE = "MIT"
 IMAGE_FEATURES += " \
     package-management \
 "
-require recipes-core/images/rpi-basic-image.bb
+include recipes-core/images/rpi-basic-image.bb
 require wpe-image.inc

@@ -106,6 +106,7 @@ do_install() {
     # Hack: Remove RPATHs embedded in apps
     chrpath --delete ${D}${bindir}/WPENetworkProcess
     chrpath --delete ${D}${bindir}/WPEWebProcess
+    chrpath --delete ${D}${bindir}/WPEDatabaseProcess
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
