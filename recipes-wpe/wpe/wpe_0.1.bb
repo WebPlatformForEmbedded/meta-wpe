@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "de646db36c0f1ce82daad11fd6f7d4ce5ece87c9"
+SRCREV ?= "d7f30c7c8fbfcb1f79f83e4055b60ad890570b5d"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://link-BCM-Nexus-backend-with-nxclient.patch"
