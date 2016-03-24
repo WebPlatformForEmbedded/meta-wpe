@@ -38,7 +38,7 @@ PROVISIONING_x86 = ""
 PACKAGECONFIG ?= "${WPE_BACKEND} ${PROVISIONING} logs video webaudio mediasource 2dcanvas fullscreenapi geolocation subtlecrypto shadowdom notifications gamepad deviceorientation indexeddb"
 
 # device specific configs
-PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display,gstreamer1.0-fsmd"
+PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-omx"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,-DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,wayland libxkbcommon"
