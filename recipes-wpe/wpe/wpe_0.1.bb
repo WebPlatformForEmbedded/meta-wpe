@@ -9,7 +9,6 @@ DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
-    gstreamer1.0 \
     virtual/egl virtual/libgles2 \
 "
 
@@ -40,7 +39,7 @@ PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi gamepad geolocation i
 # device specific configs
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,broadcom-refsw"
-PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-omx"
+PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON,,userland gstreamer1.0-omx,${RDEPS_RPI}"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,-DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,wayland libxkbcommon"
 
 # WPE features
@@ -52,13 +51,13 @@ PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,"
 PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,"
 PACKAGECONFIG[indexeddb] = "-DENABLE_DATABASE_PROCESS=ON -DENABLE_INDEXED_DATABASE=ON,-DENABLE_DATABASE_PROCESS=OFF -DENABLE_INDEXED_DATABASE=OFF,"
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
-PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0-plugins-good,gstreamer1.0-plugins-good-isomp4"
+PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
 PACKAGECONFIG[mediastream] = "-DENABLE_MEDIA_STREAM=ON,-DENABLE_MEDIA_STREAM=OFF,openwebrtc"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
 PACKAGECONFIG[shadowdom] = "-DENABLE_SHADOW_DOM=ON,-DENABLE_SHADOW_DOM=OFF,"
 PACKAGECONFIG[subtlecrypto] = "-DENABLE_SUBTLE_CRYPTO=ON,-DENABLE_SUBTLE_CRYPTO=OFF,"
-PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,gstreamer1.0-plugins-base-app gstreamer1.0-plugins-base-playback gstreamer1.0-plugins-good-souphttpsrc"
-PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,gstreamer1.0-plugins-good-wavparse"
+PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
+PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
 
 # DRM
 PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playready"
@@ -114,11 +113,25 @@ PACKAGES =+ "${PN}-web-inspector-plugin"
 FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
+RDEPS_MEDIASOURCE = " \
+    gstreamer1.0-plugins-good-isomp4 \
+"
+
+RDEPS_VIDEO = " \
+    gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-base-playback \
+    gstreamer1.0-plugins-good-souphttpsrc \
+"
+
+RDEPS_WEBAUDIO = " \
+    gstreamer1.0-plugins-good-wavparse \
+"
+
 # plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
 # plugins-bad config option 'hls' -> gstreamer1.0-plugins-bad-fragmented
 # plugins-bad config option 'videoparsers' -> gstreamer1.0-plugins-bad-videoparsersbad
 
-RDEPENDS_${PN} += " \
+RDEPS_EXTRA = " \
     gstreamer1.0-plugins-base-audioconvert \
     gstreamer1.0-plugins-base-audioresample \
     gstreamer1.0-plugins-base-gio \
@@ -140,7 +153,16 @@ RDEPENDS_${PN} += " \
     gstreamer1.0-plugins-bad-videoparsersbad \
 "
 
-RDEPENDS_${PN}_append_rpi = "\
+# The RDEPS_EXTRA plugins are all required for certain media playback use cases,
+# but have not yet been classified as being specific dependencies for video,
+# webaudio or mediasource. Until that classification is done, add them all to
+# each of the three groups...
+
+RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
+RDEPS_VIDEO += "${RDEPS_EXTRA}"
+RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
+
+RDEPS_RPI = " \
     gstreamer1.0-omx \
     gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-opengl \
