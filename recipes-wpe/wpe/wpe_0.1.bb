@@ -85,15 +85,11 @@ do_install() {
     DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/JavaScriptCore/cmake_install.cmake
 
     install -d ${D}${libdir}
-    cp -av ${B}/lib/libWPE.so* ${D}${libdir}/
-    cp -av ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
+    cp -av --no-preserve=ownership ${B}/lib/libWPE.so* ${D}${libdir}/
+    cp -av --no-preserve=ownership ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPEWebKit.so
-
-    # Hack: Since libs were installed using 'cp', files will be owned by
-    # the build user, which will trigger a QA warning. Fix them up manually.
-    chown -R 0:0 ${D}${libdir}
 
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
