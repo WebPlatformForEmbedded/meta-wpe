@@ -26,7 +26,7 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'rpi', d)}"
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
 
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
@@ -41,6 +41,7 @@ PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAM
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,broadcom-refsw"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,userland gstreamer1.0-omx,${RDEPS_RPI}"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
+PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON,,wayland westeros libxkbcommon gstreamer1.0-omx,${RDEPS_RPI}"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
@@ -144,7 +145,7 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-fragmented \
     gstreamer1.0-plugins-bad-mpegtsdemux \
-    gstreamer1.0-plugins-bad-mpg123 \    
+    gstreamer1.0-plugins-bad-mpg123 \
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
 "
@@ -158,7 +159,7 @@ RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
 
-RDEPS_RPI = " \
+RDEPS_RPI ?= " \
     gstreamer1.0-omx \
     gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-opengl \
