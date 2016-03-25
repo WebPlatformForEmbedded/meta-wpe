@@ -1,5 +1,5 @@
 SRC_URI += "git://github.com/Metrological/icudata;name=icudata"
-SRCREV_icudata = "8f8ae3712ea50ea0456ec4c83127f32fa763f5bd"
+SRCREV_icudata = "414fb7451e956546471757c500ca3ad8d204002b"
 
 ICUVER = "${@d.getVar('PV', True).split('.')[0]}"
 
