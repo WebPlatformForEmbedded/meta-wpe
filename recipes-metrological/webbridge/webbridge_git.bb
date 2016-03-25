@@ -9,7 +9,7 @@ PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh"
 
-SRCREV = "e68771b2b89eacd11877541f6568fc710c830b47"
+SRCREV = "2c4937320e907ec63646b59b26e26650d04363d2"
 
 S = "${WORKDIR}/git"
 
@@ -21,7 +21,7 @@ PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 
-PACKAGECONFIG ??= "web-ui remotecontrol deviceinfo ${PROVISIONING} tracecontrol webproxy dailserver webkitbrowser"
+PACKAGECONFIG ??= "web-ui remotecontrol deviceinfo ${PROVISIONING} tracecontrol webproxy dailserver webkitbrowser debug"
 
 PACKAGECONFIG[debug]              = "-DWEBBRIDGE_DEBUG=ON,-DWEBBRIDGE_DEBUG=OFF,"
 PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OFF,"
