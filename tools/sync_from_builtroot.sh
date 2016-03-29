@@ -12,6 +12,7 @@ wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/dxdrm/d
 wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/libprovision/libprovision.mk
 wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/webbridge/webbridge.mk
 wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/netflix/netflix.mk
+wget -q https://github.com/Metrological/buildroot-wpe/raw/master/package/icudata/icudata.mk
 cd ..
 
 echo "Checking and updating revs"
@@ -22,6 +23,7 @@ python ./tools/check_srcrevs.py -i ./tmp/dxdrm.mk -o ./recipes-metrological/dxdr
 python ./tools/check_srcrevs.py -i ./tmp/libprovision.mk -o ./recipes-metrological/libprovision/libprovision_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/webbridge.mk -o ./recipes-metrological/webbridge/webbridge_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/netflix.mk -o ./recipes-netflix/netflix/netflix_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/icudata.mk  -o ./recipes-support/icu/icu_56%.bbappend
 
 echo "Cleaning up tmp"
 rm -r ./tmp
