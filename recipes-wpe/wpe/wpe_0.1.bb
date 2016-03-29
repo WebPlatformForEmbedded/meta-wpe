@@ -14,7 +14,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "7a1774fb0d12fc93e16da3fb6ef849257303ffe4"
+SRCREV ?= "dc920702e5b62f172b92caff2c94834f5b4ae779"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch"
