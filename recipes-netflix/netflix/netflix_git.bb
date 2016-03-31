@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares curl graphite2"
 
-SRCREV = "c23f8bcb37154d9b765e81f9e4ff339b71c62044"
+SRCREV = "dd493dd204ec866c9523eec4dc93514666a601a7"
 PV = "4.2.2+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master"
@@ -71,6 +71,7 @@ EXTRA_OECMAKE += " \
 	-DNRDP_HAS_INSTRUMENTATION=0 \
 	-DNRDP_CRASH_REPORTING="off" \
 	-DNRDP_TOOLS=manufSSgenerator \
+	-DUSE_PLAYBIN=1 \
 "
 
 do_configure_prepend() {
