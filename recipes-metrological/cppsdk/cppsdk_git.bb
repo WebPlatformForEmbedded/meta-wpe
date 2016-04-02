@@ -21,13 +21,14 @@ CPPSDK_PLATFORM_dawn = "platform-dawn"
 CPPSDK_PLATFORM_eos = "platform-eos"
 CPPSDK_PLATFORM_rpi = "platform-rpi"
 
+CXXFLAGS_append_rpi = " -I${STAGING_INCDIR}/interface/vmcs_host/linux"
 PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo devices generics process tracing websocket rpc"
 
 PACKAGECONFIG[platform-dawn] = "-DCPPSDK_PLATFORM=DAWN,,"
 PACKAGECONFIG[platform-eos] = "-DCPPSDK_PLATFORM=EOS,,"
 PACKAGECONFIG[platform-intelce] = "-DCPPSDK_PLATFORM=INTELCE,,intelce-osal intelce-cosai"
 PACKAGECONFIG[platform-pc] = "-DCPPSDK_PLATFORM=PC_UNIX,,"
-PACKAGECONFIG[platform-rpi] = "-DCPPSDK_PLATFORM=RPI,,"
+PACKAGECONFIG[platform-rpi] = "-DCPPSDK_PLATFORM=RPI,,userland"
 
 PACKAGECONFIG[cryptalgo] = "-DCPPSDK_CRYPTALGO=ON,-DCPPSDK_CRYPTALGO=OFF,"
 PACKAGECONFIG[debug] = "-DCPPSDK_DEBUG=ON,-DCPPSDK_DEBUG=OFF,"
