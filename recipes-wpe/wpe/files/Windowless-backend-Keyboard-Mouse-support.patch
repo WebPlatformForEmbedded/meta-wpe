@@ -1,0 +1,1737 @@
+diff --git a/Source/WPE/CMakeLists.txt b/Source/WPE/CMakeLists.txt
+index deb0abf..02f02a4 100644
+--- a/Source/WPE/CMakeLists.txt
++++ b/Source/WPE/CMakeLists.txt
+@@ -39,9 +39,8 @@ if (USE_WPE_BACKEND_INTEL_CE)
+     add_definitions(-DWPE_BACKEND_INTEL_CE=1)
+ endif ()
+ 
+-if (USE_WPE_BACKEND_WESTEROS)
+-    find_package(westeros REQUIRED)
+-    add_definitions(-DWPE_BACKEND_WESTEROS=1)
++if (USE_WPE_BACKEND_WINDOWLESS)
++    add_definitions(-DWPE_BACKEND_WINDOWLESS=1)
+ endif ()
+ 
+ if (USE_WPE_BUFFER_MANAGEMENT_GBM)
+@@ -76,6 +75,7 @@ set(WPE_INCLUDE_DIRECTORIES
+     "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/BCMRPi"
+     "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/DRM"
+     "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/IntelCE"
++    "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/Windowless"
+     "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/Wayland"
+     "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/Wayland/Protocols"
+     "${CMAKE_SOURCE_DIR}/Source/WPE/Source/ViewBackend/Westeros"
+@@ -126,6 +126,7 @@ if (USE_WPE_BACKEND_BCM_NEXUS)
+ 
+         Source/ViewBackend/BCMNexus/ViewBackendBCMNexus.cpp
+     )
++    list(APPEND WPE_LIBRARIES nxclient)
+ endif ()
+ 
+ if (USE_WPE_BACKEND_BCM_RPI)
+@@ -146,20 +147,9 @@ if (USE_WPE_BACKEND_INTEL_CE)
+     )
+ endif ()
+ 
+-if (USE_WPE_BACKEND_WESTEROS)
+-    list(APPEND WPE_INCLUDE_DIRECTORIES
+-        ${WESTEROS_INCLUDE_DIRS}
+-        ${WESTEROSEGL_INCLUDE_DIRS}
+-    )
+-    list(APPEND WPE_LIBRARIES
+-        ${WESTEROS_LIBRARIES}
+-        ${WESTEROSEGL_LIBRARIES}
+-    )
++if (USE_WPE_BACKEND_WINDOWLESS)
+     list(APPEND WPE_SOURCES
+-        Source/Graphics/Westeros/RenderingBackendWesteros.cpp
+-
+-        Source/ViewBackend/Westeros/ViewBackendWesteros.cpp
+-        Source/ViewBackend/Westeros/WesterosViewbackendInput.cpp
++        Source/ViewBackend/Windowless/ViewBackendWindowless.cpp
+     )
+ endif ()
+
+diff --git a/Source/WPE/Source/Graphics/RenderingBackend.cpp b/Source/WPE/Source/Graphics/RenderingBackend.cpp
+index e4d3aa3..22ff9e7 100644
+--- a/Source/WPE/Source/Graphics/RenderingBackend.cpp
++++ b/Source/WPE/Source/Graphics/RenderingBackend.cpp
+@@ -26,6 +26,7 @@
+
+ #include "Config.h"
+
++#include <WPE/Graphics/RenderingBackend.h>
+ #include "RenderingBackendBCMNexus.h"
+ #include "RenderingBackendBCMRPi.h"
+ #include "RenderingBackendIntelCE.h" 
+diff --git a/Source/WPE/Source/ViewBackend/ViewBackend.cpp b/Source/WPE/Source/ViewBackend/ViewBackend.cpp
+index df169a9..3b67f3d 100644
+--- a/Source/WPE/Source/ViewBackend/ViewBackend.cpp
++++ b/Source/WPE/Source/ViewBackend/ViewBackend.cpp
+@@ -26,7 +26,7 @@
+ 
+ #include "Config.h"
+ #include <WPE/ViewBackend/ViewBackend.h>
+-
++#include "ViewBackendWindowless.h" 
+ #include "ViewBackendBCMNexus.h"
+ #include "ViewBackendBCMRPi.h"
+ #include "ViewBackendIntelCE.h"
+@@ -75,9 +75,9 @@ std::unique_ptr<ViewBackend> ViewBackend::create()
+         return std::unique_ptr<ViewBackendIntelCE>(new ViewBackendIntelCE);
+ #endif
+ 
+-#if WPE_BACKEND(WESTEROS)
+-    if (!backendEnv || !std::strcmp(backendEnv, "westeros"))
+-        return std::unique_ptr<ViewBackendWesteros>(new ViewBackendWesteros);
++#if WPE_BACKEND(WINDOWLESS)
++        if (!backendEnv || !std::strcmp(backendEnv, "windowless"))
++        return std::unique_ptr<ViewBackendWindowless>(new ViewBackendWindowless);
+ #endif
+ 
+     fprintf(stderr, "ViewBackend: no usable backend found, will crash.\n");
+diff --git a/Source/WebCore/PlatformWPE.cmake b/Source/WebCore/PlatformWPE.cmake
+index 29f4177..9001ad8 100644
+--- a/Source/WebCore/PlatformWPE.cmake
++++ b/Source/WebCore/PlatformWPE.cmake
+@@ -45,6 +45,7 @@ list(APPEND WebCore_INCLUDE_DIRECTORIES
+     "${WEBCORE_DIR}/platform/text/icu"
+     ${WPE_DIR}
+     ${WTF_DIR}
++    ${WAYLAND_INCLUDE_DIRS}
+ )
+ 
+ list(APPEND WebCore_SOURCES
+@@ -115,6 +116,9 @@ list(APPEND WebCore_SOURCES
+ 
+     platform/graphics/wpe/PlatformDisplayWPE.cpp
+ 
++    platform/graphics/wayland/PlatformDisplayWayland.cpp
++    platform/graphics/wayland/WaylandEventSource.cpp
++    platform/graphics/wayland/WaylandSurface.cpp
+     platform/image-encoders/JPEGImageEncoder.cpp
+ 
+     platform/image-decoders/cairo/ImageDecoderCairo.cpp
+@@ -216,6 +220,7 @@ list(APPEND WebCore_LIBRARIES
+     ${LIBXML2_LIBRARIES}
+     ${LIBXSLT_LIBRARIES}
+     ${SQLITE_LIBRARIES}
++    ${WAYLAND_LIBRARIES}
+     WPE
+ )
+ 
+diff --git a/Source/WebCore/platform/graphics/GLContext.cpp b/Source/WebCore/platform/graphics/GLContext.cpp
+index b2d3ab2..9c2f245 100644
+--- a/Source/WebCore/platform/graphics/GLContext.cpp
++++ b/Source/WebCore/platform/graphics/GLContext.cpp
+@@ -34,8 +34,12 @@
+ #endif
+ 
+ #if PLATFORM(WPE)
++#if PLATFORM(WAYLAND)
++#include "PlatformDisplayWayland.h"
++#else
+ #include "PlatformDisplayWPE.h"
+ #endif
++#endif
+ 
+ using WTF::ThreadSpecific;
+ 
+@@ -151,9 +155,14 @@ GLContext::GLContext()
+ std::unique_ptr<GLContext> GLContext::createOffscreenContext(GLContext* sharingContext)
+ {
+ #if PLATFORM(WPE)
++#if PLATFORM(WAYLAND)
++    if (PlatformDisplay::sharedDisplay().type() == PlatformDisplay::Type::Wayland)
++        return downcast<PlatformDisplayWayland>(PlatformDisplay::sharedDisplay()).createSharingGLContext();
++#else
+     if (PlatformDisplay::sharedDisplay().type() == PlatformDisplay::Type::WPE)
+         return downcast<PlatformDisplayWPE>(PlatformDisplay::sharedDisplay()).createOffscreenContext(sharingContext);
+ #endif
++#endif
+     return createContextForWindow(0, sharingContext);
+ }
+ 
+diff --git a/Source/WebCore/platform/graphics/PlatformDisplay.cpp b/Source/WebCore/platform/graphics/PlatformDisplay.cpp
+index e6c7954..4c25c49 100644
+--- a/Source/WebCore/platform/graphics/PlatformDisplay.cpp
++++ b/Source/WebCore/platform/graphics/PlatformDisplay.cpp
+@@ -42,8 +42,10 @@
+ #endif
+ 
+ #if PLATFORM(WPE)
++#if !PLATFORM(WAYLAND)
+ #include "PlatformDisplayWPE.h"
+ #endif
++#endif
+ 
+ #if PLATFORM(GTK)
+ #include <gdk/gdk.h>
+@@ -94,8 +96,12 @@ std::unique_ptr<PlatformDisplay> PlatformDisplay::createPlatformDisplay()
+ #endif
+ 
+ #if PLATFORM(WPE)
++#if PLATFORM(WAYLAND)
++    return PlatformDisplayWayland::create();
++#else
+     return std::make_unique<PlatformDisplayWPE>();
+ #endif
++#endif
+ 
+     ASSERT_NOT_REACHED();
+     return nullptr;
+diff --git a/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp b/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp
+index 45030b0..6c38257 100644
+--- a/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp
++++ b/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp
+@@ -297,7 +297,7 @@ cairo_device_t* GLContextEGL::cairoDevice()
+         return m_cairoDevice;
+ 
+ #if ENABLE(ACCELERATED_2D_CANVAS)
+-    m_cairoDevice = cairo_egl_device_create_for_egl_surface(sharedEGLDisplay(), m_context, m_surface);
++    //m_cairoDevice = cairo_egl_device_create_for_egl_surface(sharedEGLDisplay(), m_context, m_surface);
+ #endif
+ 
+     return m_cairoDevice;
+diff --git a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+index 42b0531..e2ee578 100644
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+@@ -86,7 +86,7 @@
+ #define WL_EGL_PLATFORM
+ 
+ #if USE(OPENGL_ES_2)
+-#if GST_CHECK_VERSION(1, 3, 0)
++#if GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+ #if !USE(HOLE_PUNCH_GSTREAMER)
+ #define GST_USE_UNSTABLE_API
+ #include <gst/gl/egl/gsteglimagememory.h>
+@@ -639,7 +639,7 @@ void MediaPlayerPrivateGStreamerBase::updateTexture(BitmapTextureGL& texture, Gs
+ {
+     GstBuffer* buffer = gst_sample_get_buffer(m_sample.get());
+ 
+-#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 1, 2) && !USE(HOLE_PUNCH_GSTREAMER)
++#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 1, 2) && !USE(HOLE_PUNCH_GSTREAMER) && USE(GSTREAMER_GL)
+     GstMemory *mem;
+     if (gst_buffer_n_memory (buffer) >= 1) {
+         if ((mem = gst_buffer_peek_memory (buffer, 0)) && gst_is_egl_image_memory (mem)) {
+diff --git a/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.cpp
+index 3122b8d..4d2b0f0 100644
+--- a/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.cpp
++++ b/Source/WebCore/platform/graphics/gstreamer/VideoSinkGStreamer.cpp
+@@ -38,7 +38,7 @@
+ #include <wtf/Condition.h>
+ #include <wtf/RunLoop.h>
+ 
+-#if USE(EGL)
++#if USE(EGL) && USE(GSTREAMER_GL)
+ #define WL_EGL_PLATFORM
+ #include <EGL/egl.h>
+ #include <EGL/eglext.h>
+@@ -47,7 +47,7 @@
+ #if USE(OPENGL_ES_2)
+ #include <GLES2/gl2.h>
+ #include <GLES2/gl2ext.h>
+-#if GST_CHECK_VERSION(1, 3, 0)
++#if GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+ #define GST_USE_UNSTABLE_API
+ #include <gst/gl/egl/gsteglimagememory.h>
+ #include <gst/gl/gstglutils.h>
+@@ -70,7 +70,7 @@ using namespace WebCore;
+ 
+ #if GST_CHECK_VERSION(1, 1, 0)
+ #define GST_FEATURED_CAPS_GL GST_VIDEO_CAPS_MAKE_WITH_FEATURES(GST_CAPS_FEATURE_META_GST_VIDEO_GL_TEXTURE_UPLOAD_META, GST_CAPS_FORMAT) ";"
+-#if GST_CHECK_VERSION(1, 3, 0)
++#if GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+ #define GST_FEATURED_CAPS GST_FEATURED_CAPS_GL GST_VIDEO_CAPS_MAKE_WITH_FEATURES(GST_CAPS_FEATURE_MEMORY_EGL_IMAGE, GST_CAPS_FORMAT) ";"
+ #else
+ #define GST_FEATURED_CAPS GST_FEATURED_CAPS_GL
+@@ -205,7 +205,7 @@ struct _WebKitVideoSinkPrivate {
+         if (currentCaps)
+             gst_caps_unref(currentCaps);
+ 
+-#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 5, 1)
++#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 5, 1) && USE(GSTREAMER_GL)
+         if (context) {
+             gst_gl_context_destroy(context);
+             gst_object_unref(context);
+@@ -225,7 +225,7 @@ struct _WebKitVideoSinkPrivate {
+     GstVideoInfo info;
+     GstCaps* currentCaps;
+ 
+-#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 3, 0)
++#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+     GstGLDisplay *display;
+     GstGLContext *context;
+     GstGLContext *other_context;
+@@ -239,7 +239,7 @@ static gboolean _ensure_gl_setup(WebKitVideoSink* gl_sink)
+ {
+     GError* error = NULL;
+ 
+-#if GST_CHECK_VERSION(1, 5, 0)
++#if GST_CHECK_VERSION(1, 5, 0) && USE(GSTREAMER_GL)
+     if (!gst_gl_ensure_element_data(gl_sink, &gl_sink->priv->display, &gl_sink->priv->other_context))
+         return FALSE;
+ #else
+@@ -433,7 +433,7 @@ static gboolean webkitVideoSinkProposeAllocation(GstBaseSink* baseSink, GstQuery
+     if (!gst_video_info_from_caps(&sink->priv->info, caps))
+         return FALSE;
+ 
+-#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 3, 0)
++#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+     // Code adapted from gst-plugins-bad's glimagesink.
+ 
+     if (!_ensure_gl_setup(sink))
+@@ -492,7 +492,7 @@ static gboolean webkitVideoSinkQuery(GstBaseSink* baseSink, GstQuery* query)
+     switch (GST_QUERY_TYPE(query)) {
+     case GST_QUERY_DRAIN:
+     {
+-#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 3, 0)
++#if USE(OPENGL_ES_2) && GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+         priv->scheduler.drain();
+ 
+         LOG_MEDIA_MESSAGE("Drain query, emitting DRAIN signal and releasing EGL samples");
+@@ -541,7 +541,7 @@ static gboolean webkitVideoSinkEvent(GstBaseSink *baseSink, GstEvent *event)
+     }
+ }
+ 
+-#if GST_CHECK_VERSION(1, 3, 0)
++#if GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+ static void
+ webkitVideoSinkSetContext(GstElement* element, GstContext* context)
+ {
+@@ -579,7 +579,7 @@ static void webkit_video_sink_class_init(WebKitVideoSinkClass* klass)
+     baseSinkClass->query = webkitVideoSinkQuery;
+     baseSinkClass->event = webkitVideoSinkEvent;
+ 
+-#if GST_CHECK_VERSION(1, 3, 0)
++#if GST_CHECK_VERSION(1, 3, 0) && USE(GSTREAMER_GL)
+     elementClass->set_context = webkitVideoSinkSetContext;
+ #endif
+ 
+diff --git a/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.cpp b/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.cpp
+index d3305e1..fa5689e 100644
+--- a/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.cpp
++++ b/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.cpp
+@@ -33,9 +33,315 @@
+ #include <cstring>
+ #include <glib.h>
+ #include <wtf/Assertions.h>
+-
++//KEYBOARD SUPPORT
++#if !PLATFORM(GTK)
++#include <cassert>
++#include <sys/mman.h>
++#include <unistd.h>
++#endif
++//KEYBOARD SUPPORT
++//MOUSE SUPPORT
++#include <linux/input.h>
++//MOUE SUPPORT
+ namespace WebCore {
+ 
++#if !PLATFORM(GTK)
++
++typedef struct _GSource GSource;
++
++class EventSource {
++public:
++    static GSourceFuncs sourceFuncs1;
++ 
++    GSource source;
++    GPollFD pfd;
++    struct wl_display* display;
++};
++
++GSourceFuncs EventSource::sourceFuncs1 = {
++    // prepare
++    [](GSource* base, gint* timeout) -> gboolean
++    {
++        auto* source = reinterpret_cast<EventSource*>(base);
++        struct wl_display* display = source->display;
++
++        *timeout = -1;
++        wl_display_flush(display);
++        wl_display_dispatch_pending(display);
++
++        return FALSE;
++    },
++    // check
++    [](GSource* base) -> gboolean
++    {
++        auto* source = reinterpret_cast<EventSource*>(base);
++        return !!source->pfd.revents;
++    },
++    // dispatch
++    [](GSource* base, GSourceFunc, gpointer) -> gboolean
++    {
++        auto* source = reinterpret_cast<EventSource*>(base);
++        struct wl_display* display = source->display;
++
++        if (source->pfd.revents & G_IO_IN)
++            wl_display_dispatch(display);
++
++        if (source->pfd.revents & (G_IO_ERR | G_IO_HUP))
++            return FALSE;
++
++        source->pfd.revents = 0;
++        return TRUE;
++    },
++    nullptr, // finalize
++    nullptr, // closure_callback
++    nullptr, // closure_marshall
++};
++//KEYBOARD SUPPORT
++static void
++handleKeyEvent(PlatformDisplayWayland::SeatData& seatData, uint32_t key, uint32_t state, uint32_t time)
++{
++    printf("handleKeyEvent called .......................... state[%d] \n",state);
++    fflush(stdout);
++    auto& xkb = seatData.xkb;
++    uint32_t keysym = xkb_state_key_get_one_sym(xkb.state, key);
++    uint32_t unicode = xkb_state_key_get_utf32(xkb.state, key);
++
++    if (state == WL_KEYBOARD_KEY_STATE_PRESSED
++        && xkb_compose_state_feed(xkb.composeState, keysym) == XKB_COMPOSE_FEED_ACCEPTED
++        && xkb_compose_state_get_status(xkb.composeState) == XKB_COMPOSE_COMPOSED)
++    {
++        keysym = xkb_compose_state_get_one_sym(xkb.composeState);
++        unicode = xkb_keysym_to_utf32(keysym);
++    }
++    printf("handleKeyEvent called seatData.keyboard.target.first[%d] \n",seatData.keyboard.target.first);
++    fflush(stdout);
++//COMMENTED BECAUSE PROPER SURFACE TO CLIENT IS NOT MAPPED, SO ALWAYS USING THE FIRST CLIENT REGISTERED
++//NEED TO FIX THIS
++//    if (seatData.keyboard.target.first) //RISKY
++//        seatData.keyboard.target.second->handleKeyboardEvent({ time, keysym, unicode, !!state, xkb.modifiers });
++    seatData.inputHandler->handleKeyboardEvent({ time, keysym, unicode, !!state, xkb.modifiers });
++}
++
++static gboolean
++repeatRateTimeout(void* data)
++{
++      auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++          handleKeyEvent(seatData, seatData.repeatData.key, seatData.repeatData.state, seatData.repeatData.time);
++              return G_SOURCE_CONTINUE;
++}
++
++static gboolean
++repeatDelayTimeout(void* data)
++{
++      auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++          handleKeyEvent(seatData, seatData.repeatData.key, seatData.repeatData.state, seatData.repeatData.time);
++              seatData.repeatData.eventSource = g_timeout_add(seatData.repeatInfo.rate, static_cast<GSourceFunc>(repeatRateTimeout), data);
++                  return G_SOURCE_REMOVE;
++}
++
++static const struct wl_keyboard_listener g_keyboardListener = {
++    // keymap
++    [](void* data, struct wl_keyboard*, uint32_t format, int fd, uint32_t size)
++    {
++	printf("KB:keymap event called....\n");
++        if (format != WL_KEYBOARD_KEYMAP_FORMAT_XKB_V1) {
++            close(fd);
++            return;
++        }
++
++        void* mapping = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
++        if (mapping == MAP_FAILED) {
++            close(fd);
++            return;
++        }
++
++        auto& xkb = static_cast<PlatformDisplayWayland::SeatData*>(data)->xkb;
++        xkb.keymap = xkb_keymap_new_from_string(xkb.context, static_cast<char*>(mapping),
++            XKB_KEYMAP_FORMAT_TEXT_V1, XKB_KEYMAP_COMPILE_NO_FLAGS);
++        munmap(mapping, size);
++        close(fd);
++
++        if (!xkb.keymap)
++            return;
++
++        xkb.state = xkb_state_new(xkb.keymap);
++        if (!xkb.state)
++            return;
++
++        xkb.indexes.control = xkb_keymap_mod_get_index(xkb.keymap, XKB_MOD_NAME_CTRL);
++        xkb.indexes.alt = xkb_keymap_mod_get_index(xkb.keymap, XKB_MOD_NAME_ALT);
++        xkb.indexes.shift = xkb_keymap_mod_get_index(xkb.keymap, XKB_MOD_NAME_SHIFT);
++    },
++    // enter
++    [](void* data, struct wl_keyboard*, uint32_t serial, struct wl_surface* surface, struct wl_array*)
++    {
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        seatData.serial = serial;
++        auto it = seatData.inputClients.find(surface);
++        if (it != seatData.inputClients.end())
++            seatData.keyboard.target = *it;
++    },
++    // leave
++    [](void* data, struct wl_keyboard*, uint32_t serial, struct wl_surface* surface)
++    {
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        seatData.serial = serial;
++        auto it = seatData.inputClients.find(surface);
++        if (it != seatData.inputClients.end() && seatData.keyboard.target.first == it->first)
++            seatData.keyboard.target = { };
++    },
++    // key
++    [](void* data, struct wl_keyboard*, uint32_t serial, uint32_t time, uint32_t key, uint32_t state)
++    {
++        // IDK.
++        key += 8;
++
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        seatData.serial = serial;
++        handleKeyEvent(seatData, key, state, time);
++
++        if (!seatData.repeatInfo.rate)
++            return;
++
++        if (state == WL_KEYBOARD_KEY_STATE_RELEASED
++            && seatData.repeatData.key == key) {
++            if (seatData.repeatData.eventSource)
++                g_source_remove(seatData.repeatData.eventSource);
++            seatData.repeatData = { 0, 0, 0, 0 };
++        } else if (state == WL_KEYBOARD_KEY_STATE_PRESSED
++            && xkb_keymap_key_repeats(seatData.xkb.keymap, key)) {
++
++            if (seatData.repeatData.eventSource)
++                g_source_remove(seatData.repeatData.eventSource);
++
++            seatData.repeatData = { key, time, state, g_timeout_add(seatData.repeatInfo.delay, static_cast<GSourceFunc>(repeatDelayTimeout), data) };
++        }
++
++    },
++    // modifiers
++    [](void* data, struct wl_keyboard*, uint32_t serial, uint32_t depressedMods, uint32_t latchedMods, uint32_t lockedMods, uint32_t group)
++    {
++
++        static_cast<PlatformDisplayWayland::SeatData*>(data)->serial = serial;
++        auto& xkb = static_cast<PlatformDisplayWayland::SeatData*>(data)->xkb;
++        xkb_state_update_mask(xkb.state, depressedMods, latchedMods, lockedMods, 0, 0, group);
++
++        auto& modifiers = xkb.modifiers;
++        modifiers = 0;
++        auto component = static_cast<xkb_state_component>(XKB_STATE_MODS_DEPRESSED | XKB_STATE_MODS_LATCHED);
++        if (xkb_state_mod_index_is_active(xkb.state, xkb.indexes.control, component))
++            modifiers |= WPE::Input::KeyboardEvent::Control;
++        if (xkb_state_mod_index_is_active(xkb.state, xkb.indexes.alt, component))
++            modifiers |= WPE::Input::KeyboardEvent::Alt;
++        if (xkb_state_mod_index_is_active(xkb.state, xkb.indexes.shift, component))
++            modifiers |= WPE::Input::KeyboardEvent::Shift;
++
++    },
++    // repeat_info
++    [](void* data, struct wl_keyboard*, int32_t rate, int32_t delay)
++    {
++        auto& repeatInfo = static_cast<PlatformDisplayWayland::SeatData*>(data)->repeatInfo;
++        repeatInfo = { rate, delay };
++
++        // A rate of zero disables any repeating.
++        if (!rate) {
++            auto& repeatData = static_cast<PlatformDisplayWayland::SeatData*>(data)->repeatData;
++            if (repeatData.eventSource) {
++                g_source_remove(repeatData.eventSource);
++                repeatData = { 0, 0, 0, 0 };
++            }
++        }
++    },
++};
++
++
++static const struct wl_pointer_listener g_pointerListener = {
++    // enter
++    [](void* data, struct wl_pointer*, uint32_t serial, struct wl_surface* surface, wl_fixed_t, wl_fixed_t)
++    {
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        seatData.serial = serial;
++        auto it = seatData.inputClients.find(surface);
++        if (it != seatData.inputClients.end())
++            seatData.pointer.target = *it;
++    },
++    // leave
++    [](void* data, struct wl_pointer*, uint32_t serial, struct wl_surface* surface)
++    {
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        seatData.serial = serial;
++        auto it = seatData.inputClients.find(surface);
++        if (it != seatData.inputClients.end() && seatData.pointer.target.first == it->first)
++            seatData.pointer.target = { };
++    },
++    // motion
++    [](void* data, struct wl_pointer*, uint32_t time, wl_fixed_t fixedX, wl_fixed_t fixedY)
++    {
++        auto x = wl_fixed_to_int(fixedX);
++        auto y = wl_fixed_to_int(fixedY);
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        seatData.pointer.coords = { x, y };
++        seatData.inputHandler->handlePointerEvent({ WPE::Input::PointerEvent::Motion, time, x, y, 0, 0 });
++    },
++    // button
++    [](void* data, struct wl_pointer*, uint32_t serial, uint32_t time, uint32_t button, uint32_t state)
++    {
++	printf("PlatformDisplayWayland::button pressed\n");
++        static_cast<PlatformDisplayWayland::SeatData*>(data)->serial = serial;
++
++        if (button >= BTN_MOUSE)
++            button = button - BTN_MOUSE + 1;
++        else
++            button = 0;
++
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        auto& coords = seatData.pointer.coords;
++        seatData.inputHandler->handlePointerEvent(
++                { WPE::Input::PointerEvent::Button, time, coords.first, coords.second, button, state });
++    },
++    // axis
++    [](void* data, struct wl_pointer*, uint32_t time, uint32_t axis, wl_fixed_t value)
++    {
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++        auto& coords = seatData.pointer.coords;
++        seatData.inputHandler->handleAxisEvent(
++                { WPE::Input::AxisEvent::Motion, time, coords.first, coords.second, axis, -wl_fixed_to_int(value) });  
++    },
++};
++
++static const struct wl_seat_listener g_seatListener = { 
++    // capabilities
++    [](void* data, struct wl_seat* seat, uint32_t capabilities)
++    {   
++        auto& seatData = *static_cast<PlatformDisplayWayland::SeatData*>(data);
++      // WL_SEAT_CAPABILITY_POINTER
++        const bool hasPointerCap = capabilities & WL_SEAT_CAPABILITY_POINTER;
++        if (hasPointerCap && !seatData.pointer.object) {
++            seatData.pointer.object = wl_seat_get_pointer(seat);
++            wl_pointer_add_listener(seatData.pointer.object, &g_pointerListener, &seatData);
++        }
++        if (!hasPointerCap && seatData.pointer.object) {
++            wl_pointer_destroy(seatData.pointer.object);
++            seatData.pointer.object = nullptr;
++        }
++
++        // WL_SEAT_CAPABILITY_KEYBOARD
++        const bool hasKeyboardCap = capabilities & WL_SEAT_CAPABILITY_KEYBOARD;
++        if (hasKeyboardCap && !seatData.keyboard.object) {
++            seatData.keyboard.object = wl_seat_get_keyboard(seat);
++            wl_keyboard_add_listener(seatData.keyboard.object, &g_keyboardListener, &seatData);
++        }
++        if (!hasKeyboardCap && seatData.keyboard.object) {
++            wl_keyboard_destroy(seatData.keyboard.object);
++            seatData.keyboard.object = nullptr;
++        }
++    },  
++    // name
++    [](void*, struct wl_seat*, const char*) { } 
++};
++//KEYBOARD SUPPORT
++#endif
++
+ const struct wl_registry_listener PlatformDisplayWayland::m_registryListener = {
+     PlatformDisplayWayland::globalCallback,
+     PlatformDisplayWayland::globalRemoveCallback
+@@ -46,10 +352,46 @@ void PlatformDisplayWayland::globalCallback(void* data, struct wl_registry* regi
+     auto display = static_cast<PlatformDisplayWayland*>(data);
+     if (!std::strcmp(interface, "wl_compositor"))
+         display->m_compositor = static_cast<struct wl_compositor*>(wl_registry_bind(registry, name, &wl_compositor_interface, 1));
++if (!std::strcmp(interface, "wl_shell"))
++display->m_shell = static_cast<struct wl_shell*>(wl_registry_bind(registry, name, &wl_shell_interface, 1));
++#if PLATFORM(GTK)
+     else if (!std::strcmp(interface, "wl_webkitgtk"))
+         display->m_webkitgtk = static_cast<struct wl_webkitgtk*>(wl_registry_bind(registry, name, &wl_webkitgtk_interface, 1));
++#endif
++//KEYBOARD SUPPORT
++#if !PLATFORM(GTK)
++     else if (!std::strcmp(interface, "wl_seat"))
++         display->m_seat = static_cast<struct wl_seat*>(wl_registry_bind(registry, name, &wl_seat_interface, 4));
++#endif
++//KEYBOARD SUPPORT
++}
++
++//For sending pong in response to ping from server
++static void
++handle_ping(void *data, struct wl_shell_surface *shell_surface,
++                                                       uint32_t serial)
++{
++       wl_shell_surface_pong(shell_surface, serial);
++}
++
++static void
++handle_configure(void *data, struct wl_shell_surface *shell_surface,
++                uint32_t edges, int32_t width, int32_t height)
++{
+ }
+ 
++static void
++handle_popup_done(void *data, struct wl_shell_surface *shell_surface)
++{
++}
++
++static const struct wl_shell_surface_listener shell_surface_listener = {
++       handle_ping,
++       handle_configure,
++       handle_popup_done
++};
++//For sending pong in response to ping from server
++
+ void PlatformDisplayWayland::globalRemoveCallback(void*, struct wl_registry*, uint32_t)
+ {
+     // FIXME: if this can happen without the UI Process getting shut down
+@@ -81,6 +423,29 @@ PlatformDisplayWayland::PlatformDisplayWayland(struct wl_display* wlDisplay)
+     wl_registry_add_listener(m_registry, &m_registryListener, this);
+     wl_display_roundtrip(m_display);
+ 
++#if !PLATFORM(GTK)
++    m_eventSource = g_source_new(&EventSource::sourceFuncs1, sizeof(EventSource));
++    auto* source = reinterpret_cast<EventSource*>(m_eventSource);
++    source->display = wlDisplay;
++
++    source->pfd.fd = wl_display_get_fd(wlDisplay);
++    source->pfd.events = G_IO_IN | G_IO_ERR | G_IO_HUP;
++    source->pfd.revents = 0;
++    g_source_add_poll(m_eventSource, &source->pfd);
++
++    g_source_set_name(m_eventSource, "[WPE] PlatformDisplayWayland");
++    g_source_set_priority(m_eventSource, G_PRIORITY_HIGH + 30);
++    g_source_set_can_recurse(m_eventSource, TRUE);
++    g_source_attach(m_eventSource, g_main_context_get_thread_default());
++//KEYBOARD SUPPORT
++    wl_seat_add_listener(m_seat, &g_seatListener, &m_seatData);
++    m_seatData.xkb.context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
++    m_seatData.xkb.composeTable = xkb_compose_table_new_from_locale(m_seatData.xkb.context, setlocale(LC_CTYPE, nullptr), XKB_COMPOSE_COMPILE_NO_FLAGS);
++    if (m_seatData.xkb.composeTable)
++       m_seatData.xkb.composeState = xkb_compose_state_new(m_seatData.xkb.composeTable, XKB_COMPOSE_STATE_NO_FLAGS);
++//KEYBOARD SUPPORT
++#endif
++
+     static const EGLint configAttributes[] = {
+         EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+         EGL_RED_SIZE, 1,
+@@ -92,9 +457,10 @@ PlatformDisplayWayland::PlatformDisplayWayland(struct wl_display* wlDisplay)
+     };
+ 
+     m_eglDisplay = eglGetDisplay(m_display);
+-    PlatformDisplay::initializeEGLDisplay();
+-    if (m_eglDisplay == EGL_NO_DISPLAY)
+-        return;
++//    PlatformDisplay::initializeEGLDisplay();
++    if (eglInitialize(m_eglDisplay, 0, 0) == EGL_FALSE) {return;}
++//    if (m_eglDisplay == EGL_NO_DISPLAY)
++//        return;
+ 
+     EGLint numberOfConfigs;
+     if (!eglChooseConfig(m_eglDisplay, configAttributes, &m_eglConfig, 1, &numberOfConfigs) || numberOfConfigs != 1) {
+@@ -107,24 +473,60 @@ PlatformDisplayWayland::PlatformDisplayWayland(struct wl_display* wlDisplay)
+ 
+ PlatformDisplayWayland::~PlatformDisplayWayland()
+ {
++#if PLATFORM(GTK)
+     if (m_webkitgtk)
+         wl_webkitgtk_destroy(m_webkitgtk);
++#endif
+     if (m_compositor)
+         wl_compositor_destroy(m_compositor);
+     if (m_registry)
+         wl_registry_destroy(m_registry);
+     if (m_display)
+         wl_display_disconnect(m_display);
++#if !PLATFORM(GTK)
++//KEYBOARD SUPPORT
++    if (m_seat)
++        wl_seat_destroy(m_seat);
++    if (m_seatData.xkb.context)
++        xkb_context_unref(m_seatData.xkb.context);
++    if (m_seatData.xkb.keymap)
++        xkb_keymap_unref(m_seatData.xkb.keymap);
++    if (m_seatData.xkb.state)
++        xkb_state_unref(m_seatData.xkb.state);
++    if (m_seatData.xkb.composeTable)
++        xkb_compose_table_unref(m_seatData.xkb.composeTable);
++    if (m_seatData.xkb.composeState)
++        xkb_compose_state_unref(m_seatData.xkb.composeState);
++//KEYBOARD SUPPORT
++#endif
+ }
+ 
+ std::unique_ptr<WaylandSurface> PlatformDisplayWayland::createSurface(const IntSize& size, int widgetId)
+ {
+     struct wl_surface* wlSurface = wl_compositor_create_surface(m_compositor);
++
++    struct wl_shell_surface *shell_surface;
++    shell_surface = wl_shell_get_shell_surface(m_shell, wlSurface);
++
++    if (shell_surface)
++	    wl_shell_surface_add_listener(shell_surface,
++			    &shell_surface_listener, NULL);
++    wl_shell_surface_set_toplevel(shell_surface);
++
++    struct wl_region *region;    
++    region = wl_compositor_create_region(m_compositor);
++    wl_region_add(region, 0, 0,
++		  std::max(1, size.width()),
++		  std::max(1, size.height()));
++    wl_surface_set_opaque_region(wlSurface, region);
++
+     // We keep the minimum size at 1x1px since Mesa returns null values in wl_egl_window_create() for zero width or height.
+     EGLNativeWindowType nativeWindow = wl_egl_window_create(wlSurface, std::max(1, size.width()), std::max(1, size.height()));
+-
++	               
++#if PLATFORM(GTK)
+     wl_webkitgtk_set_surface_for_widget(m_webkitgtk, wlSurface, widgetId);
+-    wl_display_roundtrip(m_display);
++#endif
++    wl_display_roundtrip(m_display);  
+ 
+     return std::make_unique<WaylandSurface>(wlSurface, nativeWindow);
+ }
+@@ -151,6 +553,29 @@ std::unique_ptr<GLContextEGL> PlatformDisplayWayland::createSharingGLContext()
+     return GLContextEGL::createWindowContext(nativeWindow, nullptr, WTFMove(contextData));
+ }
+ 
++//KEYBOARD SUPPORT
++#if !PLATFORM(GTK)
++void PlatformDisplayWayland::registerInputClient(struct wl_surface* surface, WPE::Input::Client* client)
++{
++      printf("PlatformDisplayWayland::registerInputClient called \n");
++      fflush(stdout);
++      m_seatData.inputHandler = client; 
++      auto result = m_seatData.inputClients.insert({ surface, client });
++      assert(result.second);
++}
++void PlatformDisplayWayland::unregisterInputClient(struct wl_surface* surface)
++{
++      printf("PlatformDisplayWayland::unregisterInputClient called \n");
++      fflush(stdout);
++      auto it = m_seatData.inputClients.find(surface);
++      assert(it != m_seatData.inputClients.end());
++
++      if (m_seatData.keyboard.target.first == it->first)
++        m_seatData.keyboard.target = { };
++      m_seatData.inputClients.erase(it);
++}
++#endif
++//KEYBOARD SUPPORT
+ } // namespace WebCore
+ 
+ #endif // PLATFORM(WAYLAND)
+diff --git a/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.h b/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.h
+index 4cc9044..7fde175 100644
+--- a/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.h
++++ b/Source/WebCore/platform/graphics/wayland/PlatformDisplayWayland.h
+@@ -29,12 +29,25 @@
+ #if PLATFORM(WAYLAND)
+ 
+ #include "PlatformDisplay.h"
++#if PLATFORM(GTK)
+ #include "WebKitGtkWaylandClientProtocol.h"
++#endif
+ #include <memory>
+ #include <wayland-client.h>
+ #include <wayland-egl.h>
+ #include <EGL/egl.h>
+ 
++#if !PLATFORM(GTK)
++#include <glib.h>
++//KEYBOARD SUPPORT
++#include <unordered_map>
++#include <WPE/Input/Handling.h>
++#include <WPE/Input/Events.h>
++#include <xkbcommon/xkbcommon-compose.h>
++#include <xkbcommon/xkbcommon.h>
++//KEYBOARD SUPPORT
++#endif
++
+ namespace WebCore {
+ 
+ class GLContextEGL;
+@@ -51,6 +64,55 @@ public:
+     std::unique_ptr<WaylandSurface> createSurface(const IntSize&, int widgetID);
+ 
+     std::unique_ptr<GLContextEGL> createSharingGLContext();
++//KEYBOARD SUPPORT
++#if !PLATFORM(GTK)
++    void registerInputClient(struct wl_surface*, WPE::Input::Client*);
++    void unregisterInputClient(struct wl_surface*);
++    struct SeatData {
++        std::unordered_map<struct wl_surface*, WPE::Input::Client*> inputClients;
++
++        struct {
++            struct wl_pointer* object;
++            std::pair<struct wl_surface*, WPE::Input::Client*> target;
++            std::pair<int, int> coords;
++        } pointer { nullptr, { }, { 0, 0 } };
++
++        struct {
++            struct wl_keyboard* object;
++            std::pair<struct wl_surface*, WPE::Input::Client*> target;
++        } keyboard { nullptr, { } };
++
++        struct {
++            struct xkb_context* context;
++            struct xkb_keymap* keymap;
++            struct xkb_state* state;
++            struct {
++                xkb_mod_index_t control;
++                xkb_mod_index_t alt;
++                xkb_mod_index_t shift;
++            } indexes;
++            uint8_t modifiers;
++            struct xkb_compose_table* composeTable;
++            struct xkb_compose_state* composeState;
++        } xkb { nullptr, nullptr, nullptr, { 0, 0, 0 }, 0, nullptr, nullptr };
++        struct {
++            int32_t rate;
++            int32_t delay;
++        } repeatInfo { 0, 0 };
++
++        struct {
++            uint32_t key;
++            uint32_t time;
++            uint32_t state;
++            uint32_t eventSource;
++        } repeatData { 0, 0, 0, 0 };
++
++        uint32_t serial; 
++        WPE::Input::Client* inputHandler; //RISKY
++    };
++    uint32_t serial() const { return m_seatData.serial; } 
++#endif
++//KEYBOARD SUPPORT
+ 
+ private:
+     static const struct wl_registry_listener m_registryListener;
+@@ -67,10 +129,19 @@ private:
+     struct wl_display* m_display;
+     struct wl_registry* m_registry;
+     struct wl_compositor* m_compositor;
++    struct wl_shell *m_shell;
++#if PLATFORM(GTK)
+     struct wl_webkitgtk* m_webkitgtk;
+-
++#endif
++#if !PLATFORM(GTK)
++    struct wl_seat* m_seat;
++#endif
+     EGLConfig m_eglConfig;
+     bool m_eglConfigChosen;
++#if !PLATFORM(GTK)
++    GSource* m_eventSource;
++    SeatData m_seatData;
++#endif
+ };
+ 
+ } // namespace WebCore
+diff --git a/Source/WebCore/platform/graphics/wayland/WaylandSurface.cpp b/Source/WebCore/platform/graphics/wayland/WaylandSurface.cpp
+index 971ab19..4b8209e 100644
+--- a/Source/WebCore/platform/graphics/wayland/WaylandSurface.cpp
++++ b/Source/WebCore/platform/graphics/wayland/WaylandSurface.cpp
+@@ -78,6 +78,12 @@ void WaylandSurface::requestFrame()
+     wl_callback_add_listener(frameCallback, &frameListener, this);
+ }
+ 
++#if !PLATFORM(GTK)
++void WaylandSurface::releaseBuffer(uint32_t handle)
++{
++}
++#endif
++
+ } // namespace WebCore
+ 
+ #endif // PLATFORM(WAYLAND)
+diff --git a/Source/WebCore/platform/graphics/wayland/WaylandSurface.h b/Source/WebCore/platform/graphics/wayland/WaylandSurface.h
+index 69f22b1..1048c53 100644
+--- a/Source/WebCore/platform/graphics/wayland/WaylandSurface.h
++++ b/Source/WebCore/platform/graphics/wayland/WaylandSurface.h
+@@ -52,6 +52,10 @@ public:
+ 
+     void requestFrame();
+ 
++#if !PLATFORM(GTK)
++    void releaseBuffer(uint32_t handle);
++#endif
++
+ private:
+     struct wl_surface* m_wlSurface;
+     EGLNativeWindowType m_nativeWindow;
+diff --git a/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.cpp b/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.cpp
+index 524682d..382b97e 100644
+--- a/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.cpp
++++ b/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.cpp
+@@ -29,7 +29,12 @@
+ #include "ThreadedCompositor.h"
+ 
+ #include <WebCore/GLContextEGL.h>
++#if PLATFORM(WAYLAND)
++#include <wayland-client.h>
++#include <WebCore/PlatformDisplayWayland.h>
++#endif //#else
+ #include <WebCore/PlatformDisplayWPE.h>
++//#endif
+ #include <WebCore/TransformationMatrix.h>
+ #include <cstdio>
+ #include <cstdlib>
+@@ -43,11 +48,104 @@
+ #else
+ #include <GL/gl.h>
+ #endif
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++//KEYBOARD SUPPORT
++#include "NativeWebKeyboardEvent.h"
++#include "NativeWebMouseEvent.h"
++//KEYBOARD SUPPORT
++#endif
+ 
+ using namespace WebCore;
+ 
+ namespace WebKit {
+ 
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++const struct wl_callback_listener g_frameCallbackListener = {
++      // frame
++          [](void* data, struct wl_callback* callback, uint32_t)
++              {
++                 auto& callbackData = *static_cast<WebKit::ThreadedCompositor*>(data);
++                 callbackData.didFrameComplete();
++                 wl_callback_destroy(callback);
++              },
++};
++#endif
++
++class CompositingRunLoop {
++    WTF_MAKE_NONCOPYABLE(CompositingRunLoop);
++    WTF_MAKE_FAST_ALLOCATED;
++public:
++    CompositingRunLoop(std::function<void()> updateFunction)
++        : m_runLoop(RunLoop::current())
++        , m_updateTimer(m_runLoop, this, &CompositingRunLoop::updateTimerFired)
++        , m_updateFunction(WTFMove(updateFunction))
++    {
++        m_updateState.store(UpdateState::Completed);
++    }
++
++    void callOnCompositingRunLoop(std::function<void()> function)
++    {
++        if (&m_runLoop == &RunLoop::current()) {
++            function();
++            return;
++        }
++
++        m_runLoop.dispatch(WTFMove(function));
++    }
++
++    void scheduleUpdate()
++    {
++        if (m_updateState.compareExchangeStrong(UpdateState::Completed, UpdateState::InProgress)) {
++            m_updateTimer.startOneShot(0);
++            return;
++        }
++
++        if (m_updateState.compareExchangeStrong(UpdateState::InProgress, UpdateState::PendingAfterCompletion))
++            return;
++    }
++
++    void stopUpdates()
++    {
++        m_updateTimer.stop();
++        m_updateState.store(UpdateState::Completed);
++    }
++
++    void updateCompleted()
++    {
++        if (m_updateState.compareExchangeStrong(UpdateState::InProgress, UpdateState::Completed))
++            return;
++
++        if (m_updateState.compareExchangeStrong(UpdateState::PendingAfterCompletion, UpdateState::InProgress)) {
++            m_updateTimer.startOneShot(0);
++            return;
++        }
++
++        ASSERT_NOT_REACHED();
++    }
++
++    RunLoop& runLoop()
++    {
++        return m_runLoop;
++    }
++
++private:
++    enum class UpdateState {
++        Completed,
++        InProgress,
++        PendingAfterCompletion,
++    };
++
++    void updateTimerFired()
++    {
++        m_updateFunction();
++    }
++
++    RunLoop& m_runLoop;
++    RunLoop::Timer<CompositingRunLoop> m_updateTimer;
++    std::function<void()> m_updateFunction;
++    Atomic<UpdateState> m_updateState;
++};
++
+ Ref<ThreadedCompositor> ThreadedCompositor::create(Client* client, WebPage& webPage)
+ {
+     return adoptRef(*new ThreadedCompositor(client, webPage));
+@@ -61,6 +159,11 @@ ThreadedCompositor::ThreadedCompositor(Client* client, WebPage& webPage)
+ #if USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
+     , m_displayRefreshMonitor(adoptRef(new DisplayRefreshMonitor(*this)))
+ #endif
++//KEYBOARD SUPPORT - //THIS NEEDS TO BE TESTED WITH THIS WEBPAGE TO AVOID HAVING ONE MORE API getWebPage in threaded client
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++    , webpage(webPage)
++#endif
++//KEYBOARD SUPPORT  
+ {
+     m_clientRendersNextFrame.store(false);
+     m_coordinateUpdateCompletionWithClient.store(false);
+@@ -188,14 +291,27 @@ GLContext* ThreadedCompositor::glContext()
+         return m_context.get();
+ 
+ #if PLATFORM(WPE)
++#if PLATFORM(WAYLAND)
++    RELEASE_ASSERT(is<PlatformDisplayWayland>(PlatformDisplay::sharedDisplay()));
++#else
+     RELEASE_ASSERT(is<PlatformDisplayWPE>(PlatformDisplay::sharedDisplay()));
+-
++#endif
+     IntSize size(viewportController()->visibleContentsRect().size());
+     uint32_t targetHandle = m_compositingManager->constructRenderingTarget(std::max(0, size.width()), std::max(0, size.height()));
++#if PLATFORM(WAYLAND)
++    m_surface = downcast<PlatformDisplayWayland>(PlatformDisplay::sharedDisplay()).createSurface(size, targetHandle);
++#else
+     m_surface = downcast<PlatformDisplayWPE>(PlatformDisplay::sharedDisplay()).createSurface(size, targetHandle, *m_compositingManager);
++#endif
+     if (!m_surface)
+         return nullptr;
+-
++#if PLATFORM(WAYLAND)
++//KEYBOARD SUPPORT
++    printf("Registering input client [%x] \n",this);
++    fflush(stdout);
++    downcast<PlatformDisplayWayland>(PlatformDisplay::sharedDisplay()).registerInputClient(m_surface->surface(),this);
++//KEYBOARD SUPPORT
++#endif
+     setNativeSurfaceHandleForCompositing(0);
+     m_context = m_surface->createGLContext();
+ #endif
+@@ -237,12 +353,22 @@ void ThreadedCompositor::renderLayerTree()
+ 
+     m_scene->paintToCurrentGLContext(viewportTransform, 1, clipRect, Color::white, false, scrollPostion);
+ 
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++    requestFrame();
++#endif
++
+     glContext()->swapBuffers();
+ 
+ #if PLATFORM(WPE)
++#if PLATFORM(WAYLAND)
++    using BufferExport = WPE::Graphics::RenderingBackend::BufferExport;
++    BufferExport bufferExport = {};
++    m_compositingManager->commitBuffer(bufferExport);
++#else
+     auto bufferExport = m_surface->lockFrontBuffer();
+     m_compositingManager->commitBuffer(bufferExport);
+ #endif
++#endif
+ }
+ 
+ void ThreadedCompositor::updateSceneState(const CoordinatedGraphicsState& state)
+@@ -313,6 +439,11 @@ void ThreadedCompositor::runCompositingThread()
+         m_viewportController = nullptr;
+         m_compositingRunLoop = nullptr;
+         m_terminateRunLoopCondition.notifyOne();
++#if PLATFORM(WAYLAND)
++//KEYBOARD SUPPORT
++    downcast<PlatformDisplayWayland>(PlatformDisplay::sharedDisplay()).unregisterInputClient(m_surface->surface());
++//KEYBOARD SUPPORT
++#endif
+     }
+ 
+     detachThread(m_threadIdentifier);
+@@ -343,6 +474,7 @@ static void debugThreadedCompositorFPS()
+     }
+ }
+ 
++#if PLATFORM(WPE)
+ void ThreadedCompositor::releaseBuffer(uint32_t handle)
+ {
+     ASSERT(&RunLoop::current() == &m_compositingRunLoop->runLoop());
+@@ -365,6 +497,7 @@ void ThreadedCompositor::frameComplete()
+     if (!shouldCoordinateUpdateCompletionWithClient)
+         m_compositingRunLoop->updateCompleted();
+ }
++#endif
+ 
+ #if USE(REQUEST_ANIMATION_FRAME_DISPLAY_MONITOR)
+ RefPtr<WebCore::DisplayRefreshMonitor> ThreadedCompositor::createDisplayRefreshMonitor(PlatformDisplayID)
+@@ -496,6 +629,40 @@ void ThreadedCompositor::CompositingRunLoop::updateTimerFired()
+ {
+     m_updateFunction();
+ }
++#if PLATFORM(WAYLAND)
++void ThreadedCompositor::requestFrame()
++{ 
++    struct wl_callback* frameCallback = wl_surface_frame(m_surface->surface());
++    wl_callback_add_listener(frameCallback, &(WebKit::g_frameCallbackListener), this);
++    wl_display_flush(downcast<PlatformDisplayWayland>(PlatformDisplay::sharedDisplay()).native());
++}
++void ThreadedCompositor::didFrameComplete()
++{
++    frameComplete();
++}
++#endif
++//KEYBOARD SUPPORT
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++void ThreadedCompositor::handleKeyboardEvent(WPE::Input::KeyboardEvent&& event)
++{
++        fflush(stdout);
++        m_client->getWebPage()->keyEvent(WebKit::NativeWebKeyboardEvent(WTFMove(event)));
++}
++void ThreadedCompositor::handlePointerEvent(WPE::Input::PointerEvent&& event)
++{
++        fflush(stdout);
++        m_client->getWebPage()->mouseEvent(WebKit::NativeWebMouseEvent(WTFMove(event)));
++}
++
++void ThreadedCompositor::handleAxisEvent(WPE::Input::AxisEvent&& event)
++{
++}
++
++void ThreadedCompositor::handleTouchEvent(WPE::Input::TouchEvent&& event)
++{
++}
++#endif
++//KEYBOARD SUPPORT
+ 
+ }
+ #endif // USE(COORDINATED_GRAPHICS_THREADED)
+diff --git a/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.h b/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.h
+index b2673c7..7556754 100644
+--- a/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.h
++++ b/Source/WebKit2/Shared/CoordinatedGraphics/threadedcompositor/ThreadedCompositor.h
+@@ -45,6 +45,20 @@
+ #include <WebCore/DisplayRefreshMonitor.h>
+ #endif
+ 
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++#include <WebCore/WaylandSurface.h>
++//KEYBOARD SUPPORT
++#include <WPE/Input/Handling.h>
++#include "WebPage.h"
++//KEYBOARD SUPPORT
++#endif
++
++
++
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++#include <WebCore/WaylandSurface.h>
++#endif
++
+ namespace WebCore {
+ struct CoordinatedGraphicsState;
+ }
+@@ -55,7 +69,13 @@ class CoordinatedGraphicsScene;
+ class CoordinatedGraphicsSceneClient;
+ class WebPage;
+ 
++//KEYBOARD SUPPORT
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++class ThreadedCompositor : public ThreadSafeRefCounted<ThreadedCompositor>, public SimpleViewportController::Client, public CoordinatedGraphicsSceneClient, public CompositingManager::Client, public WPE::Input::Client {
++#else
+ class ThreadedCompositor : public ThreadSafeRefCounted<ThreadedCompositor>, public SimpleViewportController::Client, public CoordinatedGraphicsSceneClient, public CompositingManager::Client {
++#endif
++//KEYBOARD SUPPORT
+     WTF_MAKE_NONCOPYABLE(ThreadedCompositor);
+     WTF_MAKE_FAST_ALLOCATED;
+ public:
+@@ -65,6 +85,11 @@ public:
+         virtual void purgeBackingStores() = 0;
+         virtual void renderNextFrame() = 0;
+         virtual void commitScrollOffset(uint32_t layerID, const WebCore::IntSize& offset) = 0;
++//KEYBOARD SUPPORT
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++        virtual WebPage* getWebPage() = 0;
++#endif
++//KEYBOARD SUPPORT
+     };
+ 
+     static Ref<ThreadedCompositor> create(Client*, WebPage&);
+@@ -84,6 +109,17 @@ public:
+     void scrollBy(const WebCore::IntSize&);
+ 
+     RefPtr<WebCore::DisplayRefreshMonitor> createDisplayRefreshMonitor(PlatformDisplayID);
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++    void requestFrame();
++    void didFrameComplete();
++//KEYBOARD SUPPORT
++    void handleKeyboardEvent(WPE::Input::KeyboardEvent&&) override;
++    void handlePointerEvent(WPE::Input::PointerEvent&& event) override;
++    void handleAxisEvent(WPE::Input::AxisEvent&& event) override;
++    void handleTouchEvent(WPE::Input::TouchEvent&& event) override;
++//KEYBOARD SUPPORT
++
++#endif
+ 
+ private:
+     ThreadedCompositor(Client*, WebPage&);
+@@ -117,8 +153,12 @@ private:
+     std::unique_ptr<SimpleViewportController> m_viewportController;
+ 
+ #if PLATFORM(WPE)
++#if PLATFORM(WAYLAND)
++    std::unique_ptr<WebCore::WaylandSurface> m_surface;
++#else
+     std::unique_ptr<WebCore::PlatformDisplayWPE::Surface> m_surface;
+ #endif
++#endif
+     std::unique_ptr<WebCore::GLContext> m_context;
+ 
+     WebCore::IntSize m_viewportSize;
+@@ -186,6 +226,11 @@ private:
+ 
+     Atomic<bool> m_clientRendersNextFrame;
+     Atomic<bool> m_coordinateUpdateCompletionWithClient;
++//KEYBOARD SUPPORT
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++    WebPage& webpage;
++#endif
++//KEYBOARD SUPPORT         
+ };
+ 
+ } // namespace WebKit
+diff --git a/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.cpp b/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.cpp
+index 8b8d63d..bbfcec3 100644
+--- a/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.cpp
++++ b/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.cpp
+@@ -46,7 +46,9 @@
+ #include <WebCore/MainFrame.h>
+ #include <WebCore/Page.h>
+ #include <wtf/CurrentTime.h>
+-
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++#include "NativeWebKeyboardEvent.h"
++#endif
+ using namespace WebCore;
+ 
+ namespace WebKit {
+@@ -285,6 +287,14 @@ void ThreadedCoordinatedLayerTreeHost::commitScrollOffset(uint32_t layerID, cons
+     m_coordinator->commitScrollOffset(layerID, offset);
+ }
+ 
++//KEYBOARD SUPPORT
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++WebPage* ThreadedCoordinatedLayerTreeHost::getWebPage()
++{
++     return m_webPage;
++}
++#endif
++//KEYBOARD SUPPORT     
+ void ThreadedCoordinatedLayerTreeHost::notifyFlushRequired()
+ {
+     scheduleLayerFlush();
+diff --git a/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.h b/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.h
+index eeddd0b..db814ba 100644
+--- a/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.h
++++ b/Source/WebKit2/WebProcess/WebPage/CoordinatedGraphics/ThreadedCoordinatedLayerTreeHost.h
+@@ -120,7 +120,11 @@ private:
+     void purgeBackingStores() override;
+     void renderNextFrame() override;
+     void commitScrollOffset(uint32_t layerID, const WebCore::IntSize& offset) override;
+-
++//KEYBOARD SUPPORT
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++    virtual WebPage* getWebPage();
++#endif
++//KEYBOARD SUPPORT
+     // CompositingCoordinator::Client
+     void didFlushRootLayer(const WebCore::FloatRect&) override { }
+     void notifyFlushRequired() override;
+diff --git a/Source/WebKit2/WebProcess/WebPage/WebPage.cpp b/Source/WebKit2/WebProcess/WebPage/WebPage.cpp
+index 5297d691..6d5d2df 100644
+--- a/Source/WebKit2/WebProcess/WebPage/WebPage.cpp
++++ b/Source/WebKit2/WebProcess/WebPage/WebPage.cpp
+@@ -2148,7 +2148,11 @@ void WebPage::mouseEvent(const WebMouseEvent& mouseEvent)
+ #endif
+ 
+     if (!shouldHandleEvent) {
++//MOUSE SUPPORT
++#if !(PLATFORM(WPE) && PLATFORM(WAYLAND))
+         send(Messages::WebPageProxy::DidReceiveEvent(static_cast<uint32_t>(mouseEvent.type()), false));
++#endif
++//MOUSE SUPPORT
+         return;
+     }
+ 
+@@ -2173,7 +2177,11 @@ void WebPage::mouseEvent(const WebMouseEvent& mouseEvent)
+         handled = handleMouseEvent(mouseEvent, this, onlyUpdateScrollbars);
+     }
+ 
++//MOUSE SUPPORT
++#if !(PLATFORM(WPE) && PLATFORM(WAYLAND))
+     send(Messages::WebPageProxy::DidReceiveEvent(static_cast<uint32_t>(mouseEvent.type()), handled));
++#endif
++//MOUSE SUPPORT
+ }
+ 
+ static bool handleWheelEvent(const WebWheelEvent& wheelEvent, Page* page)
+@@ -2224,7 +2232,12 @@ void WebPage::keyEvent(const WebKeyboardEvent& keyboardEvent)
+         if (!handled)
+             handled = performDefaultBehaviorForKeyEvent(keyboardEvent);
+     }
++//KEYBOARD SUPPORT
++#if !(PLATFORM(WPE) && PLATFORM(WAYLAND))
+     send(Messages::WebPageProxy::DidReceiveEvent(static_cast<uint32_t>(keyboardEvent.type()), handled));
++#endif
++//KEYBOARD SUPPORT
++//    send(Messages::WebPageProxy::DidReceiveEvent(static_cast<uint32_t>(keyboardEvent.type()), handled));
+ }
+ 
+ void WebPage::validateCommand(const String& commandName, uint64_t callbackID)
+diff --git a/Source/WebKit2/WebProcess/WebPage/WebPage.h b/Source/WebKit2/WebProcess/WebPage/WebPage.h
+index 90c74b5..ad0f1a6 100644
+--- a/Source/WebKit2/WebProcess/WebPage/WebPage.h
++++ b/Source/WebKit2/WebProcess/WebPage/WebPage.h
+@@ -938,7 +938,12 @@ public:
+     void setControlledByAutomation(bool);
+ 
+     void insertNewlineInQuotedContent();
+-
++//KEYBOARD SUPPORT
++#if (PLATFORM(WPE) && PLATFORM(WAYLAND))
++    void keyEvent(const WebKeyboardEvent&);
++    void mouseEvent(const WebMouseEvent&);
++#endif
++//KEYBOARD SUPPORT
+ #if USE(OS_STATE)
+     std::chrono::system_clock::time_point loadCommitTime() const { return m_loadCommitTime; }
+ #endif
+@@ -1018,8 +1023,14 @@ private:
+ 
+     void updateUserActivity();
+ 
+-    void mouseEvent(const WebMouseEvent&);
++//    void mouseEvent(const WebMouseEvent&);
++//    void keyEvent(const WebKeyboardEvent&);
++//KEYBOARD SUPPORT
++#if !(PLATFORM(WPE) && PLATFORM(WAYLAND))
+     void keyEvent(const WebKeyboardEvent&);
++    void mouseEvent(const WebMouseEvent&);
++#endif
++//KEYBOARD SUPPORT
+ #if ENABLE(IOS_TOUCH_EVENTS)
+     void touchEventSync(const WebTouchEvent&, bool& handled);
+ #elif ENABLE(TOUCH_EVENTS)
+diff --git a/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.cpp b/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.cpp
+index ccfb50c..c8bd7df 100644
+--- a/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.cpp
++++ b/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.cpp
+@@ -63,27 +63,41 @@ Vector<uint8_t> CompositingManager::authenticate()
+ 
+ uint32_t CompositingManager::constructRenderingTarget(uint32_t width, uint32_t height)
+ {
++#if PLATFORM(WAYLAND)  
++    return 0;
++#else
+     uint32_t handle = 0;
+     m_connection->sendSync(Messages::CompositingManagerProxy::ConstructRenderingTarget(width, height),
+         Messages::CompositingManagerProxy::ConstructRenderingTarget::Reply(handle), 0);
+     return handle;
++#endif
+ }
+ 
++#if PLATFORM(WAYLAND)
++void CompositingManager::commitBuffer(const WPE::Graphics::RenderingBackend::BufferExport& bufferExport)
++{
++}
++#else
+ void CompositingManager::commitBuffer(const WebCore::PlatformDisplayWPE::BufferExport& bufferExport)
+ {
+     m_connection->send(Messages::CompositingManagerProxy::CommitBuffer(
+         IPC::Attachment(std::get<0>(bufferExport)),
+         IPC::DataReference(std::get<1>(bufferExport), std::get<2>(bufferExport))), 0);
+ }
++#endif
+ 
+ void CompositingManager::destroyBuffer(uint32_t handle)
+ {
++#if !PLATFORM(WAYLAND)
+     m_connection->send(Messages::CompositingManagerProxy::DestroyBuffer(handle), 0);
++#endif
+ }
+ 
+ void CompositingManager::releaseBuffer(uint32_t handle)
+ {
++#if !PLATFORM(WAYLAND)
+     m_client.releaseBuffer(handle);
++#endif
+ }
+ 
+ void CompositingManager::frameComplete()
+diff --git a/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.h b/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.h
+index 667fdf0..be2ce18 100644
+--- a/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.h
++++ b/Source/WebKit2/WebProcess/WebPage/wpe/CompositingManager.h
+@@ -28,13 +28,21 @@
+ 
+ #include "Connection.h"
+ #include "MessageReceiver.h"
++#if !PLATFORM(WAYLAND)
+ #include <WebCore/PlatformDisplayWPE.h>
+-
++#endif
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++#include <WPE/Graphics/RenderingBackend.h>
++#endif
+ namespace WebKit {
+ 
+ class WebPage;
+ 
++#if PLATFORM(WAYLAND)
++class CompositingManager final : public IPC::Connection::Client {
++#else
+ class CompositingManager final : public IPC::Connection::Client, public WebCore::PlatformDisplayWPE::Surface::Client {
++#endif
+     WTF_MAKE_FAST_ALLOCATED;
+ public:
+     class Client {
+@@ -50,7 +58,11 @@ public:
+ 
+     Vector<uint8_t> authenticate();
+     uint32_t constructRenderingTarget(uint32_t, uint32_t);
++#if PLATFORM(WAYLAND)
++    void commitBuffer(const WPE::Graphics::RenderingBackend::BufferExport&);
++#else
+     void commitBuffer(const WebCore::PlatformDisplayWPE::BufferExport&);
++#endif
+ 
+     CompositingManager(const CompositingManager&) = delete;
+     CompositingManager& operator=(const CompositingManager&) = delete;
+@@ -67,9 +79,12 @@ private:
+     IPC::ProcessType localProcessType() override { return IPC::ProcessType::Web; }
+     IPC::ProcessType remoteProcessType() override { return IPC::ProcessType::UI; }
+ 
++#if PLATFORM(WPE) && PLATFORM(WAYLAND)
++    void destroyBuffer(uint32_t);
++#else
+     // PlatformDisplayWPE::Surface::Client
+     void destroyBuffer(uint32_t) override;
+-
++#endif
+     void releaseBuffer(uint32_t);
+     void frameComplete();
+ 
+diff --git a/Source/cmake/OptionsWPE.cmake b/Source/cmake/OptionsWPE.cmake
+index abe486a..195d33b 100644
+--- a/Source/cmake/OptionsWPE.cmake
++++ b/Source/cmake/OptionsWPE.cmake
+@@ -38,7 +38,7 @@ WEBKIT_OPTION_DEFINE(USE_WPE_BACKEND_INTEL_CE "Whether to enable support for the
+ WEBKIT_OPTION_DEFINE(USE_WPE_BACKEND_DRM "Whether to enable support for the DRM WPE backend" PUBLIC OFF)
+ WEBKIT_OPTION_DEFINE(USE_WPE_BACKEND_DRM_TEGRA "Whether to enable support for the Tegra-specific quirks in the DRM WPE backend" PUBLIC OFF)
+ WEBKIT_OPTION_DEFINE(USE_WPE_BACKEND_WAYLAND "Whether to enable support for the Wayland WPE backend" PUBLIC OFF)
+-WEBKIT_OPTION_DEFINE(USE_WPE_BACKEND_WESTEROS "Whether to enable support for the Westeros WPE backend" PUBLIC OFF)
++WEBKIT_OPTION_DEFINE(USE_WPE_BACKEND_WINDOWLESS "Whether to enable support for the Windlowless WPE backend" PUBLIC ON)
+ WEBKIT_OPTION_DEFINE(USE_WPE_BUFFER_MANAGEMENT_GBM "Whether to enable support for the GBM WPE rendering backend" PUBLIC OFF)
+ WEBKIT_OPTION_DEFINE(USE_WPE_BUFFER_MANAGEMENT_BCM_RPI "Whether to enable support for the BCM RPi rendering backend" PUBLIC OFF)
+ WEBKIT_OPTION_DEFINE(USE_WPE_BUFFER_MANAGEMENT_BCM_NEXUS "Whether to enable support for the BCM_NEXUS rendering backend" PUBLIC OFF)
+@@ -57,6 +57,14 @@ set(ENABLE_WEBKIT2 ON)
+ set(ENABLE_API_TESTS OFF)
+ set(ENABLE_TOOLS ON)
+ 
++if (ENABLE_COMCAST_MODIFICATIONS)
++  add_definitions(-DENABLE_COMCAST_MODIFICATIONS=1)
++endif(ENABLE_COMCAST_MODIFICATIONS)
++
++if (ENABLE_WESTEROS_MODIFICATIONS)
++  add_definitions(-DENABLE_WESTEROS_MODIFICATIONS=1)
++endif(ENABLE_WESTEROS_MODIFICATIONS)
++
+ set(WTF_LIBRARY_TYPE STATIC)
+ set(JavaScriptCore_LIBRARY_TYPE STATIC)
+ set(WebCore_LIBRARY_TYPE STATIC)
+@@ -90,6 +98,7 @@ endif ()
+ find_package(OpenGLES2 REQUIRED)
+ find_package(EGL REQUIRED)
+ 
++find_package(WaylandEGL REQUIRED)
+ if (USE_WPE_BACKEND_BCM_RPI)
+     find_package(BCMHost REQUIRED)
+ endif ()
+@@ -158,6 +167,7 @@ SET_AND_EXPOSE_TO_BUILD(USE_EGL TRUE)
+ SET_AND_EXPOSE_TO_BUILD(WTF_PLATFORM_BCM_NEXUS ${USE_WPE_BACKEND_BCM_NEXUS})
+ SET_AND_EXPOSE_TO_BUILD(WTF_PLATFORM_BCM_RPI ${USE_WPE_BACKEND_BCM_RPI})
+ SET_AND_EXPOSE_TO_BUILD(WTF_PLATFORM_INTEL_CE ${USE_WPE_BACKEND_INTEL_CE})
++SET_AND_EXPOSE_TO_BUILD(WTF_PLATFORM_WAYLAND ${USE_WPE_BACKEND_WINDOWLESS})
+ 
+ set(FORWARDING_HEADERS_DIR ${DERIVED_SOURCES_DIR}/ForwardingHeaders)
+ 
+@@ -167,3 +177,4 @@ if (NOT DEVELOPER_MODE)
+     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fvisibility=hidden")
+     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fvisibility=hidden -fvisibility-inlines-hidden")
+ endif ()
++set(EGL_LIBRARIES "-lwayland-egl -lwayland-client -lEGL")
+diff --git a/Source/cmake/WebKitFeatures.cmake b/Source/cmake/WebKitFeatures.cmake
+index bd02fb3..8e40b70 100644
+--- a/Source/cmake/WebKitFeatures.cmake
++++ b/Source/cmake/WebKitFeatures.cmake
+@@ -151,7 +151,7 @@ macro(WEBKIT_OPTION_BEGIN)
+     WEBKIT_OPTION_DEFINE(ENABLE_METER_ELEMENT "Toggle Meter Tag support" PRIVATE ON)
+     WEBKIT_OPTION_DEFINE(ENABLE_MHTML "Toggle MHTML support" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_MINIBROWSER "Whether to enable MiniBrowser compilation." PRIVATE OFF)
+-    WEBKIT_OPTION_DEFINE(ENABLE_MOUSE_CURSOR_SCALE "Toggle Scaled mouse cursor support" PRIVATE OFF)
++    WEBKIT_OPTION_DEFINE(ENABLE_MOUSE_CURSOR_SCALE "Toggle Scaled mouse cursor support" PRIVATE ON)
+     WEBKIT_OPTION_DEFINE(ENABLE_NAVIGATOR_CONTENT_UTILS "Toggle Navigator Content Utils support" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_NAVIGATOR_HWCONCURRENCY "Toggle Navigator hardware concurrency support" PRIVATE ON)
+     WEBKIT_OPTION_DEFINE(ENABLE_NOSNIFF "Toggle support for 'X-Content-Type-Options: nosniff'" PRIVATE OFF)
+@@ -160,7 +160,7 @@ macro(WEBKIT_OPTION_BEGIN)
+     WEBKIT_OPTION_DEFINE(ENABLE_ORIENTATION_EVENTS "Toggle Orientation Events support" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_PDFKIT_PLUGIN "Toggle PDFKit plugin support" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_PERFORMANCE_TIMELINE "Toggle Performance Timeline support" PRIVATE OFF)
+-    WEBKIT_OPTION_DEFINE(ENABLE_POINTER_LOCK "Toggle pointer lock support" PRIVATE OFF)
++    WEBKIT_OPTION_DEFINE(ENABLE_POINTER_LOCK "Toggle pointer lock support" PRIVATE ON)
+     WEBKIT_OPTION_DEFINE(ENABLE_PROXIMITY_EVENTS "Toggle Proximity Events support" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_PUBLIC_SUFFIX_LIST "Toggle public suffix list support" PRIVATE OFF)
+     WEBKIT_OPTION_DEFINE(ENABLE_QUOTA "Toggle Quota support" PRIVATE OFF)
+diff -urN a/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.cpp b/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.cpp
+--- a/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.cpp	1970-01-01 00:00:00.000000000 +0000
++++ b/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.cpp	2016-03-29 13:01:31.480532037 +0000
+@@ -0,0 +1,67 @@
++/*
++ * Copyright (C) 2015 Igalia S.L.
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
++ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#include "Config.h"
++#include "ViewBackendWindowless.h"
++
++#if WPE_BACKEND(WINDOWLESS)
++
++#include <cassert>
++#include <cstdio>
++#include <unistd.h>
++
++namespace WPE {
++
++namespace ViewBackend {
++
++
++ViewBackendWindowless::ViewBackendWindowless()
++{
++}
++
++ViewBackendWindowless::~ViewBackendWindowless()
++{
++}
++
++uint32_t ViewBackendWindowless::constructRenderingTarget(uint32_t width, uint32_t height)
++{
++    return 0;
++}
++
++void ViewBackendWindowless::commitBuffer(int fd, const uint8_t* data, size_t size)
++{
++}
++
++void ViewBackendWindowless::destroyBuffer(uint32_t handle)
++{
++}
++
++} // namespace ViewBackend
++
++} // namespace WPE
++
++#endif // WPE_BACKEND(WINDOWLESS)
++
+diff -urN a/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.h b/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.h
+--- a/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.h	1970-01-01 00:00:00.000000000 +0000
++++ b/Source/WPE/Source/ViewBackend/Windowless/ViewBackendWindowless.h	2016-03-29 13:41:58.057702673 +0000
+@@ -0,0 +1,64 @@
++/*
++ * Copyright (C) 2015 Igalia S.L.
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
++ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#ifndef WPE_ViewBackend_ViewBackendWindowless_h
++#define WPE_ViewBackend_ViewBackendWindowless_h
++
++#if WPE_BACKEND(WINDOWLESS)
++
++#include <WPE/ViewBackend/ViewBackend.h>
++
++#include <unordered_map>
++
++namespace WPE {
++
++namespace Input {
++class Client;
++}
++
++namespace ViewBackend {
++
++class Client;
++
++class ViewBackendWindowless final : public ViewBackend {
++public:
++    ViewBackendWindowless();
++    virtual ~ViewBackendWindowless();
++
++    std::pair<const uint8_t*, size_t> authenticate() override { return { nullptr, 0 }; };
++    uint32_t constructRenderingTarget(uint32_t, uint32_t) override;
++    void commitBuffer(int, const uint8_t* data, size_t size) override;
++    void destroyBuffer(uint32_t handle) override;
++};
++
++} // namespace ViewBackend
++
++} // namespace WPE
++
++#endif // WPE_BACKEND(WINDOWLESS)
++
++#endif // WPE_ViewBackend_ViewBackendWindowless_h
++
