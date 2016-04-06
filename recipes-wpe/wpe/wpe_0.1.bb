@@ -41,9 +41,9 @@ PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi gamepad geolocation i
 # device specific configs
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,broadcom-refsw"
-PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,userland gstreamer1.0-omx,${RDEPS_RPI}"
+PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,userland"
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
-PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=OFF -DUSE_WESTEROS_SINK=OFF,,wayland westeros libxkbcommon gstreamer1.0-omx,${RDEPS_RPI}"
+PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=OFF -DUSE_WESTEROS_SINK=OFF,,wayland westeros libxkbcommon"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
@@ -153,6 +153,12 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-bad-videoparsersbad \
 "
 
+RDEPS_EXTRA_append_rpi = " \
+    gstreamer1.0-omx \
+    gstreamer1.0-plugins-bad-faad \
+    gstreamer1.0-plugins-bad-opengl \
+"
+
 # The RDEPS_EXTRA plugins are all required for certain media playback use cases,
 # but have not yet been classified as being specific dependencies for video,
 # webaudio or mediasource. Until that classification is done, add them all to
@@ -161,11 +167,5 @@ RDEPS_EXTRA = " \
 RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
-
-RDEPS_RPI ?= " \
-    gstreamer1.0-omx \
-    gstreamer1.0-plugins-bad-faad \
-    gstreamer1.0-plugins-bad-opengl \
-"
 
 RRECOMMENDS_${PN} += "ca-certificates"
