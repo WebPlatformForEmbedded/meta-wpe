@@ -14,7 +14,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "71205fbe06efb4d89e26d1bf10f886a747d32e05"
+SRCREV ?= "d44d9393d0c4e44a68c5d56d1b2bcd3a63d67e83"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
