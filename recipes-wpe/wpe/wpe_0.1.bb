@@ -19,6 +19,7 @@ BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;br
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
+            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
 "
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.

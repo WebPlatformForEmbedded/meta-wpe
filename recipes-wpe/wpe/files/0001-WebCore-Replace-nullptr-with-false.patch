@@ -1,0 +1,28 @@
+From 3729cfe2c511b2b7a08d3e952c665d8cc78151d8 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 Apr 2016 07:35:18 -0700
+Subject: [PATCH] WebCore: Replace nullptr with false
+
+Avoid conversion errors thrown by C++11
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Source/WebCore/style/StyleSharingResolver.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Source/WebCore/style/StyleSharingResolver.cpp b/Source/WebCore/style/StyleSharingResolver.cpp
+index 466ac50..917dc24 100644
+--- a/Source/WebCore/style/StyleSharingResolver.cpp
++++ b/Source/WebCore/style/StyleSharingResolver.cpp
+@@ -285,7 +285,7 @@ bool SharingResolver::canShareStyleWithElement(const Context& context, const Sty
+ 
+ #if ENABLE(SHADOW_DOM)
+     if (element.shadowRoot() && !element.shadowRoot()->styleResolver().ruleSets().authorStyle()->hostPseudoClassRules().isEmpty())
+-        return nullptr;
++        return false;
+ #endif
+ 
+ #if ENABLE(VIDEO_TRACK)
+-- 
+2.8.0
+
