@@ -7,5 +7,5 @@ IMAGE_INSTALL_append = "\
    ${@bb.utils.contains('BROWSER', 'qt', 'packagegroup-ml-qt5browser', '', d)} \
 "
 
-IMAGE_INSTALL_append_libc-glibc = " netflix "
+#IMAGE_INSTALL_append_libc-glibc = " netflix "
 
