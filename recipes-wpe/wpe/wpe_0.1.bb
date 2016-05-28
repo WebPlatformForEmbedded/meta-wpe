@@ -29,7 +29,7 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', 'stm', d)}"
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
 
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
@@ -37,7 +37,12 @@ PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi fetchapi gamepad geolocation indexeddb logs mediasource notifications ${PROVISIONING} sampling-profiler shadowdom subtlecrypto video webaudio ${WPE_BACKEND}"
+WL_BUFFER_MANAGEMENT ?= ""
+WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
+WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
+WL_BUFFER_MANAGEMENT_drm = "wl-drm"
+
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi fetchapi gamepad geolocation indexeddb logs mediasource notifications ${PROVISIONING} sampling-profiler shadowdom subtlecrypto video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
@@ -45,9 +50,14 @@ PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,broadcom-refsw"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,userland"
-PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
 PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=OFF -DUSE_WESTEROS_SINK=OFF,,wayland westeros libxkbcommon"
 PACKAGECONFIG[stm] = "-DUSE_WPE_BACKEND_STM=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON,,wayland libxkbcommon"
+
+# Wayland selectors
+PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
+PACKAGECONFIG[wl-rpi] = "-DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON,,"
+PACKAGECONFIG[wl-nexus] = "-DUSE_WPE_BUFFER_MANAGEMENT_BCM_NEXUS=ON,,"
+PACKAGECONFIG[wl-drm] = "-DUSE_WPE_BUFFER_MANAGEMENT_GBM=ON,,"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
