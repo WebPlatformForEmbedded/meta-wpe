@@ -16,12 +16,10 @@ S = "${WORKDIR}/git"
 inherit cmake pkgconfig
 
 CPPSDK_PLATFORM ?= "platform-pc"
-CPPSDK_PLATFORM_7401 = "platform-intelce"
 CPPSDK_PLATFORM_dawn = "platform-dawn"
 CPPSDK_PLATFORM_eos = "platform-eos"
 CPPSDK_PLATFORM_rpi = "platform-rpi"
 
-CXXFLAGS_append_rpi = " -I${STAGING_INCDIR}/interface/vmcs_host/linux"
 PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo devices generics process tracing websocket rpc"
 
 PACKAGECONFIG[platform-dawn] = "-DCPPSDK_PLATFORM=DAWN,,"
@@ -44,5 +42,6 @@ EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
 "
 
-TOOLCHAIN = "gcc"
+CXXFLAGS_append_rpi = " -I${STAGING_INCDIR}/interface/vmcs_host/linux"
 
+TOOLCHAIN = "gcc"
