@@ -22,7 +22,6 @@ NETFLIX_BACKEND_nexus = "nexus"
 NETFLIX_BACKEND_egl = "egl"
 NETFLIX_BACKEND_gles = "gles"
 NETFLIX_BACKEND_rpi = "rpi"
-NETFLIX_BACKEND_7401 = "intelce"
 
 PACKAGECONFIG ?= "${NETFLIX_BACKEND}"
 
@@ -110,4 +109,3 @@ FILES_SOLIBSDEV = ""
 INSANE_SKIP_${PN} += "dev-so already-stripped"
 
 PARALLEL_MAKE = ""
-
