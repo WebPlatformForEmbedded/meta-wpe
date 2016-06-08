@@ -14,13 +14,12 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "20458792b1311868492f7d87b5f165c609ff8240"
+SRCREV ?= "2ff1af2b4bd47f79ba99a94970e60eb7ba2f8e29"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0002-fix-mips.patch \
 "
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
