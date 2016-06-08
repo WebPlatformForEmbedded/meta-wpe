@@ -20,6 +20,7 @@ SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0002-fix-mips.patch \
 "
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
