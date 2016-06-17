@@ -16,11 +16,11 @@ https://bugzilla.gnome.org/show_bug.cgi?id=726314
  gst-libs/gst/uridownloader/gsturidownloader.h |  2 +-
  3 files changed, 48 insertions(+), 4 deletions(-)
 
-diff --git a/gst-libs/gst/adaptivedemux/gstadaptivedemux.c b/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
-index d39e099..53562b1 100644
---- a/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
-+++ b/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
-@@ -414,7 +414,7 @@ gst_adaptive_demux_init (GstAdaptiveDemux * demux,
+Index: gst-plugins-bad-1.8.1/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
+===================================================================
+--- gst-plugins-bad-1.8.1.orig/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
++++ gst-plugins-bad-1.8.1/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
+@@ -411,7 +411,7 @@ gst_adaptive_demux_init (GstAdaptiveDemu
  
    demux->priv = GST_ADAPTIVE_DEMUX_GET_PRIVATE (demux);
    demux->priv->input_adapter = gst_adapter_new ();
@@ -29,15 +29,15 @@ index d39e099..53562b1 100644
    demux->stream_struct_size = sizeof (GstAdaptiveDemuxStream);
    demux->priv->segment_seqnum = gst_util_seqnum_next ();
    demux->have_group_id = FALSE;
-@@ -2140,6 +2140,7 @@ gst_adaptive_demux_stream_update_source (GstAdaptiveDemuxStream * stream,
+@@ -2318,6 +2318,7 @@ gst_adaptive_demux_stream_update_source
      GstPadLinkReturn pad_link_ret;
      GObjectClass *gobject_class;
-     GstPad *internal_pad;
+     gchar *internal_name, *bin_name;
 +    GstContext *context = NULL;
  
      /* Our src consists of a bin containing uri_handler -> queue2 . The
       * purpose of the queue2 is to allow the uri_handler to download an
-@@ -2193,6 +2194,19 @@ gst_adaptive_demux_stream_update_source (GstAdaptiveDemuxStream * stream,
+@@ -2369,6 +2370,19 @@ gst_adaptive_demux_stream_update_source
        }
      }
  
@@ -55,13 +55,13 @@ index d39e099..53562b1 100644
 +    }
 +
      /* Source bin creation */
-     stream->src = gst_bin_new (NULL);
-     if (stream->src == NULL) {
-diff --git a/gst-libs/gst/uridownloader/gsturidownloader.c b/gst-libs/gst/uridownloader/gsturidownloader.c
-index 72e5e79..a31b709 100644
---- a/gst-libs/gst/uridownloader/gsturidownloader.c
-+++ b/gst-libs/gst/uridownloader/gsturidownloader.c
-@@ -33,6 +33,8 @@ GST_DEBUG_CATEGORY (uridownloader_debug);
+     bin_name = g_strdup_printf ("srcbin-%s", GST_PAD_NAME (stream->pad));
+     stream->src = gst_bin_new (bin_name);
+Index: gst-plugins-bad-1.8.1/gst-libs/gst/uridownloader/gsturidownloader.c
+===================================================================
+--- gst-plugins-bad-1.8.1.orig/gst-libs/gst/uridownloader/gsturidownloader.c
++++ gst-plugins-bad-1.8.1/gst-libs/gst/uridownloader/gsturidownloader.c
+@@ -33,6 +33,8 @@ GST_DEBUG_CATEGORY (uridownloader_debug)
  
  struct _GstUriDownloaderPrivate
  {
@@ -70,7 +70,7 @@ index 72e5e79..a31b709 100644
    /* Fragments fetcher */
    GstElement *urisrc;
    GstBus *bus;
-@@ -148,9 +150,11 @@ gst_uri_downloader_finalize (GObject * object)
+@@ -148,9 +150,11 @@ gst_uri_downloader_finalize (GObject * o
  }
  
  GstUriDownloader *
@@ -84,7 +84,7 @@ index 72e5e79..a31b709 100644
  }
  
  static gboolean
-@@ -353,6 +357,7 @@ gst_uri_downloader_set_uri (GstUriDownloader * downloader, const gchar * uri,
+@@ -353,6 +357,7 @@ gst_uri_downloader_set_uri (GstUriDownlo
  {
    GstPad *pad;
    GObjectClass *gobject_class;
@@ -92,7 +92,7 @@ index 72e5e79..a31b709 100644
  
    if (!gst_uri_is_valid (uri))
      return FALSE;
-@@ -428,6 +433,31 @@ gst_uri_downloader_set_uri (GstUriDownloader * downloader, const gchar * uri,
+@@ -428,6 +433,31 @@ gst_uri_downloader_set_uri (GstUriDownlo
      }
    }
  
@@ -124,10 +124,10 @@ index 72e5e79..a31b709 100644
    /* add a sync handler for the bus messages to detect errors in the download */
    gst_element_set_bus (GST_ELEMENT (downloader->priv->urisrc),
        downloader->priv->bus);
-diff --git a/gst-libs/gst/uridownloader/gsturidownloader.h b/gst-libs/gst/uridownloader/gsturidownloader.h
-index 80b8a3e..36cbf65 100644
---- a/gst-libs/gst/uridownloader/gsturidownloader.h
-+++ b/gst-libs/gst/uridownloader/gsturidownloader.h
+Index: gst-plugins-bad-1.8.1/gst-libs/gst/uridownloader/gsturidownloader.h
+===================================================================
+--- gst-plugins-bad-1.8.1.orig/gst-libs/gst/uridownloader/gsturidownloader.h
++++ gst-plugins-bad-1.8.1/gst-libs/gst/uridownloader/gsturidownloader.h
 @@ -60,7 +60,7 @@ struct _GstUriDownloaderClass
  
  GType gst_uri_downloader_get_type (void);
@@ -137,6 +137,3 @@ index 80b8a3e..36cbf65 100644
  GstFragment * gst_uri_downloader_fetch_uri (GstUriDownloader * downloader, const gchar * uri, const gchar * referer, gboolean compress, gboolean refresh, gboolean allow_cache, GError ** err);
  GstFragment * gst_uri_downloader_fetch_uri_with_range (GstUriDownloader * downloader, const gchar * uri, const gchar * referer, gboolean compress, gboolean refresh, gboolean allow_cache, gint64 range_start, gint64 range_end, GError ** err);
  void gst_uri_downloader_reset (GstUriDownloader *downloader);
--- 
-2.6.1
-
