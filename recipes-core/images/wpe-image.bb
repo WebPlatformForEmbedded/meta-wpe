@@ -5,6 +5,7 @@ DESCRIPTION = "WPE initramfs rootfs image"
 LICENSE = "MIT"
 
 IMAGE_FEATURES += " \
+    ssh-server-openssh \
     package-management \
 "
 include recipes-core/images/rpi-basic-image.bb
