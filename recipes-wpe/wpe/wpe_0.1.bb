@@ -14,7 +14,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "858b51ed35487a4d524c48fa27e7e89ed1d6adf9"
+SRCREV ?= "ec6c987a73218f6219932643aa392bbb09c08762"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
@@ -50,7 +50,7 @@ PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,broadcom-refsw"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,userland"
-PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=OFF -DUSE_WESTEROS_SINK=OFF,,wayland westeros libxkbcommon"
+PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_WPE_BACKEND_BCM_RPI=OFF -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=OFF -DUSE_WESTEROS_SINK=OFF,,wayland westeros libxkbcommon"
 PACKAGECONFIG[stm] = "-DUSE_WPE_BACKEND_STM=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON,,libxkbcommon"
 
 # Wayland selectors
@@ -97,7 +97,14 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} \
+    libWPEWebKit.so \
+    libWPEWebInspectorResources.so \
+    libWPE.so \
+    libWPE-platform.so \
+    WPEWebProcess \
+    WPENetworkProcess \
+    WPEDatabaseProcess
 }
 
 do_install() {
@@ -107,9 +114,11 @@ do_install() {
     install -d ${D}${libdir}
     cp -av --no-preserve=ownership ${B}/lib/libWPE.so* ${D}${libdir}/
     cp -av --no-preserve=ownership ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
+    cp -av --no-preserve=ownership ${B}/lib/libWPE-platform.so* ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPEWebKit.so
+    chrpath --delete ${D}${libdir}/libWPE-platform.so
 
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
@@ -124,10 +133,15 @@ do_install() {
 
 LEAD_SONAME = "libWPEWebKit.so"
 
-PACKAGES =+ "${PN}-web-inspector-plugin"
+PACKAGES =+ "${PN}-web-inspector-plugin ${PN}-platform-plugin"
 
 FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
+
+FILES_${PN}-platform-plugin += "${libdir}/libWPE-platform.so"
+INSANE_SKIP_${PN}-platform-plugin = "dev-so"
+
+RDEPENDS_${PN} = "${PN}-platform-plugin"
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
@@ -164,9 +178,9 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-fragmented \
     gstreamer1.0-plugins-bad-mpegtsdemux \
-    gstreamer1.0-plugins-bad-mpg123 \
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
+    gstreamer1.0-plugins-ugly-mpg123 \
 "
 
 RDEPS_EXTRA_append_rpi = " \
