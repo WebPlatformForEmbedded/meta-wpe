@@ -100,14 +100,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} \
-    libWPEWebKit.so \
-    libWPEWebInspectorResources.so \
-    libWPE.so \
-    libWPE-platform.so \
-    WPEWebProcess \
-    WPENetworkProcess \
-    WPEDatabaseProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess
 }
 
 do_install() {
@@ -117,11 +110,9 @@ do_install() {
     install -d ${D}${libdir}
     cp -av --no-preserve=ownership ${B}/lib/libWPE.so* ${D}${libdir}/
     cp -av --no-preserve=ownership ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
-    cp -av --no-preserve=ownership ${B}/lib/libWPE-platform.so* ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPEWebKit.so
-    chrpath --delete ${D}${libdir}/libWPE-platform.so
 
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
@@ -136,15 +127,10 @@ do_install() {
 
 LEAD_SONAME = "libWPEWebKit.so"
 
-PACKAGES =+ "${PN}-web-inspector-plugin ${PN}-platform-plugin"
+PACKAGES =+ "${PN}-web-inspector-plugin"
 
 FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
-
-FILES_${PN}-platform-plugin += "${libdir}/libWPE-platform.so"
-INSANE_SKIP_${PN}-platform-plugin = "dev-so"
-
-RDEPENDS_${PN} = "${PN}-platform-plugin"
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
