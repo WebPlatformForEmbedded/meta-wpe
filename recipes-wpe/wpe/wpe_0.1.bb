@@ -147,7 +147,6 @@ RDEPS_WEBAUDIO = " \
 "
 
 # plugins-bad config option 'dash' -> gstreamer1.0-plugins-bad-dashdemux
-# plugins-bad config option 'hls' -> gstreamer1.0-plugins-bad-fragmented
 # plugins-bad config option 'videoparsers' -> gstreamer1.0-plugins-bad-videoparsersbad
 
 RDEPS_EXTRA = " \
@@ -165,7 +164,7 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-bad-dashdemux \
-    gstreamer1.0-plugins-bad-fragmented \
+    gstreamer1.0-plugins-bad-hls \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
