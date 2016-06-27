@@ -186,4 +186,7 @@ RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
 
-RRECOMMENDS_${PN} += "ca-certificates"
+RRECOMMENDS_${PN} += " \
+    ca-certificates \
+    ttf-bitstream-vera \
+"
