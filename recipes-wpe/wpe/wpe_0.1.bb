@@ -41,7 +41,7 @@ PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 
 WL_BUFFER_MANAGEMENT ?= ""
-WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
+#WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
 WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
 WL_BUFFER_MANAGEMENT_drm = "wl-drm"
 
