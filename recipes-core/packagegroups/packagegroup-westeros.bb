@@ -16,4 +16,11 @@ RDEPENDS_packagegroup-westeros = "\
     westeros-simpleshell \
     westeros-sink \
     westeros-soc \
+    ${WESTEROS_RENDERER} \
+"
+
+WESTEROS_RENDERER ?= ""
+
+WESTEROS_RENDERER_rpi = "\
+    westeros-render-dispmanx \
 "
