@@ -21,11 +21,6 @@ SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
 "
-# Following patches need to update against latest wpe changes
-#            file://0001-fix-gstreamer-size.patch \ 
-#            file://0002-xhr-disable-cache-env.patch \
-#            file://0003-eme-timeout-after-5sec.patch \
-
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
 SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
