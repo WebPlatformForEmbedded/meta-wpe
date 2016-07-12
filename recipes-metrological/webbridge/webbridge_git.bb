@@ -9,7 +9,7 @@ PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh"
 
-SRCREV = "68428c2a886531ab013a0a93fd9cb5d04657abed"
+SRCREV = "8ab3c555586a22eeb907e43f63ee3786ababe4f3"
 
 S = "${WORKDIR}/git"
 
