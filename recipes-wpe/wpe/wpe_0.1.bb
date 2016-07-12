@@ -14,15 +14,12 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "858b51ed35487a4d524c48fa27e7e89ed1d6adf9"
+SRCREV ?= "47f40df416b53f3b8a6d4c6366141d673e26cc10"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-fix-gstreamer-size.patch \
-            file://0002-xhr-disable-cache-env.patch \
-            file://0003-eme-timeout-after-5sec.patch \
 "
 
 # Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
@@ -100,7 +97,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess libWPE.so libWPE-platform.so
 }
 
 do_install() {
@@ -111,8 +108,10 @@ do_install() {
     cp -av --no-preserve=ownership ${B}/lib/libWPE.so* ${D}${libdir}/
     cp -av --no-preserve=ownership ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
+    install -m 0755 ${B}/lib/libWPE-platform.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPEWebKit.so
+    chrpath --delete ${D}${libdir}/libWPE-platform.so
 
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
@@ -131,6 +130,12 @@ PACKAGES =+ "${PN}-web-inspector-plugin"
 
 FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
+
+PACKAGES =+ "${PN}-platform-plugin"
+
+FILES_${PN}-platform-plugin += "${libdir}/libWPE-platform.so"
+INSANE_SKIP_${PN}-platform-plugin = "dev-so"
+
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
