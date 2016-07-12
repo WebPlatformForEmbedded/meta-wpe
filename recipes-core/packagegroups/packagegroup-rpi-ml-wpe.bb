@@ -9,6 +9,7 @@ PACKAGES = "\
 
 RDEPENDS_packagegroup-ml-wpe = "\
     wpe \
+    wpe-platform-plugin \
     wpe-web-inspector-plugin \
     wpe-launcher \
 "
