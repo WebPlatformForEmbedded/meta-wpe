@@ -2,6 +2,8 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
+SRC_URI += "file://0001-westeros-main-Fix-return-values-from-openDevice.patch"
+
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
 PACKAGECONFIG[incapp] = "--enable-app=yes"
 PACKAGECONFIG[inctest] = "--enable-test=yes"
