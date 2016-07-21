@@ -4,7 +4,7 @@ SUMMARY = "This receipe compiles the westeros compositor dispmanx render module 
 
 S = "${WORKDIR}/git/rpi/westeros-render-dispmanx"
 
-DEPENDS = "userland wayland westeros westeros-simplebuffer glib-2.0"
+DEPENDS = "userland wayland glib-2.0 westeros"
 
 DEBIAN_NOAUTONAME_${PN} = "1"
 DEBIAN_NOAUTONAME_${PN}-dbg = "1"
