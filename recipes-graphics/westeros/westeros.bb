@@ -15,7 +15,7 @@ PACKAGECONFIG[xdgv5] = "--enable-xdgv5=yes"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "wayland libxkbcommon westeros-simplebuffer westeros-simpleshell westeros-soc"
+DEPENDS = "wayland libxkbcommon westeros-simplebuffer westeros-simpleshell westeros-soc westeros-sink"
 
 RDEPENDS_${PN} = "xkeyboard-config"
 
