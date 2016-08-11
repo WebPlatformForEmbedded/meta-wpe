@@ -4,7 +4,7 @@ SUMMARY = "This receipe compiles the westeros compositor components for Raspberr
 
 S = "${WORKDIR}/git/rpi"
 
-DEPENDS = "wayland userland glib-2.0"
+DEPENDS = "wayland virtual/egl glib-2.0"
 PROVIDES = "westeros-soc"
 RPROVIDES_${PN} = "westeros-soc"
 
