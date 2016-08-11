@@ -68,6 +68,9 @@ EXTRA_OECMAKE += "\
 FILES_${PN}-dbg += "${libdir}/webbridge/proxystubs/.debug"
 
 # libWPEInjectedBundle.so is installed in /usr/share/webbridge/WebKitBrowser
-FILES_${PN}-dbg += "${datadir}/webbridge/WebKitBrowser/.debug"
+FILES_${PN}-dbg += "${datadir}/webbridge/WebKitBrowser/.debug/libWPEInjectedBundle.so"
+
+# Ignore libwebbridgesupport.so -dev dependency for now
+INSANE_SKIP_${PN} += "dev-deps"
 
 TOOLCHAIN = "gcc"
