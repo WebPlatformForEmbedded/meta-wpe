@@ -3,6 +3,7 @@ include westeros.inc
 SUMMARY = "This receipe compiles the westeros compositor simple-shelk component"
 
 S = "${WORKDIR}/git/simpleshell"
+LICENSE_LOCATION = "${S}/../LICENSE"
 
 DEPENDS += "wayland wayland-native glib-2.0"
 

@@ -1,4 +1,5 @@
 S_rpi = "${WORKDIR}/git/rpi/westeros-sink"
+LICENSE_LOCATION_rpi = "${S}/../../LICENSE"
 
 CFLAGS_append_rpi = " -DWESTEROS_PLATFORM_RPI -DWESTEROS_INVERTED_Y -DBUILD_WAYLAND -x c++ \
                       -I${STAGING_INCDIR}/interface/vmcs_host/linux"

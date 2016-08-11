@@ -3,6 +3,7 @@ require recipes-graphics/westeros/westeros.inc
 SUMMARY = "This receipe compiles the westeros compositor dispmanx render module for Raspberry Pi"
 
 S = "${WORKDIR}/git/rpi/westeros-render-dispmanx"
+LICENSE_LOCATION = "${S}/../../LICENSE"
 
 DEPENDS = "virtual/egl wayland glib-2.0 westeros"
 
