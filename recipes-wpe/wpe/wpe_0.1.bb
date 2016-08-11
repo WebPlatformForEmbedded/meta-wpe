@@ -31,14 +31,15 @@ inherit cmake pkgconfig perlnative pythonnative
 
 TOOLCHAIN = "gcc"
 
-WPE_BACKEND ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "wayland", "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"}"
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
+WPE_BACKEND_append = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", " wayland","", d)}"
+WPE_BACKEND_remove = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros","", d)}"
 
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "provisioning", d)}"
 PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
-
 
 WL_BUFFER_MANAGEMENT ?= ""
 #WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
