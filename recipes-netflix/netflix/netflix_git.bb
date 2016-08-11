@@ -29,7 +29,7 @@ PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl \
                       -DGIBBON_PLATFORM=rpi \ 
                       -DDPI_IMPLEMENTATION=gstreamer \
                       -DGST_VIDEO_RENDERING=gl \
-                      ,,userland gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad virtual/egl virtual/libgles2"
+                      ,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad virtual/egl virtual/libgles2"
 PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,bcm-refsw gstreamer1.0 virtual/egl virtual/libgles2"
 PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0-fsmd virtual/egl virtual/libgles2"
 PACKAGECONFIG[egl] = "-DGIBBON_GRAPHICS=gles2-egl -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"

@@ -2,8 +2,6 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
-SRC_URI += "file://0001-westeros-main-Fix-return-values-from-openDevice.patch"
-
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
 PACKAGECONFIG[incapp] = "--enable-app=yes"
 PACKAGECONFIG[inctest] = "--enable-test=yes"
@@ -13,9 +11,11 @@ PACKAGECONFIG[incsbprotocol] = "--enable-sbprotocol=yes"
 PACKAGECONFIG[xdgv4] = "--enable-xdgv4=yes"
 PACKAGECONFIG[xdgv5] = "--enable-xdgv5=yes"
 
+WESTEROS ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "westeros-soc westeros-sink", d)}"
+
 S = "${WORKDIR}/git"
 
-DEPENDS = "wayland libxkbcommon westeros-simplebuffer westeros-simpleshell westeros-soc westeros-sink"
+DEPENDS = "wayland libxkbcommon westeros-simplebuffer westeros-simpleshell ${WESTEROS}"
 
 RDEPENDS_${PN} = "xkeyboard-config"
 
