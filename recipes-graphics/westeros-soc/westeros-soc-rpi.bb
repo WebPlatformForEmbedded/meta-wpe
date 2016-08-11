@@ -3,6 +3,7 @@ require recipes-graphics/westeros/westeros.inc
 SUMMARY = "This receipe compiles the westeros compositor components for RaspberryPi: westeros-gl, westeros-egl"
 
 S = "${WORKDIR}/git/rpi"
+LICENSE_LOCATION = "${S}/../LICENSE"
 
 DEPENDS = "wayland virtual/egl glib-2.0"
 PROVIDES = "westeros-soc"

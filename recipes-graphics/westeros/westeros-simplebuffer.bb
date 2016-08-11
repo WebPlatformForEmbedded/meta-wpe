@@ -3,6 +3,7 @@ include westeros.inc
 SUMMARY = "This receipe compiles the westeros compositor simplebuffer component"
 
 S = "${WORKDIR}/git/simplebuffer"
+LICENSE_LOCATION = "${S}/../LICENSE"
 
 DEPENDS = "virtual/libgl wayland-native wayland glib-2.0"
 
