@@ -22,9 +22,6 @@ SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
 "
 
-# Workaround to allow musl toolchain libstdc++ to use libc ctype functions.
-SRC_URI_append_libc-musl = " file://remove-disallow_ctypes_h-braindead.patch"
-
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
