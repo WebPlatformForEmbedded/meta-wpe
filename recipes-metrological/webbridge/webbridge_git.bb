@@ -64,13 +64,18 @@ EXTRA_OECMAKE += "\
     -DWEBBRIDGE_PROXYSTUB_PATH="/usr/lib/webbridge/proxystubs" \
 "
 
-# libproxystubs.so is installed in /usr/lib/webbridge/proxystubs
+# libinterfaces.so and libproxystubs.so are installed in /usr/lib/webbridge/proxystubs
+# Fixme: to avoid the need for packaging workarounds, plug-ins should be installed
+# one level below /usr/lib (e.g. /usr/lib/webbridge-proxystubs)
 FILES_${PN}-dbg += "${libdir}/webbridge/proxystubs/.debug"
 
-# libWPEInjectedBundle.so is installed in /usr/share/webbridge/WebKitBrowser
+# libWPEInjectedBundle.so is installed in /usr/share/webbridge/WebKitBrowser (WTF!?!)
 FILES_${PN}-dbg += "${datadir}/webbridge/WebKitBrowser/.debug/libWPEInjectedBundle.so"
 
-# Ignore libwebbridgesupport.so -dev dependency for now
-INSANE_SKIP_${PN} += "dev-deps"
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
+
+INSANE_SKIP_${PN} += "libdir"
+INSANE_SKIP_${PN}-dbg += "libdir"
 
 TOOLCHAIN = "gcc"
