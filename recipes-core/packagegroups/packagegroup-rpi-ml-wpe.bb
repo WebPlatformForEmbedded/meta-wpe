@@ -12,6 +12,7 @@ RDEPENDS_packagegroup-ml-wpe = "\
     wpe-platform-plugin \
     wpe-web-inspector-plugin \
     wpe-launcher \
+    webdriver \
 "
 
 # Additional OSS packages etc, which are only needed for WPE based images.
