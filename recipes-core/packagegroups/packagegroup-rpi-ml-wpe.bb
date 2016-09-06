@@ -13,6 +13,8 @@ RDEPENDS_packagegroup-ml-wpe = "\
     wpe-web-inspector-plugin \
     wpe-launcher \
     webdriver \
+    cppsdk  \
+    webbridge \
 "
 
 # Additional OSS packages etc, which are only needed for WPE based images.

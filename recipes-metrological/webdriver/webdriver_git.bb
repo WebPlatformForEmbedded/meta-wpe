@@ -15,7 +15,8 @@ SRC_URI += " \
     file://WebDriver_extension_wpe_base.pc \
 "
 
-SRCREV = "c67f87e9885386f41ab811cd09b008f14aeaa132"
+SRCREV = "4ddd0d4cae62ea89c0b83b364a4e70655c331ea8"
+
 S = "${WORKDIR}/git"
 
 export WPE_STAGING_DIR = "${STAGING_DIR_TARGET}"
