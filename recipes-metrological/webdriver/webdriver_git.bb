@@ -15,7 +15,7 @@ SRC_URI += " \
     file://WebDriver_extension_wpe_base.pc \
 "
 
-SRCREV = "4ddd0d4cae62ea89c0b83b364a4e70655c331ea8"
+SRCREV = "6b7f24d44470f13d467140c3afe28b326177d91d"
 
 S = "${WORKDIR}/git"
 
@@ -24,18 +24,19 @@ export WPE_TARGET_DIR = "${STAGING_DIR_TARGET}"
 
 GLIB_INC = "${STAGING_DIR_TARGET}/usr/include/glib-2.0"
 GLIB_LIB_INC = "${STAGING_DIR_TARGET}/usr/lib/glib-2.0/include"
+WD_PLATFORM_NAME = "wpe"
 
 do_configure() {
     cd ${S}
     rm -rf out
-    ./build_rpi.sh out rpi release
+    ./build_wpe.sh out release
 }
 
 do_compile() {
     oe_runmake CPPFLAGS="${CPPFLAGS} -I${GLIB_INC} -I${GLIB_LIB_INC}" \
     LIBS="-L${STAGING_DIR_TARGET}/usr/lib/ -lWPEWebKit -lWPE -lglib-2.0 -ljson-c -lcurl -pthread -ldl" \
-    -C ${S}/out/rpi/release/;
-    cd ${S};./copy.sh out rpi release;
+    -C ${S}/out/${WD_PLATFORM_NAME}/release/;
+    cd ${S};./copy.sh out release;
 }
 
 do_install() {
@@ -45,9 +46,9 @@ do_install() {
     install -m 0755 ${B}/src/webdriver_wrapper/*.h  ${D}${includedir}/
 
     install -d ${D}${bindir}
-    install -m 0755 ${B}/out/bin/rpi/release/W* ${D}${bindir}/
+    install -m 0755 ${B}/out/bin/${WD_PLATFORM_NAME}/release/W* ${D}${bindir}/
     install -d ${D}${libdir}
-    install -m 0755 ${B}/out/bin/rpi/release/lib*.so ${D}${libdir}/
+    install -m 0755 ${B}/out/bin/${WD_PLATFORM_NAME}/release/lib*.so ${D}${libdir}/
     install -d ${D}${datadir}/web
     install -m 0755 ${B}/web/* ${D}${datadir}/web/
 }
