@@ -7,9 +7,9 @@ DEPENDS = "wpe cppsdk zlib"
 
 PV = "1.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable"
+SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=webdriver"
 
-SRCREV = "8032586b6516b465a26acf7ad13d52057a2ecb5a"
+SRCREV = "98ea52d563fc1fa7d2a0ccd0cf1516d670e734ff"
 
 S = "${WORKDIR}/git"
 
@@ -27,7 +27,7 @@ SNAPSHOT_rpi = "snapshot"
 MEMORYPROFILE ?= "128m"
 MEMORYPRESSURE ?= "databaseprocess:50m,networkprocess:100m,webprocess:300m,rpcprocess:50m"
 
-PACKAGECONFIG ??= "web-ui remotecontrol deviceinfo monitor ${PROVISIONING} tracecontrol webproxy dailserver webkitbrowser ${SNAPSHOT}"
+PACKAGECONFIG ??= "web-ui remotecontrol deviceinfo monitor ${PROVISIONING} tracecontrol webproxy dailserver webkitbrowser ${SNAPSHOT} webdriver"
 
 PACKAGECONFIG[browser]            = "-DWEBBRIDGE_PLUGIN_BROWSER=ON,-DWEBBRIDGE_PLUGIN_BROWSER=OFF,"
 PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
@@ -41,6 +41,7 @@ PACKAGECONFIG[remotecontrol]      = "-DWEBBRIDGE_PLUGIN_REMOTECONTROL=ON,-DWEBBR
 PACKAGECONFIG[snapshot]           = "-DWEBBRIDGE_PLUGIN_SNAPSHOT=ON,,userland"
 PACKAGECONFIG[tracecontrol]       = "-DWEBBRIDGE_PLUGIN_TRACECONTROL=ON,-DWEBBRIDGE_PLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[webproxy]           = "-DWEBBRIDGE_PLUGIN_WEBPROXY=ON,-DWEBBRIDGE_PLUGIN_WEBPROXY=OFF,"
+PACKAGECONFIG[webdriver]          = "-DWEBBRIDGE_PLUGIN_WEBDRIVER=ON,-DWEBBRIDGE_PLUGIN_WEBDRIVER=OFF,webdriver"
 PACKAGECONFIG[webkitbrowser]      = "-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=ON \
     -DWEBBRIDGE_PLUGIN_WEBKITBROWSER_AUTOSTART=true \
     -DWEBBRIDGE_PLUGIN_WEBKITBROWSER_MEMORYPROFILE=${MEMORYPROFILE} \
