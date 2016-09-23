@@ -7,9 +7,9 @@ DEPENDS = "wpe cppsdk zlib"
 
 PV = "1.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=webdriver"
+SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable"
 
-SRCREV = "98ea52d563fc1fa7d2a0ccd0cf1516d670e734ff"
+SRCREV = "edb1cea2801c0c3748f226c477da6401e7848904"
 
 S = "${WORKDIR}/git"
 
