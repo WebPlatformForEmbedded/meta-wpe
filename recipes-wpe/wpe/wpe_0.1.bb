@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 
 DEPENDS += " \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native \
-    cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 udev zlib \
+    cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
@@ -43,7 +43,7 @@ WL_BUFFER_MANAGEMENT ?= ""
 WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
 WL_BUFFER_MANAGEMENT_drm = "wl-drm"
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi fetchapi gamepad geolocation indexeddb logs mediasource notifications ${PROVISIONING} sampling-profiler shadowdom subtlecrypto video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi fetchapi gamepad geolocation indexeddb logs mediasource notifications ${PROVISIONING} sampling-profiler shadowdom subtlecrypto udev video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
@@ -77,6 +77,7 @@ PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
 PACKAGECONFIG[shadowdom] = "-DENABLE_SHADOW_DOM=ON,-DENABLE_SHADOW_DOM=OFF,"
 PACKAGECONFIG[subtlecrypto] = "-DENABLE_SUBTLE_CRYPTO=ON,-DENABLE_SUBTLE_CRYPTO=OFF,"
+PACKAGECONFIG[udev] = "-DUSE_WPE_INPUT_UDEV=ON,-DUSE_WPE_INPUT_UDEV=OFF,udev"
 PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
 
