@@ -3,8 +3,7 @@ HOMEPAGE = "http://www.metrological.com/"
 SECTION = "metrological"
 LICENSE = "CLOSED"
 
-DEPENDS = "wpe glib-2.0 json-c"
-RDEPENDS_${PN} += "libcurl"
+DEPENDS = "curl glib-2.0 json-c wpe gyp-native"
 
 PV = "1.0+gitr${SRCPV}"
 
@@ -18,6 +17,8 @@ SRC_URI += " \
 SRCREV = "6b7f24d44470f13d467140c3afe28b326177d91d"
 
 S = "${WORKDIR}/git"
+
+inherit pythonnative
 
 export WPE_STAGING_DIR = "${STAGING_DIR_TARGET}"
 export WPE_TARGET_DIR = "${STAGING_DIR_TARGET}"
