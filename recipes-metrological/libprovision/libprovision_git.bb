@@ -15,11 +15,12 @@ SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh"
 
 S = "${WORKDIR}/git"
 
-COMPATIBLE_HOST = '(i.86|arm).*-linux'
+COMPATIBLE_HOST = '(i.86|arm|mipsel).*-linux'
 
 PROV_ARCH ?= ""
 PROV_ARCH_arm = "arm"
 PROV_ARCH_x86 = "i686"
+PROV_ARCH_mipsel = "mipsel"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
