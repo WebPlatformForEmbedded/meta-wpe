@@ -23,7 +23,7 @@ NETFLIX_BACKEND_egl = "egl"
 NETFLIX_BACKEND_gles = "gles"
 NETFLIX_BACKEND_rpi = "rpi"
 
-PACKAGECONFIG ?= "${NETFLIX_BACKEND}"
+PACKAGECONFIG ?= "${NETFLIX_BACKEND} playready"
 
 PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl \
                       -DGIBBON_PLATFORM=rpi \ 
@@ -45,11 +45,6 @@ PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
 
 
 # DRM
-NETFLIX_DRM ?= ""
-NETFLIX_DRM_playready = "playready"
-
-PACKAGECONFIG ?= "${NETFLIX_DRM}"
-
 PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready"
 
 OECMAKE_SOURCEPATH = "${S}/netflix"
