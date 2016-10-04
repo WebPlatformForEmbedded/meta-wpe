@@ -5,7 +5,7 @@ LICENSE = "CLOSED"
 DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares curl graphite2"
 
 SRCREV = "a0b8cd13ad70bf670febf7f0a52686acb4ec636e"
-PV = "4.2.2+git${SRCPV}"
+PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master"
 SRC_URI += "file://curlutils-stdint-include.patch"
