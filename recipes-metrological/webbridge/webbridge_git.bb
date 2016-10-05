@@ -30,7 +30,7 @@ WEBKITBROWSER_MEMORYPRESSURE ?= "databaseprocess:50m,networkprocess:100m,webproc
 WEBKITBROWSER_MEMORYPROFILE ?= "128m"
 WEBKITBROWSER_STARTURL ?= "about:blank"
 
-PACKAGECONFIG ?= "dailserver deviceinfo monitor ${PROVISIONING} remotecontrol ${SNAPSHOT} tracecontrol webdriver webkitbrowser webproxy web-ui"
+PACKAGECONFIG ?= "dailserver deviceinfo monitor ${PROVISIONING} remotecontrol ${SNAPSHOT} tracecontrol webkitbrowser webproxy web-ui"
 
 PACKAGECONFIG[browser]            = "-DWEBBRIDGE_PLUGIN_BROWSER=ON,-DWEBBRIDGE_PLUGIN_BROWSER=OFF,"
 PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
