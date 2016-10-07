@@ -10,6 +10,3 @@ LICENSE_LOCATION ?= "${S}/LICENSE"
 LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=703f52ef306fb8ef480744cc0da110fe"
 
 export SCANNER_TOOL = "wayland-scanner"
-do_configure_prepend() {
-	sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${WORKDIR}/git/rpi/westeros-sink/Makefile.am
-}

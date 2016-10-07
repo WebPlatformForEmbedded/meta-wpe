@@ -11,7 +11,7 @@ PACKAGECONFIG[incsbprotocol] = "--enable-sbprotocol=yes"
 PACKAGECONFIG[xdgv4] = "--enable-xdgv4=yes"
 PACKAGECONFIG[xdgv5] = "--enable-xdgv5=yes"
 
-WESTEROS ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "westeros-soc westeros-sink", d)}"
+WESTEROS ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "westeros-soc", d)}"
 
 S = "${WORKDIR}/git"
 
@@ -23,6 +23,10 @@ inherit autotools pkgconfig
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
+
+do_configure_prepend() {
+    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/rpi/westeros-sink/Makefile.am
+}
 
 do_compile_prepend() {
    export SCANNER_TOOL=${STAGING_BINDIR_NATIVE}/wayland-scanner

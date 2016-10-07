@@ -9,6 +9,7 @@ PACKAGECONFIG[gst1] = "--enable-gstreamer1=yes,--enable-gstreamer1=no,gstreamer1
 PACKAGECONFIG_rpi = "gst1"
 
 do_configure_prepend_rpi () {
+    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/Makefile.am
     ln -sf ../../westeros-sink/westeros-sink.c ${S}
     ln -sf ../../westeros-sink/westeros-sink.h ${S}
 }

@@ -6,10 +6,10 @@ S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
 
-DEPENDS += "wayland westeros-simpleshell westeros-simplebuffer"
+DEPENDS += "wayland westeros-simpleshell westeros-simplebuffer westeros"
 
 do_compile_prepend() {
-	oe_runmake -C ${WORKDIR}/git/protocol
+	oe_runmake -C ${S}/../../protocol
 }
 
-CFLAGS += "-I${WORKDIR}/git/protocol"
+CFLAGS += "-I${S}/../../protocol"
