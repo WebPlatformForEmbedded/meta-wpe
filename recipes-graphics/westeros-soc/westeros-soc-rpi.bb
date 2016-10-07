@@ -22,3 +22,7 @@ DEBIAN_NOAUTONAME_${PN}-staticdev = "1"
 inherit autotools pkgconfig
 
 FILES_${PN} = "${libdir}/*"
+
+do_configure_prepend() {
+    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/westeros-sink/Makefile.am
+}

@@ -17,6 +17,7 @@ SECURITY_CFLAGS_remove="-pie"
 
 inherit autotools pkgconfig
 
-do_install_append() {
+do_configure_prepend() {
+    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/../westeros-sink/Makefile.am
 }
 
