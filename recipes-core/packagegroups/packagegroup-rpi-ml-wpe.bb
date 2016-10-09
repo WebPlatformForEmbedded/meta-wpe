@@ -12,6 +12,7 @@ RDEPENDS_packagegroup-ml-wpe = "\
     wpe-platform-plugin \
     wpe-web-inspector-plugin \
     wpe-launcher \
+    webdriver-wpe \
     cppsdk  \
     webbridge \
 "
