@@ -7,7 +7,7 @@ DEPENDS = "curl glib-2.0 json-c wpe gyp-native"
 
 PV = "1.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/webdriver.git;protocol=ssh;branch=wpewebdriver \
+SRC_URI = "git://git@github.com/Metrological/webdriver.git;protocol=ssh;branch=WD_1.X_dev \
            file://chromium_base.pc \
            file://WebDriver_core.pc \
            file://WebDriver_extension_wpe_base.pc \
