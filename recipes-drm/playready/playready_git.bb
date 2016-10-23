@@ -2,7 +2,7 @@ SUMMARY = "Microsoft PlayReady DRM implementation."
 HOMEPAGE = "https://www.microsoft.com/playready/"
 LICENSE = "CLOSED"
 
-DEPENDS = "libprovision"
+DEPENDS = "libprovision cppsdk"
 
 SRCREV = "3f1ed46727fa51fc39135b8545857784a109f92e"
 PV = "1.0.gitr${SRCPV}"
@@ -14,6 +14,7 @@ EXTRA_OECMAKE += " \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_C_FLAGS="-std=c99 -D_GNU_SOURCE ${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}" \
 	-DPLAYREADY_USE_PROVISION=ON \
+	-DBUILD_SHARED_LIBS=ON \
 "
 
 S = "${WORKDIR}/git/src"
