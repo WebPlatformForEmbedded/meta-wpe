@@ -33,3 +33,12 @@ do_install_append() {
 	fi
 	ln -sf /tmp ${D}${sysconfdir}/playready/storage
 }
+
+RDEPS = " \
+	libprovision \
+	libprovisionproxy \
+"
+
+FILES_${PN} = "${libdir}/libplayready.so ${sysconfdir}/playready/*"
+
+INSANE_SKIP_${PN} += "dev-deps dev-so"
