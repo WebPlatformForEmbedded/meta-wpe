@@ -9,6 +9,7 @@ PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master"
 SRC_URI += "file://curlutils-stdint-include.patch"
+SRC_URI += "file://netflix.pc"
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig pythonnative
@@ -23,10 +24,10 @@ NETFLIX_BACKEND_egl = "egl"
 NETFLIX_BACKEND_gles = "gles"
 NETFLIX_BACKEND_rpi = "rpi"
 
-PACKAGECONFIG ?= "${NETFLIX_BACKEND} playready"
+PACKAGECONFIG ?= "${NETFLIX_BACKEND} playready provisioning"
 
 PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl \
-                      -DGIBBON_PLATFORM=rpi \ 
+                      -DGIBBON_PLATFORM=rpi \
                       -DDPI_IMPLEMENTATION=gstreamer \
                       -DGST_VIDEO_RENDERING=gl \
                       ,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad virtual/egl virtual/libgles2"
@@ -45,7 +46,8 @@ PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
 
 
 # DRM
-PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready"
+PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready,playready"
+PACKAGECONFIG[provisioning] = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,libprovision,libprovision"
 
 OECMAKE_SOURCEPATH = "${S}/netflix"
 
@@ -66,7 +68,8 @@ EXTRA_OECMAKE += " \
     -DNRDP_TOOLS=manufSSgenerator \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_DEBUG=OFF \
-    -DBUILD_PRODUCTION=ON \    
+    -DBUILD_PRODUCTION=ON \
+    -DGIBBON_MODE=shared \
 "
 
 do_configure_prepend() {
@@ -79,22 +82,39 @@ do_configure_prepend() {
 }
 
 do_install() {
-    install -D -m 0755 ${B}/src/platform/gibbon/libJavaScriptCore.so ${D}${libdir}/libJavaScriptCore.so
-    install -D -m 0755 ${B}/src/platform/gibbon/netflix ${D}${bindir}/netflix
+    install -d ${D}${libdir}
+    install -D -m 0755 ${B}/src/platform/gibbon/libnetflix.so ${D}${libdir}
+
+    install -d ${D}${libdir}/pkgconfig
+    install -D -m 0644 ${WORKDIR}/netflix.pc ${D}${libdir}/pkgconfig/netflix.pc
+
+    # STAGING
+    make -C ${B} install
+    install -d ${STAGING_INCDIR}/netflix
+    install -d ${STAGING_INCDIR}/netflix/nrdbase
+    install -d ${STAGING_INCDIR}/netflix/nrdnet
+    install -d ${STAGING_INCDIR}/netflix/nrdase
+    install -d ${STAGING_INCDIR}/netflix/gibbon
+    cp -Rpf ${D}/release/include/* ${STAGING_INCDIR}/netflix/
+    cp -Rpf ${B}/include/nrdbase/config.h ${STAGING_INCDIR}/netflix/nrdbase/
+
+    cp -Rpf ${S}/netflix/src/platform/gibbon/*.h ${STAGING_INCDIR}/netflix
+    cp -Rpf ${S}/netflix/src/platform/gibbon/bridge/*.h ${STAGING_INCDIR}/netflix
+    cp -Rpf ${B}/src/platform/gibbon/include/gibbon/*.h ${STAGING_INCDIR}/netflix/gibbon
+
+    # FONTS
     install -d ${D}${datadir}/fonts/netflix
     cp -av ${B}/src/platform/gibbon/data/fonts/* ${D}${datadir}/fonts/netflix/
-
     install -D -m 0644 ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/LastResort.ttf
 
     # same hack for the fonts
     chown -R 0:0 ${D}${datadir}
-    # remove RPATH from binary
-    chrpath --delete ${D}${bindir}/netflix
 }
-FILES_${PN} = "${bindir}/netflix ${libdir}/libJavaScriptCore.so \
+
+FILES_${PN} = "${libdir}/libnetflix.so \
                ${datadir}/*"
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-so already-stripped"
+INSANE_SKIP_${PN} += "dev-deps already-stripped installed-vs-shipped"
 
 PARALLEL_MAKE = ""
