@@ -15,6 +15,8 @@ WESTEROS ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "wester
 
 S = "${WORKDIR}/git"
 
+westeros-soc_hikey-32 = "westeros-soc-drm"
+
 DEPENDS = "wayland libxkbcommon westeros-simplebuffer westeros-simpleshell ${WESTEROS}"
 
 RDEPENDS_${PN} = "xkeyboard-config"
@@ -23,10 +25,6 @@ inherit autotools pkgconfig
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
-
-do_configure_prepend() {
-    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/rpi/westeros-sink/Makefile.am
-}
 
 do_compile_prepend() {
    export SCANNER_TOOL=${STAGING_BINDIR_NATIVE}/wayland-scanner
