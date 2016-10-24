@@ -1,7 +1,7 @@
 SUMMARY = "Metrological's CPP SDK abstraction layer"
 HOMEPAGE = "http://www.metrological.com/"
 SECTION = "metrological"
-LICENSE = "CLOSED"
+LICENSE = "Apache-2.0"
 
 DEPENDS = "zlib"
 
