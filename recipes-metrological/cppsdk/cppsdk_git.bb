@@ -20,7 +20,7 @@ CPPSDK_PLATFORM_dawn = "platform-dawn"
 CPPSDK_PLATFORM_eos = "platform-eos"
 CPPSDK_PLATFORM_rpi = "platform-rpi"
 
-PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo devices generics process tracing websocket rpc"
+PACKAGECONFIG ?= "${CPPSDK_PLATFORM} cryptalgo generics process tracing websocket rpc"
 
 PACKAGECONFIG[platform-dawn] = "-DCPPSDK_PLATFORM=DAWN,,"
 PACKAGECONFIG[platform-eos] = "-DCPPSDK_PLATFORM=EOS,,"
