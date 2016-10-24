@@ -18,8 +18,6 @@ inherit pkgconfig cmake
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
 PROVISIONING_libc-musl = ""
-PROVISIONING_mipsel = ""
-PROVISIONING_x86 = ""
 
 SNAPSHOT ?= ""
 SNAPSHOT_rpi = "snapshot"
