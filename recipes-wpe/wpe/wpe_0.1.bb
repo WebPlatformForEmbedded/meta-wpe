@@ -37,6 +37,7 @@ PROVISIONING ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "pr
 PROVISIONING_libc-musl = ""
 PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
+PROVISIONING_hikey-32 = ""
 
 WL_BUFFER_MANAGEMENT ?= ""
 #WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
