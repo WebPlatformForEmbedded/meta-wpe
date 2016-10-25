@@ -1,7 +1,8 @@
 SUMMARY = "Metrological's webbridge middleware"
 HOMEPAGE = "http://www.metrological.com/"
 SECTION = "metrological"
-LICENSE = "Apache-2.0"
+LICENSE = "CLOSED"
+#LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 DEPENDS = "cppsdk zlib"
 
