@@ -2,7 +2,7 @@ SUMMARY = "Netflix native application"
 HOMEPAGE = "http://www.netflix.com/"
 LICENSE = "CLOSED"
 
-DEPENDS = "freetype icu jpeg libpng libmng libwebp harfbuzz expat openssl c-ares curl graphite2"
+DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
 
 SRCREV = "a0b8cd13ad70bf670febf7f0a52686acb4ec636e"
 PV = "4.2.3+git${SRCPV}"
@@ -10,18 +10,15 @@ PV = "4.2.3+git${SRCPV}"
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master"
 SRC_URI += "file://curlutils-stdint-include.patch"
 SRC_URI += "file://netflix.pc"
+
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig pythonnative
-
-export TARGET_CROSS="$(GNU_TARGET_NAME)-"
 
 # configure the netflix backend for rendering
 # the following variable (NETFLIX_BACKEND) needs to be set in the machine config
 NETFLIX_BACKEND ?= "default"
 NETFLIX_BACKEND_nexus = "nexus"
-NETFLIX_BACKEND_egl = "egl"
-NETFLIX_BACKEND_gles = "gles"
 NETFLIX_BACKEND_rpi = "rpi"
 
 PACKAGECONFIG ?= "${NETFLIX_BACKEND} playready provisioning"
@@ -31,8 +28,8 @@ PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl \
                       -DDPI_IMPLEMENTATION=gstreamer \
                       -DGST_VIDEO_RENDERING=gl \
                       ,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad virtual/egl virtual/libgles2"
-PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,broadcom-refsw gstreamer1.0 virtual/egl virtual/libgles2"
-PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0-fsmd virtual/egl virtual/libgles2"
+PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,broadcom-refsw gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
+PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
 PACKAGECONFIG[egl] = "-DGIBBON_GRAPHICS=gles2-egl -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
 PACKAGECONFIG[gles] = "-DGIBBON_GRAPHICS=gles2 -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
 PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
@@ -44,15 +41,11 @@ PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
                         -DDPI_REFERENCE_AUDIO_MIXER=none \
                         ,,ffmpeg libomxil"
 
-
 # DRM
 PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready,playready"
 PACKAGECONFIG[provisioning] = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,libprovision,libprovision"
 
 OECMAKE_SOURCEPATH = "${S}/netflix"
-
-CFLAGS += "-fPIC -DUSE_PLAYBIN=1"
-CXXFLAGS += "-fPIC -DUSE_PLAYBIN=1"
 
 EXTRA_OECMAKE += " \
     -DBUILD_DPI_DIRECTORY=${S}/partner/dpi \
@@ -72,6 +65,13 @@ EXTRA_OECMAKE += " \
     -DGIBBON_MODE=shared \
 "
 
+export TARGET_CROSS = "$(GNU_TARGET_NAME)-"
+
+CFLAGS += "-fPIC -DUSE_PLAYBIN=1"
+CXXFLAGS += "-fPIC -DUSE_PLAYBIN=1"
+
+PARALLEL_MAKE = ""
+
 do_configure_prepend() {
     mkdir -p ${S}/netflix/src/platform/gibbon/data/etc/conf
     cp -f ${S}/netflix/resources/configuration/common.xml ${S}/netflix/src/platform/gibbon/data/etc/conf/common.xml
@@ -82,39 +82,39 @@ do_configure_prepend() {
 }
 
 do_install() {
+    # Temporary install to CMAKE_INSTALL_PREFIX ( ie ${D}/release )
+    make -C ${B} install
+
+    # Move files into expected locations + copy additional headers from ${S} and ${B}
+    install -d ${D}${includedir}/netflix
+    cp -av --no-preserve=ownership ${D}/release/include/* ${D}${includedir}/netflix/
+    cp -av --no-preserve=ownership ${B}/include/nrdbase/config.h ${D}${includedir}/netflix/nrdbase/
+    cp -av --no-preserve=ownership ${S}/netflix/src/platform/gibbon/*.h ${D}${includedir}/netflix/
+    cp -av --no-preserve=ownership ${S}/netflix/src/platform/gibbon/bridge/*.h ${D}${includedir}/netflix/
+
+    install -d ${D}${includedir}/netflix/gibbon
+    cp -av --no-preserve=ownership ${B}/src/platform/gibbon/include/gibbon/*.h ${D}${includedir}/netflix/gibbon/
+
+    install -d ${D}${datadir}/fonts/netflix
+    cp -av --no-preserve=ownership ${B}/src/platform/gibbon/data/fonts/* ${D}${datadir}/fonts/netflix/
+    install -m 0644 ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/
+
     install -d ${D}${libdir}
-    install -D -m 0755 ${B}/src/platform/gibbon/libnetflix.so ${D}${libdir}
+    install -m 0755 ${B}/src/platform/gibbon/libnetflix.so ${D}${libdir}/
 
     install -d ${D}${libdir}/pkgconfig
-    install -D -m 0644 ${WORKDIR}/netflix.pc ${D}${libdir}/pkgconfig/netflix.pc
+    install -m 0644 ${WORKDIR}/netflix.pc ${D}${libdir}/pkgconfig/
 
-    # STAGING
-    make -C ${B} install
-    install -d ${STAGING_INCDIR}/netflix
-    install -d ${STAGING_INCDIR}/netflix/nrdbase
-    install -d ${STAGING_INCDIR}/netflix/nrdnet
-    install -d ${STAGING_INCDIR}/netflix/nrdase
-    install -d ${STAGING_INCDIR}/netflix/gibbon
-    cp -Rpf ${D}/release/include/* ${STAGING_INCDIR}/netflix/
-    cp -Rpf ${B}/include/nrdbase/config.h ${STAGING_INCDIR}/netflix/nrdbase/
-
-    cp -Rpf ${S}/netflix/src/platform/gibbon/*.h ${STAGING_INCDIR}/netflix
-    cp -Rpf ${S}/netflix/src/platform/gibbon/bridge/*.h ${STAGING_INCDIR}/netflix
-    cp -Rpf ${B}/src/platform/gibbon/include/gibbon/*.h ${STAGING_INCDIR}/netflix/gibbon
-
-    # FONTS
-    install -d ${D}${datadir}/fonts/netflix
-    cp -av ${B}/src/platform/gibbon/data/fonts/* ${D}${datadir}/fonts/netflix/
-    install -D -m 0644 ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/LastResort.ttf
-
-    # same hack for the fonts
-    chown -R 0:0 ${D}${datadir}
+    # Cleanup the temporary install
+    rm -rf ${D}/release
 }
 
-FILES_${PN} = "${libdir}/libnetflix.so \
-               ${datadir}/*"
+# libnetflix.so isn't versioned, so we need to force .so files into the
+# run-time package (and keep them out of the -dev package).
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-deps already-stripped installed-vs-shipped"
+FILES_${PN} += "${libdir}/*.so"
 
-PARALLEL_MAKE = ""
+FILES_${PN} += "${datadir}/fonts"
+
+INSANE_SKIP_${PN} += "already-stripped"

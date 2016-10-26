@@ -2,13 +2,16 @@ SUMMARY = "Microsoft PlayReady DRM implementation."
 HOMEPAGE = "https://www.microsoft.com/playready/"
 LICENSE = "CLOSED"
 
-DEPENDS = "libprovision cppsdk"
+DEPENDS = "cppsdk libprovision"
+
+PV = "1.0.gitr${SRCPV}"
 
 SRCREV = "3f1ed46727fa51fc39135b8545857784a109f92e"
-PV = "1.0.gitr${SRCPV}"
 SRC_URI = "git://git@github.com/Metrological/playready.git;protocol=ssh"
 
 inherit pkgconfig cmake
+
+S = "${WORKDIR}/git/src"
 
 EXTRA_OECMAKE += " \
 	-DCMAKE_BUILD_TYPE=Release \
@@ -17,28 +20,29 @@ EXTRA_OECMAKE += " \
 	-DBUILD_SHARED_LIBS=ON \
 "
 
-S = "${WORKDIR}/git/src"
-
 do_install_append() {
-	install -d ${B}/package/playready/playready.pc \
-	${D}${libdir}/pkgconfig/playready.pc
-
-	install -d ${D}${sysconfdir}/playready/storage
-
-	if [ -f ${B}/package/playready/bgroupcert.dat ]; then \
-		install -D -m 0644 ${B}/package/playready/bgroupcert.dat ${D}${sysconfdir}/playready/; \
+	install -d ${D}${sysconfdir}/playready
+	if [ -f ${B}/package/playready/bgroupcert.dat ]; then
+		install -m 0644 ${B}/package/playready/bgroupcert.dat ${D}${sysconfdir}/playready/
 	fi
-	if [ -f ${B}/package/playready/zgpriv.dat ]; then \
-		$(INSTALL) -D -m 0644 ${B}/package/playready/zgpriv.dat ${D}${sysconfdir}/playready/; \
+	if [ -f ${B}/package/playready/zgpriv.dat ]; then
+		install -m 0644 ${B}/package/playready/zgpriv.dat ${D}${sysconfdir}/playready/
 	fi
+
+	# Fixme: stuff related to "storage" should probably be under /var, not /etc
 	ln -sf /tmp ${D}${sysconfdir}/playready/storage
 }
 
-RDEPS = " \
-	libprovision \
-	libprovisionproxy \
-"
+# libplayready.so isn't versioned, so we need to force .so files into the
+# run-time package (and keep them out of the -dev package).
 
-FILES_${PN} = "${libdir}/libplayready.so ${sysconfdir}/playready/*"
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
 
-INSANE_SKIP_${PN} += "dev-deps dev-so"
+FILES_${PN} += "${sysconfdir}/playready"
+
+# Autodetection of runtime dependency on libprovision.so doesn't work because
+# libprovision.so is linked without "-Wl,-soname,libprovision.so".
+# See http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
+# Until that's fixed, specify the runtime dependency manually.
+RDEPENDS_${PN} += "libprovision"
