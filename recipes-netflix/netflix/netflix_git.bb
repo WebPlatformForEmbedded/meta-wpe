@@ -82,37 +82,39 @@ do_configure_prepend() {
 }
 
 do_install() {
+    # Temporary install to CMAKE_INSTALL_PREFIX ( ie ${D}/release )
+    make -C ${B} install
+
+    # Move files into expected locations + copy additional headers from ${S} and ${B}
+    install -d ${D}${includedir}/netflix
+    cp -av --no-preserve=ownership ${D}/release/include/* ${D}${includedir}/netflix/
+    cp -av --no-preserve=ownership ${B}/include/nrdbase/config.h ${D}${includedir}/netflix/nrdbase/
+    cp -av --no-preserve=ownership ${S}/netflix/src/platform/gibbon/*.h ${D}${includedir}/netflix/
+    cp -av --no-preserve=ownership ${S}/netflix/src/platform/gibbon/bridge/*.h ${D}${includedir}/netflix/
+
+    install -d ${D}${includedir}/netflix/gibbon
+    cp -av --no-preserve=ownership ${B}/src/platform/gibbon/include/gibbon/*.h ${D}${includedir}/netflix/gibbon/
+
+    install -d ${D}${datadir}/fonts/netflix
+    cp -av --no-preserve=ownership ${B}/src/platform/gibbon/data/fonts/* ${D}${datadir}/fonts/netflix/
+    install -m 0644 ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/
+
     install -d ${D}${libdir}
-    install -D -m 0755 ${B}/src/platform/gibbon/libnetflix.so ${D}${libdir}
+    install -m 0755 ${B}/src/platform/gibbon/libnetflix.so ${D}${libdir}/
 
     install -d ${D}${libdir}/pkgconfig
-    install -D -m 0644 ${WORKDIR}/netflix.pc ${D}${libdir}/pkgconfig/netflix.pc
+    install -m 0644 ${WORKDIR}/netflix.pc ${D}${libdir}/pkgconfig/
 
-    # STAGING
-    make -C ${B} install
-    install -d ${STAGING_INCDIR}/netflix
-    install -d ${STAGING_INCDIR}/netflix/nrdbase
-    install -d ${STAGING_INCDIR}/netflix/nrdnet
-    install -d ${STAGING_INCDIR}/netflix/nrdase
-    install -d ${STAGING_INCDIR}/netflix/gibbon
-    cp -Rpf ${D}/release/include/* ${STAGING_INCDIR}/netflix/
-    cp -Rpf ${B}/include/nrdbase/config.h ${STAGING_INCDIR}/netflix/nrdbase/
-
-    cp -Rpf ${S}/netflix/src/platform/gibbon/*.h ${STAGING_INCDIR}/netflix
-    cp -Rpf ${S}/netflix/src/platform/gibbon/bridge/*.h ${STAGING_INCDIR}/netflix
-    cp -Rpf ${B}/src/platform/gibbon/include/gibbon/*.h ${STAGING_INCDIR}/netflix/gibbon
-
-    # FONTS
-    install -d ${D}${datadir}/fonts/netflix
-    cp -av ${B}/src/platform/gibbon/data/fonts/* ${D}${datadir}/fonts/netflix/
-    install -D -m 0644 ${S}/netflix/src/platform/gibbon/resources/gibbon/fonts/LastResort.ttf ${D}${datadir}/fonts/netflix/LastResort.ttf
-
-    # same hack for the fonts
-    chown -R 0:0 ${D}${datadir}
+    # Cleanup the temporary install
+    rm -rf ${D}/release
 }
 
-FILES_${PN} = "${libdir}/libnetflix.so \
-               ${datadir}/*"
+# libnetflix.so isn't versioned, so we need to force .so files into the
+# run-time package (and keep them out of the -dev package).
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP_${PN} += "dev-deps already-stripped installed-vs-shipped"
+FILES_${PN} += "${libdir}/*.so"
+
+FILES_${PN} += "${datadir}/fonts"
+
+INSANE_SKIP_${PN} += "already-stripped"
