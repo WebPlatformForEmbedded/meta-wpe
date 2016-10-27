@@ -27,6 +27,8 @@ CPPFLAGS += "-I${STAGING_DIR_TARGET}/usr/include/glib-2.0 -I${STAGING_DIR_TARGET
 EXTRA_OEMAKE = "V=1 LIBS='-lWPEWebKit -lWPE -lglib-2.0 -ljson-c -lcurl -pthread -ldl'"
 
 do_configure() {
+    export PYTHON=python
+    export GYP=`which gyp`
     rm -rf out
     ./build_wpe.sh out release
 }
