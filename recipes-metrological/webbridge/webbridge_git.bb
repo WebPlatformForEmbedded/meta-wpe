@@ -20,17 +20,16 @@ BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 # ----------------------------------------------------------------------------
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable"
-SRC_URI += "file://webbridge"
+SRC_URI += "file://webbridge-init"
 
 SRCREV = "61bc55fc4df998f43642b6504a467c394e73cfe4"
 
 S = "${WORKDIR}/git"
 
-inherit pkgconfig cmake update-rc.d
+inherit cmake pkgconfig update-rc.d
 
 # ----------------------------------------------------------------------------
 
-# The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
 PROVISIONING_libc-musl = ""
 
@@ -90,14 +89,12 @@ EXTRA_OECMAKE += "\
 
 do_install_append() {
     install -d ${D}${sysconfdir}/init.d
-    install -D -m 0755 ${WORKDIR}/webbridge ${D}${sysconfdir}/init.d/webbridge
+    install -m 0755 ${WORKDIR}/webbridge-init ${D}${sysconfdir}/init.d/webbridge
 }
 
 # ----------------------------------------------------------------------------
 
 PACKAGES =+ "${PN}-initscript"
-
-# ----------------------------------------------------------------------------
 
 FILES_${PN}-initscript = "${sysconfdir}/init.d/webbridge"
 
