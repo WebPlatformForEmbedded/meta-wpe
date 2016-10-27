@@ -6,15 +6,28 @@ LICENSE = "CLOSED"
 
 DEPENDS = "cppsdk zlib"
 
-PV = "1.0+gitr${SRCPV}"
+# ----------------------------------------------------------------------------
+
+# Type 0 = Production, 1 = Release, 2 = Debug
+WEBBRIDGE_BUILD_TYPE = "0"
+WEBBRIDGE_BUILD_MAJOR = "1"
+WEBBRIDGE_BUILD_MINOR = "6"
+WEBBRIDGE_BUILD_REVISION = "3"
+
+PV = "${WEBBRIDGE_BUILD_MAJOR}.${WEBBRIDGE_BUILD_MINOR}.${WEBBRIDGE_BUILD_REVISION}+${SRCPV}"
+
+# ----------------------------------------------------------------------------
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable"
+SRC_URI += "file://webbridge"
 
 SRCREV = "61bc55fc4df998f43642b6504a467c394e73cfe4"
 
 S = "${WORKDIR}/git"
 
-inherit pkgconfig cmake
+inherit pkgconfig cmake update-rc.d
+
+# ----------------------------------------------------------------------------
 
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
@@ -55,6 +68,13 @@ PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OF
 
 EXTRA_OECMAKE += "\
     -DINSTALL_HEADERS_TO_TARGET=ON \
+    -DWEBBRIDGE_BUILD_VERSION=${WEBBRIDGE_BUILD_MAJOR}.${WEBBRIDGE_BUILD_MINOR}.${WEBBRIDGE_BUILD_REVISION} \
+    -DWEBBRIDGE_BUILD_MAJOR=${WEBBRIDGE_BUILD_MAJOR} \
+    -DWEBBRIDGE_BUILD_MINOR=${WEBBRIDGE_BUILD_MINOR} \
+    -DWEBBRIDGE_BUILD_REVISION=${WEBBRIDGE_BUILD_REVISION} \
+    -DWEBBRIDGE_BUILD_TYPE=${WEBBRIDGE_BUILD_TYPE} \
+    -DWEBBRIDGE_BUILD_HASH=${SRCPV} \
+    -DWEBBRIDGE_BUILD_REF=${SRCREV} \
     -DWEBBRIDGE_PORT=80 \
     -DWEBBRIDGE_BINDING="0.0.0.0" \
     -DWEBBRIDGE_IDLE_TIME=180 \
@@ -65,6 +85,20 @@ EXTRA_OECMAKE += "\
     -DWEBBRIDGE_WEBSERVER_PORT=8080 \
     -DWEBBRIDGE_PROXYSTUB_PATH="/usr/lib/webbridge/proxystubs" \
 "
+# ----------------------------------------------------------------------------
+
+do_install_append() {
+    install -d ${D}${sysconfdir}/init.d
+    install -D -m 0755 ${WORKDIR}/webbridge ${D}${sysconfdir}/init.d/webbridge
+}
+
+# ----------------------------------------------------------------------------
+
+PACKAGES =+ "${PN}-initscript"
+
+# ----------------------------------------------------------------------------
+
+FILES_${PN}-initscript = "${sysconfdir}/init.d/webbridge"
 
 # libinterfaces.so and libproxystubs.so are installed in /usr/lib/webbridge/proxystubs
 # Fixme: to avoid the need for packaging workarounds, plug-ins should be installed
@@ -76,6 +110,16 @@ FILES_${PN}-dbg += "${datadir}/webbridge/WebKitBrowser/.debug/libWPEInjectedBund
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so"
+
+# ----------------------------------------------------------------------------
+
+INITSCRIPT_PACKAGES = "${PN}-initscript"
+INITSCRIPT_NAME_${PN}-initscript = "webbridge"
+INITSCRIPT_PARAMS_${PN}-initscript = "defaults 80 24"
+
+RRECOMMENDS_${PN} = "${PN}-initscript"
+
+# ----------------------------------------------------------------------------
 
 INSANE_SKIP_${PN} += "libdir"
 INSANE_SKIP_${PN}-dbg += "libdir"
