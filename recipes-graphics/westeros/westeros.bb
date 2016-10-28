@@ -17,7 +17,7 @@ S = "${WORKDIR}/git"
 
 westeros-soc_hikey-32 = "westeros-soc-drm"
 
-DEPENDS = "wayland libxkbcommon westeros-simplebuffer westeros-simpleshell ${WESTEROS}"
+DEPENDS = "gstreamer1.0 wayland libxkbcommon westeros-simplebuffer westeros-simpleshell ${WESTEROS}"
 
 RDEPENDS_${PN} = "xkeyboard-config"
 
