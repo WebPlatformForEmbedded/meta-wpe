@@ -7,7 +7,9 @@ DEPENDS = "cppsdk libprovision"
 PV = "1.0.gitr${SRCPV}"
 
 SRCREV = "3f1ed46727fa51fc39135b8545857784a109f92e"
+
 SRC_URI = "git://git@github.com/Metrological/playready.git;protocol=ssh"
+SRC_URI += "file://playready.pc"
 
 inherit pkgconfig cmake
 
@@ -21,6 +23,9 @@ EXTRA_OECMAKE += " \
 "
 
 do_install_append() {
+        install -d ${D}${libdir}/pkgconfig
+        install -m 0644 ${WORKDIR}/playready.pc ${D}${libdir}/pkgconfig/
+        
 	install -d ${D}${sysconfdir}/playready
 	if [ -f ${B}/package/playready/bgroupcert.dat ]; then
 		install -m 0644 ${B}/package/playready/bgroupcert.dat ${D}${sysconfdir}/playready/
@@ -40,6 +45,8 @@ FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so"
 
 FILES_${PN} += "${sysconfdir}/playready"
+
+FILES_${PN} += "${D}${libdir}/pkgconfig/playready.pc"
 
 # Autodetection of runtime dependency on libprovision.so doesn't work because
 # libprovision.so is linked without "-Wl,-soname,libprovision.so".
