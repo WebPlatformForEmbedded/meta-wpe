@@ -19,6 +19,7 @@ inherit cmake pkgconfig
 CPPSDK_PLATFORM ?= "platform-pc"
 CPPSDK_PLATFORM_mipsel = "platform-dawn"
 CPPSDK_PLATFORM_dawn = "platform-dawn"
+CPPSDK_PLATFORM_arm = "platform-eos"
 CPPSDK_PLATFORM_eos = "platform-eos"
 CPPSDK_PLATFORM_rpi = "platform-rpi"
 
