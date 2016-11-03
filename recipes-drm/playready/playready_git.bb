@@ -46,8 +46,6 @@ FILES_${PN} += "${libdir}/*.so"
 
 FILES_${PN} += "${sysconfdir}/playready"
 
-FILES_${PN} += "${D}${libdir}/pkgconfig/playready.pc"
-
 # Autodetection of runtime dependency on libprovision.so doesn't work because
 # libprovision.so is linked without "-Wl,-soname,libprovision.so".
 # See http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
