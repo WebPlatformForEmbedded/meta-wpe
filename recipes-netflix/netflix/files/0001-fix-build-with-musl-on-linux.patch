@@ -1,0 +1,56 @@
+From b8f94f28ebd2ac26944c35d62ffae694db852367 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Nov 2016 12:58:48 -0800
+Subject: [PATCH] fix build with musl on linux
+
+Fix some compilation issues due to
+linux != glibc
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ netflix/src/base/system/Endian.h              | 2 +-
+ netflix/src/platform/gibbon/GibbonConsole.cpp | 2 +-
+ partner/dpi/reference/FileSystem.cpp          | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/netflix/src/base/system/Endian.h b/netflix/src/base/system/Endian.h
+index bb4d970..ae542a9 100644
+--- a/netflix/src/base/system/Endian.h
++++ b/netflix/src/base/system/Endian.h
+@@ -24,7 +24,7 @@
+ // ing file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+ 
+ #if !defined(NRDP_LITTLE_ENDIAN) && !defined(NRDP_BIG_ENDIAN) && !defined(NRDP_PDP_ENDIAN)
+-#if defined (__GLIBC__)
++#if defined (__linux__)
+ #  include <endian.h>
+ #if (__BYTE_ORDER == __LITTLE_ENDIAN)
+ #   define NRDP_LITTLE_ENDIAN
+diff --git a/netflix/src/platform/gibbon/GibbonConsole.cpp b/netflix/src/platform/gibbon/GibbonConsole.cpp
+index 10306d9..7ab66a0 100644
+--- a/netflix/src/platform/gibbon/GibbonConsole.cpp
++++ b/netflix/src/platform/gibbon/GibbonConsole.cpp
+@@ -71,7 +71,7 @@ extern "C" int tgetnum(char *);
+ #include <unistd.h>
+ 
+ 
+-#if defined(NRDP_PLATFORM_LINUX) && !defined(__APPLE__) && !defined(__UCLIBC__)
++#if defined(NRDP_PLATFORM_LINUX) && !defined(__APPLE__) && !defined(__UCLIBC__) && defined(__GLIBC__)
+ #include <gnu/libc-version.h>
+ #endif
+ 
+diff --git a/partner/dpi/reference/FileSystem.cpp b/partner/dpi/reference/FileSystem.cpp
+index ec8a926..5ecc19b 100644
+--- a/partner/dpi/reference/FileSystem.cpp
++++ b/partner/dpi/reference/FileSystem.cpp
+@@ -26,6 +26,7 @@
+ #ifdef __linux__
+ #include <link.h>
+ #include <sys/mman.h>
++#include <dlfcn.h>
+ #endif
+ 
+ #include <nrdbase/Assert.h>
+-- 
+2.10.2
+
