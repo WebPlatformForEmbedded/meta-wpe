@@ -44,7 +44,7 @@ WL_BUFFER_MANAGEMENT ?= ""
 WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
 WL_BUFFER_MANAGEMENT_drm = "wl-drm"
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi fetchapi gamepad geolocation indexeddb logs mediasource notifications ${PROVISIONING} sampling-profiler shadowdom subtlecrypto udev video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad geolocation indexeddb logs mediasource notifications playready ${PROVISIONING} sampling-profiler shadowdom subtlecrypto udev video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
