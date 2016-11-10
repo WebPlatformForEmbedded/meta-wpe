@@ -28,6 +28,7 @@ inherit cmake pkgconfig perlnative pythonnative
 
 TOOLCHAIN = "gcc"
 
+# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
 WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
 WPE_BACKEND_append = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", " wayland","", d)}"
 WPE_BACKEND_remove = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros","", d)}"
@@ -48,15 +49,16 @@ PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetcha
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
-# device specific configs
+# device specific backends
 PACKAGECONFIG[intelce] = "-DUSE_WPE_BACKEND_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,intelce-display"
 PACKAGECONFIG[nexus] = "-DUSE_WPE_BACKEND_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,broadcom-refsw"
 PACKAGECONFIG[rpi] = "-DUSE_WPE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,userland"
-PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_WPE_BACKEND_BCM_RPI=OFF -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON,,wayland westeros libxkbcommon"
 PACKAGECONFIG[stm] = "-DUSE_WPE_BACKEND_STM=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON,,libxkbcommon"
 
 # Wayland selectors
 PACKAGECONFIG[wayland] = "-DUSE_WPE_BACKEND_WAYLAND=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
+PACKAGECONFIG[westeros] = "-DUSE_WPE_BACKEND_WESTEROS=ON -DUSE_WPE_BACKEND_BCM_RPI=OFF -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON,,wayland westeros libxkbcommon"
+PACKAGECONFIG[bcm-weston] = "-DUSE_WPE_BACKEND_BCM_NEXUS_WAYLAND=ON,-DUSE_WPE_BACKEND_BCM_NEXUS_WAYLAND=OFF,,"
 PACKAGECONFIG[wl-rpi] = "-DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON,,"
 PACKAGECONFIG[wl-nexus] = "-DUSE_WPE_BUFFER_MANAGEMENT_BCM_NEXUS=ON,,"
 PACKAGECONFIG[wl-drm] = "-DUSE_WPE_BUFFER_MANAGEMENT_GBM=ON,,"
