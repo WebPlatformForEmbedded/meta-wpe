@@ -12,6 +12,3 @@ RDEPENDS_packagegroup-ml-middleware = "\
     webbridge \
 "
 
-RDEPENDS_packagegroup-ml-middleware_append_libc-glibc = "\
-    dxdrm \
-"
