@@ -34,9 +34,8 @@ WPE_BACKEND_append = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", " 
 WPE_BACKEND_remove = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros","", d)}"
 
 # The libprovision prebuilt libs currently support glibc ARM only.
-PROVISIONING ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "provisioning", d)}"
+PROVISIONING ?= "provisioning"
 PROVISIONING_libc-musl = ""
-PROVISIONING_mipsel = ""
 PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
 
