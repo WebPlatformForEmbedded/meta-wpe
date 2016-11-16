@@ -10,3 +10,6 @@ LICENSE_LOCATION ?= "${S}/LICENSE"
 LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=703f52ef306fb8ef480744cc0da110fe"
 
 export SCANNER_TOOL = "wayland-scanner"
+
+TOOLCHAIN = "gcc"
+
