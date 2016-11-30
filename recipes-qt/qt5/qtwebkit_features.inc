@@ -1,6 +1,6 @@
 
 # dxdrm depends on libprovision, and the libprovision prebuilt libs currently support glibc ARM only.
-QT5WEBKIT_DXDRM ?= "dxdrm-eme"
+QT5WEBKIT_DXDRM ?= ""
 QT5WEBKIT_DXDRM_libc-musl = ""
 QT5WEBKIT_DXDRM_mipsel = ""
 QT5WEBKIT_DXDRM_x86 = ""
