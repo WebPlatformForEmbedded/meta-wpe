@@ -19,12 +19,12 @@ BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 
 # ----------------------------------------------------------------------------
 
-SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable \
-           file://0001-guard-execinfo.h-with-__GLIBC__.patch \
+SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=master \
+           file://0001-Revert-DEBUG-Remove-reference-to-debugging-headers.-.patch \
            file://webbridge-init \
 "
 
-SRCREV = "9d60d8333f06c063512f7d3b5dd7ef8048d628b5"
+SRCREV = "5b18a8fede9bdf803495dce83c679efdbd4e974d"
 
 S = "${WORKDIR}/git"
 
@@ -94,6 +94,8 @@ EXTRA_OECMAKE += "\
     -DWEBBRIDGE_WEBSERVER_PORT=8080 \
     -DWEBBRIDGE_PROXYSTUB_PATH="/usr/lib/webbridge/proxystubs" \
 "
+
+CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
 # ----------------------------------------------------------------------------
 
 do_configure_append() {

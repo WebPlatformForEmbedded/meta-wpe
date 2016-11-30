@@ -14,7 +14,7 @@ SRC_URI = "git://git@github.com/Metrological/webdriver.git;protocol=ssh;branch=W
            file://WebDriver_extension_wpe_base.pc \
 "
 
-SRCREV = "5668e536fcf054d9b064a2b7f77a47f40d38b442"
+SRCREV = "556197a7996e921e8326ab414be5c26bf89b2584"
 
 S = "${WORKDIR}/git"
 
