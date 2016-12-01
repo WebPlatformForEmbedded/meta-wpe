@@ -51,7 +51,11 @@ WEBKITBROWSER_USERAGENT ?= "Mozilla/5.0 (Macintosh, Intel Mac OS X 10_11_4) Appl
 WEBKITBROWSER_DISKCACHE ?= "0"
 WEBKITBROWSER_XHRCACHE ?= "false"
 
-PACKAGECONFIG ?= "dailserver deviceinfo monitor ${PROVISIONING} netflix remotecontrol ${SNAPSHOT} tracecontrol webdriver webkitbrowser webproxy web-ui"
+WEBBRIDGE_PLUGIN_WEBSERVER_PORT ?= "8080"
+WEBBRIDGE_PLUGIN_WEBSERVER_BIND ?= "0.0.0.0"
+WEBBRIDGE_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
+
+PACKAGECONFIG ?= "dailserver deviceinfo monitor ${PROVISIONING} netflix remotecontrol ${SNAPSHOT} tracecontrol webdriver webkitbrowser webproxy web-ui webserver"
 
 PACKAGECONFIG[browser]            = "-DWEBBRIDGE_PLUGIN_BROWSER=ON,-DWEBBRIDGE_PLUGIN_BROWSER=OFF,"
 PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
@@ -77,6 +81,11 @@ PACKAGECONFIG[webkitbrowser]      = "-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=ON \
     -DWEBBRIDGE_PLUGIN_WEBKITBROWSER_XHRCACHE="${WEBKITBROWSER_XHRCACHE}" \
     ,-DWEBBRIDGE_PLUGIN_WEBKITBROWSER=OFF,wpe"
 PACKAGECONFIG[webproxy]           = "-DWEBBRIDGE_PLUGIN_WEBPROXY=ON,-DWEBBRIDGE_PLUGIN_WEBPROXY=OFF,"
+PACKAGECONFIG[webserver]          = "-DWEBBRIDGE_PLUGIN_WEBSERVER=ON \
+    -DWEBBRIDGE_PLUGIN_WEBSERVER_PORT="${WEBBRIDGE_PLUGIN_WEBSERVER_PORT}" \
+    -DWEBBRIDGE_PLUGIN_WEBSERVER_BINDING="${WEBBRIDGE_PLUGIN_WEBSERVER_BIND}" \
+    -DWEBBRIDGE_PLUGIN_WEBSERVER_PATH="${WEBBRIDGE_PLUGIN_WEBSERVER_PATH}" \
+    ,-DWEBBRIDGE_PLUGIN_WEBSERVER=OFF,"
 PACKAGECONFIG[web-ui]             = "-DWEBBRIDGE_WEB_UI=ON,-DWEBBRIDGE_WEB_UI=OFF,"
 
 EXTRA_OECMAKE += "\
@@ -107,6 +116,10 @@ do_configure_append() {
 }
 
 do_install_append() {
+    if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
+    then
+        install -d ${D}${WEBBRIDGE_PLUGIN_WEBSERVER_PATH}
+    fi 
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
     then
         if ${@bb.utils.contains("MACHINE_FEATURES", "platformserver", "true", "false", d)}
