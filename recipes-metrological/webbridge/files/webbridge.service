@@ -1,0 +1,16 @@
+[Unit]
+Description=Webbridge
+After=network.target @EXTRA_AFTER@
+
+[Service]
+TimeoutStartSec=0
+Type=oneshot
+PIDFile=/var/run/webbridge.pid
+EnvironmentFile=-/etc/webbridge/webbridge.env
+ExecStart=/usr/bin/webbridge -- -b
+ExecStop=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

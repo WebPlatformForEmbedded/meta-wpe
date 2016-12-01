@@ -22,13 +22,16 @@ BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable \
            file://0001-guard-execinfo.h-with-__GLIBC__.patch \
            file://webbridge-init \
+           file://webbridge.service \
 "
 
 SRCREV = "9d60d8333f06c063512f7d3b5dd7ef8048d628b5"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig update-rc.d
+inherit cmake pkgconfig update-rc.d systemd
+
+SYSTEMD_SERVICE_${PN} = "webbridge.service"
 
 # ----------------------------------------------------------------------------
 
@@ -103,8 +106,20 @@ do_configure_append() {
 }
 
 do_install_append() {
-    install -d ${D}${sysconfdir}/init.d
-    install -m 0755 ${WORKDIR}/webbridge-init ${D}${sysconfdir}/init.d/webbridge
+    if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
+    then
+        if ${@bb.utils.contains("MACHINE_FEATURES", "platformserver", "true", "false", d)}
+        then
+           extra_after=""
+        else
+           extra_after="nxserver.service"
+        fi
+        install -d ${D}${systemd_unitdir}/system
+        sed -e "s|@EXTRA_AFTER@|${extra_after}|g" < ${WORKDIR}/webbridge.service > ${D}${systemd_unitdir}/system/webbridge.service
+    else
+        install -d ${D}${sysconfdir}/init.d
+        install -m 0755 ${WORKDIR}/webbridge-init ${D}${sysconfdir}/init.d/webbridge
+    fi
 }
 
 # ----------------------------------------------------------------------------
