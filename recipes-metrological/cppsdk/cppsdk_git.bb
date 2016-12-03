@@ -8,9 +8,9 @@ DEPENDS = "zlib"
 
 PV = "1.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=stable"
+SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=master"
 
-SRCREV = "609042e902ebe17d557aca73ca95777e622c7cd2"
+SRCREV = "684cddc94af6bb44ffb8eeb4382ec6517eec8ea2"
 
 S = "${WORKDIR}/git"
 
@@ -46,5 +46,6 @@ EXTRA_OECMAKE += " \
 "
 
 CXXFLAGS_append_rpi = " -I${STAGING_INCDIR}/interface/vmcs_host/linux"
+CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
 
 TOOLCHAIN = "gcc"

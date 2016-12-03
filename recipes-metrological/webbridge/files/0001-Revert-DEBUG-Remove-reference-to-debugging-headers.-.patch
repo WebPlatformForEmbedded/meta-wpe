@@ -1,0 +1,28 @@
+From 590bf9e33db2e43efd6490e1da176d253bcfb562 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 29 Nov 2016 23:07:33 -0800
+Subject: [PATCH] Revert "[DEBUG] Remove reference to debugging headers. They
+ are part of CPPSDK."
+
+This reverts commit 978d44ae3af71fd901e151bf9d754b59476ea2d1.
+---
+ WebBridge/WebBridge.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/WebBridge/WebBridge.cpp b/WebBridge/WebBridge.cpp
+index 8425f02..e653a02 100644
+--- a/WebBridge/WebBridge.cpp
++++ b/WebBridge/WebBridge.cpp
+@@ -2,6 +2,9 @@
+ 
+ #ifndef __WIN32__
+ #include <syslog.h>
++#ifdef __GLIBC__
++#include <execinfo.h>
++#endif
+ #endif
+ 
+ MODULE_NAME_DECLARATION(BUILDREF_WEBBRIDGE)
+-- 
+2.10.2
+
