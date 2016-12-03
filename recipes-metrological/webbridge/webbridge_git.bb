@@ -23,7 +23,6 @@ SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=s
            file://0001-guard-execinfo.h-with-__GLIBC__.patch \
            file://webbridge-init \
            file://webbridge.service \
-           file://00002-autostart-WebkitBrowser.patch \
 "
 
 SRCREV = "9d60d8333f06c063512f7d3b5dd7ef8048d628b5"
