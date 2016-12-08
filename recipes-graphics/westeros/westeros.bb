@@ -21,6 +21,8 @@ S = "${WORKDIR}/git"
 
 westeros-soc_hikey-32 = "westeros-soc-drm"
 
+westeros-soc_dragonboard-410c-32 = "westeros-soc-drm"
+
 DEPENDS = "wayland-native \
            gstreamer1.0 \
            wayland \
