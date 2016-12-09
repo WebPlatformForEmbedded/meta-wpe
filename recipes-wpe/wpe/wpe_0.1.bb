@@ -38,6 +38,7 @@ PROVISIONING ?= "provisioning"
 PROVISIONING_libc-musl = ""
 PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
+PROVISIONING_dragonboard-410c-32 = ""
 
 WL_BUFFER_MANAGEMENT ?= ""
 #WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
