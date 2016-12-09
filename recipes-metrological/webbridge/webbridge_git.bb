@@ -31,6 +31,8 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig update-rc.d systemd
 
+CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
+
 SYSTEMD_SERVICE_${PN} = "webbridge.service"
 
 # ----------------------------------------------------------------------------
