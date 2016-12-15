@@ -98,6 +98,7 @@ EXTRA_OECMAKE += " \
     -DCMAKE_COLOR_MAKEFILE=OFF -DBUILD_SHARED_LIBS=ON -DPORT=WPE \
     -G Ninja \
 "
+EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
 FULL_OPTIMIZATION_remove = "-g"
@@ -120,7 +121,7 @@ do_install() {
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPE-platform.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
-    chrpath --delete ${D}${libdir}/libWPEWebKit.so
+    chrpath --delete ${D}${libdir}/libWPEWebKit.so.0.0.*
     chrpath --delete ${D}${libdir}/libWPE-platform.so
 
     install -d ${D}${bindir}

@@ -24,6 +24,7 @@ export WPE_STAGING_DIR = "${STAGING_DIR_TARGET}"
 export WPE_TARGET_DIR = "${STAGING_DIR_TARGET}"
 
 CPPFLAGS += "-I${STAGING_DIR_TARGET}/usr/include/glib-2.0 -I${STAGING_DIR_TARGET}/usr/lib/glib-2.0/include"
+CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
 
 EXTRA_OEMAKE = "V=1 LIBS='-lWPEWebKit -lWPE -lglib-2.0 -ljson-c -lcurl -pthread -ldl'"
 

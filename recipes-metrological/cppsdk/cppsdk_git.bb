@@ -16,6 +16,8 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig
 
+CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
+
 CPPSDK_PLATFORM ?= "platform-pc"
 CPPSDK_PLATFORM_mipsel = "platform-dawn"
 CPPSDK_PLATFORM_dawn = "platform-dawn"

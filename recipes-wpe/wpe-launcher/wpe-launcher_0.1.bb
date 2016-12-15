@@ -10,6 +10,8 @@ S = "${WORKDIR}/git"
 
 FULL_OPTIMIZATION_remove = "-g"
 
+CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
+
 inherit cmake
 
 FILES_SOLIBSDEV = ""
