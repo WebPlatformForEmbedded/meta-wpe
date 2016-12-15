@@ -34,7 +34,7 @@ DEPENDS = "wayland-native \
 
 RDEPENDS_${PN} = "xkeyboard-config"
 
-inherit autotools pkgconfig
+inherit autotools pkgconfig systemd
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
@@ -43,3 +43,10 @@ do_compile_prepend() {
    export SCANNER_TOOL=${STAGING_BINDIR_NATIVE}/wayland-scanner
    oe_runmake -C ${S}/protocol
 }
+
+do_install_append () {
+   install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/westeros-env
+   install -D -m 0644 ${S}/systemd/westeros-startup.service ${D}${systemd_unitdir}/system/westeros-startup.service
+}
+
+SYSTEMD_SERVICE_${PN} = "westeros-startup.service"
