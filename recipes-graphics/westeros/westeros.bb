@@ -2,6 +2,8 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
+#SRC_URI += "file://0001-Fix-systemd-support.patch"
+
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
 
 PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
@@ -45,8 +47,12 @@ do_compile_prepend() {
 }
 
 do_install_append () {
-   install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/westeros-env
-   install -D -m 0644 ${S}/systemd/westeros-startup.service ${D}${systemd_unitdir}/system/westeros-startup.service
+   install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/default/westeros-env
+   if [ "${@bb.utils.contains("DISTRO_FEATURES", "systemd", "yes", "no", d)}" = "yes" ]; then
+       install -D -m 0644 ${S}/systemd/westeros.service ${D}${systemd_unitdir}/system/westeros.service
+   fi
+   install -D -m 0755 ${S}/systemd/westeros-init ${D}${bindir}/westeros-init
 }
 
-SYSTEMD_SERVICE_${PN} = "westeros-startup.service"
+SYSTEMD_SERVICE_${PN} = "westeros.service"
+
