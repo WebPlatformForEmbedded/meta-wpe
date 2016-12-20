@@ -22,7 +22,7 @@ BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable \
            file://0001-guard-execinfo.h-with-__GLIBC__.patch \
            file://webbridge-init \
-           file://webbridge.service \
+           file://webbridge.service.in \
 "
 
 SRCREV = "6a5b6f3a3eb0d718541a8187afce604e81d06063"
@@ -42,6 +42,9 @@ PROVISIONING_libc-musl = ""
 
 SNAPSHOT ?= ""
 SNAPSHOT_rpi = "snapshot"
+
+WAYLAND_COMPOSITOR ?= "westeros.service"
+#WAYLAND_COMPOSITOR ?= "weston.service"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -126,11 +129,13 @@ do_install_append() {
         if ${@bb.utils.contains("MACHINE_FEATURES", "platformserver", "true", "false", d)}
         then
            extra_after=""
-        else
+        elif ${@bb.utils.contains("PREFERRED_PROVIDER_virtual/egl", "broadcom-refsw", "true", "false", d)}
+        then
            extra_after="nxserver.service"
         fi
+        extra_after="${extra_after} ${WAYLAND_COMPOSITOR}"
         install -d ${D}${systemd_unitdir}/system
-        sed -e "s|@EXTRA_AFTER@|${extra_after}|g" < ${WORKDIR}/webbridge.service > ${D}${systemd_unitdir}/system/webbridge.service
+        sed -e "s|@EXTRA_AFTER@|${extra_after}|g" < ${WORKDIR}/webbridge.service.in > ${D}${systemd_unitdir}/system/webbridge.service
     else
         install -d ${D}${sysconfdir}/init.d
         install -m 0755 ${WORKDIR}/webbridge-init ${D}${sysconfdir}/init.d/webbridge

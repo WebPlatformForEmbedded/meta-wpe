@@ -6,7 +6,9 @@ After=network-online.target @EXTRA_AFTER@
 [Service]
 PIDFile=/var/run/webbridge.pid
 EnvironmentFile=-/etc/webbridge/webbridge.env
-ExecStart=/usr/bin/webbridge -- -b
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="XDG_RUNTIME_DIR=/run"
+ExecStart=/usr/bin/webbridge
 ExecStop=/bin/kill -HUP $MAINPID
 
 [Install]
