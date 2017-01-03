@@ -8,7 +8,9 @@ DEPENDS = "zlib"
 
 PV = "1.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=stable"
+SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=stable \
+           file://0001-guard-excinfo.h-with-glibc-specific-define.patch \
+          "
 
 SRCREV = "92aae17c8bdf07a7f1e2a4f8cc278f6582070e01"
 

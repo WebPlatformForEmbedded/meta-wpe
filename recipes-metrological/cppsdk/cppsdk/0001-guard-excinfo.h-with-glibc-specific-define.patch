@@ -1,0 +1,41 @@
+From 101163c04305ea8d5cb019103b2a1d0d6476dbb3 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 27 Dec 2016 19:47:27 -0800
+Subject: [PATCH] guard excinfo.h with glibc specific define
+
+excinfo.h is not universal across linux systems
+it depends on C library implementation, e.g.
+musl does not support it.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ generics/SocketPort.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/generics/SocketPort.cpp b/generics/SocketPort.cpp
+index b82f66b..d64e480 100644
+--- a/generics/SocketPort.cpp
++++ b/generics/SocketPort.cpp
+@@ -20,8 +20,10 @@
+ #include <sys/ioctl.h>
+ #include <sys/signalfd.h>
+ #include <signal.h>
++#ifdef __GLIBC__
+ #include <execinfo.h>
+ #endif
++#endif
+ 
+ #ifdef __WIN32__
+ #include <Winsock2.h>
+@@ -158,7 +160,7 @@ public:
+       void* addresses[_AllocatedStackEntries];
+       int addressCount = ::GetCallStack(_socketMonitorThread, addresses, _AllocatedStackEntries);
+       fprintf(stderr, "===> SocketPort monitor thread is in deadlock!\nStack:\n");
+-      #ifdef __LINUX__
++      #if defined(__LINUX__) && defined(__GLIBC__)
+       backtrace_symbols_fd(addresses, addressCount, fileno(stderr));
+       #endif
+ 
+-- 
+2.11.0
+
