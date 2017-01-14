@@ -14,12 +14,11 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "01489c1792f7bcc2802ad72da8b5cf44c49cde8e"
+SRCREV ?= "847ba8b54d16d1b0eb4935bef28e75be4078916e"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
-SRC_URI += "file://0000-minimumAccelerated2dCanvasSize-to-275x256.patch \
-            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -45,7 +44,7 @@ WL_BUFFER_MANAGEMENT ?= ""
 WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
 WL_BUFFER_MANAGEMENT_drm = "wl-drm"
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad geolocation indexeddb logs mediasource notifications playready ${PROVISIONING} sampling-profiler shadowdom subtlecrypto udev video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb logs mediasource notifications playready ${PROVISIONING} sampling-profiler shadowdom subtlecrypto udev video webaudio ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
@@ -66,7 +65,8 @@ PACKAGECONFIG[wl-drm] = "-DUSE_WPE_BUFFER_MANAGEMENT_GBM=ON,,"
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
 PACKAGECONFIG[deviceorientation] = "-DENABLE_DEVICE_ORIENTATION=ON,-DENABLE_DEVICE_ORIENTATION=OFF,"
-PACKAGECONFIG[encryptedmedia] = "-DENABLE_ENCRYPTED_MEDIA=ON,-DENABLE_ENCRYPTED_MEDIA=OFF,libgcrypt"
+PACKAGECONFIG[encryptedmedia] = "-DENABLE_LEGACY_ENCRYPTED_MEDIA=ON,-DENABLE_LEGACY_ENCRYPTED_MEDIA=OFF,libgcrypt"
+PACKAGECONFIG[encryptedmediav1] = "-DENABLE_LEGACY_ENCRYPTED_MEDIA_V1=ON,-DENABLE_LEGACY_ENCRYPTED_MEDIA_V1=OFF,libgcrypt"
 PACKAGECONFIG[fetchapi] = "-DENABLE_FETCH_API=ON,-DENABLE_FETCH_API=OFF,"
 PACKAGECONFIG[fullscreenapi] = "-DENABLE_FULLSCREEN_API=ON,-DENABLE_FULLSCREEN_API=OFF,"
 PACKAGECONFIG[fusion] = "-DUSE_FUSION_API_GSTREAMER=ON,-DUSE_FUSION_API_GSTREAMER=OFF,"
