@@ -10,22 +10,21 @@ DEPENDS = "cppsdk zlib"
 
 # Type 0 = Production, 1 = Release, 2 = Debug
 WEBBRIDGE_BUILD_TYPE = "0"
-WEBBRIDGE_BUILD_MAJOR = "1"
-WEBBRIDGE_BUILD_MINOR = "6"
-WEBBRIDGE_BUILD_REVISION = "4"
+WEBBRIDGE_BUILD_MAJOR = "2"
+WEBBRIDGE_BUILD_MINOR = "0"
+WEBBRIDGE_BUILD_REVISION = "0"
 
 PV = "${WEBBRIDGE_BUILD_MAJOR}.${WEBBRIDGE_BUILD_MINOR}.${WEBBRIDGE_BUILD_REVISION}+${SRCPV}"
 BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 
 # ----------------------------------------------------------------------------
 
-SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=stable \
-           file://0001-guard-execinfo.h-with-__GLIBC__.patch \
+SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=master \
            file://webbridge-init \
            file://webbridge.service.in \
 "
 
-SRCREV = "6a5b6f3a3eb0d718541a8187afce604e81d06063"
+SRCREV = "69d69ca50d1db923d02c74208c2c5cf433faaa38"
 
 S = "${WORKDIR}/git"
 
@@ -67,6 +66,7 @@ PACKAGECONFIG[debug]              = "-DWEBBRIDGE_DEBUG=ON,-DWEBBRIDGE_DEBUG=OFF,
 PACKAGECONFIG[deviceinfo]         = "-DWEBBRIDGE_PLUGIN_DEVICEINFO=ON,-DWEBBRIDGE_PLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[monitor]            = "-DWEBBRIDGE_PLUGIN_MONITOR=ON,DWEBBRIDGE_PLUGIN_MONITOR=OFF,"
 PACKAGECONFIG[netflix]            = "-DWEBBRIDGE_PLUGIN_NETFLIX=ON,-DWEBBRIDGE_PLUGIN_NETFLIX=OFF,netflix"
+PACKAGECONFIG[opencdmi]           = "-DWEBBRIDGE_PLUGIN_OPENCDMI=ON,-DWEBBRIDGE_PLUGIN_OPENCDMI=OFF,"
 PACKAGECONFIG[provisioning]       = "-DWEBBRIDGE_PLUGIN_PROVISIONING=ON,-DWEBBRIDGE_PLUGIN_PROVISIONING=OFF,libprovision,libprovision"
 PACKAGECONFIG[queuecommunicator]  = "-DWEBBRIDGE_PLUGIN_QUEUECOMMUNICATOR=ON,-DWEBBRIDGE_PLUGIN_QUEUECOMMUNICATOR=OFF,"
 PACKAGECONFIG[remotecontrol]      = "-DWEBBRIDGE_PLUGIN_REMOTECONTROL=ON,-DWEBBRIDGE_PLUGIN_REMOTECONTROL=OFF,"
