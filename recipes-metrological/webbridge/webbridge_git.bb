@@ -20,6 +20,7 @@ BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 # ----------------------------------------------------------------------------
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=master \
+           file://0001-Remove-CPPSDK_INCLUDE_DIRS.patch \
            file://webbridge-init \
            file://webbridge.service.in \
 "
