@@ -25,7 +25,7 @@ SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=m
            file://webbridge.service.in \
 "
 
-SRCREV = "69d69ca50d1db923d02c74208c2c5cf433faaa38"
+SRCREV = "52ac98f9e9f823ed936202ff1c718800d296bd34"
 
 S = "${WORKDIR}/git"
 
