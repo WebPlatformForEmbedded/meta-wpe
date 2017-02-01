@@ -19,6 +19,7 @@ BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;br
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0001-include-gstglmemoryegl.h-only-when-GSTREAMER_GL-is-e.patch \
 "
 
 S = "${WORKDIR}/git"

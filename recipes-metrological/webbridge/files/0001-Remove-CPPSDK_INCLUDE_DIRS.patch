@@ -1,0 +1,28 @@
+From 3a50d6d31e3571639de3dd6cdf0e4f7b5ec41831 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Jan 2017 22:41:32 -0800
+Subject: [PATCH] Remove CPPSDK_INCLUDE_DIRS
+
+Sysroot should have cppsdk headers and libs installed in default locations
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7bddc8c..fd580a5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -190,7 +190,7 @@ map_append(${WEBBRIDGE_PLUGIN_CONTROLLER} configuration ${WEBBRIDGE_PLUGIN_CONTR
+ map_append(${WEBBRIDGE_CONFIG} plugins ${WEBBRIDGE_PLUGIN_CONTROLLER})
+ 
+ include_directories ("${PROJECT_SOURCE_DIR}")
+-include_directories ("${CPPSDK_INCLUDE_DIRS}")
++#include_directories ("${CPPSDK_INCLUDE_DIRS}")
+ add_subdirectory (WebBridgeSupport)  
+ 
+ #include_directories ("${PROJECT_SOURCE_DIR}/ProxyStubs")
+-- 
+2.11.0
+

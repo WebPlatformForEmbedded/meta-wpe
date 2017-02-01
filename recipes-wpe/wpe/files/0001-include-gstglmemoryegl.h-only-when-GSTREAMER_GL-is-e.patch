@@ -1,0 +1,33 @@
+From 6ba907795dab1d14b67d6d9b28048a0b573ff5e8 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Jan 2017 23:44:52 -0800
+Subject: [PATCH] include gstglmemoryegl.h only when GSTREAMER_GL is enabled
+
+Fixes build break when USE_GSTREAMER_GL=ON
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp     | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+index 08b408dd918..a65f2cc489a 100644
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+@@ -90,11 +90,13 @@
+ #if USE(OPENGL_ES_2)
+ #if GST_CHECK_VERSION(1, 8, 1)
+ #if !USE(HOLE_PUNCH_GSTREAMER)
++#if USE(GSTREAMER_GL)
+ #define GST_USE_UNSTABLE_API
+ #include <gst/gl/egl/gstglmemoryegl.h>
+ #undef GST_USE_UNSTABLE_API
+ #endif
+ #endif
++#endif
+ #include <GLES2/gl2.h>
+ #include <GLES2/gl2ext.h>
+ #endif
+-- 
+2.11.0
+
