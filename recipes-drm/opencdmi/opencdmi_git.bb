@@ -10,3 +10,11 @@ PV = "1.0.gitr${SRCPV}"
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://git@github.com/Metrological/open-content-decryption-module-cdmi.git;protocol=ssh;branch=opencdm"
+
+do_install() {
+	install -d ${D}${libdir}
+	install -m 0755 ${B}/libocdmi.so ${D}${libdir}
+}
+
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
