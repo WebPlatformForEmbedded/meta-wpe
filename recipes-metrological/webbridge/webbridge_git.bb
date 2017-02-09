@@ -37,9 +37,6 @@ SYSTEMD_SERVICE_${PN} = "webbridge.service"
 
 # ----------------------------------------------------------------------------
 
-PROVISIONING ?= "provisioning"
-PROVISIONING_libc-musl = ""
-
 SNAPSHOT ?= ""
 SNAPSHOT_rpi = "snapshot"
 
@@ -59,7 +56,7 @@ WEBBRIDGE_PLUGIN_WEBSERVER_PORT ?= "8080"
 WEBBRIDGE_PLUGIN_WEBSERVER_BIND ?= "0.0.0.0"
 WEBBRIDGE_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
-PACKAGECONFIG ?= "dailserver deviceinfo monitor ${PROVISIONING} netflix remotecontrol ${SNAPSHOT} tracecontrol webdriver webkitbrowser webproxy web-ui webserver"
+PACKAGECONFIG ?= "deviceinfo remotecontrol ${SNAPSHOT} tracecontrol webkitbrowser web-ui"
 
 PACKAGECONFIG[browser]            = "-DWEBBRIDGE_PLUGIN_BROWSER=ON,-DWEBBRIDGE_PLUGIN_BROWSER=OFF,"
 PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
