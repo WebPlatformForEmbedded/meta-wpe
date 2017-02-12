@@ -2,6 +2,8 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
+SRC_URI += "file://0001-westeros.sysvinit-Add-script-to-use-with-syvinit.patch"
+
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
 
 PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
@@ -34,7 +36,7 @@ DEPENDS = "wayland-native \
 
 RDEPENDS_${PN} = "xkeyboard-config"
 
-inherit autotools pkgconfig systemd
+inherit autotools pkgconfig systemd update-rc.d
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
@@ -48,9 +50,14 @@ do_install_append () {
    install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/default/westeros-env
    if [ "${@bb.utils.contains("DISTRO_FEATURES", "systemd", "yes", "no", d)}" = "yes" ]; then
        install -D -m 0644 ${S}/systemd/westeros.service ${D}${systemd_unitdir}/system/westeros.service
+   else
+       install -D -m 0755 ${S}/systemd/westeros.sysvinit ${D}${sysconfdir}/init.d/westeros
    fi
    install -D -m 0755 ${S}/systemd/westeros-init ${D}${bindir}/westeros-init
 }
+
+INITSCRIPT_NAME = "westeros"
+INITSCRIPT_PARAMS = "defaults"
 
 SYSTEMD_SERVICE_${PN} = "westeros.service"
 
