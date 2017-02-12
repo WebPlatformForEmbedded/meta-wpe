@@ -1,0 +1,56 @@
+From d0fdfe322c24bb485d6baf495cc1f06afa3098f6 Mon Sep 17 00:00:00 2001
+From: Khem Raj <khem_raj@comcast.com>
+Date: Sun, 12 Feb 2017 09:57:13 -0800
+Subject: [PATCH] westeros.sysvinit: Add script to use with syvinit
+
+Change-Id: Icd156d5725b5d194fea44415a8338e9bd773a276
+Signed-off-by: Khem Raj <khem_raj@comcast.com>
+---
+ systemd/westeros.sysvinit | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 systemd/westeros.sysvinit
+
+diff --git a/systemd/westeros.sysvinit b/systemd/westeros.sysvinit
+new file mode 100644
+index 0000000..2613c1e
+--- /dev/null
++++ b/systemd/westeros.sysvinit
+@@ -0,0 +1,35 @@
++#!/bin/sh
++
++start() {
++	echo -n "Starting westeros: "
++	start-stop-daemon -S -q -b -m -p /var/run/westeros.pid --exec /usr/bin/westeros-init -- </dev/null >/dev/null 2>&1
++	[ $? == 0 ] && echo "OK" || echo "FAIL"
++}
++stop() {
++	echo -n "Stopping westeros: "
++	start-stop-daemon -K -q -p /var/run/westeros.pid
++	[ $? == 0 ] && echo "OK" || echo "FAIL"
++	rm -rf /var/run/westeros.pid
++}
++restart() {
++	stop
++	sleep 3
++	start
++}
++
++case "$1" in
++	start)
++		start
++		;;
++	stop)
++		stop
++		;;
++	restart|reload)
++		restart
++		;;
++	*)
++		echo "Usage: $0 {start|stop|restart}"
++		exit 1
++esac
++
++exit $?
+-- 
+2.11.1
+
