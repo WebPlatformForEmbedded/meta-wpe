@@ -7,6 +7,9 @@ start() {
 	#echo "/root/cores/core-pid_%p--process%E" > /proc/sys/kernel/core_pattern
 	#mkdir -p /root/cores
 	#ulimit -c unlimited
+	export WAYLAND_DISPLAY=wayland-0
+	export XDG_RUNTIME_DIR=/run
+
 	if [ ! -d /root/Netflix/dpi ]; then
 		mkdir -p /root/Netflix/dpi
 		ln -sfn /etc/playready /root/Netflix/dpi/playready
