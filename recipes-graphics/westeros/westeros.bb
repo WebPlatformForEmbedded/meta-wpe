@@ -2,8 +2,6 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
-SRC_URI += "file://0001-westeros.sysvinit-Add-script-to-use-with-syvinit.patch"
-
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
 
 PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
