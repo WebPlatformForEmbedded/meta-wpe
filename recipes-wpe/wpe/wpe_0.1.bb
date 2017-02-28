@@ -18,9 +18,7 @@ SRCREV ?= "16e0f0b396ad99ad6e85f1b3333d43c110ed991d"
 BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
-SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-include-gstglmemoryegl.h-only-when-GSTREAMER_GL-is-e.patch \
-"
+SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch"
 
 S = "${WORKDIR}/git"
 
