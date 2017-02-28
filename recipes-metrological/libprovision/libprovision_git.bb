@@ -10,7 +10,7 @@ DEPENDS = "cppsdk openssl"
 
 PV = "1.0.gitr${SRCPV}"
 
-SRCREV = "8a86c9ab0477b02b80d8215ac92e5713035ed067"
+SRCREV = "cfa6e55f82205952660c3bbc0b0139bf3dda102a"
 SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branch=master"
 
 S = "${WORKDIR}/git"
