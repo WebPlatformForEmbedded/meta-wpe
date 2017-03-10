@@ -8,12 +8,11 @@ PACKAGES = "\
 "
 
 RDEPENDS_packagegroup-ml-wpe = "\
-    wpe \
-    wpe-platform-plugin \
-    wpe-web-inspector-plugin \
-    wpe-launcher \
-    webdriver-wpe \
-    cppsdk  \
+    wpewebkit \
+    wpewebkit-platform-plugin \
+    wpewebkit-web-inspector-plugin \
+    wpelauncher \
+    cppsdk \
     webbridge \
 "
 
