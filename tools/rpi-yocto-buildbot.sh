@@ -1,0 +1,50 @@
+#!/bin/bash
+# Bootstrapper for buildbot slave
+
+DIR="build"
+MACHINE="raspberrypi3"
+CONFFILE="conf/local.conf"
+BITBAKEIMAGE="westeros-wpe-image"
+
+# clean up the output dir
+echo "Cleaning build dir"
+rm -rf $DIR
+
+# fix permissions set by buildbot
+echo "Fixing permissions for buildbot"
+umask -S u=rwx,g=rx,o=rx
+chmod -R 755 .
+
+# bootstrap OE
+echo "Init OE"
+export BASH_SOURCE="poky/oe-init-build-env"
+. poky/oe-init-build-env $DIR
+
+# add the missing layers
+echo "Adding layers"
+bitbake-layers add-layer ../meta-raspberrypi
+bitbake-layers add-layer ../meta-wpe
+bitbake-layers add-layer ../meta-openembedded/meta-oe/
+bitbake-layers add-layer ../meta-openembedded/meta-multimedia/
+
+# fix the configuration
+echo "Creating local.conf"
+mv $CONFFILE conf/local.conf.orig
+echo "MACHINE = \"${MACHINE}\"" >> $CONFFILE
+echo "DISTRO ?= \"poky\"" >> $CONFFILE
+echo "GCC_VERSION_forcevariable=\"5.4%\"" >> $CONFFILE
+echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
+echo "BB_DISKMON_DIRS = \"\
+    STOPTASKS,${TMPDIR},1G,100K \
+    STOPTASKS,${DL_DIR},1G,100K \
+    STOPTASKS,${SSTATE_DIR},1G,100K \
+    STOPTASKS,/tmp,100M,100K \
+    ABORT,${TMPDIR},100M,1K \
+    ABORT,${DL_DIR},100M,1K \
+    ABORT,${SSTATE_DIR},100M,1K \
+    ABORT,/tmp,10M,1K\" " >> $CONFFILE
+echo "CONF_VERSION = \"1\"" >> $CONFFILE
+
+# start build
+echo "Starting build"
+bitbake $BITBAKEIMAGE

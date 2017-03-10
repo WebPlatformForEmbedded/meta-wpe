@@ -9,6 +9,6 @@
   <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" />
   <project name="poky" remote="yocto" path="poky" />
   <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" />
-  <project name="meta-metrological" remote="metrological" path="meta-metrological" />
+  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" />
 
 </manifest>
