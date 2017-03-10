@@ -21,5 +21,5 @@ CFLAGS += " \
 "
 
 FILES_SOLIBSDEV = ""
-INSANE_SKIP ="dev-so"
-FILES_${PN} += "${libdir}/*.so ${libdir}/pkgconfig/wpe.pc"
+FILES_${PN} += "${libdir}/libWPEBackend.so ${libdir}/pkgconfig/wpe.pc"
+INSANE_SKIP_${PN} ="dev-so"
