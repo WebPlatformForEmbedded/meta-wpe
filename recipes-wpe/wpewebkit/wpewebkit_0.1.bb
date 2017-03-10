@@ -1,4 +1,4 @@
-SUMMARY = "WebKit for Wayland port pairs the WebKit engine with the Wayland display protocol, \
+SUMMARY = "WPE WebKit port pairs the WebKit engine with the Wayland display protocol, \
            allowing embedders to create simple and performant systems based on Web platform technologies. \
            It is designed with hardware acceleration in mind, relying on EGL, the Wayland EGL platform, and OpenGL ES."
 HOMEPAGE = "http://www.webkitforwayland.org/"
@@ -6,6 +6,7 @@ LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 "
 
 DEPENDS += " \
+    wpebackend \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
@@ -14,8 +15,8 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "b972c292e038f66c617296ef7bb6efb961667b70"
-BASE_URI ?= "git://github.com/Metrological/WebKitForWayland.git;protocol=http;branch=master"
+SRCREV ?= "bb1c9a972d3b80cedd7044cd8e4f68a28e86b51a"
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch"
@@ -114,7 +115,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess libWPE.so libWPE-platform.so
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess libWPEBackend-rdk.so
 }
 
 do_install() {
@@ -122,13 +123,12 @@ do_install() {
     DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/JavaScriptCore/cmake_install.cmake
 
     install -d ${D}${libdir}
-    cp -av --no-preserve=ownership ${B}/lib/libWPE.so* ${D}${libdir}/
-    cp -av --no-preserve=ownership ${B}/lib/libWPEWebKit.so* ${D}${libdir}/
+    cp -av --no-preserve=ownership ${B}/lib/libWPE* ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
-    install -m 0755 ${B}/lib/libWPE-platform.so ${D}${libdir}/
+    install -m 0755 ${B}/lib/libWPEBackend-rdk.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
-    chrpath --delete ${D}${libdir}/libWPEWebKit.so.0.0.*
-    chrpath --delete ${D}${libdir}/libWPE-platform.so
+    chrpath --delete ${D}${libdir}/libWPE*
+    ln -sf libWPEBackend-rdk.so ${D}${libdir}/libWPEBackend-default.so
 
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
@@ -150,7 +150,7 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
 PACKAGES =+ "${PN}-platform-plugin"
 
-FILES_${PN}-platform-plugin += "${libdir}/libWPE-platform.so"
+FILES_${PN}-platform-plugin += "${libdir}/libWPEBackend-rdk.so"
 INSANE_SKIP_${PN}-platform-plugin = "dev-so"
 
 

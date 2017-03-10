@@ -1,10 +1,10 @@
 LICENSE = "CLOSED"
 
-DEPENDS += "wpe glib-2.0"
+DEPENDS += "wpewebkit glib-2.0"
 
-SRCREV = "75524f3779973b8009c8d36c06f65006790f752a"
+SRCREV = "9c8c85c278687f5cd658dd8e6cdfaaf3f035e8e9"
 
-SRC_URI = "git://github.com/Metrological/wpe-launcher.git;protocol=http;branch=master"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKitLauncher.git;protocol=http;branch=master"
 
 S = "${WORKDIR}/git"
 
