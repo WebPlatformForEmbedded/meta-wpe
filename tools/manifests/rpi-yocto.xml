@@ -3,7 +3,7 @@
 <manifest>
   <remote name="openembedded" fetch="git://git.openembedded.org/" />
   <remote name="yocto" fetch="git://git.yoctoproject.org/" />
-  <remote name="metrological" fetch="git://github.com/metrological" />
+  <remote name="webplatformforembedded" fetch="git://github.com/webplatformforembedded" />
   <default remote="openembedded" revision="master" />
 
   <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" />
