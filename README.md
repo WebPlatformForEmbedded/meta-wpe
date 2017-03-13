@@ -1,64 +1,60 @@
-# meta-metrological
-Metrological layer to be used within a Yocto build.
 
-Yocto Metrological Layer - RaspberryPi(2)
-================================
+# **meta-wpe**
 
-This layer depends on:
+`meta-wpe` is a meta layer for OpenEmbedded / Yocto environments. It provides the necessary recipes to build the WebPlatformforEmbedded components including the WPE WebKit browser.
 
-URI: git://git.yoctoproject.org/poky
-branch: master
-revision: HEAD
+# Setup
+Note: You only need this if you do not have an existing OpenEmbedded Yocto environment. 
 
-URI: git://git.openembedded.org/meta-openembedded
-layers: meta-oe, meta-multimedia
-branch: master
-revision: HEAD
+create a workspace for your yocto build:
+`$ mkdir -p rpi-yocto`
 
-URI: git://git.yoctoproject.org/meta-raspberrypi
-layers: meta-raspberrypi
-branch: master
-revision: HEAD
+Inside the newly created directory, initiate the repository
+`$ repo init -u ssh://git@github.com/WebPlatformForEmbedded/meta-wpe.git -b master -m tools/manifests/rpi-yocto.xml`
 
-How to use it:
+Fetch and sync all repositories:
+`$ repo sync`
 
-1. source poky/oe-init-build-env rpi-ml-build
-2. Add needed layer to bblayers.conf:
-    - meta-raspberrypi: `bitbake-layers add-layer ../meta-raspberrypi`
-    - meta-metrological: `bitbake-layers add-layer ../meta-metrological`
-    - meta-openembedded/meta-oe: `bitbake-layers add-layer ../meta-openembedded/meta-oe/`
-    - meta-openembedded/meta-multimedia: `bitbake-layers add-layer ../meta-openembedded/meta-multimedia/`
-3. Set MACHINE to "raspberrypi"/"raspberrypi2" in conf/local.conf. (see note on sdl):
-    `echo 'MACHINE = "raspberrypi2"' >> conf/local.conf`
-4. By default this recipe builds WPE for RPI. If you want to build QT please set the following two environment variables:
-	`echo BROWSER=qt`
-	`export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE BROWSER"`
-4. bitbake wpe-image
-5. dd to a SD card the generated sdimg file (use xzcat if rpi-sdimg.xz is used)
-6. Boot your RPI.
+# Build
+Initiate OE by invoking the oe init script:
+`$ source poky/oe-init-build-env rpi-ml-build`
 
-Enable initramfs image:
+Add bb layers:
+`$ bitbake-layers add-layer ../meta-raspberrypi`
+`$ bitbake-layers add-layer ../meta-wpe`
+`$ bitbake-layers add-layer ../meta-openembedded/meta-oe/`
+`$ bitbake-layers add-layer ../meta-openembedded/meta-multimedia/`
 
-  in conf/layer.conf uncomment
+Edit `conf/local.conf` and set the target machine:
+`MACHINE = "raspberrypi3"`
+you can use raspberrypi2 as well if you own raspberrypi2 machine.
 
-  INITRAMFS_IMAGE_BUNDLE_rpi = "1"
-  INITRAMFS_IMAGE_rpi = "wpe-initramfs-image"
-  KERNEL_INITRAMFS = "-initramfs"
-  BOOT_SPACE = "163840"
+Set GCC to use version 5.4:
+`GCC_VERSION_forcevariable = "5.4%"`
+Note: GCC 6.x is supported but experimental at this stage. Mileage may vary.
 
-  Build monolithic image e.g. bitbake virtual/linux
+Build WPE with Westeros Compositor:
+`$ bitbake westeros-wpe-image`
 
-  To use monolithic image ( initramfs ) copy Image-initramfs-raspberrypi2.bin as Image into FAT primary partition
-  This image is virtually same as wpe-image
+# Install 
 
-**note**
-If you get the following error:
-`libsdl-native is set to be ASSUME_PROVIDED but sdl-config can't be found in PATH. Please either install it, or configure qemu not to require sdl.`
+To flash the sdimg on the sd card:
+`$ sudo dd if=tmp/deploy/images/raspberrypi3/westeros-wpe-image-raspberrypi3.rpi-sdimg of=/dev/sdX`
 
-Make sure the following is unset in conf/local.conf:
 
-```
-PACKAGECONFIG_append_pn-qemu-native = ""
-PACKAGECONFIG_append_pn-nativesdk-qemu = ""
-ASSUME_PROVIDED += ""
-```
+
+# Optional settings
+
+Use 4.9 kernel (optional), edit `conf/local.conf` and set:
+`PREFERRED_VERSION_linux-raspberrypi = "4.9%"`
+
+To build an initramfs image, edit `conf/local.conf` and set:
+```INITRAMFS_IMAGE_BUNDLE_rpi = "1" 
+INITRAMFS_IMAGE_rpi = "wpe-initramfs-image" 
+KERNEL_INITRAMFS = "-initramfs" BOOT_SPACE = "163840"```
+
+To install the initram fs, copy the zImage to the fat32 partition of your RPI.
+
+
+
+
