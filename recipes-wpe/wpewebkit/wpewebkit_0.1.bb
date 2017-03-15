@@ -150,7 +150,7 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
 PACKAGES =+ "${PN}-platform-plugin"
 
-FILES_${PN}-platform-plugin += "${libdir}/libWPEBackend-rdk.so"
+FILES_${PN}-platform-plugin += "${libdir}/libWPEBackend-rdk.so ${libdir}/libWPEBackend-default.so"
 INSANE_SKIP_${PN}-platform-plugin = "dev-so"
 
 
