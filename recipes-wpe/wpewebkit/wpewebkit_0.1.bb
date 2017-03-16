@@ -117,6 +117,7 @@ ARM_INSTRUCTION_SET_armv7ve = "thumb"
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess libWPEBackend-rdk.so
 }
+do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
 do_install() {
     DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit2/cmake_install.cmake
