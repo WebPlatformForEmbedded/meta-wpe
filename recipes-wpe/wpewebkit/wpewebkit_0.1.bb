@@ -39,12 +39,7 @@ PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
 PROVISIONING_dragonboard-410c-32 = ""
 
-WL_BUFFER_MANAGEMENT ?= ""
-#WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
-WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
-WL_BUFFER_MANAGEMENT_drm = "wl-drm"
-
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb logs mediasource notifications sampling-profiler shadowdom subtlecrypto udev video webaudio subtitle nativevideo ${WPE_BACKEND} ${WL_BUFFER_MANAGEMENT}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb logs mediasource notifications sampling-profiler shadowdom subtlecrypto udev video webaudio subtitle nativevideo ${WPE_BACKEND}"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
@@ -58,9 +53,6 @@ PACKAGECONFIG[stm] = "-DUSE_WPEWEBKIT_BACKEND_STM=ON -DUSE_KEY_INPUT_HANDLING_LI
 PACKAGECONFIG[wayland] = "-DUSE_WPEWEBKIT_BACKEND_WAYLAND=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
 PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS=ON -DUSE_WPEWEBKIT_BACKEND_BCM_RPI=OFF -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON,,wayland westeros libxkbcommon"
 PACKAGECONFIG[bcm-weston] = "-DUSE_WPEWEBKIT_BACKEND_BCM_NEXUS_WAYLAND=ON,-DUSE_WPEWEBKIT_BACKEND_BCM_NEXUS_WAYLAND=OFF,,"
-PACKAGECONFIG[wl-rpi] = "-DUSE_WPE_BUFFER_MANAGEMENT_BCM_RPI=ON,,"
-PACKAGECONFIG[wl-nexus] = "-DUSE_WPE_BUFFER_MANAGEMENT_BCM_NEXUS=ON,,"
-PACKAGECONFIG[wl-drm] = "-DUSE_WPE_BUFFER_MANAGEMENT_GBM=ON,,"
 
 # Mesa only offscreen target support for Westeros backend
 PACKAGECONFIG[westeros-mesa] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS_MESA=ON,,"
