@@ -5,6 +5,7 @@ mkdir ./tmp
 cd tmp
 
 echo "Fetching buildroot make files"
+wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpebackend-rdk/wpebackend-rdk.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpebackend/wpebackend.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpewebkit/wpewebkit.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpelauncher/wpelauncher.mk
@@ -20,6 +21,7 @@ wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/o
 cd ..
 
 echo "Checking and updating revs"
+python ./tools/check_srcrevs.py -i ./tmp/wpebackend-rdk.mk -o ./recipes-wpe/wpebackend-rdk/wpebackend-rdk_0.1.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpebackend.mk -o ./recipes-wpe/wpebackend/wpebackend_0.1.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpewebkit.mk -o ./recipes-wpe/wpewebkit/wpewebkit_0.1.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpelauncher.mk -o ./recipes-wpe/wpelauncher/wpelauncher_0.1.bb

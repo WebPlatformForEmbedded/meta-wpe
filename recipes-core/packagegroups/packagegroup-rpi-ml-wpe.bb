@@ -9,7 +9,8 @@ PACKAGES = "\
 
 RDEPENDS_packagegroup-ml-wpe = "\
     wpewebkit \
-    wpewebkit-platform-plugin \
+    wpebackend \
+    wpebackend-rdk \
     wpewebkit-web-inspector-plugin \
     wpelauncher \
     cppsdk \

@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "3ba32633268e76631849564c5eb576aa007937a0"
+SRCREV ?= "ddfdd80097ca6e5e0bef3472818a830bd318096b"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
@@ -27,11 +27,6 @@ inherit cmake pkgconfig perlnative pythonnative
 
 TOOLCHAIN = "gcc"
 
-# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
-WPE_BACKEND_append = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", " wayland","", d)}"
-WPE_BACKEND_remove = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros","", d)}"
-
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
 PROVISIONING_libc-musl = ""
@@ -39,16 +34,12 @@ PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
 PROVISIONING_dragonboard-410c-32 = ""
 
-WL_BUFFER_MANAGEMENT ?= ""
-#WL_BUFFER_MANAGEMENT_rpi = "wl-rpi"
-WL_BUFFER_MANAGEMENT_nexus = "wl-nexus"
-WL_BUFFER_MANAGEMENT_drm = "wl-drm"
-
 PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb logs mediasource notifications sampling-profiler shadowdom subtlecrypto udev video webaudio subtitle nativevideo"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
-# Mesa only offscreen target support for Westeros backend. FIXME needs to be split out
+# Mesa only offscreen target support for Westeros backend
+# FIXME Needs to be moved to mesa backend
 PACKAGECONFIG[westeros-mesa] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS_MESA=ON,,"
 
 # WPE features
@@ -75,7 +66,6 @@ PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreame
 PACKAGECONFIG[subtitle] = "-DENABLE_TEXT_SINK=ON,-DENABLE_TEXT_SINK=OFF,"
 PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 
-
 # DRM
 PACKAGECONFIG[opencdm] = "-DENABLE_OCDM=ON,-DENABLE_OCDM=OFF,opencdm"
 PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playready"
@@ -101,7 +91,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess libWPEBackend-rdk.so
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess
 }
 
 do_install() {
@@ -111,7 +101,6 @@ do_install() {
     install -d ${D}${libdir}
     cp -av --no-preserve=ownership ${B}/lib/libWPE* ${D}${libdir}/
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
-    install -m 0755 ${B}/lib/libWPEBackend-rdk.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPE*
     ln -sf libWPEBackend-rdk.so ${D}${libdir}/libWPEBackend-default.so
@@ -136,9 +125,12 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
 PACKAGES =+ "${PN}-platform-plugin"
 
+<<<<<<< 52d40c570b65e83d583e9d60e56d60ea27dca868
 FILES_${PN}-platform-plugin += "${libdir}/libWPEBackend-rdk.so ${libdir}/libWPEBackend-default.so"
 INSANE_SKIP_${PN}-platform-plugin = "dev-so"
 
+=======
+>>>>>>> Split WPE Backend to WPE Backend RDK and bump revs
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \

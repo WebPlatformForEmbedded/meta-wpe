@@ -1,7 +1,7 @@
 LICENSE = "CLOSED"
 DEPENDS += "virtual/egl"
 
-SRCREV = "5e2a29d2ccc637f7122ba72c1d62ef669b42f05c"
+SRCREV = "4aff0ead8b0d12483800e39856662cd955b2ece5"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git;protocol=http;branch=master"
 
