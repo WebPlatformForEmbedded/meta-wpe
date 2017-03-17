@@ -2,13 +2,17 @@
 # Bootstrapper for buildbot slave
 
 DIR="build"
-MACHINE="raspberrypi3"
+MACHINE="raspberrypi2"
 CONFFILE="conf/local.conf"
 BITBAKEIMAGE="westeros-wpe-image"
 
 # clean up the output dir
 echo "Cleaning build dir"
 rm -rf $DIR
+
+# make sure sstate is there
+echo "Creating sstate directory"
+mkdir -p ~/sstate/rpi
 
 # fix permissions set by buildbot
 echo "Fixing permissions for buildbot"
@@ -19,6 +23,10 @@ chmod -R 755 .
 echo "Init OE"
 export BASH_SOURCE="poky/oe-init-build-env"
 . poky/oe-init-build-env $DIR
+
+# Symlink the cache
+echo "Setup symlink for sstate"
+ln -s ~/sstate/rpi sstate-cache
 
 # add the missing layers
 echo "Adding layers"
