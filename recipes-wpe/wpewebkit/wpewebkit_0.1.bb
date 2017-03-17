@@ -126,12 +126,6 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
 PACKAGES =+ "${PN}-platform-plugin"
 
-<<<<<<< 52d40c570b65e83d583e9d60e56d60ea27dca868
-FILES_${PN}-platform-plugin += "${libdir}/libWPEBackend-rdk.so ${libdir}/libWPEBackend-default.so"
-INSANE_SKIP_${PN}-platform-plugin = "dev-so"
-
-=======
->>>>>>> Split WPE Backend to WPE Backend RDK and bump revs
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
