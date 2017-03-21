@@ -5,12 +5,10 @@ LICENSE = "CLOSED"
 #LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 DEPENDS = "zlib"
-DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "1.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=master \
-           file://0001-Detect-libexecinfo-if-available-on-platform.patch \
           "
 
 SRCREV = "e3224d996c7180d95821e8d0386101dca682abd2"
@@ -20,7 +18,6 @@ S = "${WORKDIR}/git"
 inherit cmake pkgconfig
 
 CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
-LDFLAGS += "-lexecinfo"
 
 CPPSDK_PLATFORM ?= "platform-pc"
 CPPSDK_PLATFORM_mipsel = "platform-dawn"

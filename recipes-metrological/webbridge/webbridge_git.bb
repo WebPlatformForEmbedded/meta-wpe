@@ -5,7 +5,6 @@ LICENSE = "CLOSED"
 #LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 DEPENDS = "cppsdk zlib"
-DEPENDS_append_libc-musl = " libexecinfo"
 
 # ----------------------------------------------------------------------------
 
@@ -22,7 +21,6 @@ BASEPV = "${@ d.getVar('SRCPV', True).replace('AUTOINC+', '')}"
 
 SRC_URI = "git://git@github.com/Metrological/webbridge.git;protocol=ssh;branch=master \
            file://0001-Remove-CPPSDK_INCLUDE_DIRS.patch \
-           file://0001-Link-libexecinfo-if-platform-provides-it.patch \
            file://webbridge-init \
            file://webbridge.service.in \
 "
