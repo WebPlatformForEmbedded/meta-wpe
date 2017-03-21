@@ -40,6 +40,9 @@ echo "Creating local.conf"
 mv $CONFFILE conf/local.conf.orig
 echo "MACHINE = \"${MACHINE}\"" >> $CONFFILE
 echo "DISTRO ?= \"poky\"" >> $CONFFILE
+echo "IMAGE_FEATURES += \"tools-debug\"" >> $CONFFILE
+echo "IMAGE_FEATURES += \"debug-tweaks\"" >> $CONFFILE
+echo "#IMAGE_FEATURES += \"dbg-pkgs\"" >> $CONFFILE
 echo "GCC_VERSION_forcevariable=\"5.4%\"" >> $CONFFILE
 echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
 echo "BB_DISKMON_DIRS = \"\
