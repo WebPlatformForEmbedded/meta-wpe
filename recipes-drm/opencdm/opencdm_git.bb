@@ -3,13 +3,18 @@ HOMEPAGE = "https://www.fokus.fraunhofer.de/en"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=ea83f8bc099c40bde8c4f2441a6eb40b"
 
-DEPENDS = "glib-2.0" 
+DEPENDS = "glib-2.0"
+DEPENDS_append_libc-musl = " libtirpc"
+CPPFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
+CXXFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
+CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
+LDFLAGS_append_libc-musl = " -ltirpc"
 
-SRCREV = "04669dd00977e23c137d5bb9f84c9c5e1af52165"
+SRCREV = "e63c1f67dd3b20b68592972989dd451f98e432a9"
 PV = "1.0.gitr${SRCPV}"
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://git@github.com/Metrological/open-content-decryption-module.git;protocol=ssh;branch=wpe"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEOpenCDM;branch=wpe"
 
 do_compile_prepend() {
 	mkdir -p ${S}/src/browser/wpe/test/bin

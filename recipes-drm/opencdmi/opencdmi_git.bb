@@ -4,8 +4,13 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=ea83f8bc099c40bde8c4f2441a6eb40b"
 
 DEPENDS = "rpcbind opencdm openssl"
+DEPENDS_append_libc-musl = " libtirpc"
+CPPFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
+CXXFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
+CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
+LDFLAGS_append_libc-musl = " -ltirpc"
 
-SRCREV = "a739feb6111143abdc6e26fa587086bba89ded95"
+SRCREV = "c147d47cfe30b0e8c93c5e5e72caec7d733db05c"
 PV = "1.0.gitr${SRCPV}"
 S = "${WORKDIR}/git"
 
