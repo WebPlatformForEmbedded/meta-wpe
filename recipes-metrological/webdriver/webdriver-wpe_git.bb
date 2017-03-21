@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.metrological.com/"
 SECTION = "metrological"
 LICENSE = "CLOSED"
 
-DEPENDS = "curl glib-2.0 json-c wpe gyp-native"
+DEPENDS = "curl glib-2.0 json-c wpewebkit gyp-native"
 
 PV = "1.0+gitr${SRCPV}"
 
