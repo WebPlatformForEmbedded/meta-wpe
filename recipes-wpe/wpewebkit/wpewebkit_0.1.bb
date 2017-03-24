@@ -9,7 +9,7 @@ DEPENDS += " \
     wpebackend \
     bison-native gperf-native harfbuzz-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
-    libinput libpng libsoup-2.4 libwebp libxml2 libxslt \
+    libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
 
@@ -34,7 +34,7 @@ PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
 PROVISIONING_dragonboard-410c-32 = ""
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb logs mediasource notifications sampling-profiler shadowdom subtlecrypto udev video webaudio subtitle nativevideo"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications sampling-profiler shadowdom subtlecrypto udev video webaudio subtitle nativevideo"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
@@ -60,6 +60,7 @@ PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
 PACKAGECONFIG[shadowdom] = "-DENABLE_SHADOW_DOM=ON,-DENABLE_SHADOW_DOM=OFF,"
 PACKAGECONFIG[subtlecrypto] = "-DENABLE_SUBTLE_CRYPTO=ON,-DENABLE_SUBTLE_CRYPTO=OFF,"
+PACKAGECONFIG[libinput] = "-DUSE_WPEWEBKIT_INPUT_LIBINPUT=ON,-DUSE_WPEWEBKIT_INPUT_LIBINPUT=OFF,libinput"
 PACKAGECONFIG[udev] = "-DUSE_WPEWEBKIT_INPUT_UDEV=ON,-DUSE_WPEWEBKIT_INPUT_UDEV=OFF,udev"
 PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
