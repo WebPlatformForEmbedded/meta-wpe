@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "a97f19a9ead6ca8ca91508e7724b747b23375595"
+SRCREV ?= "49839739880a661635ed65cecc2a0591cdf6fa87"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
@@ -27,6 +27,11 @@ inherit cmake pkgconfig perlnative pythonnative
 
 TOOLCHAIN = "gcc"
 
+
+WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+WPE_PLATFORM_nexus = "nexus"
+WPE_PLATFORM_x86 = "intelce"
+
 # The libprovision prebuilt libs currently support glibc ARM only.
 PROVISIONING ?= "provisioning"
 PROVISIONING_libc-musl = ""
@@ -34,13 +39,18 @@ PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
 PROVISIONING_dragonboard-410c-32 = ""
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications sampling-profiler shadowdom subtlecrypto udev video webaudio subtitle nativevideo"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
 
 PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
 PACKAGECONFIG[westeros-mesa] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS_MESA=ON,,"
+
+# WPE Platform specific switches
+PACKAGECONFIG[intelce] = "-DUSE_WPEWEBKIT_PLATFORM_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
+PACKAGECONFIG[nexus] = "-DUSE_WPEWEBKIT_PLATFORM_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
+PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON,,westeros"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
@@ -53,19 +63,19 @@ PACKAGECONFIG[fusion] = "-DUSE_FUSION_API_GSTREAMER=ON,-DUSE_FUSION_API_GSTREAME
 PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,"
 PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,"
 PACKAGECONFIG[indexeddb] = "-DENABLE_DATABASE_PROCESS=ON -DENABLE_INDEXED_DATABASE=ON,-DENABLE_DATABASE_PROCESS=OFF -DENABLE_INDEXED_DATABASE=OFF,"
+PACKAGECONFIG[libinput] = "-DUSE_WPEWEBKIT_INPUT_LIBINPUT=ON,-DUSE_WPEWEBKIT_INPUT_LIBINPUT=OFF,libinput"
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
 PACKAGECONFIG[mediastream] = "-DENABLE_MEDIA_STREAM=ON,-DENABLE_MEDIA_STREAM=OFF,openwebrtc"
+PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
 PACKAGECONFIG[shadowdom] = "-DENABLE_SHADOW_DOM=ON,-DENABLE_SHADOW_DOM=OFF,"
 PACKAGECONFIG[subtlecrypto] = "-DENABLE_SUBTLE_CRYPTO=ON,-DENABLE_SUBTLE_CRYPTO=OFF,"
-PACKAGECONFIG[libinput] = "-DUSE_WPEWEBKIT_INPUT_LIBINPUT=ON,-DUSE_WPEWEBKIT_INPUT_LIBINPUT=OFF,libinput"
+PACKAGECONFIG[subtitle] = "-DENABLE_TEXT_SINK=ON,-DENABLE_TEXT_SINK=OFF,"
 PACKAGECONFIG[udev] = "-DUSE_WPEWEBKIT_INPUT_UDEV=ON,-DUSE_WPEWEBKIT_INPUT_UDEV=OFF,udev"
 PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
-PACKAGECONFIG[subtitle] = "-DENABLE_TEXT_SINK=ON,-DENABLE_TEXT_SINK=OFF,"
-PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 
 # DRM
 PACKAGECONFIG[opencdm] = "-DENABLE_OCDM=ON,-DENABLE_OCDM=OFF,opencdm"
