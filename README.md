@@ -1,6 +1,8 @@
 
 # **meta-wpe**
 
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=55UJZHTXW8VTE)
+
 `meta-wpe` is a meta layer for OpenEmbedded / Yocto environments. It provides the necessary recipes to build the WebPlatformforEmbedded components including the WPE WebKit browser.
 
 # Setup
