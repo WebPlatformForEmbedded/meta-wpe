@@ -38,6 +38,7 @@ PROVISIONING_libc-musl = ""
 PROVISIONING_x86 = ""
 PROVISIONING_hikey-32 = ""
 PROVISIONING_dragonboard-410c-32 = ""
+PROVISIONING_dragonboard-820c-32 = ""
 
 PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
 
