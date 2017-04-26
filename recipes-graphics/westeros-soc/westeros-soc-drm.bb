@@ -12,7 +12,7 @@ DEPENDS = "wayland virtual/egl glib-2.0 libdrm"
 PROVIDES = "westeros-soc"
 RPROVIDES_${PN} = "westeros-soc"
 
-CFLAGS_append = " -I${STAGING_DIR_TARGET}/usr/include/libdrm"
+CFLAGS_append = " -I${STAGING_INCDIR}/libdrm"
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
