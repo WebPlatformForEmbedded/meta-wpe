@@ -1,16 +1,20 @@
-From 6cfa8234d7d6e8996ca6903d436f6888d8874d88 Mon Sep 17 00:00:00 2001
+From 8e03a63fd55f5ae447994579890e8630b27f4a1b Mon Sep 17 00:00:00 2001
 From: Philippe Normand <philn@igalia.com>
 Date: Wed, 28 Oct 2015 12:00:09 +0100
-Subject: souphttpsrc: cookie jar and context query support
+Subject: [PATCH 2/3] souphttpsrc: cookie jar and context query support
 
 Use a volatile Cookie jar to store cookies and handle the context
 query so that session data can be shared with other elements (like
 adaptivedemux).
 
 https://bugzilla.gnome.org/show_bug.cgi?id=726314
+---
+ ext/soup/gstsouphttpsrc.c | 41 +++++++++++++++++++++++++++++++++++++++--
+ ext/soup/gstsouphttpsrc.h |  1 +
+ 2 files changed, 40 insertions(+), 2 deletions(-)
 
 diff --git a/ext/soup/gstsouphttpsrc.c b/ext/soup/gstsouphttpsrc.c
-index fc7cba7..a8dc8dd 100644
+index fc7cba7..0d3e886 100644
 --- a/ext/soup/gstsouphttpsrc.c
 +++ b/ext/soup/gstsouphttpsrc.c
 @@ -482,6 +482,7 @@ gst_soup_http_src_init (GstSoupHTTPSrc * src)
@@ -31,18 +35,19 @@ index fc7cba7..a8dc8dd 100644
    return TRUE;
  }
  
-@@ -963,6 +967,10 @@ gst_soup_http_src_session_close (GstSoupHTTPSrc * src)
-     g_object_unref (src->session);
-     src->session = NULL;
+@@ -958,6 +962,11 @@ gst_soup_http_src_session_close (GstSoupHTTPSrc * src)
+     src->msg = NULL;
    }
+ 
 +  if (src->cookie_jar) {
 +    g_object_unref (src->cookie_jar);
 +    src->cookie_jar = NULL;
 +  }
-   g_mutex_unlock (&src->mutex);
- }
- 
-@@ -1426,11 +1434,12 @@ gst_soup_http_src_build_message (GstSoupHTTPSrc * src, const gchar * method)
++
+   if (src->session) {
+     soup_session_abort (src->session);
+     g_object_unref (src->session);
+@@ -1426,11 +1435,12 @@ gst_soup_http_src_build_message (GstSoupHTTPSrc * src, const gchar * method)
    }
    if (src->cookies) {
      gchar **cookie;
@@ -57,7 +62,7 @@ index fc7cba7..a8dc8dd 100644
    }
  
    soup_message_set_flags (src->msg, SOUP_MESSAGE_OVERWRITE_CHUNKS |
-@@ -1910,6 +1919,12 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
+@@ -1910,6 +1920,12 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
    gboolean ret;
    GstSchedulingFlags flags;
    gint minsize, maxsize, align;
@@ -70,7 +75,7 @@ index fc7cba7..a8dc8dd 100644
  
    switch (GST_QUERY_TYPE (query)) {
      case GST_QUERY_URI:
-@@ -1921,6 +1936,27 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
+@@ -1921,6 +1937,27 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
        }
        ret = TRUE;
        break;
@@ -80,7 +85,7 @@ index fc7cba7..a8dc8dd 100644
 +        uri = soup_uri_new (src->location);
 +        cookie = soup_cookie_jar_get_cookies (src->cookie_jar, uri, TRUE);
 +        context = gst_context_new ("http-headers", FALSE);
-+        context = gst_context_make_writable (context);
++        gst_context_make_writable (context);
 +        context_structure = gst_context_writable_structure (context);
 +        if (cookie != NULL) {
 +          cookies[0] = cookie;
@@ -111,5 +116,5 @@ index dd01656..9c6bb5c 100644
    GstFlowReturn ret;           /* Return code from callback. */
    gint retry_count;            /* Number of retries since we received data */
 -- 
-cgit v0.10.2
+1.8.3.2
 
