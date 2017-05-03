@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
 
-SRCREV = "be274ee32cf28ac1e3f497a6f92184d49ec727b9"
+SRCREV = "79f893f0708ae79a175fa33e619e1c69eb505d89"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
