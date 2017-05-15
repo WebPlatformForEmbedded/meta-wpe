@@ -44,6 +44,9 @@ PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
                         -DDPI_REFERENCE_AUDIO_MIXER=none \
                         ,,ffmpeg libomxil"
 
+# Generic switches
+PACKAGECONFIG[DDPLUS] = "-DDPI_REFERENCE_HAVE_DDPLUS=true,,,"
+
 # DRM
 PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready,playready"
 PACKAGECONFIG[provisioning] = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,libprovision,libprovision"
