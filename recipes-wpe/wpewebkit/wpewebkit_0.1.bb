@@ -15,7 +15,7 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "5a9844e9f88a08fb3abc15d9a2cbb94055c695a4"
+SRCREV ?= "94cec55d7ed7d2ba3fb3a06cdefa6f4f2a4566da"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
