@@ -1,0 +1,27 @@
+From ed074c23ed26b7a0c62c4c3e5b1012c32af9d7a4 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 24 May 2017 22:15:49 -0700
+Subject: [PATCH] Disable new gcc7 warning
+
+Enable C++ 11 via -std=c++11 option
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Source/cmake/OptionsCommon.cmake | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Index: git/Source/cmake/OptionsCommon.cmake
+===================================================================
+--- git.orig/Source/cmake/OptionsCommon.cmake
++++ git/Source/cmake/OptionsCommon.cmake
+@@ -41,7 +41,9 @@ if (COMPILER_IS_GCC_OR_CLANG)
+     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing")
+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-exceptions -fno-strict-aliasing -fno-rtti")
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y")
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-expansion-to-defined")
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-expansion-to-defined")
+ endif ()
+ 
+ if (COMPILER_IS_CLANG AND CMAKE_GENERATOR STREQUAL "Ninja")

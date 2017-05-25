@@ -19,7 +19,11 @@ SRCREV ?= "94cec55d7ed7d2ba3fb3a06cdefa6f4f2a4566da"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
-SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch"
+SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0001-JSArrayBufferView.h-Annotate-vector-as-const.patch \
+            file://0001-Disable-new-gcc7-warning.patch \
+            file://0001-Add-functional-header-for-std-functional.patch \
+"
 
 S = "${WORKDIR}/git"
 
