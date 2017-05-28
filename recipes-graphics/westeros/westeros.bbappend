@@ -8,7 +8,7 @@ do_configure_prepend_rpi() {
 }
 
 do_compile_prepend_rpi () {
-	export WESTEROS_COMPOSITOR_EXTRA_LIBS="-lEGL -lGLESv2 -lbcm_host"
+	export WESTEROS_COMPOSITOR_EXTRA_LIBS="-lEGL -lGLESv2 -lbcm_host -lvchostif"
 }
 
 # bbappend for DRM support
