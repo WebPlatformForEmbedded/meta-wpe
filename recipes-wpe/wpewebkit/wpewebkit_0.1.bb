@@ -23,6 +23,9 @@ SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
             file://0001-JSArrayBufferView.h-Annotate-vector-as-const.patch \
             file://0001-Disable-new-gcc7-warning.patch \
             file://0001-Add-functional-header-for-std-functional.patch \
+            file://musl-fixes.patch \
+            file://0001-Reduce-the-default-thread-stack-size-to-32KB.patch \
+            file://0001-Reduce-stack-limits.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -45,8 +48,6 @@ PROVISIONING_dragonboard-410c-32 = ""
 PROVISIONING_dragonboard-820c-32 = ""
 
 PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
-
-PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
