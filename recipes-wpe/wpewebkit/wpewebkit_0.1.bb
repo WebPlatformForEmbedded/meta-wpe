@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 
 DEPENDS += " \
     wpebackend \
-    bison-native gperf-native harfbuzz-native ninja-native ruby-native chrpath-replacement-native \
+    bison-native gperf-native harfbuzz-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
