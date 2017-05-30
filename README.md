@@ -44,7 +44,7 @@ you can use raspberrypi2 as well if you own raspberrypi2 machine.
 
 Set GCC to use version 5.4:
 
-`GCC_VERSION_forcevariable = "5.4%"`
+`GCCVERSION = "5.4%"`
 
 Note: GCC 6.x is supported but experimental at this stage. Mileage may vary.
 
