@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 
 DEPENDS += " \
     wpebackend \
-    bison-native gperf-native harfbuzz-native ninja-native ruby-native chrpath-replacement-native \
+    bison-native gperf-native harfbuzz-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
@@ -15,11 +15,18 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "94cec55d7ed7d2ba3fb3a06cdefa6f4f2a4566da"
+SRCREV ?= "c138f655cf5ad62af2563c43609acb3b2771c3d7"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
-SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch"
+SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0001-JSArrayBufferView.h-Annotate-vector-as-const.patch \
+            file://0001-Disable-new-gcc7-warning.patch \
+            file://0001-Add-functional-header-for-std-functional.patch \
+            file://musl-fixes.patch \
+            file://0001-Reduce-the-default-thread-stack-size-to-32KB.patch \
+            file://0001-Reduce-stack-limits.patch \
+"
 
 S = "${WORKDIR}/git"
 
@@ -41,8 +48,6 @@ PROVISIONING_dragonboard-410c-32 = ""
 PROVISIONING_dragonboard-820c-32 = ""
 
 PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
-
-PACKAGECONFIG_remove_libc-musl = "sampling-profiler"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend

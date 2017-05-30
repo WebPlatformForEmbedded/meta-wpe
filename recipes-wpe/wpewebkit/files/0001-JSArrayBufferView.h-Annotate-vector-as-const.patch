@@ -1,0 +1,32 @@
+From 84e31202d50c1c740f262bf02d80819e0de52209 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 24 May 2017 19:57:28 -0700
+Subject: [PATCH] JSArrayBufferView.h: Annotate vector() as const
+
+Fix taken from
+
+https://bugs.webkit.org/show_bug.cgi?id=167642
+
+Fixes build with gcc7
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Source/JavaScriptCore/runtime/JSArrayBufferView.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Source/JavaScriptCore/runtime/JSArrayBufferView.h b/Source/JavaScriptCore/runtime/JSArrayBufferView.h
+index 76a2f751605..d684d3f968e 100644
+--- a/Source/JavaScriptCore/runtime/JSArrayBufferView.h
++++ b/Source/JavaScriptCore/runtime/JSArrayBufferView.h
+@@ -167,7 +167,7 @@ public:
+     bool isNeutered() { return hasArrayBuffer() && !vector(); }
+     void neuter();
+     
+-    void* vector() { return m_vector.get(); }
++    void* vector() const { return m_vector.get(); }
+     
+     unsigned byteOffset();
+     unsigned length() const { return m_length; }
+-- 
+2.13.0
+
