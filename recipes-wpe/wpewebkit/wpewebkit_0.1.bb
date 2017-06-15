@@ -15,15 +15,11 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "c138f655cf5ad62af2563c43609acb3b2771c3d7"
+SRCREV ?= "6ac1eb13d58ab1ced6bb4d047e3d5283b47bd114"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-JSArrayBufferView.h-Annotate-vector-as-const.patch \
-            file://0001-Disable-new-gcc7-warning.patch \
-            file://0001-Add-functional-header-for-std-functional.patch \
-            file://musl-fixes.patch \
             file://0001-Reduce-the-default-thread-stack-size-to-32KB.patch \
             file://0001-Reduce-stack-limits.patch \
 "
