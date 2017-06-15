@@ -9,11 +9,9 @@ DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "1.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=master \
-           file://0001-Detect-libexecinfo-if-available-on-platform.patch \
-          "
+SRC_URI = "git://git@github.com/Metrological/cppsdk.git;protocol=ssh;branch=master"
 
-SRCREV = "e3224d996c7180d95821e8d0386101dca682abd2"
+SRCREV = "90a2c6e1b6263432e6e01e893c136ec305d5f2b6"
 
 S = "${WORKDIR}/git"
 
@@ -38,7 +36,7 @@ PACKAGECONFIG[platform-rpi] = "-DCPPSDK_PLATFORM=RPI,,virtual/egl"
 PACKAGECONFIG[platform-xi5] = "-DCPPSDK_PLATFORM=XI5,,broadcom-refsw"
 
 PACKAGECONFIG[cryptalgo] = "-DCPPSDK_CRYPTALGO=ON,-DCPPSDK_CRYPTALGO=OFF,"
-PACKAGECONFIG[debug] = "-DCPPSDK_DEBUG=ON,-DCPPSDK_DEBUG=OFF,"
+PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 PACKAGECONFIG[devices] = "-DCPPSDK_DEVICES=ON,-DCPPSDK_DEVICES=OFF,"
 PACKAGECONFIG[generics] = "-DCPPSDK_GENERICS=ON,-DCPPSDK_GENERICS=OFF,"
 PACKAGECONFIG[tracing] = "-DCPPSDK_TRACING=ON,-DCPPSDK_TRACING=OFF,"
