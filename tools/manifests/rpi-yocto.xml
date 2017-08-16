@@ -6,9 +6,9 @@
   <remote name="webplatformforembedded" fetch="git://github.com/webplatformforembedded" />
   <default remote="openembedded" revision="master" />
 
-  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" />
-  <project name="poky" remote="yocto" path="poky" />
-  <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="11fec461330982ee15b4ac6dca5014fabe59198f" />
-  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" />
+  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="pyro" />
+  <project name="poky" remote="yocto" path="poky" revision="pyro" />
+  <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="pyro" />
+  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" revision="pyro" />
 
 </manifest>
