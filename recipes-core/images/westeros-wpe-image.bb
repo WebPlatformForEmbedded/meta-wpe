@@ -1,12 +1,12 @@
 # Copyright (C) 2016 Khem Raj <raj.khem@gmail.com>
 # Released under the MIT license (see COPYING.MIT for the terms)
 
+DESCRIPTION = "WPE-On-Westeros compositor image for RaspberryPi"
+LICENSE = "MIT"
+
 include recipes-core/images/core-image-minimal.bb
 
 require wpe-image.inc
-
-DESCRIPTION = "WPE-On-Westeros compositor image for RaspberryPi"
-LICENSE = "MIT"
 
 inherit distro_features_check
 
