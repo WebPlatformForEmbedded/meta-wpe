@@ -43,7 +43,7 @@ echo "DISTRO ?= \"poky\"" >> $CONFFILE
 echo "IMAGE_FEATURES += \"tools-debug\"" >> $CONFFILE
 echo "IMAGE_FEATURES += \"debug-tweaks\"" >> $CONFFILE
 echo "#IMAGE_FEATURES += \"dbg-pkgs\"" >> $CONFFILE
-echo "GCCVERSION=\"5.4%\"" >> $CONFFILE
+echo "GCCVERSION=\"5.3%\"" >> $CONFFILE
 echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
 echo "BB_DISKMON_DIRS = \"\
     STOPTASKS,${TMPDIR},1G,100K \
