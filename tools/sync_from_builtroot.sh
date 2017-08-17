@@ -17,6 +17,7 @@ wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/i
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/webdriver/webdriver.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/opencdm/opencdm.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/opencdmi/opencdmi.mk
+wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/westeros/westeros.mk
 
 cd ..
 
@@ -33,6 +34,7 @@ python ./tools/check_srcrevs.py -i ./tmp/icudata.mk -o ./recipes-support/icu/icu
 python ./tools/check_srcrevs.py -i ./tmp/webdriver.mk -o ./recipes-metrological/webdriver/webdriver-wpe_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/opencdm.mk -o ./recipes-drm/opencdm/opencdm_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/opencdmi.mk -o ./recipes-drm/opencdmi/opencdmi_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/westeros.mk -o ./recipes-graphics/westeros/westeros.inc
 
 echo "Cleaning up tmp"
 rm -r ./tmp
