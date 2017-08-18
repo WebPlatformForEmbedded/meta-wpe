@@ -4,7 +4,7 @@ DEPENDS += "wpewebkit glib-2.0"
 
 SRCREV = "f7fdafee26f9dc4be7cdb3d6239ec4577e96a38b"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKitLauncher.git;protocol=http;branch=master"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKitLauncher.git;protocol=git;branch=master"
 
 S = "${WORKDIR}/git"
 

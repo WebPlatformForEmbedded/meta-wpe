@@ -3,7 +3,7 @@ DEPENDS += "virtual/egl"
 
 SRCREV = "0272534fcc3bf1aff56539e20703b8d53a0328cc"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git;protocol=http;branch=master"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git;protocol=git;branch=master"
 
 S = "${WORKDIR}/git"
 
