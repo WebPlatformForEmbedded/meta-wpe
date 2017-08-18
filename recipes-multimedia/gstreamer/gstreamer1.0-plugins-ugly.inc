@@ -8,8 +8,7 @@ DEPENDS += "gstreamer1.0-plugins-base libid3tag"
 inherit gettext
 
 PACKAGECONFIG ??= " \
-    ${GSTREAMER_ORC} \
-    a52dec lame mpg123 mpeg2dec \
+    a52dec lame mad mpeg2dec orc \
 "
 
 PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
