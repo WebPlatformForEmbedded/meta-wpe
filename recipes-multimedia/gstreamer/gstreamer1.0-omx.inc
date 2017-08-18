@@ -7,7 +7,7 @@ LICENSE_FLAGS = "commercial"
 
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 
-inherit autotools pkgconfig gettext gtk-doc upstream-version-is-even
+inherit autotools pkgconfig gettext gtk-doc
 
 acpaths = "-I ${S}/common/m4 -I ${S}/m4"
 
@@ -28,12 +28,6 @@ python __anonymous () {
         # Dedicated Raspberry Pi OpenMAX IL support makes this package machine specific
         d.setVar("PACKAGE_ARCH", d.getVar("MACHINE_ARCH", True))
 }
-
-set_omx_core_name() {
-	sed -i -e "s;^core-name=.*;core-name=${GSTREAMER_1_0_OMX_CORE_NAME};" "${D}${sysconfdir}/xdg/gstomx.conf"
-}
-
-do_install[postfuncs] += " set_omx_core_name "
 
 FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
 FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la"
