@@ -118,7 +118,6 @@ do_install() {
     install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPE*
-    ln -sf libWPEBackend-rdk.so ${D}${libdir}/libWPEBackend-default.so
 
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
