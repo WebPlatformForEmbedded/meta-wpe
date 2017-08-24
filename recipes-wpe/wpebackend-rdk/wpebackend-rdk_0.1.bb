@@ -30,13 +30,6 @@ PACKAGECONFIG[bcm-weston] = "-DUSE_BACKEND_BCM_NEXUS_WAYLAND=ON,-DUSE_BACKEND_BC
 
 PACKAGECONFIG[westeros-mesa] = "-DUSE_BACKEND_WESTEROS_MESA=ON,,"
 
-do_install() {
-
-	install -d ${D}${libdir}
-	install -m 0755 ${B}/libWPEBackend-*.so ${D}${libdir}/
-
-}
-
-FILES_SOLIBSDEV = ""
+FILES_SOLIBSDEV = "${libdir}/libWPEBackend-default.so"
 FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-rdk.so"
-INSANE_SKIP ="dev-so"
+INSANE_SKIP = "dev-so"
