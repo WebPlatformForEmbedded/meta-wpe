@@ -15,6 +15,8 @@ SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branc
 
 S = "${WORKDIR}/git"
 
+inherit cmake pkgconfig
+
 COMPATIBLE_HOST = '(i.86|arm|mipsel).*-linux'
 
 PROV_ARCH ?= ""
@@ -22,16 +24,8 @@ PROV_ARCH_arm = "arm"
 PROV_ARCH_x86 = "i686"
 PROV_ARCH_mipsel = "mipsel"
 
-do_configure[noexec] = "1"
-do_compile[noexec] = "1"
-
-do_install() {
-    install -Dm 755 ${S}/${PROV_ARCH}/libprovision.so ${D}${libdir}/libprovision.so
-    install -Dm 755 ${S}/${PROV_ARCH}/libprovisionproxy.so ${D}${libdir}/libprovisionproxy.so
-    install -Dm 644 ${S}/provision.pc ${D}${libdir}/pkgconfig/provision.pc
-
-    install -d  ${D}${includedir}/provision
-    install -m 644 ${S}/include/provision/*.h ${D}${includedir}/provision
+do_install_prepend() {
+	mkdir -p ${D}${libdir}
 }
 
 # Add the libraries to the correct package
