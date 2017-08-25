@@ -16,7 +16,7 @@ DEPENDS += " \
 PV = "0.1+git${SRCPV}"
 
 SRCREV ?= "c7df008590dde472c9efc5d4ddd56d7a9b9eaca5"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
