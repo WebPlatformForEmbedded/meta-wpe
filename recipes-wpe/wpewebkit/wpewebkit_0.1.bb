@@ -35,14 +35,6 @@ WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '
 WPE_PLATFORM_nexus = "nexus"
 WPE_PLATFORM_x86 = "intelce"
 
-# The libprovision prebuilt libs currently support glibc ARM only.
-PROVISIONING ?= "provisioning"
-PROVISIONING_libc-musl = ""
-PROVISIONING_x86 = ""
-PROVISIONING_hikey-32 = ""
-PROVISIONING_dragonboard-410c-32 = ""
-PROVISIONING_dragonboard-820c-32 = ""
-
 PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
 
 # Mesa only offscreen target support for Westeros backend
@@ -84,7 +76,6 @@ PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreame
 # DRM
 PACKAGECONFIG[opencdm] = "-DENABLE_OCDM=ON,-DENABLE_OCDM=OFF,opencdm"
 PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playready"
-PACKAGECONFIG[provisioning] = "-DENABLE_PROVISIONING=ON,-DENABLE_PROVISIONING=OFF,libprovision,libprovision"
 
 # GStreamer
 PACKAGECONFIG[gst_gl] = "-DUSE_GSTREAMER_GL=ON,,"
