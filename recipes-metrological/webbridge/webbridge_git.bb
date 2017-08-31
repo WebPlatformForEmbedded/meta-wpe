@@ -58,7 +58,13 @@ WEBBRIDGE_PLUGIN_WEBSERVER_PORT ?= "8080"
 WEBBRIDGE_PLUGIN_WEBSERVER_BIND ?= "0.0.0.0"
 WEBBRIDGE_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
-PACKAGECONFIG ?= "deviceinfo remotecontrol ${SNAPSHOT} tracecontrol webkitbrowser web-ui"
+PROVISIONING ?= "provisioning"
+PROVISIONING_libc-musl = ""
+PROVISIONING_hikey-32 = ""
+PROVISIONING_dragonboard-410c-32 = ""
+PROVISIONING_dragonboard-820c-32 = ""
+
+PACKAGECONFIG ?= "deviceinfo ${PROVISIONING} remotecontrol ${SNAPSHOT} tracecontrol webkitbrowser web-ui"
 
 PACKAGECONFIG[browser]            = "-DWEBBRIDGE_PLUGIN_BROWSER=ON,-DWEBBRIDGE_PLUGIN_BROWSER=OFF,"
 PACKAGECONFIG[dailserver]         = "-DWEBBRIDGE_PLUGIN_DIALSERVER=ON,-DWEBBRIDGE_PLUGIN_DIALSERVER=OFF,"
@@ -125,7 +131,7 @@ do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
         install -d ${D}${WEBBRIDGE_PLUGIN_WEBSERVER_PATH}
-    fi 
+    fi
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
     then
         if ${@bb.utils.contains("MACHINE_FEATURES", "platformserver", "true", "false", d)}
