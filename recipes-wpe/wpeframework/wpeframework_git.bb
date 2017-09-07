@@ -31,8 +31,6 @@ EXTRA_OECMAKE += " \
 "
 
 do_install_append() {
-    #rm -r ${D}/${datadir}/WPEFramework/cmake
-
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
     then
         if ${@bb.utils.contains("MACHINE_FEATURES", "platformserver", "true", "false", d)}
