@@ -1,4 +1,4 @@
-SUMMARY = "Web Platform for Embedded Framework"
+SUMMARY = "WPE Framework common plugins"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
@@ -34,7 +34,7 @@ SNAPSHOT_rpi = "snapshot"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander deviceinfo ${SNAPSHOT} tracing"
+PACKAGECONFIG ?= "commander deviceinfo ${SNAPSHOT} tracing webkitbrowser"
 
 PACKAGECONFIG[commander] 		= "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[debug] 			= "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
@@ -81,10 +81,9 @@ do_install_append() {
 
 # ----------------------------------------------------------------------------
 
-FILES_${PN}-dbg += "${datadir}/WPEFramework/WebKitBrowser/.debug/libWPEInjectedBundle.so"
-
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so"
+FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${datadir}/WPEFramework/WebKitBrowser/libWPEInjectedBundle.so"
 
+INSANE_SKIP_${PN} += "libdir"
 
 TOOLCHAIN = "gcc"
