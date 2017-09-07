@@ -57,11 +57,6 @@ PACKAGES =+ "${PN}-initscript"
 
 FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
 
-# libinterfaces.so and libproxystubs.so are installed in /usr/lib/webbridge/proxystubs
-# Fixme: to avoid the need for packaging workarounds, plug-ins should be installed
-# one level below /usr/lib (e.g. /usr/lib/webbridge-proxystubs)
-#FILES_${PN}-dbg += "${libdir}/wpeframework/proxystubs/.debug"
-
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/*"
 
