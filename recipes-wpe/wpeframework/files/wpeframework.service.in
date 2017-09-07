@@ -1,0 +1,15 @@
+[Unit]
+Description=wpeframework
+Wants=network-online.target
+After=network-online.target @EXTRA_AFTER@
+
+[Service]
+PIDFile=/var/run/WPEFramework.pid
+EnvironmentFile=-/etc/webbridge/WPEFramework.env
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="XDG_RUNTIME_DIR=/run"
+ExecStart="/usr/bin/WPEFramework -b"
+ExecStop=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
