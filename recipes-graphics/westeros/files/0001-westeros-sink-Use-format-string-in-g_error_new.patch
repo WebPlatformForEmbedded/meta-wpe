@@ -1,0 +1,29 @@
+From e97279178d4745ed4318f6318a6e69f4876e6259 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 10 Sep 2017 11:36:26 -0700
+Subject: [PATCH] westeros-sink: Use format string in g_error_new
+
+Fixes a potential format-security issue
+
+Change-Id: If2de5fe4a55804ccb0fd9f0c56bdcb9fc2289f1e
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ westeros-sink/westeros-sink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/westeros-sink/westeros-sink.c b/westeros-sink/westeros-sink.c
+index cdbdabd..be3e02a 100644
+--- a/westeros-sink/westeros-sink.c
++++ b/westeros-sink/westeros-sink.c
+@@ -897,7 +897,7 @@ static gboolean gst_westeros_sink_event(GstPad *pad, GstEvent *event)
+                {
+                   GST_ERROR("width=%d height=%d > maxWidth=%d maxHeight=%d\n", width, height, sink->maxWidth, sink->maxHeight);
+                   const char *err_string = "Maximum video dimensions exceeded";
+-                  GError *error = g_error_new(GST_STREAM_ERROR, GST_STREAM_ERROR_WRONG_TYPE, err_string);
++                  GError *error = g_error_new(GST_STREAM_ERROR, GST_STREAM_ERROR_WRONG_TYPE, "%s", err_string);
+                   GstMessage *message = gst_message_new_error(GST_OBJECT_CAST(sink), error, err_string);
+                   gst_element_post_message(GST_ELEMENT_CAST(sink), message);
+                   g_error_free(error);
+-- 
+2.14.1
+
