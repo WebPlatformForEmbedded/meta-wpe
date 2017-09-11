@@ -50,7 +50,7 @@ Note: GCC 6.x is supported but experimental at this stage. Mileage may vary.
 
 Build WPE with Westeros Compositor:
 
-`$ bitbake westeros-wpe-image`
+`$ bitbake wpe-westeros-image`
 
 # Install
 
