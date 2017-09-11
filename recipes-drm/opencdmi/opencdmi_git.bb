@@ -10,7 +10,7 @@ CXXFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
 CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
 LDFLAGS_append_libc-musl = " -ltirpc"
 
-SRCREV = "c3b1dfa024f2e9f8f9f2384449ac9d1e3c324719"
+SRCREV = "868d5f03474161603ba9a29bebd3fa1cb300306b"
 PV = "1.0.gitr${SRCPV}"
 S = "${WORKDIR}/git"
 
