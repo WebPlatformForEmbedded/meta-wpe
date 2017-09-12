@@ -4,7 +4,7 @@ LICENSE = "CLOSED"
 
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
 
-SRCREV = "ff2a789b715333b8ff457c7bfcbf2569d2ae5b53"
+SRCREV = "77a8648c5b8b69631b668c9953bd88ee839e9931"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
@@ -49,7 +49,7 @@ PACKAGECONFIG[DDPLUS] = "-DDPI_REFERENCE_HAVE_DDPLUS=true,,,"
 
 # DRM
 PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready,playready"
-PACKAGECONFIG[provisioning] = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,libprovision,libprovision"
+PACKAGECONFIG[provisioning] = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,libprovision wpeframework,libprovision"
 
 OECMAKE_SOURCEPATH = "${S}/netflix"
 

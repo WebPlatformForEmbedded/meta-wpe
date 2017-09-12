@@ -1,14 +1,14 @@
 [Unit]
-Description=Webbridge
+Description=wpeframework
 Wants=network-online.target
 After=network-online.target @EXTRA_AFTER@
 
 [Service]
-PIDFile=/var/run/webbridge.pid
-EnvironmentFile=-/etc/webbridge/webbridge.env
+PIDFile=/var/run/WPEFramework.pid
+EnvironmentFile=-/etc/webbridge/WPEFramework.env
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="XDG_RUNTIME_DIR=/run"
-ExecStart="/usr/bin/webbridge -b"
+ExecStart="/usr/bin/WPEFramework -b"
 ExecStop=/bin/kill -HUP $MAINPID
 
 [Install]

@@ -6,16 +6,14 @@ HOMEPAGE = "https://github.com/Metrological/libprovision"
 SECTION = "libs"
 LICENSE = "CLOSED"
 
-DEPENDS = "cppsdk openssl"
+DEPENDS = "openssl"
 
-PV = "1.0.gitr${SRCPV}"
+PV = "2.0.gitr${SRCPV}"
 
 SRCREV = "b8d14e82101f9c5f7ef73d7d33927009298d0612"
 SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branch=master"
 
 S = "${WORKDIR}/git"
-
-inherit cmake pkgconfig
 
 COMPATIBLE_HOST = '(i.86|arm|mipsel).*-linux'
 
@@ -24,8 +22,14 @@ PROV_ARCH_arm = "arm"
 PROV_ARCH_x86 = "i686"
 PROV_ARCH_mipsel = "mipsel"
 
-do_install_prepend() {
-	mkdir -p ${D}${libdir}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
+
+do_install() {
+    install -Dm 755 ${S}/${PROV_ARCH}/libprovision.so ${D}${libdir}/libprovision.so
+
+    install -d  ${D}${includedir}/provision
+    install -m 644 ${S}/include/provision/*.h ${D}${includedir}/provision
 }
 
 # Add the libraries to the correct package

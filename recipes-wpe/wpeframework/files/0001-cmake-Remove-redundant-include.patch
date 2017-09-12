@@ -1,0 +1,27 @@
+From 19e6b67b935940c2222721785d0fd68ba2ff32f8 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Thu, 7 Sep 2017 14:01:36 -0700
+Subject: [PATCH] [cmake] Remove redundant include
+
+---
+ CMakeLists.txt | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ff8bdb3..9cdbdd6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -70,10 +70,6 @@ message(STATUS "Output base directory: " ${OUTPUT_BASE_DIR})
+ 
+ set(PLUGIN_NETFLIX_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+ 
+-if(CMAKE_CROSSCOMPILING)
+-    include(${CMAKE_FIND_ROOT_PATH}/usr/include/WPEFramework/cmake/config.cmake)
+-endif(CMAKE_CROSSCOMPILING)
+-
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ list(APPEND CMAKE_MODULE_PATH "${PLUGIN_NETFLIX_ROOT}/cmake")
+ 
+-- 
+2.7.4
+
