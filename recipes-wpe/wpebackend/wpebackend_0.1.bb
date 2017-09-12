@@ -23,3 +23,6 @@ CFLAGS += " \
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend.so ${libdir}/pkgconfig/wpe.pc"
 INSANE_SKIP_${PN} ="dev-so"
+
+RDEPENDS_${PN}_rpi = "wpebackend-rdk"
+
