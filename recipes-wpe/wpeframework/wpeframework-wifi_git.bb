@@ -10,7 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 SRC_URI = "git://git@github.com/Metrological/WPEPluginsPOC.git;protocol=ssh;branch=WPEPluginWifi \
 		  file://0002-cmake-Remove-redundant-include.patch"
 
-SRCREV = "52b8a177e59f9ed0d7b8ffebfbbfcc28d5181272"
+SRCREV = "1c853144c5f464bed43739cf9ad1f32e725d7951"
 
 S = "${WORKDIR}/git"
 
