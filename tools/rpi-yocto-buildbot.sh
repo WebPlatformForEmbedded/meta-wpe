@@ -4,7 +4,7 @@
 DIR="build"
 MACHINE="raspberrypi2"
 CONFFILE="conf/local.conf"
-BITBAKEIMAGE="westeros-wpe-image"
+BITBAKEIMAGE="wpe-westeros-image"
 
 # clean up the output dir
 echo "Cleaning build dir"
