@@ -7,7 +7,7 @@ DEPENDS = "wpeframework alsa-lib"
 
 PV = "3.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/WPEPluginsPOC.git;protocol=ssh;branch=WPEPluginSpotify \
+SRC_URI = "git://git@github.com/Metrological/WPEPluginsSpotify.git;protocol=ssh;branch=WPEPluginSpotify \
 		  file://0001-cmake-Remove-redundant-include.patch"
 
 SRCREV = "5616ca7a7001aa51ccc7de63ec877e756d9e3120"
