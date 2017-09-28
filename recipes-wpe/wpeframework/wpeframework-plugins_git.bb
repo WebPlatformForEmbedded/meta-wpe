@@ -9,7 +9,7 @@ DEPENDS = "wpeframework"
 PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master"
-SRCREV = "245ebd1c4ccb4dc13740a81d7348b498eaa3b67f"
+SRCREV = "8ee6ce430e8ecca89abaa175c671558544485136"
 
 S = "${WORKDIR}/git"
 
@@ -44,7 +44,7 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander ${WPE_COMPOSITOR} deviceinfo ${WPE_SNAPSHOT} tracing webkitbrowser"
+PACKAGECONFIG ?= "commander deviceinfo ${WPE_SNAPSHOT} tracing webkitbrowser"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL},-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
