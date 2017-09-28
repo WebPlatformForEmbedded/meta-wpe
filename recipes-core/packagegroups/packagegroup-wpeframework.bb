@@ -9,5 +9,5 @@ PACKAGES = "\
 
 RDEPENDS_packagegroup-wpeframework = "\
     wpeframework \
-    wpeframework-common \
+    wpeframework-plugins \
 "
