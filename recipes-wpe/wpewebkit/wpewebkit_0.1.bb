@@ -7,15 +7,15 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 
 DEPENDS += " \
     wpebackend \
-    bison-native gperf-native harfbuzz-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
-    cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
+    bison-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
+    cairo fontconfig freetype glib-2.0 glib-2.0-native gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "60a107da98ed8484705966e63f5467ac673dd743"
+SRCREV ?= "5811a55428f6fa7631461002c65ed48ef86f44f8"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 
