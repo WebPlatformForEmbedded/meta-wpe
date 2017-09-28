@@ -7,7 +7,7 @@ DEPENDS = "wpeframework"
 
 PV = "3.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/Metrological/WPEPluginsPOC.git;protocol=ssh;branch=WPEPluginWifi \
+SRC_URI = "git://git@github.com/Metrological/WPEPluginsSpotify.git;protocol=ssh;branch=WPEPluginWifi \
 		  file://0002-cmake-Remove-redundant-include.patch"
 
 SRCREV = "92618b16644b9653513e1be5d24278c94706623f"
