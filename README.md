@@ -56,7 +56,7 @@ Build WPE with Westeros Compositor:
 
 To flash the sdimg on the sd card:
 
-`$ sudo dd if=tmp/deploy/images/raspberrypi3/westeros-wpe-image-raspberrypi3.rpi-sdimg of=/dev/sdX`
+`$ sudo dd if=tmp/deploy/images/raspberrypi3/wpe-westeros-image-raspberrypi3.rpi-sdimg of=/dev/sdX`
 
 
 
