@@ -2,7 +2,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 SRC_URI += " \
-	file://0001-qtdemux-distinguish-TFDT-with-value-0-from-no-TFDT-a.patch \
     file://0005-souphttpsrc-cookie-jar-and-context-query-support.patch \
     file://0006-qtdemux-add-context-for-a-preferred-protection.patch \
     file://0007-qtdemux-dont-check-pushbased-edts.patch \
