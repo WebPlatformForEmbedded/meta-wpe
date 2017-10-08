@@ -24,7 +24,6 @@ def updateOeVersion(file, newVersion):
     file_handle.close()	
 
 def main(argv):
-	print "-------------------"
 	inputfile = ''
 	outputfile = ''
 	try:

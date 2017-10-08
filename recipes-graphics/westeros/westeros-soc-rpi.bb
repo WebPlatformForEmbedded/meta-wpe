@@ -2,10 +2,11 @@ require recipes-graphics/westeros/westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor components for RaspberryPi: westeros-gl, westeros-egl"
 
-S = "${WORKDIR}/git/rpi"
-LICENSE_LOCATION = "${S}/../LICENSE"
+S = "${WORKDIR}/git"
+LICENSE_LOCATION = "${S}/LICENSE"
+AUTOTOOLS_SCRIPT_PATH = "${S}/rpi"
 
-DEPENDS = "wayland virtual/egl glib-2.0"
+DEPENDS += "wayland virtual/egl glib-2.0"
 PROVIDES = "westeros-soc"
 RPROVIDES_${PN} = "westeros-soc"
 
@@ -28,5 +29,5 @@ inherit autotools pkgconfig
 FILES_${PN} = "${libdir}/*"
 
 do_configure_prepend() {
-    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/westeros-sink/Makefile.am
+    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${AUTOTOOLS_SCRIPT_PATH}/westeros-sink/Makefile.am
 }

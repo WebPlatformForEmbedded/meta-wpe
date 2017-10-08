@@ -2,7 +2,7 @@ LICENSE = "CLOSED"
 
 DEPENDS += "wpewebkit glib-2.0"
 
-SRCREV = "f2aec84648dc9eb10c6aafbaf888151a9d120fce"
+SRCREV = "faf66440d43e7b4bf741a0b3a765982704827f7b"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master"
 
@@ -30,6 +30,6 @@ PACKAGECONFIG[bcm-weston] = "-DUSE_BACKEND_BCM_NEXUS_WAYLAND=ON,-DUSE_BACKEND_BC
 
 PACKAGECONFIG[westeros-mesa] = "-DUSE_BACKEND_WESTEROS_MESA=ON,,"
 
-FILES_SOLIBSDEV = "${libdir}/libWPEBackend-default.so"
+FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-rdk.so"
-INSANE_SKIP = "dev-so"
+INSANE_SKIP_${PN} = "dev-so"
