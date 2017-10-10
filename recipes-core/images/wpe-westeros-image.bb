@@ -16,7 +16,7 @@ SPLASH_rpi = "psplash-raspberrypi"
 
 IMAGE_FEATURES += "hwcodecs \
                    package-management \
-                   ssh-server-openssh \
+                   ssh-server-dropbear \
                    splash \
 "
 
