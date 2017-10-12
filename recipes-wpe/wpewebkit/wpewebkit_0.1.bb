@@ -30,9 +30,6 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-TOOLCHAIN = "gcc"
-
-
 WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
 WPE_PLATFORM_nexus = "nexus"
 WPE_PLATFORM_x86 = "intelce"
