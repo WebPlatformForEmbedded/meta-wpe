@@ -47,15 +47,18 @@ echo "IMAGE_FEATURES += \"debug-tweaks\"" >> $CONFFILE
 echo "#IMAGE_FEATURES += \"dbg-pkgs\"" >> $CONFFILE
 echo "GCCVERSION=\"5.4%\"" >> $CONFFILE
 echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
-echo "BB_DISKMON_DIRS = \"\
-    STOPTASKS,${TMPDIR},1G,100K \
-    STOPTASKS,${DL_DIR},1G,100K \
-    STOPTASKS,${SSTATE_DIR},1G,100K \
-    STOPTASKS,/tmp,100M,100K \
-    ABORT,${TMPDIR},100M,1K \
-    ABORT,${DL_DIR},100M,1K \
-    ABORT,${SSTATE_DIR},100M,1K \
-    ABORT,/tmp,10M,1K\" " >> $CONFFILE
+#echo "BB_DISKMON_DIRS = \"\
+#    STOPTASKS,${TMPDIR},1G,100K \
+#    STOPTASKS,${DL_DIR},1G,100K \
+#    STOPTASKS,${SSTATE_DIR},1G,100K \
+#    STOPTASKS,/tmp,100M,100K \
+#    ABORT,${TMPDIR},100M,1K \
+#    ABORT,${DL_DIR},100M,1K \
+#    ABORT,${SSTATE_DIR},100M,1K \
+#    ABORT,/tmp,10M,1K\" " >> $CONFFILE
+# explicitly disable x11 and enable opengl
+echo "DISTRO_FEATURES_remove = \"x11\" \
+    DISTRO_FEATURES_append = \" opengl\"" >> $CONFFILE
 echo "CONF_VERSION = \"1\"" >> $CONFFILE
 
 # start build
