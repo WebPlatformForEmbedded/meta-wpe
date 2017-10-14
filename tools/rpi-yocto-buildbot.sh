@@ -45,7 +45,6 @@ echo "DISTRO ?= \"poky\"" >> $CONFFILE
 echo "IMAGE_FEATURES += \"tools-debug\"" >> $CONFFILE
 echo "IMAGE_FEATURES += \"debug-tweaks\"" >> $CONFFILE
 echo "#IMAGE_FEATURES += \"dbg-pkgs\"" >> $CONFFILE
-echo "GCCVERSION=\"5.4%\"" >> $CONFFILE
 echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
 #echo "BB_DISKMON_DIRS = \"\
 #    STOPTASKS,${TMPDIR},1G,100K \
@@ -57,8 +56,9 @@ echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
 #    ABORT,${SSTATE_DIR},100M,1K \
 #    ABORT,/tmp,10M,1K\" " >> $CONFFILE
 # explicitly disable x11 and enable opengl
-echo "DISTRO_FEATURES_remove = \"x11\" \
-    DISTRO_FEATURES_append = \" opengl\"" >> $CONFFILE
+echo "DISTRO_FEATURES_remove = \"x11\"" >> $CONFFILE
+echo "DISTRO_FEATURES_append = \" opengl\"" >> $CONFFILE
+echo "ENABLE_UART = \"1\"" >> $CONFFILE
 echo "CONF_VERSION = \"1\"" >> $CONFFILE
 
 # start build
