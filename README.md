@@ -37,6 +37,8 @@ $ bitbake-layers add-layer ../meta-openembedded/meta-oe
 $ bitbake-layers add-layer ../meta-openembedded/meta-multimedia
 
 $ bitbake-layers add-layer ../meta-openembedded/meta-networking
+
+$ bitbake-layers add-layer ../meta-openembedded/meta-python
 ```
 
 
@@ -44,11 +46,9 @@ Edit `conf/local.conf` and set the target machine:
 `MACHINE = "raspberrypi3"`
 you can use raspberrypi2 as well if you own raspberrypi2 machine.
 
-Set GCC to use version 5.4:
+To set a different GCC e.g. 6.3:
 
-`GCCVERSION = "5.4%"`
-
-Note: GCC 6.x is supported but experimental at this stage. Mileage may vary.
+`GCCVERSION = "6.%"`
 
 Build WPE with Westeros Compositor:
 
@@ -86,7 +86,3 @@ KERNEL_INITRAMFS = "-initramfs" BOOT_SPACE = "163840"
 ```
 
 To install the initram fs, copy the zImage to the fat32 partition of your RPI.
-
-
-
-
