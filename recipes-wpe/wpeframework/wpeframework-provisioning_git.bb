@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "CLOSED"
 
-DEPENDS = "wpeframework"
+DEPENDS = "wpeframework libprovision"
 
 PV = "3.0+gitr${SRCPV}"
 
