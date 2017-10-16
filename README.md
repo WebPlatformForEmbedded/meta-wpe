@@ -44,6 +44,8 @@ $ bitbake-layers add-layer ../meta-openembedded/meta-python
 
 Edit `conf/local.conf` and set the target machine:
 `MACHINE = "raspberrypi3"`
+Remove x11 from Distro features since we use wayland+westeros
+`DISTRO_FEATURES_remove = "x11"`
 you can use raspberrypi2 as well if you own raspberrypi2 machine.
 
 To set a different GCC e.g. 6.3:
