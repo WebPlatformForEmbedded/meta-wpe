@@ -4,7 +4,6 @@
 DESCRIPTION = "WPE initramfs rootfs image"
 LICENSE = "MIT"
 
-include recipes-core/images/rpi-basic-image.bb
-require wpe-image.inc
+require wpe-westeros-image.bb
 
 IMAGE_FSTYPES_rpi = " ${INITRAMFS_FSTYPES}"
