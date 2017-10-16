@@ -59,7 +59,7 @@ echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
 echo "DISTRO_FEATURES_remove = \"x11\"" >> $CONFFILE
 echo "DISTRO_FEATURES_append = \" opengl\"" >> $CONFFILE
 echo "ENABLE_UART = \"1\"" >> $CONFFILE
-echo "HOSTTOOLS = \"ssh\"" >> $CONFFILE
+echo "HOSTTOOLS_NONFATAL_append = \" ssh\"" >> $CONFFILE
 echo "CONF_VERSION = \"1\"" >> $CONFFILE
 
 # start build
