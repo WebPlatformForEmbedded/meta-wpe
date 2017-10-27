@@ -49,6 +49,7 @@ MACHINE = "${MACHINE}"
 #IMAGE_FEATURES += "tools-tweaks"
 #IMAGE_FEATURES += "dbg-pkgs"
 # explicitly disable x11 and enable opengl
+GCCVERSION="6.%"
 DISTRO_FEATURES_remove = "x11"
 DISTRO_FEATURES_append = " opengl"
 ENABLE_UART = "1"
