@@ -20,7 +20,7 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "provisionproxy"
+PACKAGECONFIG ?= "provisionproxy virtualinput"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
