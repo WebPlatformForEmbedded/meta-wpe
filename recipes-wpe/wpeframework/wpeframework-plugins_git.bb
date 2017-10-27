@@ -44,7 +44,7 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander deviceinfo ${WPE_SNAPSHOT} tracing webkitbrowser"
+PACKAGECONFIG ?= "commander deviceinfo locationsync remote ${WPE_SNAPSHOT} tracing webkitbrowser youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL},-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
@@ -95,7 +95,7 @@ do_install_append() {
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${datadir}/WPEFramework/WebKitBrowser/libWPEInjectedBundle.so"
+FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${datadir}/WPEFramework/*"
 
 INSANE_SKIP_${PN} += "libdir"
 
