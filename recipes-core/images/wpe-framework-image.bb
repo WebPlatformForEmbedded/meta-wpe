@@ -22,6 +22,5 @@ IMAGE_FEATURES += "hwcodecs \
 
 IMAGE_INSTALL += "kernel-modules \
                   packagegroup-westeros \
+                  packagegroup-wpeframework \
 "
-IMAGE_INSTALL_remove = "wpelauncher"
-IMAGE_INSTALL_append = "packagegroup-wpeframework"
