@@ -9,7 +9,7 @@ DEPENDS = "wpeframework"
 PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master"
-SRCREV = "3a895a0b7e9b8e4e478baed7bd79e6cfbd369c79"
+SRCREV = "90895ca58ea398fc5b5bcbc1466fe57a923c3c1d"
 
 S = "${WORKDIR}/git"
 
@@ -44,10 +44,10 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander deviceinfo locationsync remote ${WPE_SNAPSHOT} tracing webkitbrowser youtube"
+PACKAGECONFIG ?= "commander compositor deviceinfo locationsync remote ${WPE_SNAPSHOT} tracing webkitbrowser youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
-PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL},-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
+PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
 PACKAGECONFIG[debug]          = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 PACKAGECONFIG[deviceinfo]     = "-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=ON,-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[locationsync]   = "-DWPEFRAMEWORK_PLUGIN_LOCATIONSYNC=ON \
@@ -95,8 +95,8 @@ do_install_append() {
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${datadir}/WPEFramework/*"
+FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${datadir}/WPEFramework/* ${libdir}/*.a ${datadir}/WPEFramework/Compositor/*.a"
 
-INSANE_SKIP_${PN} += "libdir"
+INSANE_SKIP_${PN} += "libdir staticdev"
 
 TOOLCHAIN = "gcc"
