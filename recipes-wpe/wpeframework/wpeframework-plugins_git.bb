@@ -8,8 +8,9 @@ DEPENDS = "wpeframework"
 
 PV = "3.0+gitr${SRCPV}"
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master"
-SRCREV = "90895ca58ea398fc5b5bcbc1466fe57a923c3c1d"
+SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
+          file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch"
+SRCREV = "686948e7b345197c2e4f23b3450b9ce442eec931"
 
 S = "${WORKDIR}/git"
 
@@ -44,7 +45,7 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander compositor deviceinfo locationsync remote ${WPE_SNAPSHOT} tracing webkitbrowser youtube"
+PACKAGECONFIG ?= "commander compositor deviceinfo locationsync remote ${WPE_SNAPSHOT} tracing webkitbrowser webshell youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
@@ -84,6 +85,7 @@ PACKAGECONFIG[youtube]        = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=ON,
 
 EXTRA_OECMAKE += " \
     -DBUILD_REFERENCE=${PV} \
+    -DBUILD_SHARED_LIBS=ON \
 "
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
@@ -95,7 +97,7 @@ do_install_append() {
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${datadir}/WPEFramework/* ${libdir}/*.a ${datadir}/WPEFramework/Compositor/*.a"
+FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/*"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
 
