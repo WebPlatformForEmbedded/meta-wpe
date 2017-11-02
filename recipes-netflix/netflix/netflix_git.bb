@@ -11,6 +11,8 @@ SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=mas
            file://curlutils-stdint-include.patch \
            file://0001-fix-build-with-musl-on-linux.patch \
            file://0001-Do-not-compare-pointer-with-integer.patch \
+           file://0001-Use-char16_t-instead-of-unsigned-short-for-JSChar.patch \
+           file://0002-include-stdint.h-for-uintptr_t-definition.patch \
            file://netflix.pc \
 "
 
