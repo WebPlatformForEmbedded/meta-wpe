@@ -2,7 +2,7 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
-PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
+PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
 PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
 
@@ -58,3 +58,6 @@ INITSCRIPT_PARAMS = "defaults"
 
 SYSTEMD_SERVICE_${PN} = "westeros.service"
 
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
+INSANE_SKIP_${PN} += "dev-so"
