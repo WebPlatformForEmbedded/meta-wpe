@@ -18,7 +18,7 @@ SRCREV = "afd2e664799e024c3fa5ab4dae950234e73fe44d"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig
+inherit cmake pkgconfig systemd
 
 PACKAGECONFIG ?= "provisionproxy virtualinput"
 
@@ -50,6 +50,8 @@ do_install_append() {
         install -m 0755 ${WORKDIR}/wpeframework-init ${D}${sysconfdir}/init.d/wpeframework
     fi
 }
+
+SYSTEMD_SERVICE_${PN} = "wpeframework.service"
 
 # ----------------------------------------------------------------------------
 
