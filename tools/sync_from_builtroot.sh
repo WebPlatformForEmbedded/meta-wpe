@@ -20,7 +20,7 @@ wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/w
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-netflix/wpeframework-netflix.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-spotify/wpeframework-spotify.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpelauncher/wpelauncher.mk
-wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpewebkit/wpewebkit.mk
+#wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpewebkit/wpewebkit.mk
 
 cd ..
 
