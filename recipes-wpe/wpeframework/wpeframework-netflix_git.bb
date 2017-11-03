@@ -18,6 +18,8 @@ inherit cmake pkgconfig
 PACKAGECONFIG ?= ""
 PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 
+RDEPENDS_${PN} = "wpeframework-dialserver wpeframework-provisioning"
+
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
