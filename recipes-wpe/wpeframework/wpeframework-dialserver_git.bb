@@ -10,7 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginDIAL.git;protocol=ssh;branch=master"
 
-SRCREV = "46c183c8db115d6643225d16779a024b9c4e4473"
+SRCREV = "8531752e99d0300d68eaf818c659a206ddf9f048"
 
 S = "${WORKDIR}/git"
 
