@@ -4,15 +4,11 @@ LICENSE = "CLOSED"
 
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
 
-SRCREV = "65cebdc962548d35675d561c5628307b772517d6"
+SRCREV = "c38ab3f662af923bff380d8957b3c5df4255c74f"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
            file://curlutils-stdint-include.patch \
-           file://0001-fix-build-with-musl-on-linux.patch \
-           file://0001-Do-not-compare-pointer-with-integer.patch \
-           file://0001-Use-char16_t-instead-of-unsigned-short-for-JSChar.patch \
-           file://0002-include-stdint.h-for-uintptr_t-definition.patch \
            file://netflix.pc \
 "
 
