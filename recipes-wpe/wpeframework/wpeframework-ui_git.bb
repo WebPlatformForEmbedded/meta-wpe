@@ -8,7 +8,7 @@ DEPENDS = "wpeframework"
 PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkUI.git;protocol=ssh;branch=master"
-SRCREV = "e6bd9f050f50916bbc9e1fb4ccfd40abf9be8e6b"
+SRCREV = "611c35315b4baaea5c6a1da8322e0b3a13c16ff6"
 
 S = "${WORKDIR}/git"
 
