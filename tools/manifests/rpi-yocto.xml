@@ -8,7 +8,7 @@
 
   <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="rocko" />
   <project name="poky" remote="yocto" path="poky" revision="rocko" />
-  <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="master" />
-  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" />
+  <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="rocko" />
+  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" revision="rocko" />
 
 </manifest>
