@@ -2,7 +2,7 @@ SUMMARY = "Microsoft PlayReady DRM implementation."
 HOMEPAGE = "https://www.microsoft.com/playready/"
 LICENSE = "CLOSED"
 
-DEPENDS = "libprovision"
+DEPENDS = "wpeframework"
 
 PV = "1.0.gitr${SRCPV}"
 
@@ -20,7 +20,7 @@ PROVISIONING_libc-musl = ""
 
 PACKAGECONFIG ?= "${PROVISIONING}"
 
-PACKAGECONFIG[provisioning] = "-DPLAYREADY_USE_PROVISION=ON,-DPLAYREADY_USE_PROVISION=OFF,libprovision,libprovision"
+PACKAGECONFIG[provisioning] = "-DPLAYREADY_USE_PROVISION=ON,-DPLAYREADY_USE_PROVISION=OFF,wpeframework-provisioning,wpeframework-provisioning"
 
 EXTRA_OECMAKE += " \
 	-DCMAKE_BUILD_TYPE=Release \
@@ -29,8 +29,8 @@ EXTRA_OECMAKE += " \
 "
 
 do_install_append() {
-        install -d ${D}${libdir}/pkgconfig
-        install -m 0644 ${WORKDIR}/playready.pc ${D}${libdir}/pkgconfig/
+	install -d ${D}${libdir}/pkgconfig
+	install -m 0644 ${WORKDIR}/playready.pc ${D}${libdir}/pkgconfig/
 
 	install -d ${D}${sysconfdir}/playready
 	if [ -f ${B}/package/playready/bgroupcert.dat ]; then

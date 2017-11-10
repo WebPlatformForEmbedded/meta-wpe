@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "CLOSED"
 
-DEPENDS = "wpeframework netflix libprovision (>= 2.0)"
+DEPENDS = "wpeframework netflix"
 
 PV = "3.0+gitr${SRCPV}"
 
