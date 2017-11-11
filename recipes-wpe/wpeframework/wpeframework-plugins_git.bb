@@ -10,7 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
           file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch"
-SRCREV = "37cf53c77e115e317876946816990abe5799aa03"
+SRCREV = "b809f3f4b3bb0aabf8e5f291fd7e46ff54da34b9"
 
 S = "${WORKDIR}/git"
 
