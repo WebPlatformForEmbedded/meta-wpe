@@ -22,6 +22,9 @@ PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=R
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so"
+
 # ----------------------------------------------------------------------------
+
+RDEPENDS_${PN} = "wpeframework-dialserver wpeframework-provisioning"
 
 TOOLCHAIN = "gcc"
