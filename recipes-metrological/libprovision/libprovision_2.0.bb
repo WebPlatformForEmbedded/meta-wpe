@@ -28,14 +28,9 @@ do_install_prepend() {
 	mkdir -p ${D}${libdir}
 }
 
-# I dont know why, but cmake doesnt want to install the .so, instead just installs the archive even with DYNAMIC LIBS on
-do_install_append() {
-	install -Dm 755 ${S}/${PROV_ARCH}/libprovision.so ${D}${libdir}/libprovision.so
-}
-
 # Add the libraries to the correct package
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/lib*.so"
+FILES_${PN} += "${libdir}/lib*.a"
 
 INSANE_SKIP_${PN} += "already-stripped"
 # Some Damage control:
