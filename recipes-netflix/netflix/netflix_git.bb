@@ -16,7 +16,7 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig pythonnative
 
-PACKAGECONFIG ?= "playready provisioning virtualinput wpeframework"
+PACKAGECONFIG ?= "playready provisioning wpeframework"
 
 PACKAGECONFIG[default]          = "-DGIBBON_GRAPHICS=null \
                                    -DGIBBON_PLATFORM=posix \

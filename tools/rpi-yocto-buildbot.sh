@@ -48,6 +48,9 @@ MACHINE = "${MACHINE}"
 #IMAGE_FEATURES += "tools-debug"
 #IMAGE_FEATURES += "tools-tweaks"
 #IMAGE_FEATURES += "dbg-pkgs"
+# rootfs for debugging
+#IMAGE_GEN_DEBUGFS = "1"
+#IMAGE_FSTYPES_DEBUGFS = "tar.gz"
 # explicitly disable x11 and enable opengl
 GCCVERSION="6.%"
 DISTRO_FEATURES_remove = "x11"

@@ -11,6 +11,5 @@ RDEPENDS_packagegroup-wpeframework = "\
     wpeframework \
     wpeframework-plugins \
     wpeframework-ui \
-    wpeframework-provisioning \
     wpeframework-netflix \
 "

@@ -9,7 +9,8 @@ DEPENDS = "wpeframework"
 PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
-          file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch"
+          file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch \
+          file://index.html"
 SRCREV = "21dc3df494964845b4e6d295a79c03fe13311ced"
 
 S = "${WORKDIR}/git"
@@ -18,7 +19,7 @@ WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
 WEBKITBROWSER_MEMORYPRESSURE ?= "databaseprocess:50m,networkprocess:100m,webprocess:300m,rpcprocess:50m"
 WEBKITBROWSER_MEMORYPROFILE ?= "128m"
-WEBKITBROWSER_STARTURL ?= "about:blank"
+WEBKITBROWSER_STARTURL ?= "${@bb.utils.contains('PACKAGECONFIG', 'webserver', 'http://127.0.0.1:8080/index.html', 'about:blank', d)}"
 WEBKITBROWSER_USERAGENT ?= "Mozilla/5.0 (Macintosh, Intel Mac OS X 10_11_4) AppleWebKit/602.1.28+ (KHTML, like Gecko) Version/9.1 Safari/601.5.17"
 WEBKITBROWSER_DISKCACHE ?= "0"
 WEBKITBROWSER_XHRCACHE ?= "false"
@@ -45,7 +46,7 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander compositor deviceinfo locationsync remote remote-uinput ${WPE_SNAPSHOT} tracing virtualinput webkitbrowser webshell youtube"
+PACKAGECONFIG ?= "commander compositor deviceinfo remote remote-uinput ${WPE_SNAPSHOT} tracing virtualinput webkitbrowser webshell webserver youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
@@ -86,20 +87,25 @@ PACKAGECONFIG[youtube]        = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=ON,
 
 
 EXTRA_OECMAKE += " \
-    -DBUILD_REFERENCE=${PV} \
+    -DBUILD_REFERENCE=${SRCREV} \
     -DBUILD_SHARED_LIBS=ON \
 "
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
-        install -d ${D}${WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH}
-    fi 	
+      if ${@bb.utils.contains("PACKAGECONFIG", "webkitbrowser", "true", "false", d)}
+      then
+          install -d ${D}/var/www
+          install -m 0755 ${WORKDIR}/index.html ${D}/var/www/
+      fi
+      install -d ${D}${WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH}
+    fi
 }
 
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/*"
+FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
 
