@@ -6,8 +6,8 @@
   <remote name="webplatformforembedded" fetch="git://github.com/webplatformforembedded" />
   <default remote="openembedded" revision="master" />
 
-  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="rocko" />
-  <project name="poky" remote="yocto" path="poky" revision="rocko" />
+  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="master" />
+  <project name="poky" remote="yocto" path="poky" revision="master" />
   <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="master" />
   <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" />
 
