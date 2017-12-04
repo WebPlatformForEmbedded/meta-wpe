@@ -15,9 +15,10 @@ wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/w
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpebackend-rdk/wpebackend-rdk.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpebackend/wpebackend.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework/wpeframework.mk
-wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-plugins/wpeframework-plugins.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-dialserver/wpeframework-dialserver.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-netflix/wpeframework-netflix.mk
+wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-plugins/wpeframework-plugins.mk
+wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-provisioning/wpeframework-provisioning.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-spotify/wpeframework-spotify.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpeframework-ui/wpeframework-ui.mk
 wget -q https://github.com/WebPlatformForEmbedded/buildroot/raw/master/package/wpe/wpelauncher/wpelauncher.mk
@@ -36,9 +37,10 @@ python ./tools/check_srcrevs.py -i ./tmp/westeros.mk 				-o ./recipes-graphics/w
 python ./tools/check_srcrevs.py -i ./tmp/wpebackend-rdk.mk 			-o ./recipes-wpe/wpebackend-rdk/wpebackend-rdk_0.1.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpebackend.mk 				-o ./recipes-wpe/wpebackend/wpebackend_0.1.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpeframework.mk 			-o ./recipes-wpe/wpeframework/wpeframework_git.bb
-python ./tools/check_srcrevs.py -i ./tmp/wpeframework-plugins.mk 		-o ./recipes-wpe/wpeframework/wpeframework-plugins_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpeframework-dialserver.mk 		-o ./recipes-wpe/wpeframework/wpeframework-dialserver_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpeframework-netflix.mk 		-o ./recipes-wpe/wpeframework/wpeframework-netflix_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/wpeframework-plugins.mk 		-o ./recipes-wpe/wpeframework/wpeframework-plugins_git.bb
+python ./tools/check_srcrevs.py -i ./tmp/wpeframework-provisioning.mk 	-o ./recipes-wpe/wpeframework/wpeframework-provisioning_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpeframework-spotify.mk 		-o ./recipes-wpe/wpeframework/wpeframework-spotify_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpeframework-ui.mk 	                -o ./recipes-wpe/wpeframework/wpeframework-ui_git.bb
 python ./tools/check_srcrevs.py -i ./tmp/wpelauncher.mk 			-o ./recipes-wpe/wpelauncher/wpelauncher_0.1.bb

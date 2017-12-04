@@ -14,7 +14,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "5681a92350ba465803f7d2982c1eaa3ecd8cc6e2"
+SRCREV = "26ed6d19e75d445649d006e54e4c9f3b1c96a642"
 
 S = "${WORKDIR}/git"
 
@@ -28,8 +28,19 @@ PACKAGECONFIG[provisionproxy]   = "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWO
 PACKAGECONFIG[testloader]       = "-DWPEFRAMEWORK_TEST_LOADER=ON,-DWPEFRAMEWORK_TEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK_VIRTUALINPUT=OFF,"
 
+# FIXME, determine this a little smarter
+# Provision event is required for libprovision and provision plugin
+# Location event is required for locationsync plugin
+# Time event is required for timesync plugin
+# Identifier event is required for Compositor plugin
+WPEFRAMEWORK_EXTERN_EVENTS ?= "Provisioning Location Time Identifier"
+
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
+    -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
+    -DBUILD_SHARED_LIBS=ON \
+    -DWPEFRAMEWORK_RPC=ON \
+    -DBUILD_REFERENCE=${SRCREV} \
 "
 
 do_install_append() {

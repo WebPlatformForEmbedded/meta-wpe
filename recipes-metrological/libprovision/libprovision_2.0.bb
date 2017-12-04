@@ -30,7 +30,8 @@ do_install_prepend() {
 
 # Add the libraries to the correct package
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/lib*.so"
+FILES_${PN} += "${libdir}/lib*.a"
+
 INSANE_SKIP_${PN} += "already-stripped"
 # Some Damage control:
 # ldflags is added due to the .so being not compiled with gnu_hash style on ARM
