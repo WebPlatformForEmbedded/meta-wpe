@@ -14,22 +14,33 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "30fc9305f58d5ca25e0b1f8d9983bd6c53490ef2"
+SRCREV = "26ed6d19e75d445649d006e54e4c9f3b1c96a642"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig
+inherit cmake pkgconfig systemd
 
-PACKAGECONFIG ?= "provisionproxy"
+PACKAGECONFIG ?= "provisionproxy virtualinput"
 
-PACKAGECONFIG[cyclicinspector] 	= "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
-PACKAGECONFIG[debug] 			= "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
-PACKAGECONFIG[provisionproxy] 	= "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWORK_PROVISIONPROXY=OFF,libprovision,libprovision"
+PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
+PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
+PACKAGECONFIG[provisionproxy]   = "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWORK_PROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DWPEFRAMEWORK_TEST_LOADER=ON,-DWPEFRAMEWORK_TEST_LOADER=OFF,"
-PACKAGECONFIG[virtualinput] 	= "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK_VIRTUALINPUT=OFF,"
+PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK_VIRTUALINPUT=OFF,"
+
+# FIXME, determine this a little smarter
+# Provision event is required for libprovision and provision plugin
+# Location event is required for locationsync plugin
+# Time event is required for timesync plugin
+# Identifier event is required for Compositor plugin
+WPEFRAMEWORK_EXTERN_EVENTS ?= "Provisioning Location Time Identifier"
 
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
+    -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
+    -DBUILD_SHARED_LIBS=ON \
+    -DWPEFRAMEWORK_RPC=ON \
+    -DBUILD_REFERENCE=${SRCREV} \
 "
 
 do_install_append() {
@@ -51,6 +62,8 @@ do_install_append() {
     fi
 }
 
+SYSTEMD_SERVICE_${PN} = "wpeframework.service"
+
 # ----------------------------------------------------------------------------
 
 PACKAGES =+ "${PN}-initscript"
@@ -58,7 +71,7 @@ PACKAGES =+ "${PN}-initscript"
 FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/*"
+FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
 
 # ----------------------------------------------------------------------------
 

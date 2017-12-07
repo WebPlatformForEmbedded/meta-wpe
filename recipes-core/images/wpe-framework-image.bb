@@ -1,13 +1,26 @@
-# Copyright (C) 2017 Wouter van Boesschoten <wouter@wouterlucas.com>
+# Copyright (C) 2016 Khem Raj <raj.khem@gmail.com>
 # Released under the MIT license (see COPYING.MIT for the terms)
 
 DESCRIPTION = "WPE Framework image for rpi"
 LICENSE = "MIT"
 
+include recipes-core/images/core-image-minimal.bb
+
+require wpe-image.inc
+
+inherit distro_features_check
+
+REQUIRED_DISTRO_FEATURES = "wayland"
+
 SPLASH_rpi = "psplash-raspberrypi"
-WPE_BACKEND_rpi = "rpi"
 
-include wpe-image.bb
+IMAGE_FEATURES += "hwcodecs \
+                   package-management \
+                   ssh-server-dropbear \
+                   splash \
+"
 
-IMAGE_INSTALL_remove = "wpelauncher"
-IMAGE_INSTALL_append = "packagegroup-wpeframework"
+IMAGE_INSTALL += "kernel-modules \
+                  packagegroup-westeros \
+                  packagegroup-wpeframework \
+"

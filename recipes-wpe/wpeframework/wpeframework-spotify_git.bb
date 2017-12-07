@@ -10,7 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 SRC_URI = "git://git@github.com/Metrological/WPEPluginsSpotify.git;protocol=ssh;branch=master \
 		  file://0001-cmake-Remove-redundant-include.patch"
 
-SRCREV = "dc690340ce90d51db5ce78bfbed7a53444f4495e"
+SRCREV = "cf5368e41273906b4297af483a5a244e441a4637"
 
 S = "${WORKDIR}/git"
 

@@ -3,13 +3,13 @@ HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "CLOSED"
 
-DEPENDS = "wpeframework netflix libprovision (>= 2.0)"
+DEPENDS = "wpeframework netflix libprovision"
 
 PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginNetflix.git;protocol=ssh;branch=master \
 		   file://0001-cmake-Remove-redundant-include.patch"
-SRCREV = "dd490b87a20865f5feb48962502591be301d9657"
+SRCREV = "aa813b32befb90bfcde822cd0c24c0d7876e31e7"
 
 S = "${WORKDIR}/git"
 
@@ -22,6 +22,9 @@ PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=R
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so"
+
 # ----------------------------------------------------------------------------
+
+RDEPENDS_${PN} = "wpeframework-dialserver wpeframework-provisioning"
 
 TOOLCHAIN = "gcc"

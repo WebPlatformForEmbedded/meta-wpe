@@ -15,22 +15,20 @@ DEPENDS += " \
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "eafdc7f08cfc5a4a256dcff0c1881784fa4341fe"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
+SRCREV ?= "9588b2670d739a820f0309ef90c82ddd968c2097"
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=stable"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
             file://0001-Reduce-the-default-thread-stack-size-to-32KB.patch \
             file://0001-Reduce-stack-limits.patch \
+            file://qt5-webkit-icu59.patch \
             file://icu59.patch \
 "
 
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
-
-TOOLCHAIN = "gcc"
-
 
 WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
 WPE_PLATFORM_nexus = "nexus"
