@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=703f52ef306fb8ef480744cc0da11
 
 export SCANNER_TOOL = "wayland-scanner"
 
+CXXFLAGS_append = " -std=c++11"
+
 acpaths = "-I cfg"
 
 DEPENDS += "wayland-native \
