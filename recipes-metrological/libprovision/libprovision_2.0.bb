@@ -6,14 +6,16 @@ HOMEPAGE = "https://github.com/Metrological/libprovision"
 SECTION = "libs"
 LICENSE = "CLOSED"
 
-DEPENDS = "cppsdk openssl"
+DEPENDS = "openssl"
 
-PV = "1.0.gitr${SRCPV}"
+PV = "2.0.gitr${SRCPV}"
 
-SRCREV = "b8d14e82101f9c5f7ef73d7d33927009298d0612"
-SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branch=master"
+SRCREV = "e532b8d1153f3b5880528bdd7a68318b9c75dac5"
+SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branch=WPEFramework"
 
 S = "${WORKDIR}/git"
+
+inherit cmake pkgconfig
 
 COMPATIBLE_HOST = '(i.86|arm|mipsel).*-linux'
 
@@ -22,21 +24,14 @@ PROV_ARCH_arm = "arm"
 PROV_ARCH_x86 = "i686"
 PROV_ARCH_mipsel = "mipsel"
 
-do_configure[noexec] = "1"
-do_compile[noexec] = "1"
-
-do_install() {
-    install -Dm 755 ${S}/${PROV_ARCH}/libprovision.so ${D}${libdir}/libprovision.so
-    install -Dm 755 ${S}/${PROV_ARCH}/libprovisionproxy.so ${D}${libdir}/libprovisionproxy.so
-    install -Dm 644 ${S}/provision.pc ${D}${libdir}/pkgconfig/provision.pc
-
-    install -d  ${D}${includedir}/provision
-    install -m 644 ${S}/include/provision/*.h ${D}${includedir}/provision
+do_install_prepend() {
+	mkdir -p ${D}${libdir}
 }
 
 # Add the libraries to the correct package
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/lib*.so"
+FILES_${PN} += "${libdir}/lib*.a"
+
 INSANE_SKIP_${PN} += "already-stripped"
 # Some Damage control:
 # ldflags is added due to the .so being not compiled with gnu_hash style on ARM

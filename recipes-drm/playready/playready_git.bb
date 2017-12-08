@@ -2,11 +2,11 @@ SUMMARY = "Microsoft PlayReady DRM implementation."
 HOMEPAGE = "https://www.microsoft.com/playready/"
 LICENSE = "CLOSED"
 
-DEPENDS = "cppsdk libprovision"
+DEPENDS = "wpeframework"
 
 PV = "1.0.gitr${SRCPV}"
 
-SRCREV = "3f1ed46727fa51fc39135b8545857784a109f92e"
+SRCREV = "5af745dd2a8312a34081150c8b374684799fc1c9"
 
 SRC_URI = "git://git@github.com/Metrological/playready.git;protocol=ssh"
 SRC_URI += "file://playready.pc"
@@ -20,7 +20,7 @@ PROVISIONING_libc-musl = ""
 
 PACKAGECONFIG ?= "${PROVISIONING}"
 
-PACKAGECONFIG[provisioning] = "-DPLAYREADY_USE_PROVISION=ON,-DPLAYREADY_USE_PROVISION=OFF,libprovision,libprovision"
+PACKAGECONFIG[provisioning] = "-DPLAYREADY_USE_PROVISION=ON,-DPLAYREADY_USE_PROVISION=OFF,wpeframework-provisioning,wpeframework-provisioning"
 
 EXTRA_OECMAKE += " \
 	-DCMAKE_BUILD_TYPE=Release \
@@ -29,8 +29,8 @@ EXTRA_OECMAKE += " \
 "
 
 do_install_append() {
-        install -d ${D}${libdir}/pkgconfig
-        install -m 0644 ${WORKDIR}/playready.pc ${D}${libdir}/pkgconfig/
+	install -d ${D}${libdir}/pkgconfig
+	install -m 0644 ${WORKDIR}/playready.pc ${D}${libdir}/pkgconfig/
 
 	install -d ${D}${sysconfdir}/playready
 	if [ -f ${B}/package/playready/bgroupcert.dat ]; then
@@ -51,9 +51,3 @@ FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so"
 
 FILES_${PN} += "${sysconfdir}/playready"
-
-# Autodetection of runtime dependency on libprovision.so doesn't work because
-# libprovision.so is linked without "-Wl,-soname,libprovision.so".
-# See http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
-# Until that's fixed, specify the runtime dependency manually.
-RDEPENDS_${PN} += "libprovision"
