@@ -1,1 +1,1 @@
-PACKAGECONFIG_append = "harfbuzz zlib pixmap"
+PACKAGECONFIG_append = " zlib pixmap"
