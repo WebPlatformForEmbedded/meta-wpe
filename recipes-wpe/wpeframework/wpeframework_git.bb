@@ -33,7 +33,7 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 # Location event is required for locationsync plugin
 # Time event is required for timesync plugin
 # Identifier event is required for Compositor plugin
-WPEFRAMEWORK_EXTERN_EVENTS ?= "Provisioning Location Time Identifier"
+WPEFRAMEWORK_EXTERN_EVENTS ?= ""
 
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
