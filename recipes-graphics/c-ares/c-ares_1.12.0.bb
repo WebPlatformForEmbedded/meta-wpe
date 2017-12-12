@@ -4,7 +4,7 @@ DESCRIPTION = "c-ares is a C library that resolves names asynchronously."
 HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
 SECTION = "libs"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://README;beginline=17;endline=23;md5=d08205a43bc63c12cf394ac1d2cce7c3"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=f4b026880834eb01c035c5e5cb47ccac"
 
 inherit autotools
 inherit pkgconfig
@@ -24,6 +24,6 @@ do_install_append() {
 
 FILES_${PN}-dev += "${includedir}/ares/*.h"
 
-SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
-SRC_URI[sha256sum] = "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
+SRC_URI[md5sum] = "2ca44be1715cd2c5666a165d35788424"
+SRC_URI[sha256sum] = "8692f9403cdcdf936130e045c84021665118ee9bfea905d1a76f04d4e6f365fb"
 
