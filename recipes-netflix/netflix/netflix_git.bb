@@ -5,7 +5,7 @@ LICENSE = "CLOSED"
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
 RDEPENDS_${PN} = "freetype (= 2.4.6) curl (= 7.32.0) harfbuzz (= 1.0.1) graphite2 (= 1.2.4)"
 
-SRCREV = "c38ab3f662af923bff380d8957b3c5df4255c74f"
+SRCREV = "5765182b11843910edf3f1b6f5fe34f491cb6161"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
@@ -17,7 +17,9 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig pythonnative
 
-PACKAGECONFIG ?= "playready provisioning wpeframework"
+NETFLIX_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework', 'rpi', d)}"
+
+PACKAGECONFIG ?= "playready provisioning ${NETFLIX_BACKEND}"
 
 PACKAGECONFIG[default]          = "-DGIBBON_GRAPHICS=null \
                                    -DGIBBON_PLATFORM=posix \
