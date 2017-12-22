@@ -3,14 +3,13 @@ HOMEPAGE = "http://www.netflix.com/"
 LICENSE = "CLOSED"
 
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
+RDEPENDS_${PN} = "freetype (= 2.4.6) curl (= 7.32.0) harfbuzz (= 1.0.1) graphite2 (= 1.2.4)"
 
-SRCREV = "6a8f2c2d0fcdbd8860666aed087d8907016632d1"
+SRCREV = "5765182b11843910edf3f1b6f5fe34f491cb6161"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
            file://curlutils-stdint-include.patch \
-           file://0001-fix-build-with-musl-on-linux.patch \
-           file://0001-Do-not-compare-pointer-with-integer.patch \
            file://netflix.pc \
 "
 
@@ -18,38 +17,56 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig pythonnative
 
-# configure the netflix backend for rendering
-# the following variable (NETFLIX_BACKEND) needs to be set in the machine config
-NETFLIX_BACKEND ?= "default"
-NETFLIX_BACKEND_nexus = "nexus"
-NETFLIX_BACKEND_rpi = "rpi"
+NETFLIX_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework', 'rpi', d)}"
 
-PACKAGECONFIG ?= "${NETFLIX_BACKEND} playready provisioning"
+PACKAGECONFIG ?= "playready provisioning ${NETFLIX_BACKEND}"
 
-PACKAGECONFIG[rpi] = "-DGIBBON_GRAPHICS=rpi-egl \
-                      -DGIBBON_PLATFORM=rpi \
-                      -DDPI_IMPLEMENTATION=gstreamer \
-                      -DGST_VIDEO_RENDERING=gl \
-                      ,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad virtual/egl virtual/libgles2"
-PACKAGECONFIG[nexus] = "-DGIBBON_GRAPHICS=nexus -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,broadcom-refsw gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
-PACKAGECONFIG[intelce] = "-DGIBBON_GRAPHICS=intelce -DGIBBON_PLATFORM=posix -DDPI_IMPLEMENTATION=gstreamer,,intelce-display gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
-PACKAGECONFIG[egl] = "-DGIBBON_GRAPHICS=gles2-egl -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
-PACKAGECONFIG[gles] = "-DGIBBON_GRAPHICS=gles2 -DGIBBON_PLATFORM=posix,,virtual/libgles2 virtual/egl"
-PACKAGECONFIG[default] = "-DGIBBON_GRAPHICS=null \
-                        -DGIBBON_PLATFORM=posix \
-                        -DDPI_IMPLEMENTATION=reference \
-                        -DDPI_REFERENCE_VIDEO_DECODER=openmax-il \
-                        -DDPI_REFERENCE_AUDIO_DECODER=ffmpeg \
-                        -DDPI_REFERENCE_AUDIO_RENDERER=openmax-il \
-                        -DDPI_REFERENCE_AUDIO_MIXER=none \
-                        ,,ffmpeg libomxil"
+PACKAGECONFIG[default]          = "-DGIBBON_GRAPHICS=null \
+                                   -DGIBBON_PLATFORM=posix \
+                                   -DDPI_IMPLEMENTATION=reference \
+                                   -DDPI_REFERENCE_VIDEO_DECODER=openmax-il \
+                                   -DDPI_REFERENCE_AUDIO_DECODER=ffmpeg \
+                                   -DDPI_REFERENCE_AUDIO_RENDERER=openmax-il \
+                                   -DDPI_REFERENCE_AUDIO_MIXER=none \
+                                   ,,ffmpeg libomxil"
+
+PACKAGECONFIG[egl]              = "-DGIBBON_GRAPHICS=gles2-egl \
+                                   -DGIBBON_PLATFORM=posix \
+                                   ,,virtual/libgles2 virtual/egl"
+
+PACKAGECONFIG[gles]             = "-DGIBBON_GRAPHICS=gles2 \
+                                   -DGIBBON_PLATFORM=posix \
+                                   ,,virtual/libgles2 virtual/egl"
+
+PACKAGECONFIG[intelce]          = "-DGIBBON_GRAPHICS=intelce \
+                                   -DGIBBON_PLATFORM=posix \
+                                   -DDPI_IMPLEMENTATION=gstreamer \
+                                   ,,intelce-display gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
+
+PACKAGECONFIG[nexus]            = "-DGIBBON_GRAPHICS=nexus \
+                                   -DGIBBON_PLATFORM=posix \
+                                   -DDPI_IMPLEMENTATION=gstreamer \
+                                   ,,broadcom-refsw gstreamer1.0 gstreamer1.0-plugins-base virtual/egl virtual/libgles2"
+
+PACKAGECONFIG[rpi]              = "-DGIBBON_GRAPHICS=rpi-egl \
+                                   -DGIBBON_PLATFORM=rpi \
+                                   -DDPI_IMPLEMENTATION=gstreamer \
+                                   -DGST_VIDEO_RENDERING=gl \
+                                   ,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad virtual/egl virtual/libgles2"
+
+PACKAGECONFIG[wpeframework]     = "-DGIBBON_INPUT=wpeframework \
+                                   -DGIBBON_GRAPHICS=wpeframework \
+                                   -DDPI_IMPLEMENTATION=gstreamer \
+                                   ,,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad wpeframework-plugins"
+
 
 # Generic switches
-PACKAGECONFIG[DDPLUS] = "-DDPI_REFERENCE_HAVE_DDPLUS=true,,,"
+PACKAGECONFIG[DDPLUS]           = "-DDPI_REFERENCE_HAVE_DDPLUS=true,,,"
+PACKAGECONFIG[virtualinput]     = "-DUSE_NETFLIX_VIRTUAL_KEYBOARD=1,,wpeframework"
 
 # DRM
-PACKAGECONFIG[playready] = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready,playready"
-PACKAGECONFIG[provisioning] = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,libprovision,libprovision"
+PACKAGECONFIG[playready]        = "-DDPI_REFERENCE_DRM=playready,-DDPI_REFERENCE_DRM=none,playready,playready"
+PACKAGECONFIG[provisioning]     = "-DNETFLIX_USE_PROVISION=ON,-DNETFLIX_USE_PROVISION=OFF,wpeframework,"
 
 OECMAKE_SOURCEPATH = "${S}/netflix"
 

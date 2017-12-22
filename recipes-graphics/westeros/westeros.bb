@@ -2,7 +2,9 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
-PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv4"
+SRC_URI += "file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch"
+
+PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
 PACKAGECONFIG[incapp] = "--enable-app=yes"
 PACKAGECONFIG[inctest] = "--enable-test=yes"
@@ -22,10 +24,9 @@ westeros-soc_dragonboard-410c-32 = "westeros-soc-drm"
 
 westeros-soc_dragonboard-820c-32 = "westeros-soc-drm"
 
-DEPENDS = "wayland-native \
-           gstreamer1.0 \
-           wayland \
-           libxkbcommon \
+westeros-soc_poplar-32 = "westeros-soc-drm"
+
+DEPENDS += "\
            westeros-simplebuffer \
            westeros-simpleshell \
            ${WESTEROS} \
@@ -58,3 +59,6 @@ INITSCRIPT_PARAMS = "defaults"
 
 SYSTEMD_SERVICE_${PN} = "westeros.service"
 
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
+INSANE_SKIP_${PN} += "dev-so"

@@ -8,8 +8,8 @@ include recipes-core/images/rpi-basic-image.bb
 require wpe-image.inc
 
 IMAGE_FEATURES += " \
-	hwcodecs \
-    ssh-server-openssh \
+    hwcodecs \
+    ssh-server-dropbear \
     package-management \
 "
 

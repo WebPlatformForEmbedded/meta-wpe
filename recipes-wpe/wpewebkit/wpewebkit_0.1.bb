@@ -7,16 +7,16 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 
 DEPENDS += " \
     wpebackend \
-    bison-native gperf-native harfbuzz-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
-    cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
+    bison-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
+    cairo fontconfig freetype glib-2.0 glib-2.0-native gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
 
 PV = "0.1+git${SRCPV}"
 
-SRCREV ?= "10b0af7ffbc4f6d9036114011608f3d6d1d84a95"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=http;branch=master"
+SRCREV ?= "9588b2670d739a820f0309ef90c82ddd968c2097"
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=stable"
 SRC_URI = "${BASE_URI}"
 
 SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
@@ -28,20 +28,9 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-TOOLCHAIN = "gcc"
-
-
 WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
 WPE_PLATFORM_nexus = "nexus"
 WPE_PLATFORM_x86 = "intelce"
-
-# The libprovision prebuilt libs currently support glibc ARM only.
-PROVISIONING ?= "provisioning"
-PROVISIONING_libc-musl = ""
-PROVISIONING_x86 = ""
-PROVISIONING_hikey-32 = ""
-PROVISIONING_dragonboard-410c-32 = ""
-PROVISIONING_dragonboard-820c-32 = ""
 
 PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
 
@@ -52,6 +41,7 @@ PACKAGECONFIG[westeros-mesa] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS_MESA=ON,,"
 # WPE Platform specific switches
 PACKAGECONFIG[intelce] = "-DUSE_WPEWEBKIT_PLATFORM_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
 PACKAGECONFIG[nexus] = "-DUSE_WPEWEBKIT_PLATFORM_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
+PACKAGECONFIG[qcomdb] = "-DUSE_WPEWEBKIT_PLATFORM_QCOM_DB=ON,,"
 PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON,,westeros"
 
 # WPE features
@@ -81,9 +71,8 @@ PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
 
 # DRM
-PACKAGECONFIG[opencdm] = "-DENABLE_OCDM=ON,-DENABLE_OCDM=OFF,opencdm"
+PACKAGECONFIG[opencdm] = "-DENABLE_OPENCDM=ON,-DENABLE_OPENCDM=OFF,opencdm"
 PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playready"
-PACKAGECONFIG[provisioning] = "-DENABLE_PROVISIONING=ON,-DENABLE_PROVISIONING=OFF,libprovision,libprovision"
 
 # GStreamer
 PACKAGECONFIG[gst_gl] = "-DUSE_GSTREAMER_GL=ON,,"

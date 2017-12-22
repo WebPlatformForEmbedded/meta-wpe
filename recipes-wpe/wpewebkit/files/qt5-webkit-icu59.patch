@@ -1,0 +1,42 @@
+Index: git/Source/JavaScriptCore/API/JSStringRef.h
+===================================================================
+--- git.orig/Source/JavaScriptCore/API/JSStringRef.h
++++ git/Source/JavaScriptCore/API/JSStringRef.h
+@@ -32,6 +32,7 @@
+ #include <stdbool.h>
+ #endif
+ #include <stddef.h> /* for size_t */
++#include <uchar.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -46,7 +47,7 @@ extern "C" {
+  character. As with all scalar types, endianness depends on the underlying
+  architecture.
+ */
+-    typedef unsigned short JSChar;
++    typedef char16_t JSChar;
+ #else
+     typedef wchar_t JSChar;
+ #endif
+Index: git/Source/WebKit2/Shared/API/c/WKString.h
+===================================================================
+--- git.orig/Source/WebKit2/Shared/API/c/WKString.h
++++ git/Source/WebKit2/Shared/API/c/WKString.h
+@@ -33,6 +33,7 @@
+ #ifndef __cplusplus
+ #include <stdbool.h>
+ #endif
++#include <uchar.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -40,7 +41,7 @@ extern "C" {
+ 
+ #if !defined(WIN32) && !defined(_WIN32) \
+     && !((defined(__CC_ARM) || defined(__ARMCC__)) && !defined(__linux__)) /* RVCT */
+-    typedef unsigned short WKChar;
++    typedef char16_t WKChar;
+ #else
+     typedef wchar_t WKChar;
+ #endif
