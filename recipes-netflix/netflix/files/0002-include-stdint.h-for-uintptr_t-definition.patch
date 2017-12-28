@@ -1,0 +1,32 @@
+From 255d4075ce6964ba6d6330044f110002d46184ef Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 2 Nov 2017 11:25:39 -0700
+Subject: [PATCH 2/2] include stdint.h for uintptr_t definition
+
+Fixes
+
+| /mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-gnueabi/netflix/4.2.3+gitAUTOINC+65cebdc962-r0/git/netflix/3rdparty/upnp_nflx/threadutil/src/ThreadPool.c:423:35: error: 'uintptr_t' undeclared (first use in this function); did you mean 'intptr_t'?
+|   srand((unsigned int)t.tv_usec + (uintptr_t)(ithread_get_current_thread_id()));
+|                                    ^~~~~~~~~
+|                                    intptr_t
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ netflix/3rdparty/upnp_nflx/threadutil/src/ThreadPool.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/netflix/3rdparty/upnp_nflx/threadutil/src/ThreadPool.c b/netflix/3rdparty/upnp_nflx/threadutil/src/ThreadPool.c
+index 473cd7c..a0d6e0b 100644
+--- a/netflix/3rdparty/upnp_nflx/threadutil/src/ThreadPool.c
++++ b/netflix/3rdparty/upnp_nflx/threadutil/src/ThreadPool.c
+@@ -43,6 +43,7 @@
+ 
+ #include <assert.h>
+ #include <stdlib.h>
++#include <stdint.h>
+ #include <stdio.h>
+ #include <string.h>	/* for memset()*/
+ 
+-- 
+2.15.0
+

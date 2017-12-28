@@ -3,8 +3,8 @@
 
 DIR="build"
 MACHINE="raspberrypi2"
-CONFFILE="conf/local.conf"
-BITBAKEIMAGE="westeros-wpe-image"
+CONFFILE="conf/auto.conf"
+BITBAKEIMAGE="virtual/kernel"
 
 # clean up the output dir
 echo "Cleaning build dir"
@@ -30,31 +30,42 @@ ln -s ~/sstate/rpi sstate-cache
 
 # add the missing layers
 echo "Adding layers"
-bitbake-layers add-layer ../meta-raspberrypi
-bitbake-layers add-layer ../meta-wpe
 bitbake-layers add-layer ../meta-openembedded/meta-oe/
 bitbake-layers add-layer ../meta-openembedded/meta-multimedia/
+bitbake-layers add-layer ../meta-openembedded/meta-python/
+bitbake-layers add-layer ../meta-openembedded/meta-networking/
+bitbake-layers add-layer ../meta-raspberrypi
+bitbake-layers add-layer ../meta-wpe
 
 # fix the configuration
-echo "Creating local.conf"
-mv $CONFFILE conf/local.conf.orig
-echo "MACHINE = \"${MACHINE}\"" >> $CONFFILE
-echo "DISTRO ?= \"poky\"" >> $CONFFILE
-echo "IMAGE_FEATURES += \"tools-debug\"" >> $CONFFILE
-echo "IMAGE_FEATURES += \"debug-tweaks\"" >> $CONFFILE
-echo "#IMAGE_FEATURES += \"dbg-pkgs\"" >> $CONFFILE
-echo "GCCVERSION=\"5.2%\"" >> $CONFFILE
-echo "USER_CLASSES ?= \"buildstats image-mklibs image-prelink\"" >> $CONFFILE
-echo "BB_DISKMON_DIRS = \"\
-    STOPTASKS,${TMPDIR},1G,100K \
-    STOPTASKS,${DL_DIR},1G,100K \
-    STOPTASKS,${SSTATE_DIR},1G,100K \
-    STOPTASKS,/tmp,100M,100K \
-    ABORT,${TMPDIR},100M,1K \
-    ABORT,${DL_DIR},100M,1K \
-    ABORT,${SSTATE_DIR},100M,1K \
-    ABORT,/tmp,10M,1K\" " >> $CONFFILE
-echo "CONF_VERSION = \"1\"" >> $CONFFILE
+echo "Creating auto.conf"
+
+if [ -e $CONFFILE ]; then
+    rm -rf $CONFFILE
+fi
+cat <<EOF > $CONFFILE
+MACHINE = "${MACHINE}"
+#IMAGE_FEATURES += "tools-debug"
+#IMAGE_FEATURES += "tools-tweaks"
+#IMAGE_FEATURES += "dbg-pkgs"
+# rootfs for debugging
+#IMAGE_GEN_DEBUGFS = "1"
+#IMAGE_FSTYPES_DEBUGFS = "tar.gz"
+# explicitly disable x11 and enable opengl
+GCCVERSION="6.%"
+DISTRO_FEATURES_remove = "x11"
+DISTRO_FEATURES_append = " opengl"
+ENABLE_UART = "1"
+HOSTTOOLS_NONFATAL_append = " ssh"
+# initramfs bits for rpi builds
+INITRAMFS_IMAGE_BUNDLE_rpi = "1"
+INITRAMFS_IMAGE_rpi = "wpe-initramfs-image"
+KERNEL_INITRAMFS = "-initramfs"
+# Enlarge boot partition to 160MiB
+BOOT_SPACE = "163840"
+CONF_VERSION = "1"
+
+EOF
 
 # start build
 echo "Starting build"

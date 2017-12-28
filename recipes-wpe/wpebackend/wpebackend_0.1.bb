@@ -1,7 +1,7 @@
 LICENSE = "CLOSED"
 DEPENDS += "virtual/egl"
 
-SRCREV = "0272534fcc3bf1aff56539e20703b8d53a0328cc"
+SRCREV = "3013faaebab42e7ef7497b3850a2902978eb3d6f"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git;protocol=git;branch=master"
 
@@ -23,3 +23,6 @@ CFLAGS += " \
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend.so ${libdir}/pkgconfig/wpe.pc"
 INSANE_SKIP_${PN} ="dev-so"
+
+RDEPENDS_${PN}_rpi = "wpebackend-rdk"
+

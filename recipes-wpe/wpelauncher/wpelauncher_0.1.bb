@@ -2,12 +2,11 @@ LICENSE = "CLOSED"
 
 DEPENDS += "wpewebkit glib-2.0"
 
-SRCREV = "f7fdafee26f9dc4be7cdb3d6239ec4577e96a38b"
+SRCREV = "bee8c4dfbb437e1865b93f96898078b9279220ef"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKitLauncher.git;protocol=git;branch=master \
            file://wpe \
 "
-
 S = "${WORKDIR}/git"
 
 FULL_OPTIMIZATION_remove = "-g"

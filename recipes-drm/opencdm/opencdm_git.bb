@@ -10,11 +10,13 @@ CXXFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
 CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc"
 LDFLAGS_append_libc-musl = " -ltirpc"
 
-SRCREV = "862a1eab0f0fbefd302d11a7ef14d9bd0eb1fb99"
+SRCREV = "4ad09b0781d6c7c18cbc725eeec1b3b663b8c542"
 PV = "1.0.gitr${SRCPV}"
 S = "${WORKDIR}/git"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEOpenCDM;branch=wpe"
+
+CXXFLAGS += "-Wno-narrowing"
 
 do_compile_prepend() {
 	mkdir -p ${S}/src/browser/wpe/test/bin
@@ -31,3 +33,5 @@ do_install() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so"
+
+PARALLEL_MAKE = ""
