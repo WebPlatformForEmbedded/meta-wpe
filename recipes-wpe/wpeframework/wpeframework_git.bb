@@ -18,7 +18,7 @@ SRCREV = "26ed6d19e75d445649d006e54e4c9f3b1c96a642"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig systemd
+inherit cmake pkgconfig systemd update-rc.d
 
 PACKAGECONFIG ?= "provisionproxy virtualinput"
 
