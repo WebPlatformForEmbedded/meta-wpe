@@ -23,7 +23,7 @@ BBCLASSEXTEND = "native"
 EXTRA_OECONF = "--with-glib=yes --with-freetype=yes --with-cairo=yes"
 
 PACKAGECONFIG ??= "icu graphite"
-PACKAGECONFIG[icu] = "--with-icu=yes,--with-icu=no,icu"
+PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
 PACKAGECONFIG[graphite] = "--with-graphite2=yes,--with-graphite2=no,graphite2"
 
 PACKAGES =+ "${PN}-icu ${PN}-icu-dbg ${PN}-icu-dev"
