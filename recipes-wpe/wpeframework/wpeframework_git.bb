@@ -71,6 +71,7 @@ PACKAGES =+ "${PN}-initscript"
 FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
 
 FILES_SOLIBSDEV = ""
+FILES_${PN}-dbg += "${libdir}/wpeframework/proxystubs/.debug/*"
 FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
 
 # ----------------------------------------------------------------------------

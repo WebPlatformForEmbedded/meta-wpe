@@ -21,6 +21,7 @@ PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=R
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
+FILES_${PN}-dbg = "${libdir}/wpeframework/plugins/.debug/* ${libdir}/src/debug/*"
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so"
 
 # ----------------------------------------------------------------------------

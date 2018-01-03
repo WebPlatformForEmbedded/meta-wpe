@@ -102,9 +102,11 @@ do_install_append() {
     fi
 }
 
+
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
+FILES_${PN}-dbg = "${datadir}/WPEFramework/WebKitBrowser/.debug/* ${libdir}/src/debug/*"
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
