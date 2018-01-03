@@ -5,12 +5,13 @@ LICENSE = "CLOSED"
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
 RDEPENDS_${PN} = "freetype (= 2.4.6) curl (= 7.32.0) harfbuzz (= 1.0.1) graphite2 (= 1.2.4)"
 
-SRCREV = "5765182b11843910edf3f1b6f5fe34f491cb6161"
+SRCREV = "65cebdc962548d35675d561c5628307b772517d6"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
            file://curlutils-stdint-include.patch \
            file://netflix.pc \
+           file://0003-Disable-certain-C11-features-to-accomodate-older-GCC.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -139,3 +140,5 @@ FILES_${PN} += "${libdir}/*.so"
 FILES_${PN} += "${datadir}/fonts"
 
 INSANE_SKIP_${PN} += "already-stripped"
+
+TOOLCHAIN = "gcc"

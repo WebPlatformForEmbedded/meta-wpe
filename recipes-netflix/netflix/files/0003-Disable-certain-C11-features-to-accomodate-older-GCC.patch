@@ -1,0 +1,30 @@
+From 84607e5f603586bc517e6d5615a2e663c9ea34eb Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Thu, 28 Dec 2017 16:53:26 -0800
+Subject: [PATCH] Disable certain C11 features to accomodate older GCC 5.x,
+ e.g. throws template error on isnan/isinf on GCC 5.2.
+
+---
+ netflix/src/base/lang/tr1.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/netflix/src/base/lang/tr1.h b/netflix/src/base/lang/tr1.h
+index 1668f75..1da1729 100644
+--- a/netflix/src/base/lang/tr1.h
++++ b/netflix/src/base/lang/tr1.h
+@@ -24,9 +24,9 @@
+ // non-apple clangs have a different versioning scheme than apple clangs
+ #endif
+ #ifdef NRDP_CPP11
+-using std::isnormal;
+-using std::isnan;
+-using std::isinf;
++//using std::isnormal;
++//using std::isnan;
++//using std::isinf;
+ using std::shared_ptr;
+ using std::weak_ptr;
+ using std::static_pointer_cast;
+-- 
+2.11.0
+
