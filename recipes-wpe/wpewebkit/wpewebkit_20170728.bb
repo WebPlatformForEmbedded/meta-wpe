@@ -7,24 +7,17 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 
 DEPENDS += " \
     wpebackend \
-    bison-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
-    cairo fontconfig freetype glib-2.0 glib-2.0-native gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
+    bison-native gperf-native libepoxy libtasn1 libxml2-native ninja-native ruby-native chrpath-replacement-native \
+    cairo freetype glib-2.0 glib-2.0-native gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
 
-PV = "0.1+git${SRCPV}"
+PV = "20170728+git${SRCPV}"
 
-SRCREV ?= "9588b2670d739a820f0309ef90c82ddd968c2097"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=stable"
+SRCREV ?= "382e1c12994a14a9c2a3b3d2c97cb3d59e350e66"
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
-
-SRC_URI += "file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-Reduce-the-default-thread-stack-size-to-32KB.patch \
-            file://0001-Reduce-stack-limits.patch \
-            file://qt5-webkit-icu59.patch \
-            file://icu59.patch \
-"
 
 S = "${WORKDIR}/git"
 
@@ -34,7 +27,7 @@ WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '
 WPE_PLATFORM_nexus = "nexus"
 WPE_PLATFORM_x86 = "intelce"
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmediav1 fetchapi gamepad geolocation indexeddb libinput logs mediasource notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto udev video webaudio ${WPE_PLATFORM}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad indexeddb libinput logs mediasource mediastatistics notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto video webaudio ${WPE_PLATFORM}"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
@@ -51,25 +44,25 @@ PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON -DUSE_HOLE_PUNCH
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
 PACKAGECONFIG[deviceorientation] = "-DENABLE_DEVICE_ORIENTATION=ON,-DENABLE_DEVICE_ORIENTATION=OFF,"
 PACKAGECONFIG[encryptedmedia] = "-DENABLE_LEGACY_ENCRYPTED_MEDIA=ON,-DENABLE_LEGACY_ENCRYPTED_MEDIA=OFF,libgcrypt"
-PACKAGECONFIG[encryptedmediav1] = "-DENABLE_LEGACY_ENCRYPTED_MEDIA_V1=ON,-DENABLE_LEGACY_ENCRYPTED_MEDIA_V1=OFF,libgcrypt"
 PACKAGECONFIG[fetchapi] = "-DENABLE_FETCH_API=ON,-DENABLE_FETCH_API=OFF,"
 PACKAGECONFIG[fullscreenapi] = "-DENABLE_FULLSCREEN_API=ON,-DENABLE_FULLSCREEN_API=OFF,"
 PACKAGECONFIG[fusion] = "-DUSE_FUSION_API_GSTREAMER=ON,-DUSE_FUSION_API_GSTREAMER=OFF,"
 PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,"
 PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,"
 PACKAGECONFIG[indexeddb] = "-DENABLE_DATABASE_PROCESS=ON -DENABLE_INDEXED_DATABASE=ON,-DENABLE_DATABASE_PROCESS=OFF -DENABLE_INDEXED_DATABASE=OFF,"
-PACKAGECONFIG[libinput] = "-DUSE_WPEWEBKIT_INPUT_LIBINPUT=ON,-DUSE_WPEWEBKIT_INPUT_LIBINPUT=OFF,libinput"
+PACKAGECONFIG[libinput] = "-DUSE_WPEWEBKIT_INPUT_LIBINPUT=ON,,libinput"
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
 PACKAGECONFIG[mediastream] = "-DENABLE_MEDIA_STREAM=ON,-DENABLE_MEDIA_STREAM=OFF,openwebrtc"
+PACKAGECONFIG[mediastatistics] = "-DENABLE_MEDIA_STATISTICS=ON,-DENABLE_MEDIA_STATISTICS=OFF,"
 PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
 PACKAGECONFIG[shadowdom] = "-DENABLE_SHADOW_DOM=ON,-DENABLE_SHADOW_DOM=OFF,"
 PACKAGECONFIG[subtlecrypto] = "-DENABLE_SUBTLE_CRYPTO=ON,-DENABLE_SUBTLE_CRYPTO=OFF,"
 PACKAGECONFIG[subtitle] = "-DENABLE_TEXT_SINK=ON,-DENABLE_TEXT_SINK=OFF,"
-PACKAGECONFIG[touch] = "-DENABLE_TOUCH_EVENTS=ON,-DENABLE_TOUCH_EVENTS=OFF,"
-PACKAGECONFIG[udev] = "-DUSE_WPEWEBKIT_INPUT_UDEV=ON,-DUSE_WPEWEBKIT_INPUT_UDEV=OFF,udev"
+PACKAGECONFIG[touch] = "-DENABLE_TOUCH_EVENTS=ON,,"
+PACKAGECONFIG[udev] = "-DUSE_WPEWEBKIT_INPUT_UDEV=ON,,udev"
 PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
 
@@ -84,7 +77,10 @@ PACKAGECONFIG[gst_holepunch] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
 
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_COLOR_MAKEFILE=OFF -DBUILD_SHARED_LIBS=ON -DPORT=WPE \
+    -DCMAKE_COLOR_MAKEFILE=OFF \
+    -DEXPORT_DEPRECATED_WEBKIT2_C_API=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DPORT=WPE \
     -G Ninja \
 "
 EXTRANATIVEPATH += "chrpath-native"
@@ -97,12 +93,12 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEDatabaseProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess
 }
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
 do_install() {
-    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit2/cmake_install.cmake
+    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit/cmake_install.cmake
     DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/JavaScriptCore/cmake_install.cmake
 
     install -d ${D}${libdir}
@@ -114,12 +110,12 @@ do_install() {
     install -d ${D}${bindir}
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
-    install -m755 ${B}/bin/WPEDatabaseProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEStorageProcess ${D}${bindir}/
 
     # Hack: Remove RPATHs embedded in apps
     chrpath --delete ${D}${bindir}/WPEWebProcess
     chrpath --delete ${D}${bindir}/WPENetworkProcess
-    chrpath --delete ${D}${bindir}/WPEDatabaseProcess
+    chrpath --delete ${D}${bindir}/WPEStorageProcess
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
