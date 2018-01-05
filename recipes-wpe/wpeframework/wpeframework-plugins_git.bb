@@ -11,7 +11,7 @@ PV = "3.0+gitr${SRCPV}"
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
           file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch \
           file://index.html"
-SRCREV = "5f06da092a8cfe3019c984b100f199cebe692703"
+SRCREV = "9712f54e9ad5136ce935350bdfa66f2b22f17e18"
 
 S = "${WORKDIR}/git"
 
@@ -19,7 +19,7 @@ WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
 WEBKITBROWSER_MEMORYPRESSURE ?= "databaseprocess:50m,networkprocess:100m,webprocess:300m,rpcprocess:50m"
 WEBKITBROWSER_MEMORYPROFILE ?= "128m"
-WEBKITBROWSER_STARTURL ?= "${@bb.utils.contains('PACKAGECONFIG', 'webserver', 'http://127.0.0.1:8080/index.html', 'about:blank', d)}"
+WEBKITBROWSER_STARTURL ?= "http://cdn.metrological.com/static/rpi/index.html"
 WEBKITBROWSER_USERAGENT ?= "Mozilla/5.0 (Macintosh, Intel Mac OS X 10_11_4) AppleWebKit/602.1.28+ (KHTML, like Gecko) Version/9.1 Safari/601.5.17"
 WEBKITBROWSER_DISKCACHE ?= "0"
 WEBKITBROWSER_XHRCACHE ?= "false"
