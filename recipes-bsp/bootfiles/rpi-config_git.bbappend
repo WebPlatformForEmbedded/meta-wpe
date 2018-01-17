@@ -5,6 +5,6 @@ do_deploy_prepend() {
     GPU_MEM_1024=256
 }
 
-do_deploy() {
+do_deploy_append() {
     sed -i '/#gpu_freq/ c\gpu_freq=500' ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
 }
