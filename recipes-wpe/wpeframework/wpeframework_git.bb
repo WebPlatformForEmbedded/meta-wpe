@@ -20,6 +20,9 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig systemd update-rc.d
 
+# Yocto root is under /home/root
+WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
+
 PACKAGECONFIG ?= "provisionproxy virtualinput"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
@@ -41,6 +44,7 @@ EXTRA_OECMAKE += " \
     -DBUILD_SHARED_LIBS=ON \
     -DWPEFRAMEWORK_RPC=ON \
     -DBUILD_REFERENCE=${SRCREV} \
+    -DWPEFRAMEWORK_PERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
 "
 
 do_install_append() {
