@@ -4,6 +4,6 @@
 DESCRIPTION = "WPE initramfs rootfs image"
 LICENSE = "MIT"
 
-require wpe-framework-image.bb
+require wpe-westeros-image.bb
 
 IMAGE_FSTYPES_rpi = " ${INITRAMFS_FSTYPES}"
