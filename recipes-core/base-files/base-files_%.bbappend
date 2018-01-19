@@ -1,6 +1,4 @@
-COMPATIBLE_MACHINE = "rpi"
-
-do_install_append () {
+do_install_append_rpi () {
     cat >> ${D}${sysconfdir}/fstab <<EOF
 
 # Mount boot directory
