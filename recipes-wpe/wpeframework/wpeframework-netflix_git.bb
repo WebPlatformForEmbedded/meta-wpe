@@ -17,6 +17,8 @@ inherit cmake pkgconfig
 
 PACKAGECONFIG ?= ""
 PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
+PACKAGECONFIG[hd]               = "-DWPEFRAMEWORK_PLUGIN_NETFLIX_FULLHD=true,-DWPEFRAMEWORK_PLUGIN_NETFLIX_FULLHD=false,"
+
 
 # ----------------------------------------------------------------------------
 
