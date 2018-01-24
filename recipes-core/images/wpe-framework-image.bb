@@ -21,6 +21,7 @@ IMAGE_FEATURES += "hwcodecs \
 "
 
 IMAGE_INSTALL += "kernel-modules \
-                  packagegroup-westeros \
                   packagegroup-wpeframework \
 "
+
+IMAGE_FSTYPES_rpi = " ${INITRAMFS_FSTYPES}"
