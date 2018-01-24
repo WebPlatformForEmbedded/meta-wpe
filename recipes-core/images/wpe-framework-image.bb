@@ -10,7 +10,7 @@ require wpe-image.inc
 
 inherit distro_features_check
 
-REQUIRED_DISTRO_FEATURES = "wayland"
+DISTRO_FEATURES_remove = "wayland"
 
 SPLASH_rpi = "psplash-raspberrypi"
 
