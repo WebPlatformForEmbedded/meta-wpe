@@ -46,7 +46,7 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "commander ${WPE_COMPOSITOR} deviceinfo locationsync monitor remote remote-uinput ${WPE_SNAPSHOT} tracing virtualinput webkitbrowser webserver youtube"
+PACKAGECONFIG ?= "commander ${WPE_COMPOSITOR} deviceinfo locationsync monitor opencdmi opencdmi_pr remote remote-uinput ${WPE_SNAPSHOT} tracing virtualinput webkitbrowser webserver youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
@@ -60,6 +60,14 @@ PACKAGECONFIG[monitor]        = "-DWPEFRAMEWORK_PLUGIN_MONITOR=ON \
                                  -DWPEFRAMEWORK_PLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
                                  -DWPEFRAMEWORK_PLUGIN_NETFLIX_MEMORYLIMIT=307200 \
                                 ,-DWPEFRAMEWORK_PLUGIN_MONITOR=OFF,"
+PACKAGECONFIG[opencdmi]       = "-DWPEFRAMEWORK_PLUGIN_OPENCDMI=ON \
+                                 -DWPEFRAMEWORK_PLUGIN_OPENCDMI_AUTOSTART=true \
+                                 -DWPEFRAMEWORK_PLUGIN_OPENCDMI_OOP=true \
+                                 -DPLUGIN_OPENCDMI_CLEARKEY=ON \
+                                ,,rpcbind libprovision"
+PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,playready"
+PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON=ON,,playready"
+PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,widevine"
 PACKAGECONFIG[power]          = "-DWPEFRAMEWORK_PLUGIN_POWER=ON,-DWPEFRAMEWORK_PLUGIN_POWER=OFF,"
 PACKAGECONFIG[remote]         = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=ON,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=OFF,"
 PACKAGECONFIG[remote-nexus]   = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRNEXUS=ON \
