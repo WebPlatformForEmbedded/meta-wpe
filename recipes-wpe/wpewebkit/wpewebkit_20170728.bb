@@ -19,6 +19,7 @@ SRCREV ?= "5a96512b411159c1a820cd191e6b8cbd3b083ffc"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
+SRC_URI += "file://0001-Fix-build-with-musl.patch"
 
 S = "${WORKDIR}/git"
 
