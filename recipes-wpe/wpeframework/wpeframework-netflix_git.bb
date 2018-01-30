@@ -9,7 +9,7 @@ PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginNetflix.git;protocol=ssh;branch=master \
 		   file://0001-cmake-Remove-redundant-include.patch"
-SRCREV = "75e944a5e671b6c7d0cdfc600ad656edf9e67df0"
+SRCREV = "c94552bad6e793fdfcb157abd3d86e1015d46ed0"
 
 S = "${WORKDIR}/git"
 
