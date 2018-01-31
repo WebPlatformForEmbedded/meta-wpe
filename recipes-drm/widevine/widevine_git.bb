@@ -10,11 +10,17 @@ SRCREV = "f4b9b4d78278c48612ff26559d39706d430d311a"
 
 SRC_URI = "git://git@github.com/Metrological/widevine.git;protocol=ssh;branch=yocto"
 
-inherit pythonnative
+inherit pythonnative pkgconfig
+
+PACKAGECONFIG ?= ""
+PACKAGECONFIG[debug] = ",,"
 
 S = "${WORKDIR}/git"
 
-export WV_BOARD="rpi"
+WIDEVINE_BOARD ?= ""
+WIDEVINE_BOARD_rpi = "rpi"
+
+export WV_BOARD="${WIDEVINE_BOARD}"
 export WV_CC="${CC}"
 export WV_CXX="${CXX}"
 export WV_AR="${AR}"
@@ -31,21 +37,22 @@ do_configure() {
 }
 
 do_compile() {
-   cd ${B}; ./build.py arm
+    # build in release with -r or -c Release
+    cd ${B}; ./build.py ${@bb.utils.contains("PACKAGECONFIG", "debug", "", "-r", d)} arm
 }
 
 do_install() {
     install -d ${D}${bindir}
-    install -m 0755 ${B}/out/arm/Debug/widevine_ce_cdm_unittest ${D}${bindir}/
+    install -m 0755 ${B}/out/arm/${@bb.utils.contains("PACKAGECONFIG", "debug", "Debug", "Release", d)}/widevine_ce_cdm_unittest ${D}${bindir}/
     install -d ${D}${libdir}
-    install -m 0755 ${B}/out/arm/Debug/lib.target/*.so ${D}${libdir}/
+    install -m 0755 ${B}/out/arm/${@bb.utils.contains("PACKAGECONFIG", "debug", "Debug", "Release", d)}/lib.target/*.so ${D}${libdir}/
 
     install -d ${D}${includedir}
     install -m 0644 ${S}/cdm/include/*.h ${D}${includedir}/
     install -m 0644 ${S}/core/include/*.h ${D}${includedir}/
 
     install -d ${D}${includedir}/host/rpi/
-	install -m 0644 ${S}/cdm/src/host/rpi/*.h ${D}${includedir}/host/
+    install -m 0644 ${S}/cdm/src/host/rpi/*.h ${D}${includedir}/host/
 }
 
 do_clean[noexec] = "1"
