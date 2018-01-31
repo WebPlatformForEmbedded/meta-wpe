@@ -14,7 +14,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "4c5c73b20d9fb229efc4d9e0131ba0f1073fee9f"
+SRCREV = "1087172054f9e127c2e1aa3b835ef0d2b4b977e0"
 
 S = "${WORKDIR}/git"
 
@@ -23,10 +23,11 @@ inherit cmake pkgconfig systemd update-rc.d
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
 
-PACKAGECONFIG ?= "provisionproxy virtualinput"
+PACKAGECONFIG ?= "opencdm provisionproxy virtualinput"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
+PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWORK_PROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DWPEFRAMEWORK_TEST_LOADER=ON,-DWPEFRAMEWORK_TEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK_VIRTUALINPUT=OFF,"
@@ -36,7 +37,12 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 # Location event is required for locationsync plugin
 # Time event is required for timesync plugin
 # Identifier event is required for Compositor plugin
-WPEFRAMEWORK_EXTERN_EVENTS ?= ""
+WPEFRAMEWORK_EXTERN_EVENTS ?= " \
+    Decryption \
+    Location \
+    Network  \
+    Provisioning \
+"
 
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
@@ -65,6 +71,12 @@ do_install_append() {
         install -d ${D}${sysconfdir}/init.d
         install -m 0755 ${WORKDIR}/wpeframework-init ${D}${sysconfdir}/init.d/wpeframework
     fi
+
+    if ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "true", "false", d)}
+    then
+        #install -d ${STAGING_INCDIR}
+        install -m 0644 ${D}${includedir}/WPEFramework/interfaces/IDRM.h ${D}${includedir}/cdmi.h
+    fi
 }
 
 SYSTEMD_SERVICE_${PN} = "wpeframework.service"
@@ -77,6 +89,7 @@ FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
+FILES_${PN} += "${includedir}/cdmi.h"
 
 # ----------------------------------------------------------------------------
 
