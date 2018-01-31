@@ -20,3 +20,6 @@ DEPENDS += "wayland-native \
             wayland \
             libxkbcommon \
            "
+# depends on virtual/egl and wayland
+REQUIRED_DISTRO_FEATURES = "opengl wayland"
+
