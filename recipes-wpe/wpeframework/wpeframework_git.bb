@@ -38,10 +38,10 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 # Time event is required for timesync plugin
 # Identifier event is required for Compositor plugin
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
-    Decryption \
+    ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "Decryption", "", d)} \
     Location \
-    Network  \
-    Provisioning \
+    Network \
+    ${@bb.utils.contains("PACKAGECONFIG", "provisionproxy", "Provision", "", d)} \
 "
 
 EXTRA_OECMAKE += " \
