@@ -5,7 +5,7 @@ PV = "1.0+gitr${SRCPV}"
 SRC_URI = "${WESTEROS_URI}"
 SRCREV = "${WESTEROS_SRCREV}"
 #WESTEROS_URI ?= "git://github.com/rdkcmf/westeros"
-#WESTEROS_SRCREV ?= "b9935ad80f9655219bd40fbcb213801303e3c571"
+#WESTEROS_SRCREV ?= "447572269e2b2db22747e495435938c61b0dbc73"
 WESTEROS_URI ?= "git://github.com/Metrological/westeros"
 WESTEROS_SRCREV ?= "80f0b6dcc7ea525b4bf9f3af1c361f865f5555af"
 LICENSE_LOCATION ?= "${S}/LICENSE"
@@ -20,3 +20,6 @@ DEPENDS += "wayland-native \
             wayland \
             libxkbcommon \
            "
+# depends on virtual/egl and wayland
+REQUIRED_DISTRO_FEATURES = "opengl wayland"
+
