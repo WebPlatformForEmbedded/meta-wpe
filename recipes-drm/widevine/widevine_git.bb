@@ -6,7 +6,7 @@ DEPENDS = "gyp python-native protobuf protobuf-native"
 
 PV = "3.1.gitr${SRCPV}"
 
-SRCREV = "f4b9b4d78278c48612ff26559d39706d430d311a"
+SRCREV = "1cc538ba180a8e4bdf6510727c26556f2f513114"
 
 SRC_URI = "git://git@github.com/Metrological/widevine.git;protocol=ssh;branch=yocto"
 
