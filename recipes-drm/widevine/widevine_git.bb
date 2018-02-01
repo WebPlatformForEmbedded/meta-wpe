@@ -6,7 +6,7 @@ DEPENDS = "gyp python-native protobuf protobuf-native"
 
 PV = "3.1.gitr${SRCPV}"
 
-SRCREV = "1cc538ba180a8e4bdf6510727c26556f2f513114"
+SRCREV = "066c91ad1b7ac69315a0455e93cc242ad83a061c"
 
 SRC_URI = "git://git@github.com/Metrological/widevine.git;protocol=ssh;branch=yocto"
 
@@ -29,6 +29,7 @@ export WV_HOST_CC = "${CC}"
 export WV_HOST_CXX = "${CXX}"
 export WV_STAGING = "${STAGING_DIR_TARGET}"
 export WV_STAGING_NATIVE = "${STAGING_DIR_NATIVE}"
+export WV_PROTOBUF_CONFIG = "system"
 
 do_configure() {
     (cd ${B};rm -rf out; rm -rf Makefile;\
