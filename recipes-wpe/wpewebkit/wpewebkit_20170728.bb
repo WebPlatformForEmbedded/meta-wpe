@@ -27,7 +27,7 @@ WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '
 WPE_PLATFORM_nexus = "nexus"
 WPE_PLATFORM_x86 = "intelce"
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad indexeddb libinput logs mediasource mediastatistics notifications nativevideo sampling-profiler shadowdom subtitle subtlecrypto video webaudio ${WPE_PLATFORM}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad indexeddb libinput logs mediasource mediastatistics notifications nativevideo sampling-profiler shadowdom subtitle video webaudio ${WPE_PLATFORM}"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
