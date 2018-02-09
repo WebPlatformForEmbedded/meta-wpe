@@ -10,8 +10,8 @@ DEPENDS = "openssl"
 
 PV = "2.0.gitr${SRCPV}"
 
-SRCREV = "e532b8d1153f3b5880528bdd7a68318b9c75dac5"
-SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branch=WPEFramework"
+SRCREV = "ce8eac774f653828d8fa817888ee2a69bc40ff44"
+SRC_URI = "git://git@github.com/Metrological/libprovision.git;protocol=ssh;branch=master"
 
 S = "${WORKDIR}/git"
 

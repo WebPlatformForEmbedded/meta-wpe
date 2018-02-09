@@ -2,7 +2,8 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
-SRC_URI += "file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch"
+SRC_URI += "file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
+	    file://0002-Set-exports-at-westeros-sysvinit.patch"
 
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
