@@ -49,3 +49,5 @@ FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-trans
 do_compile_prepend() {
         export GIR_EXTRA_LIBS_PATH="${B}/gst-libs/gst/tag/.libs:${B}/gst-libs/gst/video/.libs:${B}/gst-libs/gst/audio/.libs:${B}/gst-libs/gst/rtp/.libs"
 }
+
+FILES_${PN}-dbg += "${libdir}/gstreamer-1.0/.debug/*.so"

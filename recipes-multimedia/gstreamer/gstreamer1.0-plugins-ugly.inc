@@ -30,3 +30,4 @@ EXTRA_OECONF += " \
 
 FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
 FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
+FILES_${PN}-dbg += "${libdir}/gstreamer-1.0/.debug/*.so"

@@ -51,3 +51,4 @@ EXTRA_OECONF += " \
 "
 
 FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
+FILES_${PN}-dbg += "${libdir}/gstreamer-1.0/.debug/*.so"

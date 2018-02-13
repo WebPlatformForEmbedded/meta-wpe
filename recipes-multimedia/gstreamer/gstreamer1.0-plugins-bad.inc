@@ -6,9 +6,10 @@ DEPENDS += "gstreamer1.0-plugins-base libpng jpeg"
 
 inherit gettext bluetooth
 
-SRC_URI_append = " \
-    file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
-"
+# disable Makefile patch on jethro, doesnt apply. Will check later
+#SRC_URI_append = " \
+#    file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
+#"
 
 # opengl packageconfig factored out to make it easy for distros
 # and BSP layers to pick either (desktop) opengl, gles2, or no GL
@@ -157,3 +158,4 @@ FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
 FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
 FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
 FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+FILES_${PN}-dbg += "${libdir}/gstreamer-1.0/.debug/*.so"
