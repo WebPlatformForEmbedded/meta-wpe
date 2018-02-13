@@ -15,16 +15,18 @@ DEPENDS += " \
 
 PV = "20170728+git${SRCPV}"
 
-SRCREV ?= "a7608fc4c3044c8cd06fd273c3202d5f983923c8"
+SRCREV ?= "77f2a80973f610b6efeb43ba25bc1e71e26a00cb"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
+SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
+SRC_URI += "file://0001-Fix-build-with-musl.patch"
 
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
 WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
-WPE_PLATFORM_rpi = "egl"
+WPE_PLATFORM_rpi = "rpi"
 WPE_PLATFORM_nexus = "nexus"
 WPE_PLATFORM_x86 = "intelce"
 

@@ -2,14 +2,14 @@
 
 start() {
 	# Core dumps
-	#echo 1 > /proc/sys/kernel/core_uses_pid
-	#echo 2 > /proc/sys/fs/suid_dumpable
-	#echo "/root/cores/core-pid_%p--process%E" > /proc/sys/kernel/core_pattern
-	#mkdir -p /root/cores
-	#ulimit -c unlimited
-	if [ ! -d /root/Netflix/dpi ]; then
-		mkdir -p /root/Netflix/dpi
-		ln -sfn /etc/playready /root/Netflix/dpi/playready
+	echo 1 > /proc/sys/kernel/core_uses_pid
+	echo 2 > /proc/sys/fs/suid_dumpable
+	echo "/home/root/cores/core-pid_%p--process%E" > /proc/sys/kernel/core_pattern
+	mkdir -p /home/root/cores
+	ulimit -c unlimited
+	if [ ! -d /home/root/Netflix/dpi ]; then
+		mkdir -p /home/root/Netflix/dpi
+		ln -sfn /etc/playready /home/root/Netflix/dpi/playready
 	fi
 	export TZ=$(wget -qO- http://jsonip.metrological.com/ | sed -e 's/^.*"tz":"\([^"]*\)".*$/\1/')
     

@@ -14,7 +14,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "e3f46e7eede8457e11c9af5215f25914e42b95e2"
+SRCREV = "4c5c73b20d9fb229efc4d9e0131ba0f1073fee9f"
 
 S = "${WORKDIR}/git"
 
@@ -44,6 +44,7 @@ EXTRA_OECMAKE += " \
     -DBUILD_SHARED_LIBS=ON \
     -DWPEFRAMEWORK_RPC=ON \
     -DBUILD_REFERENCE=${SRCREV} \
+    -DTREE_REFERENCE=${SRCREV} \
     -DWPEFRAMEWORK_PERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
 "
 
