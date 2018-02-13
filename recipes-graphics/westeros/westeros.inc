@@ -7,7 +7,7 @@ SRCREV = "${WESTEROS_SRCREV}"
 #WESTEROS_URI ?= "git://github.com/rdkcmf/westeros"
 #WESTEROS_SRCREV ?= "b9935ad80f9655219bd40fbcb213801303e3c571"
 WESTEROS_URI ?= "git://github.com/Metrological/westeros"
-WESTEROS_SRCREV ?= "9633867603dcfb2a5c71af71e7e1abd12f0c2ca3"
+WESTEROS_SRCREV ?= "80f0b6dcc7ea525b4bf9f3af1c361f865f5555af"
 LICENSE_LOCATION ?= "${S}/LICENSE"
 LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=703f52ef306fb8ef480744cc0da110fe"
 

@@ -37,6 +37,10 @@ then
 	WPE_CONFIG=$(grep -v '^#' $WPE_CONF_FILE | tr -d "\r" | tr "\n" " " | tr -s " ")
 fi
 
+# Westeros exports
+export XDG_RUNTIME_DIR=/tmp
+export WAYLAND_DISPLAY=wayland-0
+
 # Core dumps
 #echo 1 > /proc/sys/kernel/core_uses_pid
 #echo 2 > /proc/sys/fs/suid_dumpable
@@ -47,12 +51,12 @@ fi
 # The PREFIX env var can be useful when debugging athol/WPELauncher with gdbserver.
 if [ "$1" = "--loop" ];
 then
-	export HOME=/root
+	export HOME=/home/root
 	mkdir -p $HOME
 	while true;
 	do
-		cd /root && eval "$WPE_CONFIG $PREFIX WPELauncher \"$2\""
+		cd $HOME && eval "$WPE_CONFIG $PREFIX WPELauncher \"$2\""
 	done
 else
-	cd /root && eval "$WPE_CONFIG $PREFIX WPELauncher \"$1\""
+	cd $HOME && eval "$WPE_CONFIG $PREFIX WPELauncher \"$1\""
 fi

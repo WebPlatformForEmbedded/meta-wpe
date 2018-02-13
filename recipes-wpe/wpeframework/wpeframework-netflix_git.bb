@@ -9,7 +9,7 @@ PV = "3.0+gitr${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginNetflix.git;protocol=ssh;branch=master \
 		   file://0001-cmake-Remove-redundant-include.patch"
-SRCREV = "aa813b32befb90bfcde822cd0c24c0d7876e31e7"
+SRCREV = "75e944a5e671b6c7d0cdfc600ad656edf9e67df0"
 
 S = "${WORKDIR}/git"
 
@@ -17,6 +17,8 @@ inherit cmake pkgconfig
 
 PACKAGECONFIG ?= ""
 PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
+PACKAGECONFIG[hd]               = "-DWPEFRAMEWORK_PLUGIN_NETFLIX_FULLHD=true,-DWPEFRAMEWORK_PLUGIN_NETFLIX_FULLHD=false,"
+
 
 # ----------------------------------------------------------------------------
 

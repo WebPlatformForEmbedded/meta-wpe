@@ -1,0 +1,25 @@
+From 972a626871c6514b1943e1b3b5b56c672b54c1ee Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Thu, 4 Jan 2018 11:04:26 -0800
+Subject: [PATCH] Set exports at westeros sysvinit
+
+---
+ systemd/westeros.sysvinit | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/systemd/westeros.sysvinit b/systemd/westeros.sysvinit
+index 2613c1e..a0f97c3 100644
+--- a/systemd/westeros.sysvinit
++++ b/systemd/westeros.sysvinit
+@@ -2,6 +2,8 @@
+ 
+ start() {
+ 	echo -n "Starting westeros: "
++	export XDG_RUNTIME_DIR=/tmp
++	export WAYLAND_DISPLAY=wayland-0
+ 	start-stop-daemon -S -q -b -m -p /var/run/westeros.pid --exec /usr/bin/westeros-init -- </dev/null >/dev/null 2>&1
+ 	[ $? == 0 ] && echo "OK" || echo "FAIL"
+ }
+-- 
+2.7.4
+
