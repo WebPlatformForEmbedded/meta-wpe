@@ -3,7 +3,6 @@ HOMEPAGE = "http://www.netflix.com/"
 LICENSE = "CLOSED"
 
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
-RDEPENDS_${PN} = "freetype (= 2.4.6)"
 
 SRCREV = "9a3fd8196fa91ab362032e2c65e0dfc868ee41bb"
 PV = "4.2.3+git${SRCPV}"
