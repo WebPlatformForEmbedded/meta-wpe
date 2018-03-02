@@ -3,18 +3,19 @@ HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+PR = "r0"
 
 DEPENDS = "zlib"
 DEPENDS_append_libc-musl = " libexecinfo"
 
-PV = "3.0+gitr${SRCPV}"
+PV = "3.0+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=ssh;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "c024a639f6aeb8250c36da195ac204ada7894523"
+SRCREV = "3b9a8d87f77064bf13acd377ee19f93e6a1727ab"
 
 S = "${WORKDIR}/git"
 
@@ -34,14 +35,17 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 
 # FIXME, determine this a little smarter
 # Provision event is required for libprovision and provision plugin
+# Network is provided by the Network control plugin
 # Location event is required for locationsync plugin
 # Time event is required for timesync plugin
 # Identifier event is required for Compositor plugin
+# Internet event is provided by the LocationSync plugin
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
-    ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "Decryption", "", d)} \
+    ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
+    Internet \
     Location \
-    Network \
-    ${@bb.utils.contains("PACKAGECONFIG", "provisionproxy", "Provision", "", d)} \
+    Time \
+    ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
 "
 
 EXTRA_OECMAKE += " \
@@ -95,7 +99,11 @@ FILES_${PN} += "${includedir}/cdmi.h"
 
 INITSCRIPT_PACKAGES = "${PN}-initscript"
 INITSCRIPT_NAME_${PN}-initscript = "wpeframework"
-INITSCRIPT_PARAMS_${PN}-initscript = "defaults 80 24"
+
+# If WPE Framework is enabled as distro feature, start earlier. Assuming packagegroup-wpe-boot is used and we're in control for the network
+WPEFRAMEWORK_START = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '40', '80', d)}"
+
+INITSCRIPT_PARAMS_${PN}-initscript = "defaults ${WPEFRAMEWORK_START} 24"
 
 RRECOMMENDS_${PN} = "${PN}-initscript"
 
