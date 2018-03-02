@@ -18,5 +18,5 @@ IMAGE_FEATURES += "hwcodecs \
 "
 
 IMAGE_INSTALL += "kernel-modules \
-                  packagegroup-wpeframework \
+                  packagegroup-wpe \
 "

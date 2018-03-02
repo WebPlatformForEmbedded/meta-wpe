@@ -2,7 +2,7 @@ LICENSE = "CLOSED"
 
 DEPENDS += "wpewebkit glib-2.0"
 
-SRCREV = "1abc9e3168844b7f9e3b594f6e6056b5917f16a5"
+SRCREV = "c1655cc8f6b68fab58e9da08e39b71d68dca26bf"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master"
 
@@ -14,6 +14,10 @@ inherit cmake pkgconfig
 WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
 WPE_BACKEND_append = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", " wayland","", d)}"
 WPE_BACKEND_remove = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros","", d)}"
+
+WPE_BACKEND_x86 = "intelce"
+WPE_BACKEND ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
+WPE_BACKEND ?= "rpi"
 
 PACKAGECONFIG ?= "${WPE_BACKEND}"
 
