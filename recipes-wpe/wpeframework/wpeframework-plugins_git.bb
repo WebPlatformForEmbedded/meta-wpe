@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
-PR = "r0"
+PR = "r1"
 
 DEPENDS = "wpeframework"
 
@@ -12,7 +12,7 @@ PV = "3.0+git${SRCPV}"
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
           file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch \
           file://index.html"
-SRCREV = "67725ddf0abe41746d33d33aa059823ccd43c26f"
+SRCREV = "86b2cd3a545a0efda307dac0ba0f949b3a3f8168"
 
 S = "${WORKDIR}/git"
 
@@ -33,6 +33,8 @@ WPEFRAMEWORK_REMOTECONTROL_KEYMAP = "OSMCKeyMap.json"
 WPEFRAMEWORK_PLUGIN_WEBSERVER_PORT ?= "8080"
 WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
+WPE_WIFI ?= "${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'wifi', '', d)}"
+
 WPE_SNAPSHOT ?= ""
 WPE_SNAPSHOT_rpi = "snapshot"
 
@@ -48,7 +50,7 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "${WPE_COMPOSITOR} deviceinfo locationsync monitor network opencdmi opencdmi_pr remote remote-uinput ${WPE_SNAPSHOT} timesync tracing ux virtualinput webkitbrowser webserver wifi youtube"
+PACKAGECONFIG ?= "${WPE_COMPOSITOR} deviceinfo locationsync monitor network opencdmi opencdmi_pr remote remote-uinput ${WPE_SNAPSHOT} timesync tracing ux virtualinput webkitbrowser webserver ${WPE_WIFI} youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
