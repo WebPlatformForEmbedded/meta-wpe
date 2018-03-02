@@ -9,7 +9,7 @@ SECTION = "devel"
 DEPENDS = "freetype"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/silgraphite/${P}.tgz"
-SRC_URI[md5sum] = "2ef839348fe28e3b923bf8cced440227"
-SRC_URI[sha256sum] = "4bc3d5168029bcc0aa00eb2c973269d29407be2796ff56f9c80e10736bd8b003"
+SRC_URI[md5sum] = "cb530d737c8f2d1023797cf0587b4e05"
+SRC_URI[sha256sum] = "7a07d3f7cca5c0b38ca811984ef8da536da32932d68c1a6cce33ec2462b930bf"
 
 inherit gettext cmake
