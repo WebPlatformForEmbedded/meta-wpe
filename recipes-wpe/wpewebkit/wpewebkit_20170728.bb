@@ -4,6 +4,7 @@ SUMMARY = "WPE WebKit port pairs the WebKit engine with the Wayland display prot
 HOMEPAGE = "http://www.webkitforwayland.org/"
 LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 "
+PR = "r0"
 
 DEPENDS += " \
     wpebackend \
@@ -26,10 +27,9 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-WPE_PLATFORM = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
-WPE_PLATFORM_x86 = "intelce"
-
+WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
 WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
+WPE_PLATFORM_x86 ?= "intelce"
 WPE_PLATFORM ?= "egl"
 
 WPE_DRM ?= ""
