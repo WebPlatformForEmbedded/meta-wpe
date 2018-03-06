@@ -3,9 +3,8 @@ HOMEPAGE = "http://www.netflix.com/"
 LICENSE = "CLOSED"
 
 DEPENDS = "c-ares curl expat freetype graphite2 harfbuzz icu jpeg libmng libpng libwebp openssl"
-RDEPENDS_${PN} = "freetype (= 2.4.6) curl (= 7.32.0) harfbuzz (= 1.0.1) graphite2 (= 1.2.4)"
 
-SRCREV = "5765182b11843910edf3f1b6f5fe34f491cb6161"
+SRCREV = "9a3fd8196fa91ab362032e2c65e0dfc868ee41bb"
 PV = "4.2.3+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=master \
