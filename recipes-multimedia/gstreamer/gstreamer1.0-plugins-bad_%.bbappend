@@ -1,7 +1,7 @@
 # Enable extra options for rpi. Fixme, needs review.
 
-PACKAGECONFIG_append = " gl"
-PACKAGECONFIG_append_rpi = " dispmanx hls libmms faad"
+PACKAGECONFIG_append = " gl faad opusparse"
+PACKAGECONFIG_append_rpi = " dispmanx"
 
 PACKAGECONFIG_remove = "vulkan"
 
