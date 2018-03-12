@@ -16,7 +16,7 @@ DEPENDS += " \
 
 PV = "20170728+git${SRCPV}"
 
-SRCREV ?= "6d0a3b76719b7b73f5f1ad9e1402bebc90b57e0e"
+SRCREV ?= "8daad8b139e1e0598b621e229cae534261062a3c"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
