@@ -10,7 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginProvisioning.git;protocol=ssh;branch=master \
 		  file://0002-cmake-Remove-redundant-include.patch"
 
-SRCREV = "e974a31a75b065a37da9f403ffef9a83499d8e5c"
+SRCREV = "8645c167a0d1715b066ee27b185e1b227bdcba5a"
 
 S = "${WORKDIR}/git"
 
