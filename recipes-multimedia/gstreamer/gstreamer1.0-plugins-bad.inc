@@ -92,6 +92,7 @@ EXTRA_OECONF += " \
     --enable-netsim \
     --enable-shm \
     --enable-vcd \
+    --enable-introspection=no \
     --disable-acm \
     --disable-android_media \
     --disable-apexsink \
