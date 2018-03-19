@@ -1,6 +1,6 @@
-From 4a3f8adc8a013e4adcfb79090e69f03b93e19d4e Mon Sep 17 00:00:00 2001
+From 28202ceb25dcfc1fc9c71b2fc93c61776896bc45 Mon Sep 17 00:00:00 2001
 From: wouterlucas <wouter@wouterlucas.com>
-Date: Mon, 11 Sep 2017 14:25:32 -0700
+Date: Mon, 19 Mar 2018 14:17:50 -0700
 Subject: [PATCH] [cmake] Remove redundant include
 
 ---
@@ -8,20 +8,20 @@ Subject: [PATCH] [cmake] Remove redundant include
  1 file changed, 4 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c6b493f..0a5357f 100644
+index 4007593..dd1d225 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -55,10 +55,6 @@ message(STATUS "Output base directory: " ${OUTPUT_BASE_DIR})
+@@ -79,10 +79,6 @@ endif()
  
- set(PLUGIN_WIFISETUP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+ set(PLUGIN_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
  
 -if(CMAKE_CROSSCOMPILING)
 -    include(${CMAKE_FIND_ROOT_PATH}/usr/include/WPEFramework/cmake/config.cmake)
 -endif(CMAKE_CROSSCOMPILING)
 -
  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
- list(APPEND CMAKE_MODULE_PATH "${PLUGIN_WIFISETUP_ROOT}/cmake")
+ list(APPEND CMAKE_MODULE_PATH "${WPEFRAMEWORK_PLUGIN_DIAL_ROOT}/cmake")
  
 -- 
-2.7.4
+2.11.0
 
