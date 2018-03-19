@@ -10,9 +10,8 @@ DEPENDS = "wpeframework"
 PV = "3.0+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
-          file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch \
           file://index.html"
-SRCREV = "86b2cd3a545a0efda307dac0ba0f949b3a3f8168"
+SRCREV = "6bdf622ab513d3164cf686413db44e27ec988d75"
 
 S = "${WORKDIR}/git"
 
@@ -48,9 +47,12 @@ WPE_COMPOSITOR_nexus = "compositor"
 WPE_COMPOSITOR_IMPL_nexus = "Nexus"
 WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
+# if wpeframework is in distro features, take control over certain system specific features such as network, timesync and compositing
+WPE_FRAMEWORK ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} locationsync network timesync ${WPE_WIFI}', '', d)}"
+
 inherit cmake pkgconfig
 
-PACKAGECONFIG ?= "${WPE_COMPOSITOR} deviceinfo locationsync monitor network opencdmi opencdmi_pr remote remote-uinput ${WPE_SNAPSHOT} timesync tracing ux virtualinput webkitbrowser webserver ${WPE_WIFI} youtube"
+PACKAGECONFIG ?= "deviceinfo monitor opencdmi opencdmi_pr remote remote-uinput ${WPE_SNAPSHOT} tracing ux virtualinput webkitbrowser webserver ${WPE_FRAMEWORK} youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
@@ -102,7 +104,7 @@ PACKAGECONFIG[webserver]      = "-DWPEFRAMEWORK_PLUGIN_WEBSERVER=ON \
     -DWPEFRAMEWORK_WEBSERVER_PATH="${WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH}" \
     ,-DWPEFRAMEWORK_PLUGIN_WEBSERVER=OFF,"
 PACKAGECONFIG[webshell]       = "-DWPEFRAMEWORK_PLUGIN_WEBSHELL=ON,-DWPEFRAMEWORK_PLUGIN_WEBSHELL=OFF,"
-PACKAGECONFIG[wifi]           = "-DWPEFRAMEWORK_PLUGIN_WIFICONTROL=ON,DWPEFRAMEWORK_PLUGIN_WIFICONTROL=OFF,"
+PACKAGECONFIG[wifi]           = "-DWPEFRAMEWORK_PLUGIN_WIFICONTROL=ON,-DWPEFRAMEWORK_PLUGIN_WIFICONTROL=OFF,"
 PACKAGECONFIG[youtube]        = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=ON, -DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=OFF,,wpeframework-dialserver"
 
 
