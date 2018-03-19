@@ -10,9 +10,8 @@ DEPENDS = "wpeframework"
 PV = "3.0+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
-          file://0001-Compositor-Disable-building-of-the-Wayland-test-clie.patch \
           file://index.html"
-SRCREV = "86b2cd3a545a0efda307dac0ba0f949b3a3f8168"
+SRCREV = "6bdf622ab513d3164cf686413db44e27ec988d75"
 
 S = "${WORKDIR}/git"
 
