@@ -16,7 +16,7 @@ WPE_BACKEND_append = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", " 
 WPE_BACKEND_remove = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros","", d)}"
 
 WPE_BACKEND_x86 = "intelce"
-WPE_BACKEND ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
+WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
 WPE_BACKEND ?= "rpi"
 
 PACKAGECONFIG ?= "${WPE_BACKEND}"
