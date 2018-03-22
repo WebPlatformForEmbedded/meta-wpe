@@ -40,11 +40,13 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 # Time event is required for timesync plugin
 # Identifier event is required for Compositor plugin
 # Internet event is provided by the LocationSync plugin
+
+# Only enable certain events if wpeframework is in distro features
+WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Internet Location Time', '', d)}"
+
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
-    Internet \
-    Location \
-    Time \
+    ${WPEFRAMEWORK_DIST_EVENTS} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
 "
 
