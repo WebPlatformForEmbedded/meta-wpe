@@ -15,7 +15,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "7c283d9493272f5af808831bd1d753a4a2ee4437"
+SRCREV = "1aa7285b12d5b494220873b9e04fcda7566f98b5"
 
 S = "${WORKDIR}/git"
 
