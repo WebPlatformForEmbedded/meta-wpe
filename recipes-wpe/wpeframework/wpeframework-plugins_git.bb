@@ -11,7 +11,7 @@ PV = "3.0+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
           file://index.html"
-SRCREV = "6bdf622ab513d3164cf686413db44e27ec988d75"
+SRCREV = "bd356bf21e5958ebbf3c910141104be5add94ab9"
 
 S = "${WORKDIR}/git"
 
