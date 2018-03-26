@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI = "file://0001_make_graphic_libs_configureble.patch"
+#SRC_URI = "file://0001_make_graphic_libs_configureble.patch"
 
 GLX_LIB_NAME    ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/libgl',    'broadcom-refsw', 'libv3ddriver.so', 'libGL.so.1', d)}"
 EGL_LIB_NAME    ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl',      'broadcom-refsw', 'libv3ddriver.so', 'libEGL.so.1', d)}"
