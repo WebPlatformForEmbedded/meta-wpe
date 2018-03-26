@@ -4,17 +4,20 @@ SUMMARY = "WPE WebKit port pairs the WebKit engine with the Wayland display prot
 HOMEPAGE = "http://www.webkitforwayland.org/"
 LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 "
-PR = "r0"
+PR = "r1"
 
 DEPENDS += " \
     wpebackend \
-    bison-native gperf-native libepoxy libtasn1 libxml2-native ninja-native ruby-native chrpath-replacement-native \
+    bison-native ccache-native gperf-native libepoxy libtasn1 libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo freetype glib-2.0 glib-2.0-native gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
 
 PV = "20170728+git${SRCPV}"
+
+# setup ccache-native
+CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
 SRCREV ?= "c2c6af6af012ed034df207f50a825b6a156a23fb"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
@@ -95,7 +98,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess
 }
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
