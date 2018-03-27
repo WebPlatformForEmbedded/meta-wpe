@@ -12,3 +12,5 @@ SRC_URI += " \
     file://0011-matroskademux-Start-stream-time-at-zero.patch \
     file://0012-matroskademux-emit-no-more-pads-when-the-Tracks-elem.patch \
 "
+
+PACKAGECONFIG[matroska] = "--enable-matroska,--disable-matroska,"
