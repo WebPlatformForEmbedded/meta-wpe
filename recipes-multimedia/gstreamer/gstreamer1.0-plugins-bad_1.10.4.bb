@@ -18,6 +18,9 @@ SRC_URI = " \
     file://0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch \
     file://0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch \
     file://0001-mssdemux-improved-live-playback-support.patch \
+    file://0002-adaptivedemux-minimal-HTTP-context-support.patch \
+    file://0004-Fix-to-set-current_fragment-for-live-streaming.patch \
+    file://0005-mpdparser-MS-PlayReady-ContentProtection-parsing.patch \
 "
 SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
 SRC_URI[sha256sum] = "23ddae506b3a223b94869a0d3eea3e9a12e847f94d2d0e0b97102ce13ecd6966"
