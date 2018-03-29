@@ -18,6 +18,8 @@ PV = "20170728+git${SRCPV}"
 
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
+#CCACHE_DISABLE = "False"
+#OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
 
 SRCREV ?= c6f57338384c9c5c73c754d8c03c9f960ca9c288""
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
@@ -154,6 +156,7 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-base-audioconvert \
     gstreamer1.0-plugins-base-audioresample \
     gstreamer1.0-plugins-base-gio \
+    gstreamer1.0-plugins-base-opus \
     gstreamer1.0-plugins-base-videoconvert \
     gstreamer1.0-plugins-base-videoscale \
     gstreamer1.0-plugins-base-volume \
@@ -164,9 +167,11 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
+    gstreamer1.0-plugins-good-matroska \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-hls \
     gstreamer1.0-plugins-bad-mpegtsdemux \
+    gstreamer1.0-plugins-bad-opusparse \
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
     gstreamer1.0-plugins-ugly-mpg123 \
