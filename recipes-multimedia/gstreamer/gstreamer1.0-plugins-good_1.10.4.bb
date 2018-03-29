@@ -11,6 +11,15 @@ SRC_URI = " \
     file://ensure-valid-sentinel-for-gst_structure_get.patch \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
     file://0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch \
+    file://0001-qtdemux-distinguish-TFDT-with-value-0-from-no-TFDT-a.patch \
+    file://0005-souphttpsrc-cookie-jar-and-context-query-support.patch \
+    file://0006-qtdemux-add-context-for-a-preferred-protection.patch \
+    file://0007-qtdemux-dont-check-pushbased-edts.patch \
+    file://0008-qtdemux-also-push-buffers-without-encryption-info-in.patch \
+    file://0009-qtdemux-fix-assert-when-moof-contains-one-sample.patch \
+    file://0010-matroskademux-Allow-Matroska-headers-to-be-read-more.patch \
+    file://0011-matroskademux-Start-stream-time-at-zero.patch \
+    file://0012-matroskademux-emit-no-more-pads-when-the-Tracks-elem.patch \
 "
 SRC_URI[md5sum] = "cc0cc13cdb07d4237600b6886b81f31d"
 SRC_URI[sha256sum] = "8a86c61434a8c44665365bd0b3557a040937d1f44bf69caee4e9ea816ce74d7e"
