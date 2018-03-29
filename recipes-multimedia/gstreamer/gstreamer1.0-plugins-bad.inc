@@ -23,7 +23,13 @@ PACKAGECONFIG ??= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'egl', '', d)} \
     bz2 curl dash dtls hls neon rsvg sbc smoothstreaming sndfile uvch264 webp \
+    opusparse \
 "
+
+PACKAGECONFIG_append_rpi = " zzrpiextras"
+PACKAGECONFIG[zzrpiextras] = "--enable-gles2 --enable-egl --enable-gl --enable-dispmanx,,virtual/libgles2 virtual/egl"
+
+PACKAGECONFIG_append_rpi = " hls libmms faad"
 
 PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
 PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
