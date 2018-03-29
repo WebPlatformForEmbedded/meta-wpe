@@ -12,6 +12,7 @@ SRC_URI = " \
     file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
     file://make-gio_unix_2_0-dependency-configurable.patch \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+    file://0001-Revert-uridecodebin-Use-the-correct-caps-name-for-MS.patch \
 "
 SRC_URI[md5sum] = "f6b46f8fac01eb773d556e3efc369e86"
 SRC_URI[sha256sum] = "f6d245b6b3d4cb733f81ebb021074c525ece83db0c10e932794b339b8d935eb7"
