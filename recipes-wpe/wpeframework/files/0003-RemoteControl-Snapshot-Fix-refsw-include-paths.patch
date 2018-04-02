@@ -1,0 +1,41 @@
+From 14419560d9095665550645f1a27ea6f1e807f60f Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Thu, 29 Mar 2018 20:48:28 -0700
+Subject: [PATCH] [RemoteControl,Snapshot] Fix refsw include paths
+
+---
+ RemoteControl/IRRemote.cpp       | 2 +-
+ Snapshot/Device/NexusCapture.cpp | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/RemoteControl/IRRemote.cpp b/RemoteControl/IRRemote.cpp
+index 71a2b35..ff7308f 100644
+--- a/RemoteControl/IRRemote.cpp
++++ b/RemoteControl/IRRemote.cpp
+@@ -6,7 +6,7 @@
+ #include <refsw/nexus_config.h>
+ #include <refsw/nexus_platform.h>
+ #include <refsw/nxclient.h>
+-#include <refsw/nexus_input_client.h>
++#include <nexus_input_client.h>
+ 
+ extern int getIRHandle();
+ 
+diff --git a/Snapshot/Device/NexusCapture.cpp b/Snapshot/Device/NexusCapture.cpp
+index 14ac319..a854444 100644
+--- a/Snapshot/Device/NexusCapture.cpp
++++ b/Snapshot/Device/NexusCapture.cpp
+@@ -4,8 +4,8 @@
+ 
+ #include <refsw/nexus_config.h>
+ #include <refsw/nxclient.h>
+-#include <refsw/nexus_surface.h>
+-#include <refsw/nexus_surface_client.h>
++#include <nexus_surface.h>
++#include <nexus_surface_client.h>
+ 
+ namespace WPEFramework {
+ namespace Plugin {
+-- 
+2.11.0
+
