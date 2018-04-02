@@ -19,8 +19,8 @@ PV = "20170728+git${SRCPV}"
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "c6f57338384c9c5c73c754d8c03c9f960ca9c288"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
+SRCREV ?= c6f57338384c9c5c73c754d8c03c9f960ca9c288""
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
 SRC_URI += "file://0001-Fix-build-with-musl.patch"
