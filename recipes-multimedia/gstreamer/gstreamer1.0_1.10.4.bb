@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
 SRC_URI = " \
     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
     file://deterministic-unwind.patch \
+    file://0001-typefind-min-1k.patch \
+    file://gstreamer-0001-protection-added-function-to-filter-system-ids.patch \
 "
 SRC_URI[md5sum] = "7c91a97e4a2dc81eafd59d0a2f8b0d6e"
 SRC_URI[sha256sum] = "50c2f5af50a6cc6c0a3f3ed43bdd8b5e2bff00bacfb766d4be139ec06d8b5218"
