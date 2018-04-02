@@ -10,7 +10,9 @@ DEPENDS = "wpeframework"
 PV = "3.0+git${SRCPV}"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
-          file://index.html"
+          file://index.html \
+          file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
+          "
 SRCREV = "bd356bf21e5958ebbf3c910141104be5add94ab9"
 
 S = "${WORKDIR}/git"
@@ -34,8 +36,10 @@ WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 WPE_WIFI ?= "${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'wifi', '', d)}"
 
+# Snapshot only works on BRCM STBs and RPIs
 WPE_SNAPSHOT ?= ""
 WPE_SNAPSHOT_rpi = "snapshot"
+WPE_SNAPSHOT_DEP = "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'broadcom-refsw', 'userland', d)}"
 
 ## Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
 WPE_COMPOSITOR ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'compositor', '', d)}"
@@ -73,16 +77,16 @@ PACKAGECONFIG[opencdmi]       = "-DWPEFRAMEWORK_PLUGIN_OPENCDMI=ON \
                                  -DPLUGIN_OPENCDMI_CLEARKEY=ON \
                                 ,,"
 PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,playready"
-PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON=ON,,playready"
+PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,playready"
 PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,widevine"
 PACKAGECONFIG[remote]         = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=ON \
-                                -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_KEYMAP=${WPEFRAMEWORK_REMOTECONTROL_KEYMAP} \
+                                 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_KEYMAP=${WPEFRAMEWORK_REMOTECONTROL_KEYMAP} \
                                 ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=OFF,"
 PACKAGECONFIG[remote-nexus]   = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRNEXUS=ON \
-   -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRMODE=${WPEFRAMEWORK_REMOTECONTROL_IRMODE} \
-   ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRNEXUS=OFF,"
-PACKAGECONFIG[remote-uinput]  = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=ON,-DDWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=OFF,"
-PACKAGECONFIG[snapshot]       = "-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=ON,-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=OFF,userland libpng"
+                                 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRMODE=${WPEFRAMEWORK_REMOTECONTROL_IRMODE} \
+                                ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRNEXUS=OFF,broadcom-refsw"
+PACKAGECONFIG[remote-uinput]  = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=ON,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=OFF,"
+PACKAGECONFIG[snapshot]       = "-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=ON,-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=OFF,${WPE_SNAPSHOT_DEP} libpng"
 PACKAGECONFIG[timesync]       = "-DWPEFRAMEWORK_PLUGIN_TIMESYNC=ON,-DWPEFRAMEWORK_PLUGIN_TIMESYNC=OFF,"
 PACKAGECONFIG[tracing]        = "-DWPEFRAMEWORK_PLUGIN_TRACECONTROL=ON,-DWPEFRAMEWORK_PLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[ux]             = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_UX=ON,-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_UX=ON,"
