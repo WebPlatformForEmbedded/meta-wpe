@@ -13,7 +13,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;p
           file://index.html \
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
           "
-SRCREV = "bd356bf21e5958ebbf3c910141104be5add94ab9"
+SRCREV = "663517354f607ce2e369ba12cfedd8f7c377a65b"
 
 S = "${WORKDIR}/git"
 
