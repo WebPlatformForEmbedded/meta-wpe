@@ -19,6 +19,12 @@ inherit cmake pkgconfig
 PACKAGECONFIG ?= ""
 PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 
+PROVISIONING_URI = "provisioning-sdk.metrological.com:80"
+
+EXTRA_OECMAKE += " \
+    -DWPEFRAMEWORK_PROVISIONING_URI=${PROVISIONING_URI} \
+"
+
 # ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
