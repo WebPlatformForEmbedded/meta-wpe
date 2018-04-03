@@ -12,6 +12,8 @@ SRC_URI = "git://git@github.com/Metrological/netflix.git;protocol=ssh;branch=mas
            file://netflix.pc \
 "
 
+CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
+
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig pythonnative
