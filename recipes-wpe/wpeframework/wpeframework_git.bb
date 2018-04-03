@@ -15,7 +15,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "1aa7285b12d5b494220873b9e04fcda7566f98b5"
+SRCREV = "f64ed25d6cccd4e87f2451428d9b762d8c888828"
 
 S = "${WORKDIR}/git"
 
@@ -23,6 +23,7 @@ inherit cmake pkgconfig systemd update-rc.d
 
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
+WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 
 PACKAGECONFIG ?= "opencdm provisionproxy virtualinput"
 
@@ -58,6 +59,7 @@ EXTRA_OECMAKE += " \
     -DBUILD_REFERENCE=${SRCREV} \
     -DTREE_REFERENCE=${SRCREV} \
     -DWPEFRAMEWORK_PERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
+    -DWPEFRAMEWORK_SYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
 "
 
 do_install_append() {
