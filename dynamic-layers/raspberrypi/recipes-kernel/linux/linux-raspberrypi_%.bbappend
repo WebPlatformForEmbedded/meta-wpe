@@ -9,8 +9,6 @@ do_configure_prepend() {
     if [ "${@bb.utils.filter('DISTRO_FEATURES', 'wpeframework', d)}" ]; then
         kernel_configure_variable LOGO_LINUX_CLUT224 n
         kernel_configure_variable LOGO_METROLOGICAL_CLUT224 y
-
         cp ${WORKDIR}/logo_metrological_clut224.ppm ${B}/source/drivers/video/logo/logo_metrological_clut224.ppm
-
     fi
 }
