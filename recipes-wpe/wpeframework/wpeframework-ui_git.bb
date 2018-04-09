@@ -1,16 +1,11 @@
 SUMMARY = "WPE Framework User Interface"
-HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
-SECTION = "wpe"
-LICENSE = "CLOSED"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
 
-DEPENDS = "wpeframework"
-
-PV = "3.0+gitr${SRCPV}"
+require wpeframework-plugins.inc
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkUI.git;protocol=ssh;branch=master"
 SRCREV = "d7b707d4031d501a2d4d33896dce7393762d601f"
-
-S = "${WORKDIR}/git"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
