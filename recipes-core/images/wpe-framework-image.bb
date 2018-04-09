@@ -21,6 +21,7 @@ IMAGE_FEATURES += "hwcodecs \
 IMAGE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'packagegroup-wpe-boot', '', d)} \
 				  packagegroup-wpeframework \
 				  packagegroup-wpe \
+				  packagegroup-wpe-drm \
 "
 
 IMAGE_INSTALL_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'packagegroup-core-boot', '', d)}"
