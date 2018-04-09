@@ -1,21 +1,16 @@
 SUMMARY = "WPE Framework common plugins"
-HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
-SECTION = "wpe"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
 PR = "r1"
 
-DEPENDS = "wpeframework"
-
-PV = "3.0+git${SRCPV}"
+require wpeframework-plugins.inc
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
           file://index.html \
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
-          "
-SRCREV = "bd356bf21e5958ebbf3c910141104be5add94ab9"
+"
 
-S = "${WORKDIR}/git"
+SRCREV = "663517354f607ce2e369ba12cfedd8f7c377a65b"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -54,13 +49,12 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 # if wpeframework is in distro features, take control over certain system specific features such as network, timesync and compositing
 WPE_FRAMEWORK ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} locationsync network timesync ${WPE_WIFI}', '', d)}"
 
-inherit cmake pkgconfig
 
+# PACAKAGE CONFIG
 PACKAGECONFIG ?= "deviceinfo monitor opencdmi opencdmi_pr remote remote-uinput ${WPE_SNAPSHOT} tracing ux virtualinput webkitbrowser webserver ${WPE_FRAMEWORK} youtube"
 
 PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
-PACKAGECONFIG[debug]          = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 PACKAGECONFIG[deviceinfo]     = "-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=ON,-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[locationsync]   = "-DWPEFRAMEWORK_PLUGIN_LOCATIONSYNC=ON \
    -DWPEFRAMEWORK_PLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
@@ -74,11 +68,7 @@ PACKAGECONFIG[monitor]        = "-DWPEFRAMEWORK_PLUGIN_MONITOR=ON \
 PACKAGECONFIG[opencdmi]       = "-DWPEFRAMEWORK_PLUGIN_OPENCDMI=ON \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_AUTOSTART=true \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_OOP=true \
-                                 -DPLUGIN_OPENCDMI_CLEARKEY=ON \
                                 ,,"
-PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,playready"
-PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,playready"
-PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,widevine"
 PACKAGECONFIG[remote]         = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=ON \
                                  -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_KEYMAP=${WPEFRAMEWORK_REMOTECONTROL_KEYMAP} \
                                 ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=OFF,"
@@ -134,5 +124,3 @@ FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
-
-TOOLCHAIN = "gcc"
