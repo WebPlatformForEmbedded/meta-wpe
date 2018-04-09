@@ -5,6 +5,8 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 PR = "r0"
 
+require wpeframework.inc
+
 DEPENDS = "zlib"
 DEPENDS_append_libc-musl = " libexecinfo"
 
@@ -17,8 +19,6 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol
 "
 SRCREV = "f64ed25d6cccd4e87f2451428d9b762d8c888828"
 
-S = "${WORKDIR}/git"
-
 inherit cmake pkgconfig systemd update-rc.d
 
 # Yocto root is under /home/root
@@ -28,7 +28,6 @@ WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 PACKAGECONFIG ?= "opencdm provisionproxy virtualinput"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
-PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWORK_PROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DWPEFRAMEWORK_TEST_LOADER=ON,-DWPEFRAMEWORK_TEST_LOADER=OFF,"
@@ -115,5 +114,3 @@ RRECOMMENDS_${PN} = "${PN}-initscript"
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
-
-TOOLCHAIN = "gcc"
