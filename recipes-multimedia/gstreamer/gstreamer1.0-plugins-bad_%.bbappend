@@ -11,3 +11,5 @@ PACKAGECONFIG[zzrpiextras] = "--enable-gles2 --enable-egl --enable-gl --enable-d
 
 PACKAGECONFIG_append_rpi = " hls libmms faad"
 
+# Enable opus for latest WebKit MSE requirements
+PACKAGECONFIG_append = " opusparse"
