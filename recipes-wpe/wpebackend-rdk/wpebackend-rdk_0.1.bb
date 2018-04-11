@@ -43,4 +43,4 @@ PACKAGECONFIG[virtualinput]     = "-DUSE_VIRTUAL_KEYBOARD=ON,-DUSE_VIRTUAL_KEYBO
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-rdk.so"
-INSANE_SKIP_${PN} = "dev-so"
+INSANE_SKIP_${PN} = "dev-so textrel"
