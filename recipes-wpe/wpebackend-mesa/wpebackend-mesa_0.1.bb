@@ -2,7 +2,7 @@ LICENSE = "CLOSED"
 
 DEPENDS += "wpewebkit glib-2.0 libxkbcommon wayland mesa-gl"
 
-SRCREV = "de843e2536f3a445737ce39ab643516a23531d5e"
+SRCREV = "dd1636139631513ff93c4d92e81639a02754efdc"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git;protocol=http;branch=master"
 
