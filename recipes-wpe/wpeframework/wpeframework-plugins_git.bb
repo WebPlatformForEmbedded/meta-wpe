@@ -129,6 +129,6 @@ do_install_append() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
-FILES_${PN}_dbg += "${datadir}/WPEFramework/WebKitBrowser/.debug/libWPEInjectedBundle.so"
+FILES_${PN}-dbg += "${datadir}/WPEFramework/WebKitBrowser/.debug/libWPEInjectedBundle.so"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
