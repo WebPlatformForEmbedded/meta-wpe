@@ -195,5 +195,6 @@ RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
 RRECOMMENDS_${PN} += " \
     ca-certificates \
     ttf-bitstream-vera \
+    shared-mime-info \
     ${PN}-platform-plugin \
 "
