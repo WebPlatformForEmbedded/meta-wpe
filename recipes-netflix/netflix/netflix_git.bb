@@ -18,7 +18,7 @@ inherit cmake pkgconfig pythonnative
 
 NETFLIX_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework', 'rpi', d)}"
 
-PACKAGECONFIG ?= "playready provisioning ${NETFLIX_BACKEND}"
+PACKAGECONFIG ?= "playready provisioning ${NETFLIX_BACKEND} virtualinput"
 
 PACKAGECONFIG[default]          = "-DGIBBON_GRAPHICS=null \
                                    -DGIBBON_PLATFORM=posix \
