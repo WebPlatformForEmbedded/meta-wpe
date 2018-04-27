@@ -21,7 +21,7 @@ CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 #CCACHE_DISABLE = "False"
 #OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
 
-SRCREV ?= "7fd5750e06bebef6566e9bc6d199767e12f5cf02"
+SRCREV ?= "7090eed5e53bcd5d85582847d709914019872907"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
