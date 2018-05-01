@@ -4,7 +4,7 @@ DEPENDS += " libprovision"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginProvisioning.git;protocol=ssh;branch=master \
            file://0002-cmake-Remove-redundant-include.patch"
-SRCREV = "105a9444e2ebbee6ae82e61af858242c97a0c4d3"
+SRCREV = "2fb370f62ba3d4cdb6b7728ac3148eac614b9e93"
 
 require wpeframework-plugins.inc
 
