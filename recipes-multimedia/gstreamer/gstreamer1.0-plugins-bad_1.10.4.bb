@@ -16,6 +16,7 @@ SRC_URI += " \
     file://0007-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch \
     file://0008-mssdemux-Fix-fragment-parsing-issue-during-video-rep.patch \
     file://0009-Fix-HLS-live-stream-issues-with-http-cdn.metrologica.patch \
+    file://0010-mpegdash-live-seek-timestamp-fix.patch \
 "
 
 SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
