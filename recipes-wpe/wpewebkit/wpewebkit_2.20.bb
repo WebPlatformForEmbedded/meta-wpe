@@ -14,17 +14,14 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-PV = "20170728+git${SRCPV}"
+PV = "2.20+git${SRCPV}"
 
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "c6f57338384c9c5c73c754d8c03c9f960ca9c288"
+SRCREV ?= "a76b65577f49895cb5f60ea881d7531cfc277176"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
-SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
-SRC_URI += "file://0001-Fix-build-with-musl.patch"
-SRC_URI += "file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
 
 S = "${WORKDIR}/git"
 
