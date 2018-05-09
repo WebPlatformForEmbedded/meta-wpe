@@ -165,10 +165,12 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-autodetect \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
+    gstreamer1.0-plugins-good-icydemux \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-matroska \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-hls \
+    gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-opusparse \
     gstreamer1.0-plugins-bad-smoothstreaming \
@@ -178,7 +180,6 @@ RDEPS_EXTRA = " \
 
 RDEPS_EXTRA_append_rpi = " \
     gstreamer1.0-omx \
-    gstreamer1.0-plugins-bad-faad \
     gstreamer1.0-plugins-bad-opengl \
 "
 
