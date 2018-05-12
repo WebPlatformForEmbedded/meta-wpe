@@ -29,7 +29,7 @@ WPEFRAMEWORK_REMOTECONTROL_KEYMAP = "OSMCKeyMap.json"
 WPEFRAMEWORK_PLUGIN_WEBSERVER_PORT ?= "8080"
 WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
-WPE_WIFI ?= "${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'wifi', '', d)}"
+WPE_WIFI ?= "${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)}"
 
 # Snapshot only works on BRCM STBs and RPIs
 WPE_SNAPSHOT ?= ""
