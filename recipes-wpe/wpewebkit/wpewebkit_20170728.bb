@@ -165,6 +165,7 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-autodetect \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
+    gstreamer1.0-plugins-good-id3demux \
     gstreamer1.0-plugins-good-icydemux \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-matroska \
