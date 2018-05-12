@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 require wpeframework-plugins.inc
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkUI.git;protocol=ssh;branch=master"
-SRCREV = "35a96c218ef5d08081a1919f7a8d35044abd8df3"
+SRCREV = "c32f3414c79e87d7fa523c57e5f65e2a6e8a3665"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
