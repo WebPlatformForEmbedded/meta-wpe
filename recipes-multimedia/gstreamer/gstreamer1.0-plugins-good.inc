@@ -10,7 +10,7 @@ PACKAGECONFIG ??= " \
     ${GSTREAMER_ORC} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-    cairo flac gdk-pixbuf gudev jpeg icydemux libpng matroska soup speex taglib v4l2 \
+    cairo flac gdk-pixbuf gudev jpeg id3demux icydemux libpng matroska soup speex taglib v4l2 \
 "
 
 X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
@@ -20,6 +20,7 @@ PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc
 PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
 PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
 PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+PACKAGECONFIG[id3demux]   = "--enable-id3demux,--disable-id3demux,"
 PACKAGECONFIG[icydemux]   = "--enable-icydemux,--disable-icydemux,"
 PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
 PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
