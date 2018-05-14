@@ -10,7 +10,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;p
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
 
-SRCREV = "e277fac6bc5c6eee836b6d621d4e48e9e37b6082"
+SRCREV = "c3a53fc6324246288f5cf074a67cf6c01a365201"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
