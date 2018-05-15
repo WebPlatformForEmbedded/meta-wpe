@@ -1,0 +1,29 @@
+From bb9807311a8e5c68406230167340c8bf0087682f Mon Sep 17 00:00:00 2001
+From: Jan Schmidt <jan@centricular.com>
+Date: Fri, 13 Jan 2017 23:10:52 +1100
+Subject: [PATCH 1/5] adaptivedemux: Fix bitrate printed in debug
+
+The download bitrate is already in bits per second,
+no need to multiply it by 8 again when printing it
+for debug.
+---
+ gst-libs/gst/adaptivedemux/gstadaptivedemux.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/gst-libs/gst/adaptivedemux/gstadaptivedemux.c b/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
+index b485b0095..b3e354e6f 100644
+--- a/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
++++ b/gst-libs/gst/adaptivedemux/gstadaptivedemux.c
+@@ -1914,8 +1914,7 @@ gst_adaptive_demux_stream_update_current_bitrate (GstAdaptiveDemux * demux,
+ 
+   stream->current_download_rate *= demux->bitrate_limit;
+   GST_DEBUG_OBJECT (demux, "Bitrate after bitrate limit (%0.2f): %"
+-      G_GUINT64_FORMAT, demux->bitrate_limit,
+-      stream->current_download_rate * 8);
++      G_GUINT64_FORMAT, demux->bitrate_limit, stream->current_download_rate);
+ 
+ #if 0
+   /* Debugging code, modulate the bitrate every few fragments */
+-- 
+2.17.0
+
