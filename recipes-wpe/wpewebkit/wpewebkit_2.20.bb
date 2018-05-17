@@ -19,7 +19,7 @@ PV = "2.20+git${SRCPV}"
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "a76b65577f49895cb5f60ea881d7531cfc277176"
+SRCREV ?= "7059b7c7b09c9ab21d7aff5e196835d1b671c52e"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 
@@ -163,19 +163,19 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-matroska \
+    gstreamer1.0-plugins-good-mpg123 \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-hls \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-opusparse \
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
-    gstreamer1.0-plugins-ugly-mpg123 \
 "
 
 RDEPS_EXTRA_append_rpi = " \
     gstreamer1.0-omx \
     gstreamer1.0-plugins-bad-faad \
-    gstreamer1.0-plugins-bad-opengl \
+    gstreamer1.0-plugins-base-opengl \
 "
 
 # The RDEPS_EXTRA plugins are all required for certain media playback use cases,
