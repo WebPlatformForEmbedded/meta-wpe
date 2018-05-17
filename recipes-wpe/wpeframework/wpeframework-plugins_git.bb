@@ -5,7 +5,7 @@ PR = "r1"
 
 require wpeframework-plugins.inc
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins-legacy.git;protocol=ssh;branch=master \
+SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
           file://index.html \
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
@@ -129,6 +129,6 @@ do_install_append() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
-FILES_${PN}-dbg += "${datadir}/WPEFramework/WebKitBrowser/.debug/libWPEInjectedBundle.so"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
+INSANE_SKIP_${PN}-dbg += "libdir"
