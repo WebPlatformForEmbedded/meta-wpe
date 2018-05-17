@@ -10,7 +10,7 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;p
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
 
-SRCREV = "e277fac6bc5c6eee836b6d621d4e48e9e37b6082"
+SRCREV = "088d4b356b56a0b207df09c2150f50e73d527069"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -129,6 +129,6 @@ do_install_append() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
-FILES_${PN}-dbg += "${datadir}/WPEFramework/WebKitBrowser/.debug/libWPEInjectedBundle.so"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
+INSANE_SKIP_${PN}-dbg += "libdir"
