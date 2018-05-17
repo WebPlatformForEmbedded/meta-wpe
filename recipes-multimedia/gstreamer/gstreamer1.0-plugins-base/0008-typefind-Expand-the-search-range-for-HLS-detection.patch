@@ -1,0 +1,45 @@
+From 4e4354442e194d29552532ab4d74b929d8b49c25 Mon Sep 17 00:00:00 2001
+From: Jan Schmidt <jan@centricular.com>
+Date: Mon, 27 Mar 2017 00:26:53 +1100
+Subject: [PATCH] typefind: Expand the search range for HLS detection
+
+HLS files can have arbitrary extra tags in them, and
+those can be quite long lines. We need to search
+further than 256 bytes sometimes just to get past the
+first few lines of the file. Make the limit 4KB,
+which matches a typical input block size and should
+hopefully cover every crazy input.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=780559
+---
+ gst/typefind/gsttypefindfunctions.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/gst/typefind/gsttypefindfunctions.c b/gst/typefind/gsttypefindfunctions.c
+index eb8d2d20a..ca3e0a5e3 100644
+--- a/gst/typefind/gsttypefindfunctions.c
++++ b/gst/typefind/gsttypefindfunctions.c
+@@ -433,7 +433,8 @@ hls_type_find (GstTypeFind * tf, gpointer unused)
+ {
+   DataScanCtx c = { 0, NULL, 0 };
+ 
+-  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 7)))
++  /* Minimum useful size is #EXTM3U\n + 1 tag + ':' = 30 bytes */
++  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 30)))
+     return;
+ 
+   if (memcmp (c.data, "#EXTM3U", 7))
+@@ -441,8 +442,8 @@ hls_type_find (GstTypeFind * tf, gpointer unused)
+ 
+   data_scan_ctx_advance (tf, &c, 7);
+ 
+-  /* Check only the first 256 bytes */
+-  while (c.offset < 256) {
++  /* Check only the first 4KB */
++  while (c.offset < 4096) {
+     if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 21)))
+       return;
+ 
+-- 
+2.17.0
+
