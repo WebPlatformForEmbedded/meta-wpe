@@ -5,7 +5,7 @@ PR = "r1"
 
 require wpeframework-plugins.inc
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
+SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins-legacy.git;protocol=ssh;branch=master \
           file://index.html \
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
