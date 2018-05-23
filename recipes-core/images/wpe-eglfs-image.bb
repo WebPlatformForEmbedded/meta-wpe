@@ -17,6 +17,4 @@ IMAGE_FEATURES += "hwcodecs \
                    splash \
 "
 
-IMAGE_INSTALL += "kernel-modules \
-                  packagegroup-wpe \
-"
+IMAGE_INSTALL += "kernel-modules"
