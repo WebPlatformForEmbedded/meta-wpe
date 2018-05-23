@@ -1,3 +1,6 @@
 IMAGE_INSTALL_append = "\
-   packagegroup-wpe \
+   packagegroup-wpewebkit \
+   packagegroup-wpeframework \
 "
+
+IMAGE_INSTALL_rpi += "wpebackend-rdk"
