@@ -10,13 +10,13 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;p
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
 
-SRCREV = "a552326f384308effc6fc9fe16cf035bd6947014"
+SRCREV = "f7380ac7ba79623756ea4dccbd2b5d06943ebc71"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
 WEBKITBROWSER_MEMORYPRESSURE ?= "databaseprocess:50m,networkprocess:100m,webprocess:300m,rpcprocess:50m"
 WEBKITBROWSER_MEMORYPROFILE ?= "128m"
-WEBKITBROWSER_STARTURL ?= "http://localhost:8080/index.html"
+WEBKITBROWSER_STARTURL ?= "file:///var/www/index.html"
 WEBKITBROWSER_USERAGENT ?= "Mozilla/5.0 (Macintosh, Intel Mac OS X 10_11_4) AppleWebKit/602.1.28+ (KHTML, like Gecko) Version/9.1 Safari/601.5.17"
 WEBKITBROWSER_DISKCACHE ?= "0"
 WEBKITBROWSER_XHRCACHE ?= "false"
@@ -131,3 +131,4 @@ FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/libwaylandeglclient.so ${datadir}/WPEFramework/* /var/www/index.html"
 
 INSANE_SKIP_${PN} += "libdir staticdev"
+INSANE_SKIP_${PN}-dbg += "libdir"
