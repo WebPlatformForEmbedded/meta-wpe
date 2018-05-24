@@ -12,7 +12,7 @@ DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=ssh;branch=master \
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
@@ -25,7 +25,9 @@ inherit cmake pkgconfig systemd update-rc.d
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 
-PACKAGECONFIG ?= "opencdm provisionproxy virtualinput"
+WPEFRAMEWORK_OCDM_PKG = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeopencdm', 'opencdm provisionproxy', '', d)}"
+
+PACKAGECONFIG ?= "virtualinput ${WPEFRAMEWORK_OCDM_PKG}"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
