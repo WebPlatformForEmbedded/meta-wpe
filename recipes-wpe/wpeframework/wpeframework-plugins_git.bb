@@ -5,7 +5,7 @@ PR = "r1"
 
 require wpeframework-plugins.inc
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=ssh;branch=master \
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
           file://index.html \
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
@@ -51,12 +51,11 @@ WPE_FRAMEWORK ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE
 
 # OpenCDM switches
 # opencdmi_ck = clearkey, opencdmi_pr = playready, opencdmi_wv = widevine
-WPEFRAMEWORK_OCDM_PKG = "opencdmi opencdmi_ck opencdmi_pr"
+WPEFRAMEWORK_OCDM_PKG = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeopencdm', 'opencdmi opencdmi_ck opencdmi_pr', '', d)}"
 
 # PACAKAGE CONFIG
 PACKAGECONFIG ?= "deviceinfo monitor ${WPEFRAMEWORK_OCDM_PKG} remote remote-uinput ${WPE_SNAPSHOT} tracing ux virtualinput webkitbrowser webserver ${WPE_FRAMEWORK} youtube"
 
-PACKAGECONFIG[commander]      = "-DWPEFRAMEWORK_PLUGIN_COMMANDER=ON,-DWPEFRAMEWORK_PLUGIN_COMMANDER=OFF,"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
 PACKAGECONFIG[deviceinfo]     = "-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=ON,-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[locationsync]   = "-DWPEFRAMEWORK_PLUGIN_LOCATIONSYNC=ON \
@@ -106,7 +105,7 @@ PACKAGECONFIG[webserver]      = "-DWPEFRAMEWORK_PLUGIN_WEBSERVER=ON \
     ,-DWPEFRAMEWORK_PLUGIN_WEBSERVER=OFF,"
 PACKAGECONFIG[webshell]       = "-DWPEFRAMEWORK_PLUGIN_WEBSHELL=ON,-DWPEFRAMEWORK_PLUGIN_WEBSHELL=OFF,"
 PACKAGECONFIG[wifi]           = "-DWPEFRAMEWORK_PLUGIN_WIFICONTROL=ON,-DWPEFRAMEWORK_PLUGIN_WIFICONTROL=OFF,,wpa-supplicant"
-PACKAGECONFIG[youtube]        = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=ON, -DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=OFF,,wpeframework-dialserver"
+PACKAGECONFIG[youtube]        = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=ON, -DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER_YOUTUBE=OFF,,"
 
 
 EXTRA_OECMAKE += " \
