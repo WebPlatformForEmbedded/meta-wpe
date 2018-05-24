@@ -19,7 +19,7 @@ WPE_BACKEND_x86 = "intelce"
 WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
 WPE_BACKEND ?= "rpi"
 
-PACKAGECONFIG ?= "${WPE_BACKEND}"
+PACKAGECONFIG ?= "virtualinput ${WPE_BACKEND}"
 
 # device specific backends
 PACKAGECONFIG[intelce]          = "-DUSE_BACKEND_INTEL_CE=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,intelce-display"
