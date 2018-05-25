@@ -1,0 +1,28 @@
+From b6689c16d5a13d3f9886dc031c89233a7c69c500 Mon Sep 17 00:00:00 2001
+From: Nael Ouedraogo <nael.ouedraogo@crf.canon.fr>
+Date: Fri, 22 Sep 2017 18:41:52 +0200
+Subject: [PATCH 5/5] qtdemux: fix assert when moof contains one sample
+
+Avoid computing frame rate when a stream contain moof with only one
+sample, to avoid an assert. The moof is considered as still picture.
+---
+ gst/isomp4/qtdemux.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
+index c11952c..4aa2661 100644
+--- a/gst/isomp4/qtdemux.c
++++ b/gst/isomp4/qtdemux.c
+@@ -7923,7 +7923,8 @@ gst_qtdemux_configure_stream (GstQTDemux * qtdemux, QtDemuxStream * stream)
+      * qt does not have a fixed framerate. */
+     gboolean fps_available = TRUE;
+ 
+-    if ((stream->n_samples == 1) && (stream->first_duration == 0)) {
++    if ((stream->n_samples == 1 && stream->first_duration == 0)
++        || (qtdemux->fragmented && stream->n_samples_moof == 1)) {
+       /* still frame */
+       CUR_STREAM (stream)->fps_n = 0;
+       CUR_STREAM (stream)->fps_d = 1;
+-- 
+1.8.3.2
+
