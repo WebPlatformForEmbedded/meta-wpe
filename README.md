@@ -3,7 +3,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=55UJZHTXW8VTE)
 
 `meta-wpe` is a meta layer for [OpenEmbedded / Yocto](https://www.yoctoproject.org/) build environments.
-It provides the necessary recipes to build the [WebPlatformforEmbedded](https://www.igalia.com/wpe/) components including the WPE [WebKit](https://webkit.org/) browser.
+It provides the necessary recipes to build the [WebPlatformforEmbedded](https://wpewebkit.org/) components including the WPE [WebKit](https://webkit.org/) browser.
 
 ## Quick Links
 
@@ -34,11 +34,11 @@ Check the documentation for more information on specific devices.
 2. Add this layer to `conf/bblayers.conf` and the dependencies above.
 3. Set `MACHINE` in `conf/local.conf` to one of the supported boards.
 4. Customise `conf/local.conf` according to your specific board and needs.
-5. Build a Westeros-based image: `bitbake wpe-westeros-image`.
+5. Build a Westeros-based image: `bitbake wpe-westeros-image` or build a EGLFS image: `bitbake wpe-eglfs-image`.
 6. Copy the generated image file (in `tmp/deploy/images`) to an SD card.
 7. Boot your board.
 
-Please visit the documentation for detailed instructions, including tutorials and HowTo's for different devices.
+Please visit the [documentation](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki) for detailed instructions, including tutorials and HowTo's for different devices.
 
 ## License
 
