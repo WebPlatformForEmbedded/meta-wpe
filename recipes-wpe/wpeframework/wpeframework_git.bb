@@ -25,9 +25,7 @@ inherit cmake pkgconfig systemd update-rc.d
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 
-WPEFRAMEWORK_OCDM_PKG = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeopencdm', 'opencdm provisionproxy', '', d)}"
-
-PACKAGECONFIG ?= "virtualinput ${WPEFRAMEWORK_OCDM_PKG}"
+PACKAGECONFIG ?= "virtualinput"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
