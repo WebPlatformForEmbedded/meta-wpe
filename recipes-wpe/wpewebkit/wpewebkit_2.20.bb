@@ -19,7 +19,7 @@ PV = "2.20+git${SRCPV}"
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "7059b7c7b09c9ab21d7aff5e196835d1b671c52e"
+SRCREV ?= "498ecbc8753e66b98c3f130648ca529102e697ad"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 
