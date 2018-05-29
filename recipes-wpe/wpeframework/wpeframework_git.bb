@@ -25,9 +25,7 @@ inherit cmake pkgconfig systemd update-rc.d
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 
-WPEFRAMEWORK_OCDM_PKG = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeopencdm', 'opencdm provisionproxy', '', d)}"
-
-PACKAGECONFIG ?= "virtualinput ${WPEFRAMEWORK_OCDM_PKG}"
+PACKAGECONFIG ?= "virtualinput"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
@@ -44,9 +42,9 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 # Internet event is provided by the LocationSync plugin
 
 # Only enable certain events if wpeframework is in distro features
-WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Internet Location Time', '', d)}"
+WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Network', '', d)}"
 
-WPEFRAMEWORK_EXTERN_EVENTS ?= " \
+WPEFRAMEWORK_EXTERN_EVENTS ?= "Location Time Internet \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \

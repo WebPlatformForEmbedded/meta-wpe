@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
 
-SRCREV = "f7380ac7ba79623756ea4dccbd2b5d06943ebc71"
+SRCREV = "06798236f6b6cf8f105dc28803dd6de80f270961"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -47,14 +47,10 @@ WPE_COMPOSITOR_IMPL_nexus = "Nexus"
 WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
 # if wpeframework is in distro features, take control over certain system specific features such as network, timesync and compositing
-WPE_FRAMEWORK ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} locationsync network timesync ${WPE_WIFI}', '', d)}"
-
-# OpenCDM switches
-# opencdmi_ck = clearkey, opencdmi_pr = playready, opencdmi_wv = widevine
-WPEFRAMEWORK_OCDM_PKG = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeopencdm', 'opencdmi opencdmi_ck opencdmi_pr', '', d)}"
+WPE_FRAMEWORK ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} network ${WPE_WIFI}', '', d)}"
 
 # PACAKAGE CONFIG
-PACKAGECONFIG ?= "deviceinfo monitor ${WPEFRAMEWORK_OCDM_PKG} remote remote-uinput ${WPE_SNAPSHOT} tracing ux virtualinput webkitbrowser webserver ${WPE_FRAMEWORK} youtube"
+PACKAGECONFIG ?= "deviceinfo locationsync monitor remote remote-uinput ${WPE_SNAPSHOT} timesync tracing ux virtualinput webkitbrowser webserver ${WPE_FRAMEWORK} youtube"
 
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
 PACKAGECONFIG[deviceinfo]     = "-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=ON,-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=OFF,"

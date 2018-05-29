@@ -19,7 +19,7 @@ PV = "2.20+git${SRCPV}"
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "7059b7c7b09c9ab21d7aff5e196835d1b671c52e"
+SRCREV ?= "498ecbc8753e66b98c3f130648ca529102e697ad"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 
@@ -32,9 +32,7 @@ WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 
 WPE_PLATFORM_x86 ?= "intelce"
 WPE_PLATFORM ?= "egl"
 
-WPE_DRM ?= ""
-
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} ${WPE_DRM}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM}"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
