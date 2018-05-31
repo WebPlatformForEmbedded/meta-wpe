@@ -1,7 +1,7 @@
 [Unit]
 Description=wpeframework
-Wants=network-online.target
-After=network-online.target @EXTRA_AFTER@
+Wants=multi-user.target
+After=multi-user.target @EXTRA_AFTER@
 
 [Service]
 PIDFile=/var/run/WPEFramework.pid
