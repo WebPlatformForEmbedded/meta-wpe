@@ -21,11 +21,11 @@ CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 #CCACHE_DISABLE = "False"
 #OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
 
-SRCREV ?= "46e07d52d8ec235cf113fa01198cb1240d2ac2b3"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
-SRC_URI = "${BASE_URI}"
-SRC_URI += "file://0001-Fix-build-with-musl.patch"
-SRC_URI += "file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
+SRCREV ?= "703a4a1d162226bc3916d8c3a9b36dc72056b48a"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728 \
+           file://0001-Fix-build-with-musl.patch \
+           file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
+           "
 
 S = "${WORKDIR}/git"
 
@@ -62,6 +62,7 @@ PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
 PACKAGECONFIG[mediastream] = "-DENABLE_MEDIA_STREAM=ON,-DENABLE_MEDIA_STREAM=OFF,openwebrtc"
 PACKAGECONFIG[mediastatistics] = "-DENABLE_MEDIA_STATISTICS=ON,-DENABLE_MEDIA_STATISTICS=OFF,"
+PACKAGECONFIG[nativeaudio] = "-DENABLE_NATIVE_AUDIO=ON,-DENABLE_NATIVE_AUDIO=OFF,"
 PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
