@@ -18,8 +18,6 @@ PV = "20170728+git${SRCPV}"
 
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
-#CCACHE_DISABLE = "False"
-#OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
 
 SRCREV ?= "703a4a1d162226bc3916d8c3a9b36dc72056b48a"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728 \
@@ -98,7 +96,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
 }
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
@@ -116,11 +114,13 @@ do_install() {
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPEStorageProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEWebDriver ${D}${bindir}/
 
     # Hack: Remove RPATHs embedded in apps
     chrpath --delete ${D}${bindir}/WPEWebProcess
     chrpath --delete ${D}${bindir}/WPENetworkProcess
     chrpath --delete ${D}${bindir}/WPEStorageProcess
+    chrpath --delete ${D}${bindir}/WPEWebDriver
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
