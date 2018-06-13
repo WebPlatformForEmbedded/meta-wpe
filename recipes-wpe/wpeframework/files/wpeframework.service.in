@@ -10,6 +10,7 @@ Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="XDG_RUNTIME_DIR=/run"
 ExecStart=-/usr/bin/WPEFramework -b
 ExecStop=/bin/kill $MAINPID
+ExecPre="mkdir -p /home/root/Netflix/dpi; ln -sfn /etc/playready /home/root/Netflix/dpi/playready"
 
 [Install]
 WantedBy=multi-user.target
