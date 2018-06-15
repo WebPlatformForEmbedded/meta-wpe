@@ -94,7 +94,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
 }
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
@@ -112,11 +112,13 @@ do_install() {
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPEStorageProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEWebDriver ${D}${bindir}/
 
     # Hack: Remove RPATHs embedded in apps
     chrpath --delete ${D}${bindir}/WPEWebProcess
     chrpath --delete ${D}${bindir}/WPENetworkProcess
     chrpath --delete ${D}${bindir}/WPEStorageProcess
+    chrpath --delete ${D}${bindir}/WPEWebDriver
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
