@@ -24,7 +24,6 @@ CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 SRCREV ?= "46e07d52d8ec235cf113fa01198cb1240d2ac2b3"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI = "${BASE_URI}"
-SRC_URI += "file://0001-mse-Print-MediaTime-consistently-using-s.patch"
 SRC_URI += "file://0001-Fix-build-with-musl.patch"
 SRC_URI += "file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
 
