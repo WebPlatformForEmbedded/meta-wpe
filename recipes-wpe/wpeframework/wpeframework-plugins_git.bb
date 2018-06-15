@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
 "
 
-SRCREV = "ca8f33892ccf85c0b8d6d469a2b7cfec7cabd532"
+SRCREV = "3533cd0d2e8fdc080bd55e366c31590dfc385659"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -29,11 +29,10 @@ WPEFRAMEWORK_REMOTECONTROL_KEYMAP = "OSMCKeyMap.json"
 WPEFRAMEWORK_PLUGIN_WEBSERVER_PORT ?= "8080"
 WPEFRAMEWORK_PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
-WPE_WIFI ?= "${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'wifi', '', d)}"
-
 # Snapshot only works on BRCM STBs and RPIs
 WPE_SNAPSHOT ?= ""
 WPE_SNAPSHOT_rpi = "snapshot"
+WPE_SNAPSHOT_nexus = "snapshot"
 WPE_SNAPSHOT_DEP = "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'broadcom-refsw', 'userland', d)}"
 
 ## Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
@@ -46,11 +45,14 @@ WPE_COMPOSITOR_nexus = "compositor"
 WPE_COMPOSITOR_IMPL_nexus = "Nexus"
 WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 
-# if wpeframework is in distro features, take control over certain system specific features such as network, timesync and compositing
-WPE_FRAMEWORK ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} network ${WPE_WIFI}', '', d)}"
-
 # PACAKAGE CONFIG
-PACKAGECONFIG ?= "deviceinfo locationsync monitor remote remote-uinput ${WPE_SNAPSHOT} timesync tracing ux virtualinput webkitbrowser webserver ${WPE_FRAMEWORK} youtube"
+PACKAGECONFIG ?= " \
+    ${WPE_SNAPSHOT} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} network', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
+    deviceinfo locationsync monitor remote remote-uinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
+"
 
 PACKAGECONFIG[bluetooth]      = "-DWPEFRAMEWORK_PLUGIN_BLUETOOTH=ON,-DWPEFRAMEWORK_PLUGIN_BLUETOOTH=OFF,,dbus-glib bluez5"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
@@ -79,6 +81,7 @@ PACKAGECONFIG[remote-nexus]   = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRNEXUS=ON 
                                  -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRMODE=${WPEFRAMEWORK_REMOTECONTROL_IRMODE} \
                                 ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IRNEXUS=OFF,broadcom-refsw"
 PACKAGECONFIG[remote-uinput]  = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=ON,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=OFF,"
+PACKAGECONFIG[remote-gp]      = ",,rf4ce-hal-gp"
 PACKAGECONFIG[snapshot]       = "-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=ON,-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=OFF,${WPE_SNAPSHOT_DEP} libpng"
 PACKAGECONFIG[timesync]       = "-DWPEFRAMEWORK_PLUGIN_TIMESYNC=ON,-DWPEFRAMEWORK_PLUGIN_TIMESYNC=OFF,"
 PACKAGECONFIG[tracing]        = "-DWPEFRAMEWORK_PLUGIN_TRACECONTROL=ON,-DWPEFRAMEWORK_PLUGIN_TRACECONTROL=OFF,"
