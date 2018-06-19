@@ -1,5 +1,4 @@
-
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
 PACKAGECONFIG_remove = "gtk"
 
