@@ -161,19 +161,19 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-matroska \
-    gstreamer1.0-plugins-good-mpg123 \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-hls \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-opusparse \
     gstreamer1.0-plugins-bad-smoothstreaming \
     gstreamer1.0-plugins-bad-videoparsersbad \
+    gstreamer1.0-plugins-ugly-mpg123 \
 "
 
 RDEPS_EXTRA_append_rpi = " \
     gstreamer1.0-omx \
     gstreamer1.0-plugins-bad-faad \
-    gstreamer1.0-plugins-base-opengl \
+    gstreamer1.0-plugins-bad-opengl \
 "
 
 # The RDEPS_EXTRA plugins are all required for certain media playback use cases,
