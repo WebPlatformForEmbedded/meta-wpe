@@ -49,7 +49,6 @@ WPE_COMPOSITOR_DEP_nexus = "broadcom-refsw"
 # PACAKAGE CONFIG
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     deviceinfo locationsync monitor remote remote-uinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
