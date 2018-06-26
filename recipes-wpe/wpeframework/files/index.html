@@ -224,7 +224,7 @@ div#interfaces {
                 reject('Connection lost');
             };
         });
-    }(location.hostname, 'eth0', 'wlan0')).catch(console.error);
+    }('localhost', 'eth0', 'wlan0')).catch(console.error);
 </script>
 </body>
 </html>
