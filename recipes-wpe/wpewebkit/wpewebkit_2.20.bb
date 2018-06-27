@@ -19,7 +19,7 @@ PV = "2.20+git${SRCPV}"
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "498ecbc8753e66b98c3f130648ca529102e697ad"
+SRCREV ?= "d3c3f5df97ff93669877db3f1c5376bfcc16f3e8"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
 SRC_URI = "${BASE_URI}"
 
@@ -58,6 +58,7 @@ PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
 PACKAGECONFIG[mediastream] = "-DENABLE_MEDIA_STREAM=ON,-DENABLE_MEDIA_STREAM=OFF,openwebrtc"
 PACKAGECONFIG[mediastatistics] = "-DENABLE_MEDIA_STATISTICS=ON,-DENABLE_MEDIA_STATISTICS=OFF,"
+PACKAGECONFIG[nativeaudio] = "-DENABLE_NATIVE_AUDIO=ON,-DENABLE_NATIVE_AUDIO=OFF,"
 PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
@@ -93,7 +94,7 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess
+    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
 }
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
@@ -111,11 +112,13 @@ do_install() {
     install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
     install -m755 ${B}/bin/WPEStorageProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEWebDriver ${D}${bindir}/
 
     # Hack: Remove RPATHs embedded in apps
     chrpath --delete ${D}${bindir}/WPEWebProcess
     chrpath --delete ${D}${bindir}/WPENetworkProcess
     chrpath --delete ${D}${bindir}/WPEStorageProcess
+    chrpath --delete ${D}${bindir}/WPEWebDriver
 }
 
 LEAD_SONAME = "libWPEWebKit.so"
