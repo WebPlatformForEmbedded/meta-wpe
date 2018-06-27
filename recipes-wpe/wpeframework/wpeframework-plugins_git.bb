@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-WebKitBrowser-Guard-webautomation-APIs-for-WebKits-t.patch \
            "
 
-SRCREV = "fe8af02502347f0a74806453c0b7dfcd998761c1"
+SRCREV = "009ab5fd66a162b72fdec00fdff6b2cf120de56b"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
