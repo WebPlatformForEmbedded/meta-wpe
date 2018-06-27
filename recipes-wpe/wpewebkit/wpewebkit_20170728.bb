@@ -1,16 +1,16 @@
-SUMMARY = "WPE WebKit port pairs the WebKit engine with the Wayland display protocol, \
+SUMMARY = "WPE WebKit port pairs the WebKit engine with OpenGL-ES (OpenGL for Embedded Systems), \
            allowing embedders to create simple and performant systems based on Web platform technologies. \
            It is designed with hardware acceleration in mind, relying on EGL, the Wayland EGL platform, and OpenGL ES."
-HOMEPAGE = "http://www.webkitforwayland.org/"
+HOMEPAGE = "https://wpewebkit.org/"
 LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 "
-PR = "r1"
+PR = "r2"
 
 DEPENDS += " \
     wpebackend \
-    bison-native ccache-native gperf-native libepoxy libtasn1 libxml2-native ninja-native ruby-native chrpath-replacement-native \
-    cairo freetype glib-2.0 glib-2.0-native gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
-    libpng libsoup-2.4 libwebp libxml2 libxslt \
+    bison-native ccache-native glib-2.0-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
+    cairo freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
+    libepoxy libpng libsoup-2.4 libwebp libxml2 libxslt \
     virtual/egl virtual/libgles2 \
 "
 
@@ -55,8 +55,9 @@ PACKAGECONFIG[deviceorientation] = "-DENABLE_DEVICE_ORIENTATION=ON,-DENABLE_DEVI
 PACKAGECONFIG[encryptedmedia] = "-DENABLE_ENCRYPTED_MEDIA=ON,-DENABLE_ENCRYPTED_MEDIA=OFF,libgcrypt"
 PACKAGECONFIG[fetchapi] = "-DENABLE_FETCH_API=ON,-DENABLE_FETCH_API=OFF,"
 PACKAGECONFIG[fullscreenapi] = "-DENABLE_FULLSCREEN_API=ON,-DENABLE_FULLSCREEN_API=OFF,"
+PACKAGECONFIG[fusion] = "-DUSE_FUSION_API_GSTREAMER=ON,-DUSE_FUSION_API_GSTREAMER=OFF,"
 PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,"
-PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,"
+PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
 PACKAGECONFIG[indexeddb] = "-DENABLE_INDEXED_DATABASE=ON,-DENABLE_INDEXED_DATABASE=OFF,"
 PACKAGECONFIG[logs] = "-DLOG_DISABLED=OFF,-DLOG_DISABLED=ON,"
 PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
@@ -72,6 +73,8 @@ PACKAGECONFIG[touch] = "-DENABLE_TOUCH_EVENTS=ON,,"
 PACKAGECONFIG[udev] = "-DUSE_WPEWEBKIT_INPUT_UDEV=ON,,udev"
 PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
+PACKAGECONFIG[webcrypto] = "-DENABLE_WEB_CRYPTO=ON,-DENABLE_WEB_CRYPTO=OFF,libgcrypt libtasn1"
+PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
 
 # DRM
 PACKAGECONFIG[opencdm] = "-DENABLE_OPENCDM=ON,-DENABLE_OPENCDM=OFF,wpeframework"
@@ -93,37 +96,17 @@ EXTRANATIVEPATH += "chrpath-native"
 # don't build debug
 FULL_OPTIMIZATION_remove = "-g"
 
-# WPEWebProcess crashes when built with ARM mode on RPi
+# JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
 ARM_INSTRUCTION_SET_armv7a = "thumb"
+ARM_INSTRUCTION_SET_armv7r = "thumb"
+ARM_INSTRUCTION_SET_armv7m = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
 }
+
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
-
-do_install() {
-    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit/cmake_install.cmake
-    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/JavaScriptCore/cmake_install.cmake
-
-    install -d ${D}${libdir}
-    cp -av --no-preserve=ownership ${B}/lib/libWPE* ${D}${libdir}/
-    install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
-    # Hack: Remove the RPATH embedded in libWPEWebKit.so
-    chrpath --delete ${D}${libdir}/libWPE*
-
-    install -d ${D}${bindir}
-    install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
-    install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
-    install -m755 ${B}/bin/WPEStorageProcess ${D}${bindir}/
-    install -m755 ${B}/bin/WPEWebDriver ${D}${bindir}/
-
-    # Hack: Remove RPATHs embedded in apps
-    chrpath --delete ${D}${bindir}/WPEWebProcess
-    chrpath --delete ${D}${bindir}/WPENetworkProcess
-    chrpath --delete ${D}${bindir}/WPEStorageProcess
-    chrpath --delete ${D}${bindir}/WPEWebDriver
-}
 
 LEAD_SONAME = "libWPEWebKit.so"
 
@@ -133,7 +116,6 @@ FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 
 PACKAGES =+ "${PN}-platform-plugin"
-
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
