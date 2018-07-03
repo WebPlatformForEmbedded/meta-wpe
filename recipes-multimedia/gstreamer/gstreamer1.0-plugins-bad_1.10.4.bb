@@ -23,6 +23,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
            file://0015-adaptivedemux-Don-t-hold-locks-when-pushing-FLUSH_ST.patch \
            file://0016-dashdemux-Fix-issue-when-manifest-update-sets-slow-s.patch \
            file://0017-adaptivedemux-Fix-startup-SEGMENT-seeking-and-settin.patch \
+           file://0018-mssdemux-parse-protection-data.patch \
            "
 
 SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
