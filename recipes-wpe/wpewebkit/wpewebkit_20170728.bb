@@ -108,6 +108,29 @@ do_compile() {
 
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
+do_install() {
+    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit/cmake_install.cmake
+    DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/JavaScriptCore/cmake_install.cmake
+
+    install -d ${D}${libdir}
+    cp -av --no-preserve=ownership ${B}/lib/libWPE* ${D}${libdir}/
+    install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
+    # Hack: Remove the RPATH embedded in libWPEWebKit.so
+    chrpath --delete ${D}${libdir}/libWPE*
+
+    install -d ${D}${bindir}
+    install -m755 ${B}/bin/WPEWebProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPENetworkProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEStorageProcess ${D}${bindir}/
+    install -m755 ${B}/bin/WPEWebDriver ${D}${bindir}/
+
+    # Hack: Remove RPATHs embedded in apps
+    chrpath --delete ${D}${bindir}/WPEWebProcess
+    chrpath --delete ${D}${bindir}/WPENetworkProcess
+    chrpath --delete ${D}${bindir}/WPEStorageProcess
+    chrpath --delete ${D}${bindir}/WPEWebDriver
+}
+
 LEAD_SONAME = "libWPEWebKit.so"
 
 PACKAGES =+ "${PN}-web-inspector-plugin"
