@@ -1,0 +1,26 @@
+From 0a6df08b2c3088ad437e2b03d8af6cf5f286f494 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Jul 2018 11:04:01 -0700
+Subject: [PATCH 2/2] include GraphicsContext3D.h for DONT_CARE definition
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+index 77588b78c6c..f0dbd51ca9f 100644
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+@@ -42,7 +42,7 @@
+ #include <wtf/text/CString.h>
+ #include <wtf/MathExtras.h>
+ #include <wtf/StringPrintStream.h>
+-
++#include <GraphicsContext3D.h>
+ #include <gst/audio/streamvolume.h>
+ #include <gst/video/gstvideometa.h>
+ 
+-- 
+2.18.0
+
