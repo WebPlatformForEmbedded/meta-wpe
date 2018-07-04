@@ -8,4 +8,4 @@ include recipes-core/images/wpe-image.bb
 
 inherit distro_features_check
 
-REQUIRED_DISTRO_FEATURES = "wayland"
+REQUIRED_DISTRO_FEATURES = "wayland opengl"
