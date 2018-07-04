@@ -5,4 +5,6 @@ include recipes-core/images/wpe-image.bb
 
 inherit distro_features_check
 
-DISTRO_FEATURES_remove = "wayland"
+CONFLICT_DISTRO_FEATURES = "wayland x11"
+
+REQUIRED_DISTRO_FEATURES = "opengl"
