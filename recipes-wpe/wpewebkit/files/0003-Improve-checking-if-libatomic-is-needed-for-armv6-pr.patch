@@ -1,0 +1,53 @@
+From 5ddafade7ecbb47d751c9d2af33c7b68832695a9 Mon Sep 17 00:00:00 2001
+From: Hugo Hromic <hhromic@gmail.com>
+Date: Fri, 6 Jul 2018 23:11:54 +0100
+Subject: [PATCH] Improve checking if libatomic is needed for armv6 processors.
+
+From Khem Raj:
+> This patch is a correct way of detecting feature support for atomics, that does not
+> depend upon architecture but on compiler being able to support it.
+> Different compilers can provide different kind of support e.g. these atomics may not
+> exist on i586 for clang but might for gcc and so on.
+
+Fixes:
+
+UnifiedSource69.cpp:(.text._ZN3JSC25uniqueSecurityOriginTokenEv+0x20): undefined reference to `__atomic_fetch_add_8'
+collect2: error: ld returned 1 exit status
+
+during do_install() for armv6, e.g. raspberrypi0 machine.
+
+Upstream-Status: Pending
+Signed-off-by: Hugo Hromic <hhromic@gmail.com>
+---
+ Source/JavaScriptCore/CMakeLists.txt | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/Source/JavaScriptCore/CMakeLists.txt b/Source/JavaScriptCore/CMakeLists.txt
+index 26e3b5388d7..9a7948393b2 100644
+--- a/Source/JavaScriptCore/CMakeLists.txt
++++ b/Source/JavaScriptCore/CMakeLists.txt
+@@ -116,15 +116,16 @@ set(JavaScriptCore_LIBRARIES
+     ${LLVM_LIBRARIES}
+ )
+ 
+-# Since r228149, on MIPS we need to link with -latomic, because
+-# __atomic_fetch_add_8 is not available as a compiler intrinsic. It is
+-# available on other platforms (including 32-bit Arm), so the link with
+-# libatomic is only neede on MIPS.
+-if (WTF_CPU_MIPS)
+-    list(APPEND JavaScriptCore_LIBRARIES
+-        -latomic
+-    )
++# Check if libatomic is needed in order to use std::atomic, and add
++# it to the list of JavaScriptCore libraries.
++file(WRITE ${CMAKE_BINARY_DIR}/test_atomic.cpp
++    "#include <atomic>\n"
++    "int main() { std::atomic<int64_t> i(0); i++; return 0; }\n")
++try_compile(ATOMIC_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomic.cpp)
++if (NOT ATOMIC_BUILD_SUCCEEDED)
++    list(APPEND JavaScriptCore_LIBRARIES -latomic)
+ endif ()
++file(REMOVE ${CMAKE_BINARY_DIR}/test_atomic.cpp)
+ 
+ set(JavaScriptCore_SCRIPTS_SOURCES_DIR "${JAVASCRIPTCORE_DIR}/Scripts")
+ 
