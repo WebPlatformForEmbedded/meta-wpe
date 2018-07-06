@@ -102,6 +102,9 @@ ARM_INSTRUCTION_SET_armv7r = "thumb"
 ARM_INSTRUCTION_SET_armv7m = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
+# JSC JIT doesn't currently compile on ARMv6, disable it.
+EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF"
+
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
 }
