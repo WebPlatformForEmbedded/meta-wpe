@@ -25,7 +25,8 @@ SRC_URI = "${BASE_URI} \
            file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
            file://0001-Fix-build-with-musl.patch \
            file://0002-include-GraphicsContext3D.h-for-DONT_CARE-definition.patch \
-          "
+           file://0003-Improve-checking-if-libatomic-is-needed-for-armv6-pr.patch \
+           "
 
 S = "${WORKDIR}/git"
 
