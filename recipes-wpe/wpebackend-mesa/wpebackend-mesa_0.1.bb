@@ -1,6 +1,6 @@
 LICENSE = "CLOSED"
 
-DEPENDS += "wpewebkit glib-2.0 libxkbcommon wayland mesa-gl"
+DEPENDS += "wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
 
 SRCREV = "de843e2536f3a445737ce39ab643516a23531d5e"
 
