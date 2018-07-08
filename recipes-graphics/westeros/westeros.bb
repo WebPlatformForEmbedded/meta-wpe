@@ -18,22 +18,15 @@ PACKAGECONFIG[xdgv4] = "--enable-xdgv4=yes"
 PACKAGECONFIG[xdgv5] = "--enable-xdgv5=yes"
 PACKAGECONFIG[x11] = ",,freeglut"
 
-WESTEROS ?= "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "westeros-soc", d)}"
-
 S = "${WORKDIR}/git"
 
-westeros-soc_hikey-32 = "westeros-soc-drm"
-
-westeros-soc_dragonboard-410c-32 = "westeros-soc-drm"
-
-westeros-soc_dragonboard-820c-32 = "westeros-soc-drm"
-
-westeros-soc_poplar-32 = "westeros-soc-drm"
+WESTEROS_BACKEND ?= "westeros-soc-drm"
+WESTEROS_BACKEND_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros-soc-drm", "westeros-soc-rpi", d)}"
 
 DEPENDS += "\
            westeros-simplebuffer \
            westeros-simpleshell \
-           ${WESTEROS} \
+           ${WESTEROS_BACKEND} \
           "
 
 RDEPENDS_${PN} = "xkeyboard-config"

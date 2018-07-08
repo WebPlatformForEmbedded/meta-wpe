@@ -15,12 +15,14 @@ RDEPENDS_packagegroup-westeros = "\
     westeros-simplebuffer \
     westeros-simpleshell \
     westeros-sink \
-    westeros-soc \
+    ${WESTEROS_SOC} \
     ${WESTEROS_RENDERER} \
 "
 
-WESTEROS_RENDERER ?= ""
+WESTEROS_SOC ?= "westeros-soc-drm"
 
-WESTEROS_RENDERER_rpi = "\
-    westeros-render-dispmanx \
-"
+WESTEROS_SOC_rpi = "westeros-soc-drm"
+WESTEROS_SOC_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros-soc-drm", "westeros-soc-rpi", d)}"
+
+WESTEROS_RENDERER ?= ""
+WESTEROS_SOC_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "", "westeros-render-dispmanx", d)}"

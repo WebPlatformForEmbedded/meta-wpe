@@ -5,7 +5,7 @@ LICENSE_LOCATION = "${S}/../LICENSE"
 
 S = "${WORKDIR}/git/drm"
 
-COMPATIBLE_MACHINE = "(hikey-32|dragonboard-410c-32|dragonboard-820c-32|poplar)"
+#COMPATIBLE_MACHINE = "(hikey-32|dragonboard-410c-32|dragonboard-820c-32|poplar)"
 
 DEPENDS = "wayland virtual/egl glib-2.0 libdrm"
 
