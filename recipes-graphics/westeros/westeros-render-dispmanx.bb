@@ -15,6 +15,9 @@ DEBIAN_NOAUTONAME_${PN}-staticdev = "1"
 SECURITY_CFLAGS_remove="-fpie"
 SECURITY_CFLAGS_remove="-pie"
 
+COMPATIBLE_MACHINE ?= "(.*)"
+COMPATIBLE_MACHINE_rpi = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'null', '(.*)', d)}"
+
 AUTOTOOLS_SCRIPT_PATH = "${S}/rpi/westeros-render-dispmanx"
 inherit autotools pkgconfig
 
