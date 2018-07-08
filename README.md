@@ -40,6 +40,50 @@ Check the documentation for more information on specific devices.
 
 Please visit the [documentation](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki) for detailed instructions, including tutorials and HowTo's for different devices.
 
+## Usage
+
+The image will start WPEFramework through the chosen init system, which will in turn start the WPEWebKit Browser and point it to a local index.html. You should see a Hello page with the IP of the device. There is no need to login to the device and start the browser manually.
+
+WPEFramework loads several plugins, including a webserver and the wpewebkit browser. A locally supplied user interface is available to interact with the WPEFramework web services. All interactions with the browser and other plugins are available through web APIs. 
+
+To interact with the browser:
+
+1. Find the IP of the device on the welcome page
+2. Navigate to the IP of the box with a browser to open the control UI
+3. Open the WebKit Browser tab and set a new URL in the input field
+
+All keys that are typed when the control page in focus are forwarded to the device. Alternatively you can also hookup USB remotes/keyboards.
+
+### Change default URL
+
+To make WPEFramework load another URL by default there are two ways:
+
+* Set the startup URL at build time
+* Modify the config on the device after you've build the image
+
+#### Build time
+
+To change the URL at build time, set the following variable in your `local.conf`:
+
+```
+WEBKITBROWSER_STARTURL = "http://www.github.com"
+```
+
+Rebuild your image as explained in the Quick start section. 
+
+
+#### Runtime
+
+Or change the local configuration:
+
+```
+$ vi /etc/WPEFramework/plugins/WebKitBrowser.json
+```
+
+In the JSON file, edit the URL key/value. Save and restart the box or reload WPEFramework through systemctl or sysinit.
+
+To change what WPEFramework loads, such as turn on/off plugins or interact with the service through another way please see [To Be Created](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki)
+
 ## License
 
     Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -59,4 +103,3 @@ Please visit the [documentation](https://github.com/WebPlatformForEmbedded/meta-
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
     THE SOFTWARE.
-
