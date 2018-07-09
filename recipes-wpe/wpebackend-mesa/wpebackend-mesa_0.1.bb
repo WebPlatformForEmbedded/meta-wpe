@@ -4,7 +4,7 @@ DEPENDS += "wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
 
 SRCREV = "de843e2536f3a445737ce39ab643516a23531d5e"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git;protocol=http;branch=master"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git"
 
 S = "${WORKDIR}/git"
 

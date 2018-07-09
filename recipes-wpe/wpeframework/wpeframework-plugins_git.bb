@@ -5,7 +5,7 @@ PR = "r1"
 
 require wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git \
            file://index.html \
            file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
            file://0001-WebKitBrowser-Guard-webautomation-APIs-for-WebKits-t.patch \

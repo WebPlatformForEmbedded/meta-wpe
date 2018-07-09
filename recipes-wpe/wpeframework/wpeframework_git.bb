@@ -12,7 +12,7 @@ DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
