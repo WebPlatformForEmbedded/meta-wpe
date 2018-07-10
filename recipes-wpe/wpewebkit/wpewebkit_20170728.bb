@@ -19,7 +19,7 @@ PV = "20170728+git${SRCPV}"
 # setup ccache-native
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
-SRCREV ?= "03b02e8888ce87af850a76500a0ca38961dd5d20"
+SRCREV ?= "ecab500de9f3f8430ba68d0ac494494c389ea757"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728 \
            file://0001-Fix-build-with-musl.patch \
            file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
