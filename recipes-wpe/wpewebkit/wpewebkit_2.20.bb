@@ -20,7 +20,7 @@ PV = "2.20+git${SRCPV}"
 CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 
 SRCREV ?= "d3c3f5df97ff93669877db3f1c5376bfcc16f3e8"
-BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=master"
+BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git"
 SRC_URI = "${BASE_URI} \
            file://0001-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
            file://0001-Fix-build-with-musl.patch \
