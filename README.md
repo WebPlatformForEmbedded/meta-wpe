@@ -82,7 +82,7 @@ $ vi /etc/WPEFramework/plugins/WebKitBrowser.json
 
 In the JSON file, edit the URL key/value. Save and restart the box or reload WPEFramework through systemctl or sysinit.
 
-To change what WPEFramework loads, such as turn on/off plugins or interact with the service through another way please see [To Be Created](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki)
+To change what WPEFramework loads, such as turn on/off plugins or interact with the service through another way please see the [WPEFramework](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki/WPEFramework) page on our wiki.
 
 ## License
 
