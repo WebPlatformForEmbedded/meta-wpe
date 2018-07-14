@@ -21,7 +21,6 @@ mkdir -p ~/rpi/downloads
 # fix permissions set by buildbot
 echo "Fixing permissions for buildbot"
 umask -S u=rwx,g=rx,o=rx
-chmod -R 755 .
 
 # bootstrap OE
 echo "Initialize OE build Environment"
