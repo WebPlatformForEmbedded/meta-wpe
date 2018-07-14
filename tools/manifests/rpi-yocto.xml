@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <manifest>
-  <remote name="openembedded" fetch="git://git.openembedded.org/" />
+  <remote name="openembedded" fetch="git://github.com/openembedded" />
   <remote name="yocto" fetch="git://git.yoctoproject.org/" />
   <remote name="webplatformforembedded" fetch="git://github.com/webplatformforembedded" />
+  <remote name="raspberrypi" fetch="git://github.com/agherzan" />
   <default remote="openembedded" revision="master" />
 
   <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="morty" />
-  <project name="poky" remote="yocto" path="poky" revision="morty" />
-  <project name="meta-raspberrypi" remote="yocto" path="meta-raspberrypi" revision="morty" />
+  <project name="openembedded-core" remote="openembedded" path="openembedded-core" revision="morty" />
+  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="morty" />
+  <project name="meta-raspberrypi" remote="raspberrypi" path="meta-raspberrypi" revision="morty" />
   <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" revision="morty" />
+
 </manifest>
