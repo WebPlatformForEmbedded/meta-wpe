@@ -5,12 +5,12 @@
   <remote name="yocto" fetch="git://git.yoctoproject.org/" />
   <remote name="webplatformforembedded" fetch="git://github.com/webplatformforembedded" />
   <remote name="96boards" fetch="git://github.com/96boards" />
-  <default remote="openembedded" revision="master" />
+  <default remote="openembedded" revision="sumo" />
 
-  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="master" />
-  <project name="openembedded-core" remote="openembedded" path="openembedded-core" revision="master" />
-  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="master" />
-  <project name="meta-96boards" remote="96boards" path="meta-96boards" revision="master" />
-  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" />
+  <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="sumo" />
+  <project name="openembedded-core" remote="openembedded" path="openembedded-core" revision="sumo" />
+  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="sumo" />
+  <project name="meta-96boards" remote="96boards" path="meta-96boards" revision="sumo" />
+  <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" revision="sumo" />
 
 </manifest>
