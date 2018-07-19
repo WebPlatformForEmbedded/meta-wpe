@@ -12,7 +12,7 @@ rm -rf $DIR
 
 # make sure sstate is there
 echo "Creating sstate directory"
-mkdir -p ~/sstate/rpi
+mkdir -p ~/sstate/rpi/pyro
 
 # make sure sstate is there
 echo "Creating downloads directory"
@@ -29,7 +29,7 @@ export BASH_SOURCE="openembedded-core/oe-init-build-env"
 
 # Symlink the cache
 echo "Setup symlink for sstate"
-ln -s ~/sstate/rpi sstate-cache
+ln -s ~/sstate/rpi/pyro sstate-cache
 echo "Setup symlink for source downloads"
 ln -s ~/rpi/downloads downloads
 
