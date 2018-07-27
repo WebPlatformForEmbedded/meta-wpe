@@ -9,7 +9,7 @@
 
   <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="pyro" />
   <project name="openembedded-core" remote="openembedded" path="openembedded-core" revision="pyro" />
-  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="pyro" />
+  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="1.34" />
   <project name="meta-raspberrypi" remote="raspberrypi" path="meta-raspberrypi" revision="pyro" />
   <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" revision="pyro" />
   
