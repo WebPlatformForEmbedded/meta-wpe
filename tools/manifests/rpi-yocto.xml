@@ -9,7 +9,7 @@
 
   <project name="meta-openembedded" remote="openembedded" path="meta-openembedded" revision="morty" />
   <project name="openembedded-core" remote="openembedded" path="openembedded-core" revision="morty" />
-  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="morty" />
+  <project name="bitbake" remote="openembedded" path="openembedded-core/bitbake" revision="1.32" />
   <project name="meta-raspberrypi" remote="raspberrypi" path="meta-raspberrypi" revision="morty" />
   <project name="meta-wpe" remote="webplatformforembedded" path="meta-wpe" revision="morty" />
 
