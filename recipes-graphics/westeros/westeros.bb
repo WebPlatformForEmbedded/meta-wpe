@@ -30,6 +30,8 @@ westeros-soc_dragonboard-820c-32 = "westeros-soc-drm"
 
 westeros-soc_poplar-32 = "westeros-soc-drm"
 
+westeros-soc_imx8mqevk = "westeros-soc-drm"
+
 DEPENDS += "\
            westeros-simplebuffer \
            westeros-simpleshell \
