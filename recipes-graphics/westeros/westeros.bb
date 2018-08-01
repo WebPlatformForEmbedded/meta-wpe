@@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
 WESTEROS_BACKEND ?= "westeros-soc-drm"
 WESTEROS_BACKEND_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros-soc-drm", "westeros-soc-rpi", d)}"
 
+westeros-soc_imx8mqevk = "westeros-soc-drm"
+
 DEPENDS += "\
            westeros-simplebuffer \
            westeros-simpleshell \
