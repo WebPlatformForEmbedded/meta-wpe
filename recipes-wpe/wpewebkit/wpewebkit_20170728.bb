@@ -21,7 +21,7 @@ CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
 #CCACHE_DISABLE = "False"
 #OECMAKE_CCACHE="-DCMAKE_C_COMPILER_LAUNCHER=${CCACHE} -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}"
 
-SRCREV ?= "9b535ff932fe52ce19775088ffc4b42e9cfa291a"
+SRCREV ?= "a9d380f24c4a7553a5461e62022cad01375d1920"
 BASE_URI ?= "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI = "${BASE_URI}"
 SRC_URI += "file://0001-Fix-build-with-musl.patch"
