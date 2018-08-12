@@ -1,7 +1,8 @@
 LICENSE = "CLOSED"
-DEPENDS += "virtual/egl"
+DEPENDS += "virtual/egl libxkbcommon"
+RDEPENDS_${PN} += "xkeyboard-config"
 
-SRCREV = "8e5b96fadea9d32515ee590417925878dfa49045"
+SRCREV = "6955316a9c885a0325f3d1adab7062ce3a12810b"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git;protocol=http;branch=master"
 
@@ -21,7 +22,7 @@ CFLAGS += " \
 "
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/libWPEBackend.so ${libdir}/pkgconfig/wpe.pc"
+FILES_${PN} += "${libdir}/libWPEBackend-0.1.so ${libdir}/pkgconfig/wpe.pc"
 INSANE_SKIP_${PN} ="dev-so"
 
 RDEPENDS_${PN}_rpi = "wpebackend-rdk"
