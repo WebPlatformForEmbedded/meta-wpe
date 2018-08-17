@@ -1,0 +1,71 @@
+From e5ac088ef1f7e1c29522dbf4c093f390fd33f739 Mon Sep 17 00:00:00 2001
+From: Hugo Hromic <hhromic@gmail.com>
+Date: Fri, 17 Aug 2018 23:06:05 +0100
+Subject: [PATCH] fix refsw include paths
+
+See: <https://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins/commit/cb53b16cc2d9676c4f345d74ccad38e8140cc6fb>
+
+Signed-off-by: Hugo Hromic <hhromic@gmail.com>
+---
+ Compositor/lib/Nexus/Client/Implementation.cpp |  2 +-
+ Compositor/lib/Nexus/Client/Implementation.h   | 12 ++++++------
+ RemoteControl/IRRemote.cpp                     |  8 ++++----
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/Compositor/lib/Nexus/Client/Implementation.cpp b/Compositor/lib/Nexus/Client/Implementation.cpp
+index 1022e27..09149ad 100644
+--- a/Compositor/lib/Nexus/Client/Implementation.cpp
++++ b/Compositor/lib/Nexus/Client/Implementation.cpp
+@@ -10,7 +10,7 @@
+ #define BACKEND_BCM_NEXUS_NXCLIENT 1
+ 
+ #ifdef BACKEND_BCM_NEXUS_NXCLIENT
+-#include <refsw/nxclient.h>
++#include <nxclient.h>
+ #endif
+ 
+ #include <virtualinput/virtualinput.h>
+diff --git a/Compositor/lib/Nexus/Client/Implementation.h b/Compositor/lib/Nexus/Client/Implementation.h
+index 6408bb2..1297ea2 100644
+--- a/Compositor/lib/Nexus/Client/Implementation.h
++++ b/Compositor/lib/Nexus/Client/Implementation.h
+@@ -17,14 +17,14 @@
+ 
+ #include "../../Client/Client.h"
+ 
+-#include <refsw/nexus_config.h>
+-#include <refsw/nexus_platform.h>
+-#include <refsw/nexus_display.h>
+-#include <refsw/nexus_core_utils.h>
+-#include <refsw/default_nexus.h>
++#include <nexus_config.h>
++#include <nexus_platform.h>
++#include <nexus_display.h>
++#include <nexus_core_utils.h>
++#include <default_nexus.h>
+ 
+ #ifdef BACKEND_BCM_NEXUS_NXCLIENT
+-#include <refsw/nxclient.h>
++#include <nxclient.h>
+ #endif
+ 
+ namespace WPEFramework {
+diff --git a/RemoteControl/IRRemote.cpp b/RemoteControl/IRRemote.cpp
+index 4c4ad1a..7a532ee 100644
+--- a/RemoteControl/IRRemote.cpp
++++ b/RemoteControl/IRRemote.cpp
+@@ -3,10 +3,10 @@
+ 
+ #include <linux/uinput.h>
+ #include <interfaces/IKeyHandler.h>
+-#include <refsw/nexus_config.h>
+-#include <refsw/nexus_platform.h>
+-#include <refsw/nxclient.h>
+-#include <refsw/nexus_input_client.h>
++#include <nexus_config.h>
++#include <nexus_platform.h>
++#include <nxclient.h>
++#include <nexus_input_client.h>
+ 
+ extern int getIRHandle();
+ 
