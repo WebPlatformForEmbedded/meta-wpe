@@ -1,6 +1,6 @@
 LICENSE = "Apache-2.0"
 
-PV = "1.0+gitr${SRCPV}"
+PV = "1.0+git${SRCPV}"
 
 SRC_URI = "${WESTEROS_URI}"
 SRCREV = "${WESTEROS_SRCREV}"
