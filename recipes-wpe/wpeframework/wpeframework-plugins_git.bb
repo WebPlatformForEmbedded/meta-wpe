@@ -7,11 +7,11 @@ require wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git \
            file://index.html \
-           file://0003-RemoteControl-Snapshot-Fix-refsw-include-paths.patch \
            file://0001-WebKitBrowser-Guard-webautomation-APIs-for-WebKits-t.patch \
+           file://0002-fix-refsw-include-paths.patch \
            "
 
-SRCREV = "009ab5fd66a162b72fdec00fdff6b2cf120de56b"
+SRCREV = "07e9a360869cb88711246a046edb0a5899f3f241"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
