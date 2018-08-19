@@ -1,0 +1,49 @@
+From bbac7f2909fa9fb13f873aaff1957217d2368383 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Fri, 10 Aug 2018 21:21:27 -0700
+Subject: [PATCH] Define MESA_EGL_NO_X11_HEADERS when not using GLX
+
+GL implementations like mesa, mali use this to exclude
+X11 headers in eglplatform.h
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: wouterlucas <wouter@wouterlucas.com>
+---
+ Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h            | 5 +++++
+ .../WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp  | 4 ++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h b/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h
+index b7a4b0a167c..941f85858b2 100644
+--- a/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h
++++ b/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h
+@@ -25,6 +25,11 @@
+ 
+ #pragma once
+ 
++#if !USE(GLX)
++// This define is used in mesa and other GL implementations to exclude X11 headers.
++#define MESA_EGL_NO_X11_HEADERS 1
++#endif
++
+ #include <epoxy/egl.h>
+ 
+ // Provide the EGL_CAST macro in case the eglplatform.h header doesn't define it already.
+diff --git a/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp b/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp
+index f696a1dcfc2..8efc082384d 100644
+--- a/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp
++++ b/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp
+@@ -28,6 +28,10 @@
+ 
+ #include "WebPage.h"
+ #include <WebCore/PlatformDisplayWPE.h>
++#if !USE(GLX)
++// This define is used in mesa and other GL implementations to exlcude X11 headers.
++#define MESA_EGL_NO_X11_HEADERS 1
++#endif
+ #include <wpe/wpe-egl.h>
+ 
+ using namespace WebCore;
+-- 
+2.17.0
+
