@@ -2,7 +2,7 @@ LICENSE = "CLOSED"
 
 DEPENDS += "wpebackend glib-2.0"
 
-SRCREV = "f55421075d22ee9831bf1fc42184a10473c78f79"
+SRCREV = "d91c273a034b836e2c1442dad659d813a6fe4c24"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master"
 
@@ -19,7 +19,7 @@ WPE_BACKEND_x86 = "intelce"
 WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
 WPE_BACKEND ?= "rpi"
 
-PACKAGECONFIG ?= "${WPE_BACKEND}"
+PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 
 # device specific backends
 PACKAGECONFIG[imx6]             = "-DUSE_BACKEND_VIV_IMX6_EGL=ON,,imx-gpu-viv"
