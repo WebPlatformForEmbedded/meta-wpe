@@ -1,5 +1,5 @@
 LICENSE = "CLOSED"
-DEPENDS += "virtual/egl libxkbcommon"
+DEPENDS += "virtual/egl libxkbcommon xkeyboard-config"
 
 SRCREV = "6955316a9c885a0325f3d1adab7062ce3a12810b"
 
