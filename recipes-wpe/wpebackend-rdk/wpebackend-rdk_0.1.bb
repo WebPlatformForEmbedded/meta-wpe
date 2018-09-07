@@ -1,8 +1,8 @@
 LICENSE = "CLOSED"
 
-DEPENDS += "wpewebkit glib-2.0"
+DEPENDS += "wpebackend glib-2.0"
 
-SRCREV = "91bb2a743a22f6416aa12a1641c7a9c662d5f19b"
+SRCREV = "08a71fcd2e0fe900bf92860a3ec5fd3a95430a25"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master"
 
