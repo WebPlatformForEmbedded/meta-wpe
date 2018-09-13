@@ -1,4 +1,4 @@
-LICENSE = "CLOSED"
+LICENSE = "BSD 2-Clause/3-Clause"
 
 DEPENDS += "wpebackend glib-2.0"
 
