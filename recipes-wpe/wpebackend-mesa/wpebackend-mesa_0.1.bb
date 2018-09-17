@@ -1,10 +1,13 @@
-LICENSE = "BSD 2-Clause/3-Clause"
+SUMMARY = "WPE WebKit MESA backend"
+HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
+SECTION = "wpe"
+LICENSE = "BSD-2-Clause"
+LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
 
 DEPENDS += "wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
 
-SRCREV = "de843e2536f3a445737ce39ab643516a23531d5e"
-
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git"
+SRCREV = "de843e2536f3a445737ce39ab643516a23531d5e"
 
 S = "${WORKDIR}/git"
 
