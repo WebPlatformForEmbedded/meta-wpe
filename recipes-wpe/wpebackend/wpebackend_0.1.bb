@@ -1,9 +1,13 @@
-LICENSE = "CLOSED"
+SUMMARY = "WPE WebKit backend"
+HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
+SECTION = "wpe"
+LICENSE = "BSD-2-Clause"
+LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
+
 DEPENDS += "virtual/egl libxkbcommon"
 
-SRCREV = "6955316a9c885a0325f3d1adab7062ce3a12810b"
-
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git;protocol=http;branch=master"
+SRCREV = "6955316a9c885a0325f3d1adab7062ce3a12810b"
 
 S = "${WORKDIR}/git"
 
