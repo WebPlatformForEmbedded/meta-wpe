@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
 
 DEPENDS += "wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git;protocol=http;branch=master"
-SRCREV = "dd1636139631513ff93c4d92e81639a02754efdc"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git"
+SRCREV = "de843e2536f3a445737ce39ab643516a23531d5e"
 
 S = "${WORKDIR}/git"
 
