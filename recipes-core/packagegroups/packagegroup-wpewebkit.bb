@@ -9,7 +9,7 @@ PACKAGES = "\
 
 RDEPENDS_packagegroup-wpewebkit = "\
     wpewebkit \
-    wpebackend \
+    libwpe \
     wpewebkit-web-inspector-plugin \
 "
 
