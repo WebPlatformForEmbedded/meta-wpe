@@ -1,4 +1,4 @@
-SUMMARY = "WPE WebKit backend"
+SUMMARY = "WPE WebKit backend library"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "BSD-2-Clause"
