@@ -1,0 +1,14 @@
+# Tweak some of the RPI variables
+DISABLE_OVERSCAN="1"
+DISABLE_SPLASH="1"
+BOOT_DELAY="0"
+
+# Overclocking
+ARM_FREQ="1000"
+GPU_FREQ="500"
+OVER_VOLTAGE="6"
+
+# Memory split
+GPU_MEM_256="128"
+GPU_MEM_512="196"
+GPU_MEM_1024="384"
