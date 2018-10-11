@@ -52,7 +52,7 @@ WPE_COMPOSITOR_HARDWARE_READY ?= "0"
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '${WPE_COMPOSITOR} network', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     deviceinfo dictionary locationsync monitor remote remote-devinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
