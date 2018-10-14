@@ -8,6 +8,7 @@ require wpeframework-plugins.inc
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
+           file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch \
            "
 
 SRCREV = "de4815fb8210d917189dea3daf5d7828c0fbd8f2"

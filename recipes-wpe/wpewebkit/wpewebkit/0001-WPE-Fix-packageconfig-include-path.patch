@@ -1,0 +1,22 @@
+From 786e07ae4042c4fabdb5651ac3d95eee913f00a5 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Sat, 13 Oct 2018 21:23:50 -0700
+Subject: [PATCH] [WPE] Fix packageconfig include path.
+
+Headers are written to /usr/include/wpe-0.1/ and not /usr/include/wpe-webkit-0.1/ by the install step. This fixes any component that tries to link to WPEWebKit using  package config
+
+Signed-off-by: wouterlucas <wouter@wouterlucas.com>
+---
+ Source/WebKit/wpe/wpe-webkit.pc.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Source/WebKit/wpe/wpe-webkit.pc.in b/Source/WebKit/wpe/wpe-webkit.pc.in
+index 4c66fdc..55b51e0 100644
+--- a/Source/WebKit/wpe/wpe-webkit.pc.in
++++ b/Source/WebKit/wpe/wpe-webkit.pc.in
+@@ -9,4 +9,4 @@ URL: https://wpewebkit.org
+ Version: @PROJECT_VERSION@
+ Requires: glib-2.0 libsoup-2.4
+ Libs: -L${libdir} -lWPEWebKit-@WPE_API_VERSION@
+-Cflags: -I${includedir}/wpe-webkit-@WPE_API_VERSION@
++Cflags: -I${includedir}/wpe-@WPE_API_VERSION@
