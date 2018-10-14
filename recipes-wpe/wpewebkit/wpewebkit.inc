@@ -1,3 +1,10 @@
+SUMMARY = "WPE WebKit port pairs the WebKit engine with OpenGL-ES (OpenGL for Embedded Systems), \
+           allowing embedders to create simple and performant systems based on Web platform technologies. \
+           It is designed with hardware acceleration in mind, relying on EGL, the Wayland EGL platform, and OpenGL ES."
+HOMEPAGE = "https://wpewebkit.org/"
+LICENSE = "BSD & LGPLv2+"
+LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80"
+
 # WPE WebKit Common
 DEPENDS += " \
     libwpe \
@@ -19,7 +26,7 @@ WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 
 WPE_PLATFORM_x86 ?= "intelce"
 WPE_PLATFORM ?= "egl"
 
-PACKAGECONFIG ?= "2dcanvas deviceorientation fullscreenapi encryptedmedia fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM}"
+PACKAGECONFIG ?= "2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM}"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
@@ -84,13 +91,6 @@ ARM_INSTRUCTION_SET_armv7r = "thumb"
 ARM_INSTRUCTION_SET_armv7m = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
-# JSC JIT doesn't currently compile on ARMv6, disable it.
-EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF"
-
-do_compile() {
-    ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
-}
-
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
 LEAD_SONAME = "libWPEWebKit.so"
@@ -154,7 +154,6 @@ RDEPS_EXTRA_append_rpi = " \
 # but have not yet been classified as being specific dependencies for video,
 # webaudio or mediasource. Until that classification is done, add them all to
 # each of the three groups...
-
 RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
