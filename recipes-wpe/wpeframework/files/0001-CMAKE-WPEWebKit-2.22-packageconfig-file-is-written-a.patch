@@ -1,0 +1,25 @@
+From 40f64b8809a1f66e839a76578aa3e945f2b27a61 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Sat, 13 Oct 2018 21:17:34 -0700
+Subject: [PATCH] [CMAKE] WPEWebKit-2.22 packageconfig file is written as
+ wpe-webkit-0.1.pc and not wpe-webkit.pc. As such add both in the package
+ config check module function so we should find either one of them for
+ backward compatilibity.
+
+Signed-off-by: wouterlucas <wouter@wouterlucas.com>
+---
+ cmake/FindWPEWebKit.cmake | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cmake/FindWPEWebKit.cmake b/cmake/FindWPEWebKit.cmake
+index 4d40b3b..b5a1018 100644
+--- a/cmake/FindWPEWebKit.cmake
++++ b/cmake/FindWPEWebKit.cmake
+@@ -10,6 +10,7 @@
+ 
+ find_package(PkgConfig)
+ pkg_check_modules(PC_WPE_WEBKIT wpe-webkit)
++pkg_check_modules(PC_WPE_WEBKIT wpe-webkit-0.1)
+ 
+ if(PC_WPE_WEBKIT_FOUND)
+     if(WPE_WEBKIT_FIND_VERSION AND PC_WPE_WEBKIT_VERSION)
