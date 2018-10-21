@@ -5,13 +5,14 @@ PR = "r1"
 
 require wpeframework-plugins.inc
 
+# file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch
+
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
-           file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch \
            "
 
-SRCREV = "c7c83bfb9aee121789a10915254b7020d4e683d8"
+SRCREV = "dda75a405e1a255d8e131b247be059cacc75097c"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
