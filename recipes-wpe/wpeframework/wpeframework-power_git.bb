@@ -7,4 +7,4 @@ DEPENDS += " ${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-re
 require wpeframework-plugins.inc
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/WPEPluginPower.git;protocol=ssh;branch=master"
-SRCREV = "ef4dceab3e5fc602c6ade5c497479ba688810de4"
+SRCREV = "23940c8f5104fd2748f9925fcd246ba6a43311fd"
