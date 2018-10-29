@@ -54,6 +54,11 @@ WPE_POWER_GPIOPIN ?= ""
 WPE_POWER_GPIOTYPE ?= ""
 WPE_POWER_DEP = "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'broadcom-refsw', '', d)}"
 
+WPE_POWER_AUTOSTART ?= "true"
+WPE_POWER_GPIOPIN ?= ""
+WPE_POWER_GPIOTYPE ?= ""
+WPE_POWER_DEP = "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'broadcom-refsw', '', d)}"
+
 # PACAKAGE CONFIG
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
