@@ -14,8 +14,8 @@ DEPENDS += " \
     virtual/egl virtual/libgles2 \
 "
 
-# setup ccache-native
-CCACHE = "${STAGING_DIR_NATIVE}${bindir}/ccache "
+# unset CCACHE_DISABLE for this recipe
+CCACHE_DISABLE[unexport] = "1"
 
 S = "${WORKDIR}/git"
 
@@ -80,6 +80,13 @@ EXTRA_OECMAKE += " \
     -DPORT=WPE \
     -G Ninja \
 "
+
+# Enable CCACHE
+EXTRA_OECMAKE += " \
+    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+"
+
 EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
