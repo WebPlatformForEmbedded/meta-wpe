@@ -2,7 +2,7 @@
 # Bootstrapper for buildbot slave
 
 DIR="build"
-MACHINE="raspberrypi2"
+MACHINE="raspberrypi3"
 CONFFILE="conf/auto.conf"
 BITBAKEIMAGE="virtual/kernel"
 
