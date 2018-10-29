@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "d0ef9ad367db13c9e0e5207ee712346ba35d0ada"
+SRCREV = "0fa2b69e521fe55d8f88bb674a7eb0e6c7e8d777"
 
 inherit cmake pkgconfig systemd update-rc.d
 
