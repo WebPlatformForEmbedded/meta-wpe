@@ -10,6 +10,5 @@ PACKAGES = "\
 RDEPENDS_packagegroup-wpeframework = "\
     wpeframework \
     wpeframework-plugins \
-    wpeframework-power \
     wpeframework-ui \
 "
