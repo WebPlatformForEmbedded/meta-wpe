@@ -9,10 +9,11 @@ require wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
+           file://osmc-devinput-remote.json \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
-           "
+"
 
-SRCREV = "dda75a405e1a255d8e131b247be059cacc75097c"
+SRCREV = "fde7e5bd47f33cb37a7163005e2d125ffd02b2b6"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -134,6 +135,11 @@ EXTRA_OECMAKE += " \
     -DBUILD_SHARED_LIBS=ON \
 "
 do_install_append() {
+    if ${@bb.utils.contains("PACKAGECONFIG", "remote-devinput", "true", "false", d)}
+    then
+      cp -av --no-preserve=ownership ${WORKDIR}/osmc-devinput-remote.json ${D}${datadir}/WPEFramework/RemoteControl/devinput-remote.json
+    fi
+
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
       if ${@bb.utils.contains("PACKAGECONFIG", "webkitbrowser", "true", "false", d)}
@@ -149,6 +155,7 @@ do_install_append() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/* /var/www/index.html"
+FILES_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'remote-devinput', '${datadir}/WPEFramework/RemoteControl/devinput-remote.json', '', d)}"
 
 INSANE_SKIP_${PN} += "libdir staticdev dev-so"
 INSANE_SKIP_${PN}-dbg += "libdir"
