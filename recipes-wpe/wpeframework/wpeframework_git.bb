@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
 "
-SRCREV = "d0ef9ad367db13c9e0e5207ee712346ba35d0ada"
+SRCREV = "7280b09744c1b47281023fb8cd1c3d8db6280de7"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -25,13 +25,19 @@ inherit cmake pkgconfig systemd update-rc.d
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 
-PACKAGECONFIG ?= "virtualinput"
+PACKAGECONFIG ?= "opencdm virtualinput websource webkitbrowser"
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWORK_PROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DWPEFRAMEWORK_TEST_LOADER=ON,-DWPEFRAMEWORK_TEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK_VIRTUALINPUT=OFF,"
+
+# FIXME
+# The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
+# it feels a bit the other way around but lets set at least webserver and webkit
+PACKAGECONFIG[websource]       = "-DWPEFRAMEWORK_PLUGIN_WEBSERVER=ON=ON,,"
+PACKAGECONFIG[webkitbrowser]   = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER=ON,,"
 
 # FIXME, determine this a little smarter
 # Provision event is required for libprovision and provision plugin
@@ -40,6 +46,7 @@ PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK
 # Time event is required for timesync plugin
 # Identifier event is required for Compositor plugin
 # Internet event is provided by the LocationSync plugin
+# WebSource event is provided by the WebServer plugin
 
 # Only enable certain events if wpeframework is in distro features
 WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Network', '', d)}"
@@ -48,6 +55,7 @@ WPEFRAMEWORK_EXTERN_EVENTS ?= "Location Time Internet \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
+    ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
 "
 
 EXTRA_OECMAKE += " \
@@ -114,3 +122,7 @@ RRECOMMENDS_${PN} = "${PN}-initscript"
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
+
+# ----------------------------------------------------------------------------
+
+RDEPENDS_${PN}_rpi = "userland"
