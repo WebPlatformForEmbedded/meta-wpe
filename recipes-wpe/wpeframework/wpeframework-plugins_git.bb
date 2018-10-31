@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch \
 "
 
-SRCREV = "fde7e5bd47f33cb37a7163005e2d125ffd02b2b6"
+SRCREV = "2861b3465623386fc2299ab4e3705f8c1cfd51d5"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
