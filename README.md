@@ -15,30 +15,31 @@ It provides the necessary recipes to build the [WebPlatformforEmbedded](https://
 
 This layer depends on:
 
-    URI: git://git.yoctoproject.org/poky
+    URI: git@github.com:YoeDistro/yoe-distro.git
     branch: master
     revision: HEAD
-
-    URI: git://git.openembedded.org/meta-openembedded
-    layers: meta-oe, meta-multimedia, meta-networking, meta-python
-    branch: master
-    revision: HEAD
-
-And any additional BSP layer for your board, e.g. `meta-raspberrypi` or `meta-96boards`.
 
 Check the documentation for more information on specific devices.
 
 ## Quick Start
 
-1. Source `poky/oe-init-build-env wpe-build`.
-2. Add this layer to `conf/bblayers.conf` and the dependencies above.
-3. Set `MACHINE` in `conf/local.conf` to one of the supported boards.
-4. Customise `conf/local.conf` according to your specific board and needs.
-5. Build a Westeros-based image: `bitbake wpe-westeros-image` or build a EGLFS image: `bitbake wpe-eglfs-image`.
-6. Copy the generated image file (in `tmp/deploy/images`) to an SD card.
-7. Boot your board.
+1. `. raspberrypi3-64-envsetup.sh` (OR any other machine with `. ./\<machine\>-envsetup.sh`)
+2. `yoe_setup`
+3. `yoe_add_layer git@github.com:WebPlatformForEmbedded/meta-wpe.git master
+4. Add the following lines to `conf/local.conf` to build an eglfs image:
+    DISTRO_FEATURES_remove_rpi = "x11"
+    DISTRO_FEATURES_remove_rpi = "wayland"
 
-Please visit the [documentation](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki) for detailed instructions, including tutorials and HowTo's for different devices.
+    Note: If you want to build a Wayland based image, don't remove Wayland.
+5. Build an full screen EGL image: `bitbake wpe-eglfs-image`.
+6. Insert SD card
+7. lsblk (note sd card device, and substitute for /dev/sdX below)
+8. yoe_install_image /dev/sdX wpe-eglfs-image
+9. Install SD card in a Raspberry PI and enjoy your new image
+
+Please visit the [documentation](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki) for detailed instructions, including tutorials and HowTo's for different devices for WPE.
+
+For more information on the core Distro please visit [Yoe docs](https://github.com/YoeDistro/yoe-distro/blob/master/docs/README.md)
 
 ## Usage
 
