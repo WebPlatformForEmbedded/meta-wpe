@@ -4,7 +4,7 @@
 DESCRIPTION = "WPE base image"
 LICENSE = "MIT"
 
-include recipes-core/images/core-image-minimal.bb
+require recipes-core/images/core-image-base.bb
 
 require wpe-image.inc
 
