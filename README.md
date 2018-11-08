@@ -16,7 +16,7 @@ It provides the necessary recipes to build the [WebPlatformforEmbedded](https://
 1. `git clone git@github.com:YoeDistro/yoe-distro.git` and `cd yoe-distro`
 2. `. raspberrypi3-envsetup.sh` (OR any other machine with `. ./\<machine\>-envsetup.sh`)
 3. `yoe_setup`
-4. `yoe_add_layer git@github.com:WebPlatformForEmbedded/meta-wpe.git master
+4. `yoe_add_layer git@github.com:WebPlatformForEmbedded/meta-wpe master
 5. Add the following lines to `conf/local.conf` to build an eglfs image:
     DISTRO_FEATURES_remove_rpi = "x11"
     DISTRO_FEATURES_remove_rpi = "wayland"
@@ -27,6 +27,8 @@ It provides the necessary recipes to build the [WebPlatformforEmbedded](https://
 8. lsblk (note sd card device, and substitute for /dev/sdX below)
 9. yoe_install_image /dev/sdX wpe-eglfs-image
 10. Install SD card in a Raspberry PI and enjoy your new image
+
+Note: If you do not want to use docker to build the image, please set `export DOCKER_REPO=none` prior to running the bitbake step.
 
 Please visit the [documentation](https://github.com/WebPlatformForEmbedded/meta-wpe/wiki) for detailed instructions, including tutorials and HowTo's for different devices for WPE.
 
