@@ -20,7 +20,6 @@ umask -S u=rwx,g=rx,o=rx
 # bootstrap OE
 echo "Initialize YoeDistro build Environment"
 
-cd yoe-distro
 export DOCKER_REPO="none"
 export BASH_SOURCE="raspberrypi3-envsetup.sh"
 . $MACHINE-envsetup.sh
