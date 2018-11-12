@@ -18,9 +18,7 @@ do_compile_prepend_rpi () {
 	export WESTEROS_COMPOSITOR_EXTRA_LIBS="-lEGL -lGLESv2 -lbcm_host -lvchostif"
 }
 
-# Hikey 64-bit specific changes
-#
-do_install_append_hikey() {
-    # change /usr/lib to /usr/lib64 in init script
-    sed -i -e "s/usr\/lib\/lib/usr\/lib64\/lib/g" ${D}/${bindir}/westeros-init
+# change hardcoded /usr/lib dir to proper libdir name in init script
+do_install_append() {
+    sed -i -e "s#/usr/lib#${libdir}#g" ${D}/${bindir}/westeros-init
 }
