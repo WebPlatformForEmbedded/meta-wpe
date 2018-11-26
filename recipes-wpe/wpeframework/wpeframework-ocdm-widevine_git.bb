@@ -10,6 +10,6 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Widevine.git;protoco
            file://0001-CMAKE-Find-WPEFramework-though-pkg-config.patch \
 "
 
-SRCREV = "ac3a765bdf96027fcb4ff67b0ca69858eb5dd665"
+SRCREV = "b40da03deb03f464722b1cbd8747da5993a5799c"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
