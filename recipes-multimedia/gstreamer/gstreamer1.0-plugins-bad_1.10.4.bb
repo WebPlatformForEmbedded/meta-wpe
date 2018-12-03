@@ -25,6 +25,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
            file://0017-adaptivedemux-Fix-startup-SEGMENT-seeking-and-settin.patch \
            file://0018-mssdemux-parse-protection-data.patch \
            file://0019-mssdemux-Fix-for-SmoothStreaming-crash.patch \
+           file://0020-mssdemux-support-for-live-content-as-vod.patch \
            "
 
 SRC_URI[md5sum] = "2757103e57a096a1a05b3ab85b8381af"
