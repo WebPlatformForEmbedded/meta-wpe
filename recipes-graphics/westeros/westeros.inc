@@ -4,8 +4,8 @@ PV = "1.0+git${SRCPV}"
 
 SRC_URI = "${WESTEROS_URI}"
 SRCREV = "${WESTEROS_SRCREV}"
-WESTEROS_URI ?= "git://github.com/Metrological/westeros"
-WESTEROS_SRCREV ?= "8ec4db488273a81720934bebe0ab27ab511cc249"
+WESTEROS_URI ?= "git://github.com/rdkcmf/westeros"
+WESTEROS_SRCREV ?= "e7225b5f6066b65b6e50c5d2515b6ae3f7d7a801"
 LICENSE_LOCATION ?= "${S}/LICENSE"
 LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=703f52ef306fb8ef480744cc0da110fe"
 
