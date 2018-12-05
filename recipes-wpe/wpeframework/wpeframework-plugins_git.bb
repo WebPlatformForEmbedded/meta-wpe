@@ -84,7 +84,7 @@ PACKAGECONFIG[opencdmi]       = "-DWPEFRAMEWORK_PLUGIN_OPENCDMI=ON \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_AUTOSTART=true \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_OOP=true \
                                 ,,"
-PACKAGECONFIG[opencdmi_ck]    = "-DPLUGIN_OPENCDMI_CLEARKEY=ON,,"
+PACKAGECONFIG[opencdmi_ck]    = "-DPLUGIN_OPENCDMI_CLEARKEY=ON,,wpeframework-ocdm-clearkey"
 PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,wpeframework-ocdm-playready"
 PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,wpeframework-ocdm-playready-nexus"
 PACKAGECONFIG[opencdmi_vgrdm] = "-DPLUGIN_OPENCDMI_PLAYREADY_VGDRM=ON,,"
