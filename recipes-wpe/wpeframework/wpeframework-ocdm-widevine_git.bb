@@ -6,10 +6,8 @@ require wpeframework-plugins.inc
 
 DEPENDS += " wpeframework-plugins widevine"
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Widevine.git;protocol=ssh;branch=master \
-           file://0001-CMAKE-Find-WPEFramework-though-pkg-config.patch \
-"
+SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Widevine.git;protocol=ssh;branch=master"
 
-SRCREV = "ac3a765bdf96027fcb4ff67b0ca69858eb5dd665"
+SRCREV = "15222ce093962317a8c4798e4682d27ae01ad57a"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
