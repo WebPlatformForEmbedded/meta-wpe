@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
+           file://0002-Compositor-Support-for-splitted-refsw-and-nxclient-i.patch \
            "
 
 SRCREV = "f496482ceee43d74cde4e3142efef9dd437704ad"
