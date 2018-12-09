@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
 DEPENDS += "virtual/egl libxkbcommon"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git"
-SRCREV = "b6753c535b5be0db330001ff13387c91d53b48bc"
+SRCREV = "705103d4d106bc47522d66636fc8327af71e5771"
 
 S = "${WORKDIR}/git"
 
