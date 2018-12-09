@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
+           file://0002-Compositor-Support-for-splitted-refsw-and-nxclient-i.patch \
            "
 
 SRCREV = "f496482ceee43d74cde4e3142efef9dd437704ad"
@@ -84,11 +85,11 @@ PACKAGECONFIG[opencdmi]       = "-DWPEFRAMEWORK_PLUGIN_OPENCDMI=ON \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_AUTOSTART=true \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_OOP=true \
                                 ,,"
-PACKAGECONFIG[opencdmi_ck]    = "-DPLUGIN_OPENCDMI_CLEARKEY=ON,,"
-PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,"
-PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,"
+PACKAGECONFIG[opencdmi_ck]    = "-DPLUGIN_OPENCDMI_CLEARKEY=ON,,wpeframework-ocdm-clearkey"
+PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,wpeframework-ocdm-playready"
+PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,wpeframework-ocdm-playready-nexus"
 PACKAGECONFIG[opencdmi_vgrdm] = "-DPLUGIN_OPENCDMI_PLAYREADY_VGDRM=ON,,"
-PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,"
+PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,wpeframework-ocdm-widevine"
 PACKAGECONFIG[remote]         = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=ON \
 				 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_POSTLOOKUP_CALLSIGN=${REMOTECONTROL_POSTLOOKUP_CALLSIGN} \
 				 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_POSTLOOKUP_MAPFILE=${REMOTECONTROL_POSTLOOKUP_MAPFILE} \
