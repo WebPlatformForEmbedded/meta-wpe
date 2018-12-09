@@ -5,7 +5,6 @@ SUMMARY = "This receipe compiles the westeros compositor component"
 SRC_URI += "file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
             file://0002-Set-exports-at-westeros-sysvinit.patch \
             file://0003-Add_VCX_flags_support.patch \
-            file://0004-NXClient-local-switch.patch \
             file://0005-Dispatch-custom-queue-instead-flushing-display.patch \
 "
 
