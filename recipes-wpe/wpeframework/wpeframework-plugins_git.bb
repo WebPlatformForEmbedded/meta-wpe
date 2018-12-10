@@ -77,6 +77,17 @@ PACKAGECONFIG ?= " \
     deviceinfo dictionary locationsync monitor remote remote-devinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
+# OpenCDM related switches
+PACKAGECONFIG += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+"
+
 PACKAGECONFIG[bluetooth]      = "-DWPEFRAMEWORK_PLUGIN_BLUETOOTH=ON -DWPEFRAMEWORK_PLUGIN_BLUETOOTH_AUTOSTART=false,-DWPEFRAMEWORK_PLUGIN_BLUETOOTH=OFF,,dbus-glib bluez5"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_HARDWAREREADY=${WPE_COMPOSITOR_HARDWARE_READY} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON ${WPE_COMPOSITOR_EXTRAFLAGS} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_RESOLUTION=${WPE_COMPOSITOR_RESOLUTION},-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
 PACKAGECONFIG[deviceinfo]     = "-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=ON,-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=OFF,"
