@@ -25,13 +25,20 @@ inherit cmake pkgconfig systemd update-rc.d
 WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 
-PACKAGECONFIG ?= "opencdm virtualinput websource webkitbrowser"
+PACKAGECONFIG ?= " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
+    virtualinput websource webkitbrowser \
+    "
 
 PACKAGECONFIG[cyclicinspector]  = "-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=ON,-DWPEFRAMEWORK_TEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[opencdm]          = "-DWPEFRAMEWORK_CDMI=ON,-DWPEFRAMEWORK_CDMI=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DWPEFRAMEWORK_PROVISIONPROXY=ON,-DWPEFRAMEWORK_PROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DWPEFRAMEWORK_TEST_LOADER=ON,-DWPEFRAMEWORK_TEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DWPEFRAMEWORK_VIRTUALINPUT=ON,-DWPEFRAMEWORK_VIRTUALINPUT=OFF,"
+
+# BRCM specific OCDM flag (required for ocdm.pc generation)
+PACKAGECONFIG[opencdmi_prnx_svp]  = "-DWPEFRAMEWORK_CDMI_BCM_NEXUS_SVP=ON,,"
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
@@ -51,11 +58,12 @@ PACKAGECONFIG[webkitbrowser]   = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER=ON,,"
 # Only enable certain events if wpeframework is in distro features
 WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Network', '', d)}"
 
-WPEFRAMEWORK_EXTERN_EVENTS ?= "Location Time Internet \
+WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
-    ${WPEFRAMEWORK_DIST_EVENTS} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
+    ${WPEFRAMEWORK_DIST_EVENTS} \
+    Location Time Internet \
 "
 
 EXTRA_OECMAKE += " \
