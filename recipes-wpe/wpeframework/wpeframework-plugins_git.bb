@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0002-Compositor-Support-for-splitted-refsw-and-nxclient-i.patch \
            "
 
-SRCREV = "f496482ceee43d74cde4e3142efef9dd437704ad"
+SRCREV = "8be4e6393e2a9c6650d136e9dc7f51b99482b0ed"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
