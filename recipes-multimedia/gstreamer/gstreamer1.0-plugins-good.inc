@@ -15,6 +15,7 @@ PACKAGECONFIG ??= " \
 
 X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
 
+PACKAGECONFIG[autodetect] = "--enable-autodetect,--disable-autodetect,"
 PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
 PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
 PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"

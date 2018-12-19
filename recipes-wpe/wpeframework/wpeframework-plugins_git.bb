@@ -11,9 +11,11 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
-"
+           file://0002-Compositor-Support-for-splitted-refsw-and-nxclient-i.patch \
+           file://0003-CMAKE-RemoteControl-RF4CE-Provide-an-option-to-disab.patch \
+           "
 
-SRCREV = "fde7e5bd47f33cb37a7163005e2d125ffd02b2b6"
+SRCREV = "8be4e6393e2a9c6650d136e9dc7f51b99482b0ed"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -65,6 +67,17 @@ PACKAGECONFIG ?= " \
     deviceinfo dictionary locationsync monitor remote remote-devinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
+# OpenCDM related switches
+PACKAGECONFIG += " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+"
+
 PACKAGECONFIG[bluetooth]      = "-DWPEFRAMEWORK_PLUGIN_BLUETOOTH=ON -DWPEFRAMEWORK_PLUGIN_BLUETOOTH_AUTOSTART=false,-DWPEFRAMEWORK_PLUGIN_BLUETOOTH=OFF,,dbus-glib bluez5"
 PACKAGECONFIG[compositor]     = "-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=ON -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_HARDWAREREADY=${WPE_COMPOSITOR_HARDWARE_READY} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} -DWPEFRAMEWORK_PLUGIN_COMPOSITOR_VIRTUALINPUT=ON ${WPE_COMPOSITOR_EXTRAFLAGS},-DWPEFRAMEWORK_PLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
 PACKAGECONFIG[deviceinfo]     = "-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=ON,-DWPEFRAMEWORK_PLUGIN_DEVICEINFO=OFF,"
@@ -82,21 +95,22 @@ PACKAGECONFIG[opencdmi]       = "-DWPEFRAMEWORK_PLUGIN_OPENCDMI=ON \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_AUTOSTART=true \
                                  -DWPEFRAMEWORK_PLUGIN_OPENCDMI_OOP=true \
                                 ,,"
-PACKAGECONFIG[opencdmi_ck]    = "-DPLUGIN_OPENCDMI_CLEARKEY=ON,,"
-PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,"
-PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,"
+PACKAGECONFIG[opencdmi_ck]    = "-DPLUGIN_OPENCDMI_CLEARKEY=ON,,,wpeframework-ocdm-clearkey"
+PACKAGECONFIG[opencdmi_pr]    = "-DPLUGIN_OPENCDMI_PLAYREADY=ON,,,wpeframework-ocdm-playready"
+PACKAGECONFIG[opencdmi_prnx]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS=ON,,,wpeframework-ocdm-playready-nexus"
+PACKAGECONFIG[opencdmi_prnx_svp]  = "-DPLUGIN_OPENCDMI_PLAYREADY_NEXUS_SVP=ON,,,wpeframework-ocdm-playready-nexus-svp"
 PACKAGECONFIG[opencdmi_vgrdm] = "-DPLUGIN_OPENCDMI_PLAYREADY_VGDRM=ON,,"
-PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,"
+PACKAGECONFIG[opencdmi_wv]    = "-DPLUGIN_OPENCDMI_WIDEVINE=ON,,,wpeframework-ocdm-widevine"
 PACKAGECONFIG[remote]         = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=ON \
                                 ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL=OFF,"
 PACKAGECONFIG[remote-ir]      = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IR=ON \
                                 ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_IR=OFF,"
 PACKAGECONFIG[remote-devinput] = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=ON,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_DEVINPUT=OFF,"
-PACKAGECONFIG[remote-gp]      = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_NAME=${REMOTECONTROL_RF4CE_NAME} \
-				 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_REMOTE_ID=${REMOTECONTROL_RF4CE_REMOTE_ID} \ 
+PACKAGECONFIG[remote-gp]      = "-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE=ON -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_NAME=${REMOTECONTROL_RF4CE_NAME} \
+				 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_REMOTE_ID=${REMOTECONTROL_RF4CE_REMOTE_ID} \
 				 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_MODULE=${REMOTECONTROL_RF4CE_MODULE} \
 				 -DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_NODE_ID=${REMOTECONTROL_RF4CE_NODE_ID} \
-				 ,,${REMOTECONTROL_RF4CE_DEPENDENCY}"
+				 ,-DWPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE=OFF,${REMOTECONTROL_RF4CE_DEPENDENCY}"
 PACKAGECONFIG[snapshot]       = "-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=ON,-DWPEFRAMEWORK_PLUGIN_SNAPSHOT=OFF,${WPE_SNAPSHOT_DEP} libpng"
 PACKAGECONFIG[systemdconnector] = "-DWPEFRAMEWORK_PLUGIN_SYSTEMDCONNECTOR=ON,-DWPEFRAMEWORK_PLUGIN_SYSTEMDCONNECTOR=OFF,"
 PACKAGECONFIG[power]          = "-DWPEFRAMEWORK_PLUGIN_POWER=ON -DWPEFRAMEWORK_PLUGIN_POWER_AUTOSTART=${WPE_POWER_AUTOSTART} \

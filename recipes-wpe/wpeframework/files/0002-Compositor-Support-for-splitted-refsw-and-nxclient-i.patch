@@ -1,0 +1,86 @@
+From 9df5df596e398b1fba5b25ea16844ae43d99bc9a Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Wed, 5 Dec 2018 13:16:16 -0800
+Subject: [PATCH 2/2] [Compositor] Support for splitted refsw and nxclient
+ include directories. Buildroot seems to install all refsw headers in
+ /usr/include/refsw, however for RDKV builds the headers are split between
+ /usr/include/refsw and /usr/include/nxclient.
+
+This change is required to resolve unresolved errors when compiling, eg.:
+	NexusServer.cpp:418:106: error: 'nxserverlib_init_extended' was not declared in this scope
+	|                      _instance = nxserverlib_init_extended(&_serverSettings, config.Authentication.Value());
+
+Updated FindNexus.cmake to look for both subdirectories and set LIBNEXUS_INCLUDE_DIRS accordingly
+
+Signed-off-by: wouterlucas <wouter@wouterlucas.com>
+---
+ cmake/FindNexus.cmake | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/cmake/FindNexus.cmake b/cmake/FindNexus.cmake
+index 710a756..eee3df2 100644
+--- a/cmake/FindNexus.cmake
++++ b/cmake/FindNexus.cmake
+@@ -32,6 +32,15 @@
+ find_path(LIBNEXUS_INCLUDE nexus_config.h
+         PATH_SUFFIXES refsw)
+ 
++find_path(LIBNXCLIENT_INCLUDE nxserverlib.h
++        PATH_SUFFIXES nxclient refsw)
++
++
++set(LIBNEXUS_INCLUDE_DIRS
++    ${LIBNEXUS_INCLUDE}
++    ${LIBNXCLIENT_INCLUDE}
++)
++
+ find_library(LIBNEXUS_LIBRARY nexus)
+ 
+ find_library(LIBB_OS_LIBRARY b_os)
+@@ -44,12 +53,12 @@ find_library(LIBNEXUS_CLIENT_LIBRARY nexus_client)
+ 
+ include(FindPackageHandleStandardArgs)
+ 
+-find_package_handle_standard_args(LIBNEXUS DEFAULT_MSG LIBNEXUS_INCLUDE LIBNEXUS_LIBRARY)
++find_package_handle_standard_args(LIBNEXUS DEFAULT_MSG LIBNEXUS_INCLUDE_DIRS LIBNEXUS_LIBRARY)
+ 
+-mark_as_advanced(LIBNEXUS_INCLUDE LIBNEXUS_LIBRARY)
++mark_as_advanced(LIBNEXUS_INCLUDE_DIRS LIBNEXUS_LIBRARY)
+ 
+ if(EXISTS "${LIBNXCLIENT_LIBRARY}")
+-  find_package_handle_standard_args(LIBNXCLIENT DEFAULT_MSG LIBNEXUS_INCLUDE LIBNXCLIENT_LIBRARY)
++  find_package_handle_standard_args(LIBNXCLIENT DEFAULT_MSG LIBNEXUS_INCLUDE_DIRS LIBNXCLIENT_LIBRARY)
+   mark_as_advanced(LIBNXCLIENT_LIBRARY)
+ endif()
+ 
+@@ -59,7 +68,7 @@ if(NOT TARGET NEXUS::NEXUS)
+     if(EXISTS "${LIBNEXUS_LIBRARY}")
+         set_target_properties(NEXUS::NEXUS PROPERTIES
+                 IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+-                INTERFACE_INCLUDE_DIRECTORIES "${LIBNEXUS_INCLUDE}"
++                INTERFACE_INCLUDE_DIRECTORIES "${LIBNEXUS_INCLUDE_DIRS}"
+                     )
+ 
+         if(NOT EXISTS "${LIBNEXUS_CLIENT_LIBRARY}")
+@@ -95,7 +104,7 @@ if(NOT TARGET NEXUS::NXCLIENT)
+         set_target_properties(NEXUS::NXCLIENT PROPERTIES
+                 IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+                 IMPORTED_LOCATION "${LIBNXCLIENT_LIBRARY}"
+-                INTERFACE_INCLUDE_DIRECTORIES "${LIBNEXUS_INCLUDE}"
++                INTERFACE_INCLUDE_DIRECTORIES "${LIBNEXUS_INCLUDE_DIRS}"
+                 )
+     endif()
+ endif()
+@@ -106,7 +115,7 @@ if(NOT TARGET NEXUS::NXCLIENT_LOCAL)
+         set_target_properties(NEXUS::NXCLIENT_LOCAL PROPERTIES
+                 IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+                 IMPORTED_LOCATION "${LIBNXCLIENT_LOCAL_LIBRARY}"
+-                INTERFACE_INCLUDE_DIRECTORIES "${LIBNEXUS_INCLUDE}"
++                INTERFACE_INCLUDE_DIRECTORIES "${LIBNEXUS_INCLUDE_DIRS}"
+                 )
+     endif()
+ endif()
+\ No newline at end of file
+-- 
+2.11.0
+
