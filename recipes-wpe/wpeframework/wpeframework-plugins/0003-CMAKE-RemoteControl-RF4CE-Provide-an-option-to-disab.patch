@@ -1,0 +1,44 @@
+From a8136a738a9d7189df4271eca8eb87975b9845e5 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Tue, 11 Dec 2018 11:02:14 -0800
+Subject: [PATCH 3/3] [CMAKE][RemoteControl][RF4CE] Provide an option to
+ disable RF4CE functionality. By default turn on to maintain previous
+ behaviour.
+
+In some cases (e.g. faulty GP unit on a dev-box) it is quite annoying that RF4CE gets enable by default if the
+GP bits are found. With the previous functionality I'd have to forcefully remove the RF4CE bits from the staging
+area in order to get the build to work. Instead, lets do a flag and make it a little easier to turn RF4CE on or off.
+
+Signed-off-by: wouterlucas <wouter@wouterlucas.com>
+---
+ RemoteControl/CMakeLists.txt | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/RemoteControl/CMakeLists.txt b/RemoteControl/CMakeLists.txt
+index c6736cb..98d1876 100644
+--- a/RemoteControl/CMakeLists.txt
++++ b/RemoteControl/CMakeLists.txt
+@@ -1,6 +1,8 @@
+ set(PLUGIN RemoteControl)
+ set(ARTEFACT WPEFramework${PLUGIN})
+ 
++option(WPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE "Enable RF4CE functionality." ON)
++
+ set(WPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_REMOTE_ID "GPSTB" CACHE STRING "User string, used for greenpeak")
+ set(WPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_MODULE "/lib/modules/misc/gpK5.ko" CACHE STRING "path to kernel module")
+ set(WPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE_NODE_ID 249 CACHE STRING "Node ID for the device to be created")
+@@ -35,7 +37,10 @@ set_target_properties(${PLUGIN} PROPERTIES
+ 
+ find_package(NXServer)
+ find_package(VirtualInput)
+-find_package(RF4CE)
++
++if(WPEFRAMEWORK_PLUGIN_REMOTECONTROL_RFCE)
++	find_package(RF4CE)
++endif()
+ 
+ if(VirtualInput_FOUND)
+ 	message(STATUS "Including VirtualInput support")
+-- 
+2.11.0
+
