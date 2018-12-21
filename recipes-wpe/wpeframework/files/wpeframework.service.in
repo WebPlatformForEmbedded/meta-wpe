@@ -1,14 +1,14 @@
 [Unit]
 Description=wpeframework
-Wants=multi-user.target
-After=multi-user.target @EXTRA_AFTER@
+Wants=network-online.target
+After=network-online.target @EXTRA_AFTER@
 
 [Service]
 PIDFile=/var/run/WPEFramework.pid
 EnvironmentFile=-/etc/wpeframework/WPEFramework.env
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="XDG_RUNTIME_DIR=/run"
-ExecStart=-/usr/bin/WPEFramework -b
+ExecStart=/usr/bin/WPEFramework -c /etc/WPEFramework/config.json -b
 ExecStop=/bin/kill $MAINPID
 
 [Install]
