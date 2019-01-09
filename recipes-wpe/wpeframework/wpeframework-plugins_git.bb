@@ -9,10 +9,9 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0003-RemoteControl-fix-refsw-include-path.patch \
-           file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch \
-"
+           "
 
-SRCREV = "3b6a60aa44e60c93fe9dc6b49c9787d12ab370c7"
+SRCREV = "5b10229394f2abd1ee569ea6bab707e39273a3e8"
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
