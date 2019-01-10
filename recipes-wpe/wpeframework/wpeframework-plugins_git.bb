@@ -34,9 +34,16 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'network', '', d)} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            'bluetooth', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework',         'network', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     deviceinfo dictionary locationsync monitor remote remote-devinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
