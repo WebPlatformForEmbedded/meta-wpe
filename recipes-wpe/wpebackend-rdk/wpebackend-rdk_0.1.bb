@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ab5b52d145a58f5fcc0e2a531e7a2370"
 DEPENDS += "libwpe glib-2.0"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master"
-SRCREV = "ad954707dca691f850560980e6786c0206e96891"
+SRCREV = "744b30b655088a17f77c0349ff5e82968f41b732"
 
 S = "${WORKDIR}/git"
 
@@ -22,7 +22,7 @@ WPE_BACKEND_x86 = "intelce"
 WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
 WPE_BACKEND ?= "rpi"
 
-PACKAGECONFIG ?= "${WPE_BACKEND}"
+PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 
 # device specific backends
 PACKAGECONFIG[imx6]             = "-DUSE_BACKEND_VIV_IMX6_EGL=ON,,imx-gpu-viv"

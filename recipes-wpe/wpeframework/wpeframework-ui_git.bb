@@ -2,7 +2,7 @@ SUMMARY = "WPE Framework User Interface"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
 
-require wpeframework-plugins.inc
+require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkUI.git;protocol=git;branch=master"
 SRCREV = "e89325e5ea0575e6256dde462020ba06158d7abb"
