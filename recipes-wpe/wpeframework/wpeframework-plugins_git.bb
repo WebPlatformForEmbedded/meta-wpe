@@ -8,12 +8,12 @@ require include/wpeframework-plugins.inc
 # file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
-           file://0001-RemoteControl-fix-refsw-include-path.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
+           file://0001-IRRemote-Do-no-use-static-directories-in-includes-le.patch \
            "
 
-SRCREV = "19df029b06567f036888554694237009159e0877"
+SRCREV = "8b147b8cc6895d31d77d3b3944f6520d62aefab0"
 
 # ----------------------------------------------------------------------------
 
