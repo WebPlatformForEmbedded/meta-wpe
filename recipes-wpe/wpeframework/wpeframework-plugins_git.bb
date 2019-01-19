@@ -24,6 +24,7 @@ include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
 include include/snapshot.inc
+include include/streamer.inc
 include include/webkitbrowser.inc
 
 # ----------------------------------------------------------------------------
