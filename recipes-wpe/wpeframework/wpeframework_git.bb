@@ -16,9 +16,8 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
-           file://0001-NexusTuner-Do-no-use-static-directories-in-includes-.patch \
            "
-SRCREV = "2e4f5add1d8fc16a1ea550757021f755b891fc99"
+SRCREV = "320ad038e181df7f7e3973062d4fc81ea0a7a82b"
 
 inherit cmake pkgconfig systemd update-rc.d
 
