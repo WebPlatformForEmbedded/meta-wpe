@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 PR = "r0"
 
-require wpeframework.inc
+require include/wpeframework.inc
 
 DEPENDS = "zlib"
 DEPENDS_append_libc-musl = " libexecinfo"
@@ -16,8 +16,9 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
-"
-SRCREV = "06eb8d30113e2619008ff6ae74d9b5ab40867bb1"
+           file://0001-NexusTuner-Do-no-use-static-directories-in-includes-.patch \
+           "
+SRCREV = "2e4f5add1d8fc16a1ea550757021f755b891fc99"
 
 inherit cmake pkgconfig systemd update-rc.d
 
