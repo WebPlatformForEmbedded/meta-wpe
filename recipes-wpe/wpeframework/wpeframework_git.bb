@@ -43,7 +43,7 @@ PACKAGECONFIG[opencdmi_prnx_svp]  = "-DWPEFRAMEWORK_CDMI_BCM_NEXUS_SVP=ON,,"
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
 # it feels a bit the other way around but lets set at least webserver and webkit
-PACKAGECONFIG[websource]       = "-DWPEFRAMEWORK_PLUGIN_WEBSERVER=ON=ON,,"
+PACKAGECONFIG[websource]       = "-DWPEFRAMEWORK_PLUGIN_WEBSERVER=ON,,"
 PACKAGECONFIG[webkitbrowser]   = "-DWPEFRAMEWORK_PLUGIN_WEBKITBROWSER=ON,,"
 
 # FIXME, determine this a little smarter
