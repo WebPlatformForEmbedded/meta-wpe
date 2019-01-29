@@ -10,9 +10,10 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
+           file://0001-CMAKE-Avoid-as-needed-flag-on-OCDM-plugin-in-some-ca.patch \
            "
 
-SRCREV = "6222466d354f6067c8aa0630598ac6c59d592baf"
+SRCREV = "d199933a8485bebc404eca829f422c2cad18abf9"
 
 # ----------------------------------------------------------------------------
 

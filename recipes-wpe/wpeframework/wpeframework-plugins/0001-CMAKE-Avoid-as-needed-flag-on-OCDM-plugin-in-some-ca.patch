@@ -1,0 +1,29 @@
+From 8452c7e1faaa8b06d014c1c8bb474097cdcdc395 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Tue, 29 Jan 2019 12:48:05 -0800
+Subject: [PATCH 2/2] [CMAKE] Avoid --as-needed flag on OCDM plugin, in some
+ cases this will omit linking to libocdm.so and the setup wont work. By
+ explicitly adding --no-as-needed this will alway be linked correctly.
+
+---
+ OpenCDMi/CMakeLists.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/OpenCDMi/CMakeLists.txt b/OpenCDMi/CMakeLists.txt
+index e7218ea..5fbe889 100644
+--- a/OpenCDMi/CMakeLists.txt
++++ b/OpenCDMi/CMakeLists.txt
+@@ -11,6 +11,10 @@ set(PLUGIN_SOURCES
+ 
+ find_package(ocdm REQUIRED)
+ 
++# avoid -as-needed flag being set, this will break linking to libocdm.so
++string(REPLACE "-Wl,--as-needed" "" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
++set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-as-needed")
++
+ # Library definition section
+ add_library(${MODULE_NAME} SHARED ${PLUGIN_SOURCES})
+ target_link_libraries(${MODULE_NAME} ${PLUGINS_LIBRARIES} ${OCDM_LIBRARIES})
+-- 
+2.11.0
+
