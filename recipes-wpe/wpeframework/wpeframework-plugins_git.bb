@@ -33,7 +33,7 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            '', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            'bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
