@@ -6,12 +6,11 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
-           file://0001-RemoteControl-fix-refsw-include-path.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
 
-SRCREV = "19df029b06567f036888554694237009159e0877"
+SRCREV = "2c2e3d3d7c27eb25eed4358ec72469d6c3efca2f"
 
 # ----------------------------------------------------------------------------
 
@@ -34,7 +33,7 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            'bluetooth', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            '', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
