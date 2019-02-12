@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://osmc-devinput-remote.json \
            "
 
-SRCREV = "2c2e3d3d7c27eb25eed4358ec72469d6c3efca2f"
+SRCREV = "fe68b1113c1d5a26389a7c1a28ea957407d9f7be"
 
 # ----------------------------------------------------------------------------
 
