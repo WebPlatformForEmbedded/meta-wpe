@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-CMAKE-Avoid-as-needed-flag-on-OCDM-plugin-in-some-ca.patch \
            "
 
-SRCREV = "d199933a8485bebc404eca829f422c2cad18abf9"
+SRCREV = "2bc2b5b35f57476118bc4731d0b0df57dc86897a"
 
 # ----------------------------------------------------------------------------
 
