@@ -5,15 +5,12 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-# file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch
-
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
-           file://0001-CMAKE-Avoid-as-needed-flag-on-OCDM-plugin-in-some-ca.patch \
            "
 
-SRCREV = "2bc2b5b35f57476118bc4731d0b0df57dc86897a"
+SRCREV = "94a4a8c58847409b1a2d63f920a62320cf826d1e"
 
 # ----------------------------------------------------------------------------
 
