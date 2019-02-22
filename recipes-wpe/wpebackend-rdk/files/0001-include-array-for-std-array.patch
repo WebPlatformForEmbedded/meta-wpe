@@ -1,0 +1,28 @@
+From 0b5b31b95fc96d290bc7ad48893e5129e70cc8e0 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 21 Feb 2019 22:29:38 -0800
+Subject: [PATCH] include <array> for std::array
+
+libcxx/clang does nor pardon such mistakes
+LibinputServer.h:81:54: error: implicit instantiation of undefined template 'std::__1::array<wpe_input_touch_event_raw, 10>'
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ src/input/Libinput/LibinputServer.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/input/Libinput/LibinputServer.h b/src/input/Libinput/LibinputServer.h
+index de8d8f5..f293bfd 100644
+--- a/src/input/Libinput/LibinputServer.h
++++ b/src/input/Libinput/LibinputServer.h
+@@ -30,6 +30,7 @@
+ 
+ #include "KeyboardEventRepeating.h"
+ #include <glib.h>
++#include <array>
+ #include <memory>
+ #include <wpe/wpe.h>
+ #ifndef KEY_INPUT_HANDLING_VIRTUAL
+-- 
+2.20.1
+
