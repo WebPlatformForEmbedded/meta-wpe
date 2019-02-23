@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
+           file://0001-Detect-libexecinfo-if-available-on-platform.patch \
 "
 SRCREV = "4a8bf852be2c7e955aca4a0bc53965c2d83bbfa4"
 
