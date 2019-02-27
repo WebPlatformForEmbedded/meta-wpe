@@ -3,7 +3,7 @@
 
 SUMMARY = "Minimal boot requirements for WPE"
 DESCRIPTION = "The minimal set of packages required to boot the system for WPE"
-
+LICENSE = "MIT"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup
