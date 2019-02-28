@@ -144,6 +144,7 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
+    gstreamer1.0-plugins-good-id3demux \
     gstreamer1.0-plugins-good-matroska \
     gstreamer1.0-plugins-bad-dashdemux \
     gstreamer1.0-plugins-bad-hls \
