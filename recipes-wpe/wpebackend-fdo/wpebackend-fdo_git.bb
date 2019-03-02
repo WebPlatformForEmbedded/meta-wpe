@@ -18,3 +18,5 @@ S = "${WORKDIR}/git"
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend-fdo-0.1.so"
+
+INSANE_SKIP_${PN} = "dev-so"
