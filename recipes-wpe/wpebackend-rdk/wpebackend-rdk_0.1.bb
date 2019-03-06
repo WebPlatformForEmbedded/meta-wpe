@@ -15,8 +15,9 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig
 
-# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
+# Default back end selections. You may select it in your configuration using either DISTRO_FEATURES_append = " wayland" or WPE_BACKEND=<> to meet your expectations.
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland',  'wayland',  '', d)}"
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'westeros', 'westeros', '', d)}"
 WPE_BACKEND_append = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', ' wayland','', d)}"
 WPE_BACKEND_remove = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'westeros','', d)}"
 
