@@ -3,7 +3,7 @@ require wpewebkit.inc
 PV = "20170728+git${SRCPV}"
 PR = "r2"
 
-SRCREV ?= "7080b30efd2c4d2f869c9a90b1ce832ffdd8aa32"
+SRCREV ?= "23713271ab5144c3178df45901214b9238735ce5"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI += "file://0001-Fix-build-with-musl.patch"
 SRC_URI += "file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
