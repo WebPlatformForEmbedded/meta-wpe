@@ -7,6 +7,7 @@ SRCREV ?= "23713271ab5144c3178df45901214b9238735ce5"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI += "file://0001-Fix-build-with-musl.patch"
 SRC_URI += "file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
+SRC_URI += "file://Make_sure_sessions_gor_via_opencdm_get_sessions.patch"
 
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver
