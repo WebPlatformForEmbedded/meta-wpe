@@ -13,6 +13,9 @@ SRCREV = "09e4643651cc8855a57c620d869ceea7e014b67a"
 
 S = "${WORKDIR}/git"
 
+PROVIDES += "virtual/wpebackend"
+RPROVIDES_${PN} += "virtual/wpebackend"
+
 inherit cmake pkgconfig
 
 # Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
