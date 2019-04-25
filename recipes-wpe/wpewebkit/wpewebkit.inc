@@ -107,10 +107,8 @@ LEAD_SONAME = "libWPEWebKit.so"
 
 PACKAGES =+ "${PN}-web-inspector-plugin"
 
-FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
+FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so ${libdir}/wpe-webkit-*/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
-
-PACKAGES =+ "${PN}-platform-plugin"
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
@@ -169,9 +167,14 @@ RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
 
+RDEPENDS_${PN} += " \
+    virtual/libwpe \
+    virtual/wpebackend \
+"
+
 RRECOMMENDS_${PN} += " \
     ca-certificates \
     ttf-bitstream-vera \
     shared-mime-info \
-    ${PN}-platform-plugin \
+    ${PN}-web-inspector-plugin \
 "
