@@ -7,6 +7,6 @@ require include/wpeframework-plugins.inc
 DEPENDS += " widevine"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Widevine.git;protocol=https;branch=master"
-SRCREV = "1a4b9812df227fe9fac83b04585e33d4bb11d2d1"
+SRCREV = "ac3a765bdf96027fcb4ff67b0ca69858eb5dd665"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
