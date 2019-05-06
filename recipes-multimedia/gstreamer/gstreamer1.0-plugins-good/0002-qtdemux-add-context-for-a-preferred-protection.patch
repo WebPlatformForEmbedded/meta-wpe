@@ -1,7 +1,7 @@
-From 0ba62ba4805e2cdbed17fa9934762d685be42fd4 Mon Sep 17 00:00:00 2001
+From b90469481b213a98a2f9dcb40e490e3d1b6c83b3 Mon Sep 17 00:00:00 2001
 From: Xabier Rodriguez Calvar <calvaris@igalia.com>
 Date: Wed, 21 Jun 2017 17:59:21 +0200
-Subject: [PATCH 2/7] qtdemux: add context for a preferred protection
+Subject: [PATCH 2/8] qtdemux: add context for a preferred protection
 
 qtdemux selected the first system corresponding to a working GStreamer
 decryptor. With this change, before selecting that decryptor, qtdemux

@@ -1,7 +1,7 @@
-From 6715af9933a6607e5d86ac6fc1bcf476761cbf10 Mon Sep 17 00:00:00 2001
+From 6f47b383caf901b878225336369c71a847677609 Mon Sep 17 00:00:00 2001
 From: Philippe Normand <philn@igalia.com>
 Date: Wed, 28 Oct 2015 12:00:09 +0100
-Subject: [PATCH 1/7] souphttpsrc: cookie jar and context query support
+Subject: [PATCH 1/8] souphttpsrc: cookie jar and context query support
 
 Use a volatile Cookie jar to store cookies and handle the context
 query so that session data can be shared with other elements (like
@@ -14,10 +14,10 @@ https://bugzilla.gnome.org/show_bug.cgi?id=726314
  2 files changed, 40 insertions(+), 2 deletions(-)
 
 diff --git a/ext/soup/gstsouphttpsrc.c b/ext/soup/gstsouphttpsrc.c
-index 28642e359..d23ec4ce8 100644
+index 6e64a57ae..174f29e31 100644
 --- a/ext/soup/gstsouphttpsrc.c
 +++ b/ext/soup/gstsouphttpsrc.c
-@@ -489,6 +489,7 @@ gst_soup_http_src_init (GstSoupHTTPSrc * src)
+@@ -491,6 +491,7 @@ gst_soup_http_src_init (GstSoupHTTPSrc * src)
    src->session = NULL;
    src->external_session = NULL;
    src->forced_external_session = FALSE;
@@ -25,7 +25,7 @@ index 28642e359..d23ec4ce8 100644
    src->msg = NULL;
    src->timeout = DEFAULT_TIMEOUT;
    src->log_level = DEFAULT_SOUP_LOG_LEVEL;
-@@ -1026,6 +1027,9 @@ gst_soup_http_src_session_open (GstSoupHTTPSrc * src)
+@@ -1028,6 +1029,9 @@ gst_soup_http_src_session_open (GstSoupHTTPSrc * src)
      GST_DEBUG_OBJECT (src, "Re-using session");
    }
  
@@ -35,7 +35,7 @@ index 28642e359..d23ec4ce8 100644
    return TRUE;
  }
  
-@@ -1041,6 +1045,11 @@ gst_soup_http_src_session_close (GstSoupHTTPSrc * src)
+@@ -1043,6 +1047,11 @@ gst_soup_http_src_session_close (GstSoupHTTPSrc * src)
      src->msg = NULL;
    }
  
@@ -47,7 +47,7 @@ index 28642e359..d23ec4ce8 100644
    if (src->session) {
      if (!src->session_is_shared)
        soup_session_abort (src->session);
-@@ -1493,11 +1502,12 @@ gst_soup_http_src_build_message (GstSoupHTTPSrc * src, const gchar * method)
+@@ -1495,11 +1504,12 @@ gst_soup_http_src_build_message (GstSoupHTTPSrc * src, const gchar * method)
    }
    if (src->cookies) {
      gchar **cookie;
@@ -62,7 +62,7 @@ index 28642e359..d23ec4ce8 100644
    }
  
    if (!src->compress)
-@@ -2046,6 +2056,12 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
+@@ -2050,6 +2060,12 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
    gboolean ret;
    GstSchedulingFlags flags;
    gint minsize, maxsize, align;
@@ -75,7 +75,7 @@ index 28642e359..d23ec4ce8 100644
  
    switch (GST_QUERY_TYPE (query)) {
      case GST_QUERY_URI:
-@@ -2057,6 +2073,27 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
+@@ -2061,6 +2077,27 @@ gst_soup_http_src_query (GstBaseSrc * bsrc, GstQuery * query)
        }
        ret = TRUE;
        break;
