@@ -1,7 +1,7 @@
-From 762e9c645ec13513c62eb5a3800d7406e01cdcb7 Mon Sep 17 00:00:00 2001
+From b97cd0084510d918ad54fecbe50ff9858700bdcd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Mon, 24 Apr 2017 17:22:02 +0000
-Subject: [PATCH 3/7] qtdemux: also push buffers without encryption info
+Subject: [PATCH 4/8] qtdemux: also push buffers without encryption info
  instead of dropping them
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 3/7] qtdemux: also push buffers without encryption info
  1 file changed, 19 insertions(+), 20 deletions(-)
 
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index da22463f8..8e9f5b9ae 100644
+index 62c4ff073..6b586a67d 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
 @@ -5600,26 +5600,25 @@ gst_qtdemux_decorate_and_push_buffer (GstQTDemux * qtdemux,
