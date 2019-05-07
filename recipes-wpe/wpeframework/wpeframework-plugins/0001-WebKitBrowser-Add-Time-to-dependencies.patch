@@ -1,18 +1,18 @@
-From 6b159ba9fadd1d0c277e13df08c6fd6539466721 Mon Sep 17 00:00:00 2001
+From 9aa38832ec23b8a6979de5a4a4b696721fd89604 Mon Sep 17 00:00:00 2001
 From: wouterlucas <wouter@wouterlucas.com>
 Date: Tue, 29 Jan 2019 14:09:19 -0800
-Subject: [PATCH] [WebKitBrowser] Add Time to dependencies
+Subject: [PATCH] Add Time to dependencies
 
 ---
  WebKitBrowser/WebKitBrowser.config | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/WebKitBrowser/WebKitBrowser.config b/WebKitBrowser/WebKitBrowser.config
-index 112fa4e..42980ac 100644
+index 38d14e1..79312f9 100644
 --- a/WebKitBrowser/WebKitBrowser.config
 +++ b/WebKitBrowser/WebKitBrowser.config
-@@ -1,7 +1,7 @@
- set (autostart ${PLUGIN_WEBKITBROWSER_AUTOSTART})
+@@ -2,7 +2,7 @@ set (autostart ${PLUGIN_WEBKITBROWSER_AUTOSTART})
+ set (resumed true)
  
  if(PLUGIN_WEBSERVER)
 -set (preconditions Graphics WebSource)
@@ -20,6 +20,3 @@ index 112fa4e..42980ac 100644
  else()
  set (preconditions Graphics)
  endif(PLUGIN_WEBSERVER)
--- 
-2.11.0
-
