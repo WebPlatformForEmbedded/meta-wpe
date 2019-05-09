@@ -1,7 +1,5 @@
 require wpewebkit.inc
 
-DEFAULT_PREFERENCE = "-1"
-
 PV = "20170728+git${SRCPV}"
 PR = "r2"
 
