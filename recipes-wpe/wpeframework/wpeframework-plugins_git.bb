@@ -8,11 +8,11 @@ require include/wpeframework-plugins.inc
 # file://0001-CMAKE-WPEWebKit-2.22-packageconfig-file-is-written-a.patch
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
+           file://0001-WebKitBrowser-Add-Time-to-dependencies.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-
-SRCREV = "a653a9d210397d60411165e8e5394da7fd762c71"
+SRCREV = "9532e34c1ef2912b9ed6c7d7f0b75eb6f8b0b205"
 
 # ----------------------------------------------------------------------------
 
@@ -52,6 +52,7 @@ PACKAGECONFIG ?= " \
 PACKAGECONFIG[bluetooth]      = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=false,-DPLUGIN_BLUETOOTH=OFF,,dbus-glib bluez5"
 PACKAGECONFIG[deviceinfo]     = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[dictionary]     = "-DPLUGIN_DICTIONARY=ON,-DPLUGIN_DICTIONARY=OFF,"
+PACKAGECONFIG[dsgcc_client]   = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
 PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
                                  -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
                                 ,-DPLUGIN_LOCATIONSYNC=OFF,"
