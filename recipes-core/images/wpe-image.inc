@@ -1,6 +1,8 @@
 IMAGE_INSTALL_append = "\
    packagegroup-wpewebkit \
    packagegroup-wpeframework \
+   packagegroup-westeros \
+   gstreamer1.0-libav \
 "
 
 # If WPE Framework is enabled as distro feature, remove the default packagegroup-core-boot and run with our own

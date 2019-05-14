@@ -10,4 +10,6 @@ inherit distro_features_check
 
 CONFLICT_DISTRO_FEATURES = "x11"
 
+DISTRO_FEATURES_remove_rpi = "x11"
+
 REQUIRED_DISTRO_FEATURES = "wayland opengl"
