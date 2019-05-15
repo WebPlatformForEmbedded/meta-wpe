@@ -1,6 +1,7 @@
 IMAGE_INSTALL_append = "\
    packagegroup-wpewebkit \
    packagegroup-wpeframework \
+   ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'packagegroup-westeros', '', d)} \
 "
 
 # If WPE Framework is enabled as distro feature, remove the default packagegroup-core-boot and run with our own

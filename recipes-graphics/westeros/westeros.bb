@@ -14,7 +14,7 @@ PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "
 
 PACKAGECONFIG[incapp] = "--enable-app=yes"
 PACKAGECONFIG[inctest] = "--enable-test=yes"
-PACKAGECONFIG[inctest] = "--enable-test=yes"
+PACKAGECONFIG[incplayer] = "--enable-player=yes"
 PACKAGECONFIG[increndergl] = "--enable-rendergl=yes"
 PACKAGECONFIG[incsbprotocol] = "--enable-sbprotocol=yes"
 PACKAGECONFIG[xdgv4] = "--enable-xdgv4=yes"
