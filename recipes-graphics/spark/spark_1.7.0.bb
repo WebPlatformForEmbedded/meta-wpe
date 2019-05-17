@@ -62,8 +62,6 @@ do_install() {
     install -d ${PKG_CONFIG_DIR}
     install -m 644 ${WORKDIR}/Spark.pc ${PKG_CONFIG_DIR}/Spark.pc
 
-    #install -m 755 ${S}/examples/pxScene2d/src/libSpark.so ${STAGING_LIBDIR}
-
     install -d ${D}${libdir}
     install -m 755 ${S}/examples/pxScene2d/src/libSpark.so ${D}${libdir}
     install -m 755 ${S}/build/wpe/librtCore.so ${D}${libdir}
