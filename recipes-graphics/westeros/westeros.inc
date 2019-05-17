@@ -7,7 +7,7 @@ SRCREV = "${WESTEROS_SRCREV}"
 WESTEROS_URI ?= "git://github.com/rdkcmf/westeros"
 WESTEROS_SRCREV ?= "45d8a7e5a2c7aa2b39f4e3707ad36984629927e8"
 LICENSE_LOCATION ?= "${S}/LICENSE"
-LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=703f52ef306fb8ef480744cc0da110fe"
+LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=77cf8957a4ffe1f1ae0d474a3d95a3ed"
 
 export SCANNER_TOOL = "wayland-scanner"
 
