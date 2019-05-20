@@ -58,7 +58,7 @@ do_install_append () {
 INITSCRIPT_NAME = "westeros"
 INITSCRIPT_PARAMS = "defaults"
 
-SYSTEMD_SERVICE_${PN} = "westeros.service"
+#SYSTEMD_SERVICE_${PN} = "westeros.service"
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so"
