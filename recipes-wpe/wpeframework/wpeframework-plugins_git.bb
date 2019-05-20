@@ -8,9 +8,11 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
+           file://0001-Compositor-Wayland-Client.h-added-to-get-interface-i.patch \
+           file://0002-Compositor-Client-part-removed.patch \
            "
 
-SRCREV = "17ba861c4ff1f2e5435e65e9fab2935cd2bef404"
+SRCREV = "f732be3ff4fbb6fcd5ff4548bb39d0bbe04aa482"
 
 # ----------------------------------------------------------------------------
 
@@ -21,6 +23,7 @@ include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
 include include/snapshot.inc
+include include/spark.inc
 include include/streamer.inc
 include include/webkitbrowser.inc
 
@@ -44,7 +47,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework',         'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
-    deviceinfo dictionary locationsync monitor remote remote-devinput timesync tracing ux virtualinput webkitbrowser webserver youtube \
+    compositor deviceinfo dictionary locationsync monitor remote remote-devinput spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
 PACKAGECONFIG[bluetooth]      = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=false,-DPLUGIN_BLUETOOTH=OFF,,dbus-glib bluez5"
@@ -99,6 +102,7 @@ do_install_append() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/* /var/www/index.html"
+FILES_${PN} += "${includedir}/WPEFramework/*"
 FILES_${PN}-dev += "${libdir}/cmake/*"
 
 INSANE_SKIP_${PN} += "libdir staticdev dev-so"
