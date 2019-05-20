@@ -1,0 +1,40 @@
+From f5971c633f6c5e4afb3103a1ea4d21f5d4ce1746 Mon Sep 17 00:00:00 2001
+From: HaseenaSainul <h.sainul@metrological.com>
+Date: Mon, 13 May 2019 21:39:53 +0530
+Subject: [PATCH 1/2] [Compositor-Wayland] Client.h added to get interface info
+ for Implementation
+
+---
+ Compositor/lib/Wayland/Compositor/Wayland.h | 3 ++-
+ Spark/Spark.json                            | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Compositor/lib/Wayland/Compositor/Wayland.h b/Compositor/lib/Wayland/Compositor/Wayland.h
+index d033c03..3cc4d78 100644
+--- a/Compositor/lib/Wayland/Compositor/Wayland.h
++++ b/Compositor/lib/Wayland/Compositor/Wayland.h
+@@ -1,8 +1,9 @@
+ #ifndef PROJECT_WAYLAND_H
+ #define PROJECT_WAYLAND_H
+ 
+-#include "../Client/Implementation.h"
+ #include "Module.h"
++#include <compositor/Client.h>
++#include <compositorclient/Implementation.h>
+ #include <interfaces/IComposition.h>
+ 
+ #include <virtualinput/VirtualKeyboard.h>
+diff --git a/Spark/Spark.json b/Spark/Spark.json
+index 4696300..396900d 100644
+--- a/Spark/Spark.json
++++ b/Spark/Spark.json
+@@ -9,4 +9,4 @@
+  "configuration":{
+   "url":"browser.js"
+  }
+-}
++}
+\ No newline at end of file
+-- 
+2.11.0
+
