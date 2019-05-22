@@ -4,9 +4,9 @@ DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode"
 
 SRC_URI += "file://Spark.pc \
            file://0001-nanosvg-patches.patch \
-	       file://0002-pxScene-disable-2DMultisampleEXT.patch \
-	       file://0003-pxScene-init.js-path-configurable.patch \
-	       file://0004-spark-wpeframework-compositor.patch \
+           file://0002-pxScene-disable-2DMultisampleEXT.patch \
+           file://0003-pxScene-init.js-path-configurable.patch \
+           file://0004-spark-wpeframework-compositor.patch \
            file://0005-dukluv-git.patch \
            file://0006-dukluv-git.patch \
 "
@@ -46,6 +46,9 @@ EXTRA_OECMAKE += " \
     -DBUILD_RTCORE_LIBS=ON \
     -DBUILD_RTCORE_STATIC_LIB=OFF \
 "
+
+#Set this flag based on preferred version requirement"
+EXTRA_OECMAKE += "-DUSE_NODE_8=OFF"
 
 TARGET_CXXFLAGS += " -fno-delete-null-pointer-checks "
 
