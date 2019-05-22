@@ -6,6 +6,7 @@ COMPATIBLE_MACHINE_armv4 = "(!.*armv4).*"
 COMPATIBLE_MACHINE_armv5 = "(!.*armv5).*"
 COMPATIBLE_MACHINE_mips64 = "(!.*mips64).*"
 
+NODE_LIB_VERSION = "48"
 PV = "6.9.0"
 
 inherit cmake
@@ -34,7 +35,7 @@ ARCHFLAGS ?= ""
 # Node is way too cool to use proper autotools, so we install two wrappers to forcefully inject proper arch cflags to workaround gypi
 do_configure () {
     rm -rf ${S}/deps/openssl
-    cd ${S}/examples/pxScene2d/external/node
+    cd ${S}/examples/pxScene2d/external/libnode-v${PV}
     export LD="${CXX}"
     GYP_DEFINES="${GYP_DEFINES}" export GYP_DEFINES
     # $TARGET_ARCH settings don't match --dest-cpu setting
@@ -45,18 +46,18 @@ do_configure () {
 }
 
 do_compile () {
-    cd ${S}/examples/pxScene2d/external/node
+    cd ${S}/examples/pxScene2d/external/libnode-v${PV}
     export LD="${CXX}"
     oe_runmake BUILDTYPE=Release
 }
 
 do_install () {
-    cd ${S}/examples/pxScene2d/external/node
+    cd ${S}/examples/pxScene2d/external/libnode-v${PV}
     oe_runmake install DESTDIR=${D}
 
-    cp -av --no-preserve=ownership ${S}/examples/pxScene2d/external/libnode-v6.9.0/out/Release/lib.target/libnode.so* ${D}/usr/lib
+    cp -av --no-preserve=ownership ${S}/examples/pxScene2d/external/libnode-v${PV}/out/Release/lib.target/libnode.so.${NODE_LIB_VERSION} ${D}/usr/lib
     cd ${D}/usr/lib
-    ln -sf libnode.so.48 libnode.so
+    ln -sf libnode.so.${NODE_LIB_VERSION} libnode.so
 
     # clean up some node stuff
     rm ${D}${bindir}/libnode.so*
