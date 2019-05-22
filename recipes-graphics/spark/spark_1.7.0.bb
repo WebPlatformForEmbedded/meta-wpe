@@ -9,6 +9,7 @@ SRC_URI += "file://Spark.pc \
            file://0004-spark-wpeframework-compositor.patch \
            file://0005-dukluv-git.patch \
            file://0006-dukluv-git.patch \
+           file://0007-node-v8.15.1_mods.patch \
 "
 
 inherit cmake pkgconfig
@@ -23,6 +24,8 @@ PACKAGECONFIG[westeros]     = "-DBUILD_WITH_WESTEROS=ON -DPXCORE_WAYLAND_EGL=ON 
 PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWORK=ON,,wpeframework"
 
 COMPOSITOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
+PREFERRED_VERSION_pxcore-libnode ?= "8.15.1"
+NODE_FLAG ?= "${@base_version_less_or_equal('PREFERRED_VERSION_pxcore-libnode', '6.9.0', '-DUSE_NODE_8=OFF', '', d)}"
 
 EXTRA_OECMAKE += " \
     -DBUILD_WITH_TEXTURE_USAGE_MONITORING=ON \
@@ -45,11 +48,8 @@ EXTRA_OECMAKE += " \
     -DBUILD_PXSCENE_APP_WITH_PXSCENE_LIB=ON \
     -DBUILD_RTCORE_LIBS=ON \
     -DBUILD_RTCORE_STATIC_LIB=OFF \
+    ${NODE_FLAG} \
 "
-
-#Set this flag based on preferred version requirement"
-EXTRA_OECMAKE += "-DUSE_NODE_8=OFF"
-
 TARGET_CXXFLAGS += " -fno-delete-null-pointer-checks "
 
 do_install() {
