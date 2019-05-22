@@ -24,7 +24,8 @@ PACKAGECONFIG[westeros]     = "-DBUILD_WITH_WESTEROS=ON -DPXCORE_WAYLAND_EGL=ON 
 PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWORK=ON,,wpeframework"
 
 COMPOSITOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
-PREFERRED_VERSION_pxcore-libnode ?= "8.15.1"
+
+PREFERRED_VERSION_pxcore-libnode ?= "6.9.0"
 NODE_FLAG ?= "${@base_version_less_or_equal('PREFERRED_VERSION_pxcore-libnode', '6.9.0', '-DUSE_NODE_8=OFF', '', d)}"
 
 EXTRA_OECMAKE += " \
