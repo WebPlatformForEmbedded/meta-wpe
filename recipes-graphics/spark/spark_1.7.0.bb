@@ -4,11 +4,12 @@ DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode"
 
 SRC_URI += "file://Spark.pc \
            file://0001-nanosvg-patches.patch \
-	       file://0002-pxScene-disable-2DMultisampleEXT.patch \
-	       file://0003-pxScene-init.js-path-configurable.patch \
-	       file://0004-spark-wpeframework-compositor.patch \
+           file://0002-pxScene-disable-2DMultisampleEXT.patch \
+           file://0003-pxScene-init.js-path-configurable.patch \
+           file://0004-spark-wpeframework-compositor.patch \
            file://0005-dukluv-git.patch \
            file://0006-dukluv-git.patch \
+           file://0007-node-v8.15.1_mods.patch \
 "
 
 inherit cmake pkgconfig
@@ -24,6 +25,9 @@ PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWOR
 
 COMPOSITOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
 
+PREFERRED_VERSION_pxcore-libnode ?= "6.9.0"
+NODE_FLAG ?= "${@base_version_less_or_equal('PREFERRED_VERSION_pxcore-libnode', '6.9.0', '-DUSE_NODE_8=OFF', '', d)}"
+
 EXTRA_OECMAKE += " \
     -DBUILD_WITH_TEXTURE_USAGE_MONITORING=ON \
     -DPXCORE_COMPILE_WARNINGS_AS_ERRORS=OFF \
@@ -37,7 +41,6 @@ EXTRA_OECMAKE += " \
     -DDISABLE_DEBUG_MODE=ON \
     -DSPARK_BACKGROUND_TEXTURE_CREATION=ON \
     -DSPARK_ENABLE_LRU_TEXTURE_EJECTION=OFF \
-    -DBUILD_RTCORE_LIBS=OFF \
     -DSUPPORT_DUKTAPE=OFF \
     -DBUILD_DUKTAPE=ON \
     -DBUILD_PXSCENE_APP=OFF \
@@ -46,7 +49,9 @@ EXTRA_OECMAKE += " \
     -DBUILD_PXSCENE_APP_WITH_PXSCENE_LIB=ON \
     -DBUILD_RTCORE_LIBS=ON \
     -DBUILD_RTCORE_STATIC_LIB=OFF \
+    ${NODE_FLAG} \
 "
+TARGET_CXXFLAGS += " -fno-delete-null-pointer-checks "
 
 do_install() {
     cp -ar ${S}/src/*.h ${STAGING_INCDIR}

@@ -17,7 +17,7 @@ RPROVIDES_${PN} += "virtual/wpebackend"
 inherit cmake pkgconfig
 
 # Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
+WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'wpeframework', d)}"
 WPE_BACKEND_append = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', ' wayland','', d)}"
 WPE_BACKEND_remove = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'westeros','', d)}"
 
@@ -36,7 +36,7 @@ PACKAGECONFIG[rpi]              = "-DUSE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HAND
 PACKAGECONFIG[wayland]          = "-DUSE_BACKEND_WAYLAND=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
 PACKAGECONFIG[westeros]         = "-DUSE_BACKEND_WESTEROS=ON -DUSE_BACKEND_BCM_RPI=OFF -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland westeros libxkbcommon"
 PACKAGECONFIG[bcm-weston]       = "-DUSE_BACKEND_BCM_NEXUS_WAYLAND=ON,-DUSE_BACKEND_BCM_NEXUS_WAYLAND=OFF,,"
-PACKAGECONFIG[wpeframework]     = "-DUSE_BACKEND_WPEFRAMEWORK=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_INPUT_LIBINPUT=OFF,,wayland westeros wpeframework wpeframework-plugins libxkbcommon xkeyboard-config"
+PACKAGECONFIG[wpeframework]     = "-DUSE_BACKEND_WPEFRAMEWORK=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_INPUT_LIBINPUT=OFF,,wpeframework libxkbcommon xkeyboard-config"
 
 # MESA
 PACKAGECONFIG[westeros-mesa]    = "-DUSE_BACKEND_WESTEROS_MESA=ON,,"

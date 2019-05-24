@@ -7,6 +7,9 @@ PR = "r0"
 
 require include/wpeframework.inc
 
+# FIXME the compositor shares flags across wpeframework and wpeframework-plugins. Not sure if this is a good idea...
+include include/compositor.inc
+
 DEPENDS = "zlib"
 DEPENDS_append_libc-musl = " libexecinfo"
 
@@ -17,7 +20,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
            "
-SRCREV = "693528fbed314271350752e3fa115eb1d3679fe8"
+SRCREV = "4caaa1e27b9ead0432ffdcb56986d99cc9727c10"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -29,7 +32,7 @@ PACKAGECONFIG ?= " \
     release \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
-    virtualinput websource webkitbrowser \
+    compositorclient virtualinput websource webkitbrowser \
     "
 
 # Buildtype
@@ -41,6 +44,7 @@ PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
 PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
 
 
+PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
@@ -86,6 +90,7 @@ EXTRA_OECMAKE += " \
     -DTREE_REFERENCE=${SRCREV} \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
+    -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
 "
 
 do_install_append() {
@@ -108,7 +113,6 @@ do_install_append() {
 
     if ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "true", "false", d)}
     then
-        #install -d ${STAGING_INCDIR}
         install -m 0644 ${D}${includedir}/WPEFramework/interfaces/IDRM.h ${D}${includedir}/cdmi.h
     fi
 }
@@ -146,3 +150,8 @@ INSANE_SKIP_${PN}-dbg += "dev-so"
 # ----------------------------------------------------------------------------
 
 RDEPENDS_${PN}_rpi = "userland"
+
+# Avoid settings ADNEEDED in LDFLAGS as this can cause the libcompositor.so to drop linking to libEGL/libGLES
+# which might not be needed at first glance but will cause problems higher up in the change, there for lets drop -Wl,--as-needed
+# some distros, like POKY (morty) enable --as-needed by default (e.g. https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/conf/distro/include/as-needed.inc?h=morty)
+ASNEEDED = ""
