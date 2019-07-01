@@ -8,9 +8,9 @@ GLES1_LIB_NAME  ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/libgles1', 
 GLES2_LIB_NAME  ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/libgles2', 'broadcom-refsw', 'libv3ddriver.so', '/usr/lib/libGLESv2.so.2', d)}"
 
 TARGET_CFLAGS += '\
-    -DGLX_LIB_NAME="${GLX_LIB_NAME}" \
-    -DEGL_LIB_NAME="${EGL_LIB_NAME}" \
-    -DGLES1_LIB_NAME="${GLES1_LIB_NAME}" \
-    -DGLES2_LIB_NAME="${GLES2_LIB_NAME}" \
+    -DGLX_LIB_NAME=${GLX_LIB_NAME} \
+    -DEGL_LIB_NAME=${EGL_LIB_NAME} \
+    -DGLES1_LIB_NAME=${GLES1_LIB_NAME} \
+    -DGLES2_LIB_NAME=${GLES2_LIB_NAME} \
 '
 
