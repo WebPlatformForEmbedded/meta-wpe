@@ -20,7 +20,7 @@ inherit cmake pkgconfig
 
 # Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
 WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
-WPE_BACKEND_append = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', ' wayland','', d)}"
+WPE_BACKEND_rpi ?= "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'wpeframework','', d)}"
 
 WPE_BACKEND_x86 = "intelce"
 WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
