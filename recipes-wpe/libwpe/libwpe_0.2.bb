@@ -14,8 +14,6 @@ SRCREV = "4be4c7df5734d125148367a90da477c8d40d9eaf"
 
 S = "${WORKDIR}/git"
 
-FULL_OPTIMIZATION_remove = "-g"
-
 inherit cmake
 
 CXXFLAGS += " \
