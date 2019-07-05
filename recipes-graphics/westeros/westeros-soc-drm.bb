@@ -13,7 +13,8 @@ DEPENDS = "wayland virtual/egl glib-2.0 libdrm"
 PROVIDES = "westeros-soc"
 RPROVIDES_${PN} = "westeros-soc"
 
-CFLAGS_append = " -I${STAGING_INCDIR}/libdrm"
+CFLAGS_append = " -I${STAGING_INCDIR}/libdrm -DWESTEROS_GL_NO_PLANES"
+CFLAGS_remove_rpi = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '-DWESTEROS_GL_NO_PLANES', '', d)}"
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
