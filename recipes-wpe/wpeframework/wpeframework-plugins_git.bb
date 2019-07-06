@@ -8,11 +8,10 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
-           file://0001-Compositor-Wayland-Client.h-added-to-get-interface-i.patch \
-           file://0002-Compositor-Client-part-removed.patch \
            "
 
-SRCREV = "f732be3ff4fbb6fcd5ff4548bb39d0bbe04aa482"
+SRCREV = "71cd1a1bc0326945fa8cdca754fd1466d9778d1d"
+
 
 # ----------------------------------------------------------------------------
 
