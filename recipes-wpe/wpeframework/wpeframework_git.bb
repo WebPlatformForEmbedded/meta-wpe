@@ -7,7 +7,10 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-DEPENDS = "zlib"
+# FIXME the compositor shares flags across wpeframework and wpeframework-plugins. Not sure if this is a good idea...
+include include/compositor.inc
+
+DEPENDS = "zlib python-jsonref-native virtual/egl"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
@@ -16,8 +19,10 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
+           file://0001-CMAKE-Use-PYTHON_EXECUTABLE-provided-by-build-system.patch \
            "
-SRCREV = "fe190fbc55e847a98123e9deedf4a4997df1aae7"
+
+SRCREV = "82965e0c44c4ff6f3e134dd439719bbd44aaf052"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -86,6 +91,8 @@ EXTRA_OECMAKE += " \
     -DTREE_REFERENCE=${SRCREV} \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
+    -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python-native/python \
 "
 
 do_install_append() {
