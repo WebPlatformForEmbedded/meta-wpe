@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ab5b52d145a58f5fcc0e2a531e7a2370"
 DEPENDS += "libwpe glib-2.0"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master"
-SRCREV = "09e4643651cc8855a57c620d869ceea7e014b67a"
+SRCREV = "f43a16af156c2c9a1eb1a8fb3a5d03dfdc47c5b4"
 
 S = "${WORKDIR}/git"
 
