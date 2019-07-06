@@ -9,7 +9,9 @@ SRC_URI += "file://Spark.pc \
            file://0004-spark-wpeframework-compositor.patch \
            file://0005-dukluv-git.patch \
            file://0006-dukluv-git.patch \
-           file://0007-node-v8.15.1_mods.patch \
+           file://0007-pxScene-essos-support-for-shared-lib.patch \
+           file://0008-pxContext-lock-for-gl-context.patch \
+           file://0009-pxScript-setUrl-support.patch \
 "
 
 inherit cmake pkgconfig
