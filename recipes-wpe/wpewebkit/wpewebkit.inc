@@ -142,7 +142,6 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-base-typefindfunctions \
     gstreamer1.0-plugins-good-audiofx \
     gstreamer1.0-plugins-good-audioparsers \
-    gstreamer1.0-plugins-good-autodetect \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
