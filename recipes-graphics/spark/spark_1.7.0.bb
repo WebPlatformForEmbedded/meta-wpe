@@ -25,7 +25,8 @@ PACKAGECONFIG[wayland]      = "-DBUILD_WITH_WAYLAND=ON -DPXCORE_WAYLAND_EGL=ON -
 PACKAGECONFIG[westeros]     = "-DBUILD_WITH_WESTEROS=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,westeros"
 PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWORK=ON,,wpeframework"
 
-COMPOSITOR ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
+COMPOSITOR          ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
+LIBRTCORE_SUBDIR    ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpe', 'egl', d)}"
 
 PREFERRED_VERSION_pxcore-libnode ?= "6.9.0"
 NODE_FLAG ?= "${@base_version_less_or_equal('PREFERRED_VERSION_pxcore-libnode', '6.9.0', '-DUSE_NODE_8=OFF', '', d)}"
@@ -72,7 +73,7 @@ do_install() {
 
     install -d ${D}${libdir}
     install -m 755 ${S}/examples/pxScene2d/src/libSpark.so ${D}${libdir}
-    install -m 755 ${S}/build/wpe/librtCore.so ${D}${libdir}
+    install -m 755 ${S}/build/${LIBRTCORE_SUBDIR}/librtCore.so ${D}${libdir}
 
     install -d ${D}${datadir}/WPEFramework/Spark
     cp -av --no-preserve=ownership ${S}/examples/pxScene2d/src/node_modules ${D}${datadir}/WPEFramework/Spark/
