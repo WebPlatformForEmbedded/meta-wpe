@@ -21,8 +21,8 @@ S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative pythonnative
 
-WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
-WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
+WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros westeros-sink', 'egl', d)}"
+WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 'egl', d)}"
 WPE_PLATFORM_x86 ?= "intelce"
 WPE_PLATFORM ?= "egl"
 
@@ -58,7 +58,9 @@ PACKAGECONFIG[mediastatistics] = "-DENABLE_MEDIA_STATISTICS=ON,-DENABLE_MEDIA_ST
 PACKAGECONFIG[nativeaudio] = "-DENABLE_NATIVE_AUDIO=ON,-DENABLE_NATIVE_AUDIO=OFF,"
 PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
+PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
 PACKAGECONFIG[sampling-profiler] = "-DENABLE_SAMPLING_PROFILER=ON,-DENABLE_SAMPLING_PROFILER=OFF,"
+PACKAGECONFIG[service-worker] = "-DENABLE_SERVICE_WORKER=ON,-DENABLE_SERVICE_WORKER=OFF,"
 PACKAGECONFIG[subtlecrypto] = "-DENABLE_SUBTLE_CRYPTO=ON,-DENABLE_SUBTLE_CRYPTO=OFF,"
 PACKAGECONFIG[subtitle] = "-DENABLE_TEXT_SINK=ON,-DENABLE_TEXT_SINK=OFF,"
 PACKAGECONFIG[touch] = "-DENABLE_TOUCH_EVENTS=ON,,"
@@ -66,7 +68,9 @@ PACKAGECONFIG[udev] = "-DUSE_WPEWEBKIT_INPUT_UDEV=ON,,udev"
 PACKAGECONFIG[video] = "-DENABLE_VIDEO=ON -DENABLE_VIDEO_TRACK=ON,-DENABLE_VIDEO=OFF -DENABLE_VIDEO_TRACK=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad,${RDEPS_VIDEO}"
 PACKAGECONFIG[webaudio] = "-DENABLE_WEB_AUDIO=ON,-DENABLE_WEB_AUDIO=OFF,gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good,${RDEPS_WEBAUDIO}"
 PACKAGECONFIG[webcrypto] = "-DENABLE_WEB_CRYPTO=ON,-DENABLE_WEB_CRYPTO=OFF,libgcrypt libtasn1"
+PACKAGECONFIG[webrtc] = "-DENABLE_WEB_RTC=ON,-DENABLE_WEB_RTC=OFF,libvpx libevent libopus"
 PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
+
 
 # DRM
 PACKAGECONFIG[opencdm] = "-DENABLE_OPENCDM=ON,-DENABLE_OPENCDM=OFF,wpeframework"
@@ -107,10 +111,8 @@ LEAD_SONAME = "libWPEWebKit.so"
 
 PACKAGES =+ "${PN}-web-inspector-plugin"
 
-FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so"
+FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so ${libdir}/wpe-webkit-*/libWPEWebInspectorResources.so"
 INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
-
-PACKAGES =+ "${PN}-platform-plugin"
 
 RDEPS_MEDIASOURCE = " \
     gstreamer1.0-plugins-good-isomp4 \
@@ -140,7 +142,6 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-base-typefindfunctions \
     gstreamer1.0-plugins-good-audiofx \
     gstreamer1.0-plugins-good-audioparsers \
-    gstreamer1.0-plugins-good-autodetect \
     gstreamer1.0-plugins-good-avi \
     gstreamer1.0-plugins-good-deinterlace \
     gstreamer1.0-plugins-good-interleave \
@@ -169,9 +170,14 @@ RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
 
+RDEPENDS_${PN} += " \
+    virtual/libwpe \
+    virtual/wpebackend \
+"
+
 RRECOMMENDS_${PN} += " \
     ca-certificates \
     ttf-bitstream-vera \
     shared-mime-info \
-    ${PN}-platform-plugin \
+    ${PN}-web-inspector-plugin \
 "

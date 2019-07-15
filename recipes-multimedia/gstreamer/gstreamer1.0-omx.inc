@@ -11,6 +11,14 @@ inherit autotools pkgconfig gettext gtk-doc upstream-version-is-even
 
 acpaths = "-I ${S}/common/m4 -I ${S}/m4"
 
+# RPI specific
+GSTREAMER_1_0_OMX_TARGET_rpi = "rpi"
+GSTREAMER_1_0_OMX_CORE_NAME_rpi = "${libdir}/libopenmaxil.so"
+
+EXTRA_OECONF_append_rpi  = ' CFLAGS="$CFLAGS -I${STAGING_DIR_TARGET}/usr/include/IL -I${STAGING_DIR_TARGET}/usr/include/interface/vcos/pthreads -I${STAGING_DIR_TARGET}/usr/include/interface/vmcs_host/linux"'
+EXTRA_OECONF_append_rpi = " --disable-examples"
+
+# -------------
 
 GSTREAMER_1_0_OMX_TARGET ?= "bellagio"
 GSTREAMER_1_0_OMX_CORE_NAME ?= "${libdir}/libomxil-bellagio.so.0"
@@ -26,7 +34,7 @@ python __anonymous () {
         d.appendVar("CFLAGS", " -I${S}/omx/openmax")
     elif omx_target == "rpi":
         # Dedicated Raspberry Pi OpenMAX IL support makes this package machine specific
-        d.setVar("PACKAGE_ARCH", d.getVar("MACHINE_ARCH"))
+        d.setVar("PACKAGE_ARCH", d.getVar("MACHINE_ARCH", True))
 }
 
 set_omx_core_name() {
