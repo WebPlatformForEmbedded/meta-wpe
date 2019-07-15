@@ -10,7 +10,7 @@ require include/wpeframework.inc
 # FIXME the compositor shares flags across wpeframework and wpeframework-plugins. Not sure if this is a good idea...
 include include/compositor.inc
 
-DEPENDS = "zlib python-jsonref-native virtual/egl"
+DEPENDS = "zlib python-jsonref-native virtual/egl ${WPE_COMPOSITOR_DEP}"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
