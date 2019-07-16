@@ -53,16 +53,6 @@ do_compile_prepend() {
    oe_runmake -C ${S}/protocol
 }
 
-do_install_append () {
-   install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/default/westeros-env
-   if [ "${@bb.utils.contains("DISTRO_FEATURES", "systemd", "yes", "no", d)}" = "yes" ]; then
-       install -D -m 0644 ${S}/systemd/westeros.service ${D}${systemd_unitdir}/system/westeros.service
-   else
-       install -D -m 0755 ${S}/systemd/westeros.sysvinit ${D}${sysconfdir}/init.d/westeros
-   fi
-   install -D -m 0755 ${S}/systemd/westeros-init ${D}${bindir}/westeros-init
-}
-
 INITSCRIPT_NAME = "westeros"
 INITSCRIPT_PARAMS = "defaults"
 
