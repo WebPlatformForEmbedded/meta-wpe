@@ -1,7 +1,7 @@
-From a97c42c53d7c340074ee7018521063f9a4a3dd64 Mon Sep 17 00:00:00 2001
+From ab53c1cbbf60966809e26b7440f788dc69948bab Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Mon, 27 Nov 2017 10:57:41 +0000
-Subject: [PATCH 2/3] Small robustness fixes
+Subject: [PATCH] Small robustness fixes
 
 ---
  gst/gststructure.c         | 1 +
@@ -9,7 +9,7 @@ Subject: [PATCH 2/3] Small robustness fixes
  2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/gst/gststructure.c b/gst/gststructure.c
-index 8596c2b..60339b6 100644
+index 3b4d5b8d2..d9c48e35f 100644
 --- a/gst/gststructure.c
 +++ b/gst/gststructure.c
 @@ -375,6 +375,7 @@ gst_structure_free (GstStructure * structure)
@@ -21,7 +21,7 @@ index 8596c2b..60339b6 100644
  
    len = GST_STRUCTURE_FIELDS (structure)->len;
 diff --git a/libs/gst/base/gstadapter.c b/libs/gst/base/gstadapter.c
-index e3dff28..fbdfb89 100644
+index e3dff288f..fbdfb8902 100644
 --- a/libs/gst/base/gstadapter.c
 +++ b/libs/gst/base/gstadapter.c
 @@ -225,7 +225,10 @@ gst_adapter_finalize (GObject * object)
@@ -37,5 +37,4 @@ index e3dff28..fbdfb89 100644
    GST_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
  }
 -- 
-1.8.3.2
-
+2.17.0
