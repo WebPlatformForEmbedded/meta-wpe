@@ -18,12 +18,14 @@ RPROVIDES_${PN} += "virtual/wpebackend"
 inherit cmake pkgconfig
 
 # Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'rpi', d)}"
-WPE_BACKEND_rpi ?= "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'wpeframework','', d)}"
+WPE_BACKEND ?= "wpeframework"
 
 WPE_BACKEND_x86 = "intelce"
 WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
 WPE_BACKEND ?= "rpi"
+
+# Add westeros dependency in case Wayland is part of distro (else will default to EGLFS)
+WPEFRAMEWORK_DEPS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
 
 PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 
@@ -39,7 +41,7 @@ PACKAGECONFIG[wayland]          = "-DUSE_BACKEND_WAYLAND=ON,,wayland libxkbcommo
 PACKAGECONFIG[wayland-egl]      = "-DUSE_BACKEND_WAYLAND_EGL=ON,,wayland libxkbcommon"
 PACKAGECONFIG[westeros]         = "-DUSE_BACKEND_WESTEROS=ON,,wayland westeros libxkbcommon"
 PACKAGECONFIG[bcm-weston]       = "-DUSE_BACKEND_BCM_NEXUS_WAYLAND=ON,,wayland wayland-egl-bnxs libxkbcommon"
-PACKAGECONFIG[wpeframework]     = "-DUSE_BACKEND_WPEFRAMEWORK=ON,,wayland westeros wpeframework wpeframework-plugins libxkbcommon xkeyboard-config"
+PACKAGECONFIG[wpeframework]     = "-DUSE_BACKEND_WPEFRAMEWORK=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_INPUT_LIBINPUT=OFF,,wpeframework wpeframework-plugins libxkbcommon xkeyboard-config ${WPEFRAMEWORK_DEPS}"
 
 # MESA
 PACKAGECONFIG[westeros-mesa]    = "-DUSE_BACKEND_WESTEROS_MESA=ON,,"
