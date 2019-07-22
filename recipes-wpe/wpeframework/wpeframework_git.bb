@@ -2,12 +2,14 @@ SUMMARY = "Web Platform for Embedded Framework"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
 PR = "r0"
 
 require include/wpeframework.inc
+require include/compositor.inc
 
-DEPENDS = "zlib"
+
+DEPENDS = "zlib python-jsonref-native virtual/egl ${WPE_COMPOSITOR_DEP}"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
@@ -17,7 +19,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
            "
-SRCREV = "6f3b75efe9af35e84675a0c2cb420173abb8d584"
+SRCREV = "367ca8bb390d960a6ba980b751db6b93fbb6b245"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -32,8 +34,9 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisionproxy', 'provisionproxy', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
-    virtualinput websource webkitbrowser \
+    compositorclient virtualinput websource webkitbrowser \
     "
+
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
 PACKAGECONFIG[debug]          = "-DBUILD_TYPE=Debug,,"
@@ -42,6 +45,7 @@ PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
 PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
 PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
 
+PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
@@ -88,6 +92,8 @@ EXTRA_OECMAKE += " \
     -DTREE_REFERENCE=${SRCREV} \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
+    -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python-native/python \
 "
 
 do_install_append() {
