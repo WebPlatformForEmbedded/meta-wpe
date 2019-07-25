@@ -2,14 +2,14 @@
 
 # Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
 WPE_COMPOSITOR_IMPL 		?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', 'RPI', d)}"
-WPE_COMPOSITOR_DEP 			?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+WPE_COMPOSITOR_DEP 			?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'userland', d)}"
 WPE_COMPOSITOR_EXTRAFLAGS 	?= ""
 WPE_COMPOSITOR_HW_READY 	?= "0"
 
 # Additional flags
 WPE_COMPOSITOR_AUTOSTART 	?= "true"
 WPE_COMPOSITOR_OUTOFPROCESS ?= "true"
-WPE_COMPOSITOR_RESOLUTION	?= "720p"
+WPE_COMPOSITOR_RESOLUTION	?= "1080p"
 WPE_COMPOSITOR_MEMORY_GFX	?= ""
 WPE_COMPOSITOR_IRMODE		?= "16"
 WPE_COMPOSITOR_SVP			?= "None"
