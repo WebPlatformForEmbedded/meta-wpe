@@ -1,7 +1,7 @@
-From c7fa421af34adb7040f1826b4f0c2e7ccfa44a49 Mon Sep 17 00:00:00 2001
+From 3ad9b426b6f145ee8124cc96feaad19020a1fe7a Mon Sep 17 00:00:00 2001
 From: Charlie Turner <chturne@gmail.com>
 Date: Fri, 25 May 2018 09:43:30 +0100
-Subject: [PATCH 10/11] Parse playready payload.
+Subject: [PATCH 8/9] Parse playready payload.
 
 Look at the playready specific data payload to extract default key ids
 for decrypting samples. The format of this payload seems to be
@@ -13,10 +13,10 @@ proprietary.
  3 files changed, 160 insertions(+), 8 deletions(-)
 
 diff --git a/ext/smoothstreaming/gstmssdemux.c b/ext/smoothstreaming/gstmssdemux.c
-index e5d8d7f6d..afe453e9f 100644
+index 72ac02544..a1c8dcc77 100644
 --- a/ext/smoothstreaming/gstmssdemux.c
 +++ b/ext/smoothstreaming/gstmssdemux.c
-@@ -501,7 +501,19 @@ gst_mss_demux_setup_streams (GstAdaptiveDemux * demux)
+@@ -499,7 +499,19 @@ gst_mss_demux_setup_streams (GstAdaptiveDemux * demux)
            gst_event_new_protection (protection_system_id, protection_buffer,
            "smooth-streaming");
  
@@ -286,5 +286,4 @@ index 03b066ae5..4e6ad7357 100644
  GstMssStreamType gst_mss_stream_get_type (GstMssStream *stream);
  GstCaps * gst_mss_stream_get_caps (GstMssStream * stream);
 -- 
-2.17.0
-
+2.17.1

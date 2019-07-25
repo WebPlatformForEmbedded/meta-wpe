@@ -1,7 +1,7 @@
-From 0c67a2059012849215aee773a15514c8ce2d8d49 Mon Sep 17 00:00:00 2001
+From 5c2430fc1c9356d432a5290139c07ced3b21a07c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Fri, 9 Feb 2018 15:03:45 +0000
-Subject: [PATCH 09/11] Fix HLS live stream issues with
+Subject: [PATCH 7/9] Fix HLS live stream issues with
  http://cdn.metrological.com/hls/master.m3u8
 
 This live stream has index{0-3}.ts blocks which repeat forever. The
@@ -38,10 +38,10 @@ index 195ec2ab8..736c6741d 100644
  struct _GstM3U8
  {
 diff --git a/gst/mpegtsdemux/mpegtspacketizer.c b/gst/mpegtsdemux/mpegtspacketizer.c
-index cc46ebb25..6317bf5db 100644
+index aebc6881e..9039f1f8e 100644
 --- a/gst/mpegtsdemux/mpegtspacketizer.c
 +++ b/gst/mpegtsdemux/mpegtspacketizer.c
-@@ -1333,7 +1333,8 @@ calculate_skew (MpegTSPacketizer2 * packetizer,
+@@ -1336,7 +1336,8 @@ calculate_skew (MpegTSPacketizer2 * packetizer,
    /* Handle PCR wraparound and resets */
    if (GST_CLOCK_TIME_IS_VALID (pcr->last_pcrtime) &&
        gstpcrtime < pcr->last_pcrtime) {
@@ -51,7 +51,7 @@ index cc46ebb25..6317bf5db 100644
        /* PCR wraparound */
        GST_DEBUG ("PCR wrap");
        pcr->pcroffset += PCR_GST_MAX_VALUE;
-@@ -1521,6 +1522,12 @@ no_skew:
+@@ -1524,6 +1525,12 @@ no_skew:
        out_time = 0;
      } else {
        out_time += pcr->skew;
@@ -65,5 +65,4 @@ index cc46ebb25..6317bf5db 100644
      /* check if timestamps are not going backwards, we can only check this if we
       * have a previous out time and a previous send_diff */
 -- 
-2.17.0
-
+2.17.1
