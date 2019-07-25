@@ -17,8 +17,3 @@ do_configure_prepend_rpi() {
 do_compile_prepend_rpi () {
 	export WESTEROS_COMPOSITOR_EXTRA_LIBS="${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "-lEGL -lGLESv2", "-lEGL -lGLESv2 -lbcm_host -lvchostif", d)}"
 }
-
-# change hardcoded /usr/lib dir to proper libdir name in init script
-do_install_append() {
-    sed -i -e "s#/usr/lib#${libdir}#g" ${D}/${bindir}/westeros-init
-}
