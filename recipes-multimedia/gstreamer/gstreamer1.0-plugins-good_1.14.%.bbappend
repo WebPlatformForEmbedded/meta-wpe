@@ -11,4 +11,5 @@ SRC_URI += " \
     file://0006-matroskademux-emit-no-more-pads-when-the-Tracks-elem.patch \
     file://0007-Check-if-an-upstream-demuxer-provided-a-default-kid.patch \
     file://0008-qtdemux-Keep-sample-data-from-the-current-fragment-o.patch \
+    file://0009-qtdemux-Find-mp4a-esds-atoms-in-protected-streams-sa.patch \
 "
