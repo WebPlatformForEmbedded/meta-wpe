@@ -16,12 +16,15 @@ It provides the necessary recipes to build the [WebPlatformforEmbedded](https://
 1. `git clone git@github.com:YoeDistro/yoe-distro.git` and `cd yoe-distro`
 2. `. raspberrypi3-envsetup.sh` (OR any other machine with `. ./\<machine\>-envsetup.sh`)
 3. `yoe_setup`
-4. `yoe_add_layer git@github.com:WebPlatformForEmbedded/meta-wpe master
+4. `yoe_add_layer git@github.com:WebPlatformForEmbedded/meta-wpe master`
 5. Add the following lines to `conf/local.conf` to build an eglfs image:
-    DISTRO_FEATURES_remove_rpi = "x11"
-    DISTRO_FEATURES_remove_rpi = "wayland"
 
-    Note: If you want to build a Wayland based image, don't remove Wayland.
+    `DISTRO_FEATURES_remove_rpi = "x11"`
+    `DISTRO_FEATURES_remove_rpi = "wayland"`
+    `MACHINE_FEATURES_remove = "vc4graphics"`
+
+    Note: If you want to build a Wayland based image, don't remove Wayland and you can enable vc4graphics.
+
 6. Build an full screen EGL image: `bitbake wpe-eglfs-image`.
 7. Insert SD card
 8. lsblk (note sd card device, and substitute for /dev/sdX below)
