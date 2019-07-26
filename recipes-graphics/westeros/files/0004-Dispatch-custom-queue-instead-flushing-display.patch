@@ -1,16 +1,25 @@
+From 474035286a716158875632cbda853e2ce29ba584 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Fri, 30 Nov 2018 11:43:38 -0800
+ 0004-Dispatch-custom-queue-instead-flushing-display.patch
+
+---
+ westeros-sink/westeros-sink.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
 diff --git a/westeros-sink/westeros-sink.c b/westeros-sink/westeros-sink.c
-index b5fa0cb..e7839c9 100644
+index bf3d6ab..a3c6e47 100644
 --- a/westeros-sink/westeros-sink.c
 +++ b/westeros-sink/westeros-sink.c
-@@ -106,7 +106,6 @@ static void shellSurfaceId(void *data,
-       wl_simple_shell_set_opacity( sink->shell, sink->surfaceId, op);
-       wl_simple_shell_get_status( sink->shell, sink->surfaceId );
+@@ -112,7 +112,6 @@ static void shellSurfaceId(void *data,
+          wl_simple_shell_set_geometry( sink->shell, sink->surfaceId, sink->windowX, sink->windowY, sink->windowWidth, sink->windowHeight );
+       }
     }
 -   wl_display_flush(sink->display);
  }
  
  static void shellSurfaceCreated(void *data,
-@@ -264,8 +263,6 @@ static void registryHandleGlobal(void *data,
+@@ -270,8 +269,6 @@ static void registryHandleGlobal(void *data,
        wl_proxy_set_queue((struct wl_proxy*)sink->vpc, sink->queue);
     }
     gst_westeros_sink_soc_registryHandleGlobal( sink, registry, id, interface, version );
@@ -19,7 +28,7 @@ index b5fa0cb..e7839c9 100644
  }
  
  static void registryHandleGlobalRemove(void *data, 
-@@ -525,7 +522,8 @@ gst_westeros_sink_init(GstWesterosSink *sink, GstWesterosSinkClass *gclass)
+@@ -533,7 +530,8 @@ gst_westeros_sink_init(GstWesterosSink *sink, GstWesterosSinkClass *gclass)
                 sink->surface= wl_compositor_create_surface(sink->compositor);
                 printf("gst_westeros_sink_init: surface=%p\n", (void*)sink->surface);
                 wl_proxy_set_queue((struct wl_proxy*)sink->surface, sink->queue);
@@ -29,7 +38,7 @@ index b5fa0cb..e7839c9 100644
              }
              else
              {
-@@ -668,10 +666,13 @@ static void gst_westeros_sink_set_property(GObject *object, guint prop_id, const
+@@ -676,10 +674,13 @@ static void gst_westeros_sink_set_property(GObject *object, guint prop_id, const
                    wl_simple_shell_set_visible( sink->shell, sink->surfaceId, true);
                    
                    wl_simple_shell_get_status( sink->shell, sink->surfaceId);
@@ -45,7 +54,7 @@ index b5fa0cb..e7839c9 100644
           }
  
           g_strfreev(parts);
-@@ -767,7 +768,9 @@ static GstStateChangeReturn gst_westeros_sink_change_state(GstElement *element,
+@@ -777,7 +778,9 @@ static GstStateChangeReturn gst_westeros_sink_change_state(GstElement *element,
                 {
                    wl_vpc_surface_set_geometry( sink->vpcSurface, sink->windowX, sink->windowY, sink->windowWidth, sink->windowHeight );
                 }

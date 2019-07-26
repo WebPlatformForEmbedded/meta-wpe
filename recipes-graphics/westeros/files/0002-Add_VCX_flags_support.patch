@@ -1,5 +1,14 @@
+From 066d94eb46f4e7788bcfd127c526e92d2a9295c3 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Fri, 30 Nov 2018 11:43:38 -0800
+
+---
+ brcm/Makefile.am  | 10 ++++++++++
+ brcm/configure.ac | 15 +++++++++++++++
+ 2 files changed, 25 insertions(+)
+
 diff --git a/brcm/Makefile.am b/brcm/Makefile.am
-index 2bfc998..4bebec0 100644
+index 06e7d5d..1a888a2 100644
 --- a/brcm/Makefile.am
 +++ b/brcm/Makefile.am
 @@ -35,6 +35,16 @@ AM_CFLAGS = -DUSE_WESTEROS $(NEXUS_CFLAGS) $(NXCLIENT_CFLAGS) -I$(ROCKFORD_TOP)/
@@ -20,10 +29,10 @@ index 2bfc998..4bebec0 100644
  
  libwesteros_gl_la_SOURCES = westeros-gl/westeros-gl.cpp
 diff --git a/brcm/configure.ac b/brcm/configure.ac
-index f18567f..78fa91e 100644
+index c9dea91..78f3177 100644
 --- a/brcm/configure.ac
 +++ b/brcm/configure.ac
-@@ -60,6 +60,21 @@ PKG_CHECK_MODULES([WAYLAND_SERVER],[wayland-server >= 1.6.0])
+@@ -74,6 +74,21 @@ PKG_CHECK_MODULES([WAYLAND_SERVER],[wayland-server >= 1.6.0])
  WAYLANDLIB="-lwayland-client"
  AC_SUBST(WAYLANDLIB)
  
