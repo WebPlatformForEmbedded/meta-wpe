@@ -1,9 +1,10 @@
-From 25dbebf4459abf80299b7f5cd44818cf30cc98b4 Mon Sep 17 00:00:00 2001
+From 5e552082c4b3a2bd64be68e6a7dfc8a7f6cc2c52 Mon Sep 17 00:00:00 2001
 From: wouterlucas <wouter@wouterlucas.com>
 Date: Thu, 25 Jul 2019 16:27:40 -0700
 Subject: [PATCH] Set default resolution to 1080
 
 Signed-off-by: wouterlucas <wouter@wouterlucas.com>
+
 ---
  westeros-compositor.cpp | 8 ++++----
  westeros-main.cpp       | 6 +++---

@@ -1,3 +1,4 @@
+From 0a78d2021757f35e5361284c066bee0e671b47a2 Mon Sep 17 00:00:00 2001
 From: wouterlucas <wouter@wouterlucas.com>
 Date: Fri, 1 Dec 2017 19:37:07 -0800
 Subject: [PATCH] Use intptr_t to avoid precision errors on aarch64
@@ -7,7 +8,7 @@ Subject: [PATCH] Use intptr_t to avoid precision errors on aarch64
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/westeros-nested.cpp b/westeros-nested.cpp
-index b241a48..01da1ab 100644
+index f2f95d3..e572e6e 100644
 --- a/westeros-nested.cpp
 +++ b/westeros-nested.cpp
 @@ -16,6 +16,7 @@
@@ -18,7 +19,7 @@ index b241a48..01da1ab 100644
  #include <stdlib.h>
  #include <stdio.h>
  #include <memory.h>
-@@ -1040,7 +1041,7 @@ void WstNestedConnectionAttachAndCommitDevice( WstNestedConnection *nc,
+@@ -1099,7 +1100,7 @@ void WstNestedConnectionAttachAndCommitDevice( WstNestedConnection *nc,
        struct wl_buffer *buffer;
        
        buffer= wl_sb_create_buffer( nc->sb, 
@@ -27,6 +28,3 @@ index b241a48..01da1ab 100644
                                     width, 
                                     height, 
                                     stride,
--- 
-2.7.4
-
