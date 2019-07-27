@@ -1,4 +1,4 @@
-require recipes-graphics/westeros/westeros.inc
+require westeros.inc
 
 SUMMARY = "This receipe compiles the westeros gl component for drm supported platforms, currently the HiKey board"
 LICENSE_LOCATION = "${S}/../LICENSE"
