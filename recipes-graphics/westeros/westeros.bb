@@ -1,4 +1,4 @@
-include westeros.inc
+require westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
