@@ -1,6 +1,6 @@
 require recipes-graphics/westeros/westeros.inc
 
-SUMMARY = "This receipe compiles the westeros gl component for drm supported platforms, currently the HiKey board"
+SUMMARY = "This recipe compiles the westeros gl component for drm supported platforms, currently Hikey, db410c, db820c and iMX8M"
 LICENSE_LOCATION = "${S}/../LICENSE"
 
 S = "${WORKDIR}/git/drm"
