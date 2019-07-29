@@ -1,0 +1,31 @@
+From e9069c104d522e0e43a52feea2db092921d810cc Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Thu, 25 Jul 2019 20:18:54 -0700
+Subject: [PATCH] [OpenSSL] align implementation with latest OpenSSL 1.1.0
+
+In the new OpenSSL the fn AES_ctr128_encrypt is available as CRYPTO_ctr128_encrypt. Latest Yocto uses 1.1.1c, so won't compile with older pre1.1.0 implementation.
+---
+ MediaSession.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/MediaSession.cpp b/MediaSession.cpp
+index af0585e..22769d0 100644
+--- a/MediaSession.cpp
++++ b/MediaSession.cpp
+@@ -20,6 +20,7 @@
+ #include <iostream>
+ #include <openssl/aes.h>
+ #include <openssl/evp.h>
++#include <openssl/modes.h>
+ #include <pthread.h>
+ #include <sstream>
+ #include <string>
+@@ -191,7 +192,7 @@ CDMi_RESULT MediaKeySession::Decrypt(
+ 
+     memcpy(&(ivec[0]), f_pbIV, f_cbIV);
+ 
+-    AES_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset);
++    CRYPTO_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset,(block128_f)AES_encrypt);
+ 
+     /* Return clear content */
+     *f_pcbOpaqueClearContent = f_cbData;
