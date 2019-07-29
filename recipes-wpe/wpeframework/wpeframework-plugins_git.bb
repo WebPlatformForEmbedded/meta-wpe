@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-WebKitBrowser-Add-Time-to-dependencies.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
+           file://0001-WebKitBrowser-Default-to-1080p-instead-of-720p.patch \
            "
 
 SRCREV = "2c32139e3d659a7ac51d8896d04136a7825dc36b"

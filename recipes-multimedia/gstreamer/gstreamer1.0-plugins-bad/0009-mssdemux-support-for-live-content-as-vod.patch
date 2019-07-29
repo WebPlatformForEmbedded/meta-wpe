@@ -1,7 +1,7 @@
-From 81930e9eac9d5de63e52e640b4ef37bddb3e31e1 Mon Sep 17 00:00:00 2001
+From ee61b1872bfe13f964c6ccff48ed86b982562678 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Thu, 22 Nov 2018 12:21:53 +0000
-Subject: [PATCH 11/11] mssdemux: support for live content as vod
+Subject: [PATCH 9/9] mssdemux: support for live content as vod
 
 Some content providers store live videos (with initial PTS very far away from
 zero) and later serve them as regular video-on-demand content (isLive=false),
@@ -17,7 +17,7 @@ zero.
  3 files changed, 97 insertions(+)
 
 diff --git a/ext/smoothstreaming/gstmssdemux.c b/ext/smoothstreaming/gstmssdemux.c
-index afe453e9f..56cfbba54 100644
+index a1c8dcc77..154009808 100644
 --- a/ext/smoothstreaming/gstmssdemux.c
 +++ b/ext/smoothstreaming/gstmssdemux.c
 @@ -212,6 +212,76 @@ gst_mss_demux_class_init (GstMssDemuxClass * klass)
@@ -154,5 +154,4 @@ index 4e6ad7357..2720ec682 100644
  const gchar * gst_mss_stream_type_name (GstMssStreamType streamtype);
  
 -- 
-2.17.0
-
+2.17.1

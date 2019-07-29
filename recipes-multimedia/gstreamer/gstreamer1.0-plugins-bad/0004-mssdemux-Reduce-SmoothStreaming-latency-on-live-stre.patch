@@ -1,8 +1,7 @@
-From 5b90ba9a6e5c6ac3efd146103e15b60b3ea0e3c1 Mon Sep 17 00:00:00 2001
+From d9b655f29ee38e1fa98e8431e544aa29233d8871 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Wed, 23 May 2018 15:40:30 +0000
-Subject: [PATCH 04/11] mssdemux: Reduce SmoothStreaming latency on live
- streams
+Subject: [PATCH 4/9] mssdemux: Reduce SmoothStreaming latency on live streams
 
 by skipping the fragments affected by dvr_window, minus the ones reserved by
 look_ahead_fragment_count plus some margin. Otherwise, the playback would
@@ -74,5 +73,4 @@ index cc18d4209..93a171cbd 100644
    }
  
 -- 
-2.17.0
-
+2.17.1
