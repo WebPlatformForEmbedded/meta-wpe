@@ -1,11 +1,11 @@
 require westeros.inc
 
-SUMMARY = "This receipe compiles the westeros gl component for drm supported platforms, currently the HiKey board"
+SUMMARY = "This recipe compiles the westeros gl component for drm supported platforms, currently Hikey, db410c, db820c and iMX8M"
 LICENSE_LOCATION = "${S}/../LICENSE"
 
 S = "${WORKDIR}/git/drm"
 
-COMPATIBLE_MACHINE = "(hikey-32|dragonboard-410c-32|dragonboard-820c-32|poplar|imx)"
+COMPATIBLE_MACHINE = "(hikey-32|dragonboard-410c-32|dragonboard-820c-32|poplar|imx|dragonboard-410c|dragonboard-820c|hikey)"
 COMPATIBLE_MACHINE_rpi = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '(.*)', 'null', d)}"
 
 DEPENDS = "wayland virtual/egl glib-2.0 libdrm"
