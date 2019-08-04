@@ -10,3 +10,4 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Widevine-Nexus-SVP.g
 SRCREV = "488a0dc406a7a2333c54b3bb59e56ce2b35552a2"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
+COMPATIBLE_MACHINE = "(brcm)"

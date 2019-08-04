@@ -2,6 +2,9 @@ SUMMARY = "WPE Framework OpenCDMi module for widevine"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
 
+inherit distro_features_check
+REQUIRED_DISTRO_FEATURES = "widevine"
+
 require include/wpeframework-plugins.inc
 
 DEPENDS += " widevine"
