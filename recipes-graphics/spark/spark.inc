@@ -9,6 +9,6 @@ DEPENDS = "openssl"
 PV = "1.7.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/pxscene/pxCore;protocol=git;branch=master"
-SRCREV = "f9e9f13c25ea42368eace3746760bf9bc73a0142"
+SRCREV = "9bb696d5dd73cb25a9b6999b752d3da975fa54b1"
 
 S = "${WORKDIR}/git"
