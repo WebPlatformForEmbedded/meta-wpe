@@ -1,6 +1,6 @@
 include spark.inc
 
-DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode giflib"
+DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode giflib sqlite3"
 
 SRC_URI += "file://Spark.pc \
            file://0001-nanosvg-patches.patch \
