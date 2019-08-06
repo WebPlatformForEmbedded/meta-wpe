@@ -2,7 +2,7 @@ SUMMARY = "Web Platform for Embedded Framework"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
 PR = "r0"
 
 require include/wpeframework.inc
@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
            "
-SRCREV = "aed13867c93fe76dc29d32abe4237559cc19b62c"
+SRCREV = "7214bcfcf984de5703f54ec9e129be1a65e16a8d"
 
 inherit cmake pkgconfig systemd update-rc.d
 
