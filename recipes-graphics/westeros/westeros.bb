@@ -11,6 +11,8 @@ SRC_URI += "file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch 
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
 PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
+# as far as only drm resolution module is available so, enabled only for DRM
+PACKAGECONFIG_append = " ${@bb.utils.contains('WESTEROS_BACKEND', 'westeros-soc-drm', 'modules', '', d)}"
 
 PACKAGECONFIG[incapp] = "--enable-app=yes"
 PACKAGECONFIG[inctest] = "--enable-test=yes"
@@ -20,13 +22,12 @@ PACKAGECONFIG[incsbprotocol] = "--enable-sbprotocol=yes"
 PACKAGECONFIG[xdgv4] = "--enable-xdgv4=yes"
 PACKAGECONFIG[xdgv5] = "--enable-xdgv5=yes"
 PACKAGECONFIG[x11] = ",,freeglut"
+PACKAGECONFIG[modules] = "--enable-modules=yes"
 
 S = "${WORKDIR}/git"
 
 WESTEROS_BACKEND ?= "westeros-soc-drm"
 WESTEROS_BACKEND_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros-soc-drm", "westeros-soc-rpi", d)}"
-
-westeros-soc_imx = "westeros-soc-drm"
 
 DEPENDS += "\
            westeros-simplebuffer \
@@ -46,8 +47,17 @@ do_compile_prepend() {
    oe_runmake -C ${S}/protocol
 }
 
+def is_drm_enabled(d):
+    return bb.utils.contains('WESTEROS_BACKEND', 'westeros-soc-drm', '1', '0', d)
+
 do_install_append () {
    install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/default/westeros-env
+   install -D -m 0755 ${S}/systemd/westeros-init ${D}${bindir}/westeros-init
+   if [ -f ${D}${bindir}/westeros-init -a ${@is_drm_enabled(d)} -eq 1 ]; then
+       sed -i -e '/--renderer/i export WESTEROS_DRM_MODE=1920x1080' ${D}${bindir}/westeros-init
+       sed -i -e '/--renderer/i export LD_PRELOAD=/usr/lib/libwesteros_gl.so.0' ${D}${bindir}/westeros-init
+       sed -i -e '/--renderer/ s#$# --module /usr/lib/libresolutionmodule.so#' ${D}${bindir}/westeros-init
+   fi
 }
 
 FILES_SOLIBSDEV = ""
