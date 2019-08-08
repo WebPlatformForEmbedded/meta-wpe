@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework common plugins"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=e338ae07876cc28375de01750cc8a162"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "8b70bd116e65f8824f060e0e26a4b1cfe65e27cd"
+SRCREV = "886f9025b30a75eb19ed589066e09927b92463ec"
 
 # ----------------------------------------------------------------------------
 

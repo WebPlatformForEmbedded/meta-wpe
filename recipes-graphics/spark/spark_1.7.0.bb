@@ -1,17 +1,14 @@
 include spark.inc
 
-DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode"
+DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode giflib sqlite3"
 
 SRC_URI += "file://Spark.pc \
            file://0001-nanosvg-patches.patch \
            file://0002-pxScene-disable-2DMultisampleEXT.patch \
-           file://0003-pxScene-init.js-path-configurable.patch \
-           file://0004-spark-wpeframework-compositor.patch \
-           file://0005-dukluv-git.patch \
-           file://0006-dukluv-git.patch \
-           file://0007-pxScene-essos-support-for-shared-lib.patch \
-           file://0008-pxContext-lock-for-gl-context.patch \
-           file://0009-pxScript-setUrl-support.patch \
+           file://0003-spark-wpeframework-compositor.patch \
+           file://0004-dukluv-git.patch \
+           file://0005-pxScene-essos-support-for-shared-lib.patch \
+           file://0006-pxScene-top-issue-fix.patch \
 "
 
 inherit cmake pkgconfig
