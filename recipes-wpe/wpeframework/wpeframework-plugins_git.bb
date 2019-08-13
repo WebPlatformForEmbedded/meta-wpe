@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-WebKitBrowser-Default-to-1080p-instead-of-720p.patch \
            "
 
-SRCREV = "2c32139e3d659a7ac51d8896d04136a7825dc36b"
+SRCREV = "d25e61d8c274fa2004d7c87780e4d491b1f82093"
 
 # ----------------------------------------------------------------------------
 
