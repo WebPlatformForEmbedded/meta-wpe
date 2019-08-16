@@ -32,8 +32,16 @@ PACKAGECONFIG ?= " \
     release \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
-    compositorclient virtualinput websource webkitbrowser \
+    virtualinput websource webkitbrowser \
     "
+
+# add compositor client if Wayland is present
+PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'compositorclient', '', d)}"
+# add it for RPI regardless if Wayland is present (because we can do dispmanx too)
+PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '', 'compositorclient', d)}"
+# just not with vc4graphics
+PACKAGECONFIG_remove = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'compositorclient', '', d)}"
+
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
