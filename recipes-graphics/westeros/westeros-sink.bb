@@ -2,6 +2,8 @@ include westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor gstreamer sink element"
 
+SRC_URI += "file://0001-v4l2-westeros-sink-Include-fcntl.h-for-O_RDWR.patch"
+
 S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
@@ -13,3 +15,4 @@ do_compile_prepend() {
 }
 
 CFLAGS += "-I${S}/protocol"
+CFLAGS_append_toolchain-clang = " -Wno-error=c++11-narrowing"

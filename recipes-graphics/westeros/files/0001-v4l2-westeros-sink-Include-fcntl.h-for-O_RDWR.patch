@@ -1,0 +1,25 @@
+From 33cecd1d5e2e28c3a26ee47d512388b198ed4a1a Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 15 Aug 2019 12:59:02 -0700
+Subject: [PATCH] v4l2/westeros-sink: Include fcntl.h for O_RDWR
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ v4l2/westeros-sink/westeros-sink-soc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/v4l2/westeros-sink/westeros-sink-soc.c b/v4l2/westeros-sink/westeros-sink-soc.c
+index 49dd0ba..8a2b0b3 100644
+--- a/v4l2/westeros-sink/westeros-sink-soc.c
++++ b/v4l2/westeros-sink/westeros-sink-soc.c
+@@ -29,6 +29,7 @@
+ #include <sys/time.h>
+ #include <unistd.h>
+ #include <dirent.h>
++#include <fcntl.h>
+ 
+ #include "westeros-sink.h"
+ 
+-- 
+2.22.1
+

@@ -10,6 +10,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0001-WebKitBrowser-Default-to-1080p-instead-of-720p.patch \
+           file://0001-compositorclient-westeros-Include-wayland-egl.h-befo.patch \
            "
 
 SRCREV = "d25e61d8c274fa2004d7c87780e4d491b1f82093"

@@ -10,3 +10,5 @@ SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Playready-Nexus-SVP.
 SRCREV = "8035da740729aafce77b0989bea677247e642591"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
+
+COMPATIBLE_MACHINE = "(brcm)"

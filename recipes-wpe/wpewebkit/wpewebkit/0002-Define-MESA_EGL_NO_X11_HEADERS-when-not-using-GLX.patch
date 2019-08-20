@@ -13,8 +13,6 @@ Signed-off-by: wouterlucas <wouter@wouterlucas.com>
  .../WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp  | 4 ++++
  2 files changed, 9 insertions(+)
 
-diff --git a/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h b/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h
-index b7a4b0a167c..941f85858b2 100644
 --- a/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h
 +++ b/Source/WebCore/platform/graphics/epoxy/EpoxyEGL.h
 @@ -25,6 +25,11 @@
@@ -29,8 +27,6 @@ index b7a4b0a167c..941f85858b2 100644
  #include <epoxy/egl.h>
  
  // Provide the EGL_CAST macro in case the eglplatform.h header doesn't define it already.
-diff --git a/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp b/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp
-index f696a1dcfc2..8efc082384d 100644
 --- a/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp
 +++ b/Source/WebKit/WebProcess/WebPage/wpe/AcceleratedSurfaceWPE.cpp
 @@ -28,6 +28,10 @@
@@ -43,7 +39,4 @@ index f696a1dcfc2..8efc082384d 100644
 +#endif
  #include <wpe/wpe-egl.h>
  
- using namespace WebCore;
--- 
-2.17.0
-
+ namespace WebKit {

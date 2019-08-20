@@ -1,0 +1,37 @@
+From e3affb147a01384b338b71e21029889476ecc8c5 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 15 Aug 2019 15:41:22 -0700
+Subject: [PATCH] compositorclient/westeros: Include wayland-egl.h before EGL
+ headers
+
+EGL headers use WL_EGL_PLATFORM define to define some generatic typedefs
+based on X11/wayland/eglfs being the protocols, if we do not include
+wayland-egl.h first then WL_EGL_PLATFORM does not get defined and it
+defaults to X11 or eglfs depending upon distro features, since westeros
+is a wayland compositor we should be defining WL_EGL_PLATFORM first and
+then including EGL headers
+
+Fixes errors like
+Source/compositorclient/Wayland/Implementation.h:119:65: error: invalid static_cast from type 'wl_egl_window* const' to type 'EGLNativeWindowType' {aka 'long uns igned int'}
+ource/compositorclient/Wayland/Implementation.h:565:63: error: invalid static_cast from type 'wl_display* const' to type 'EGLNativeDisplayType' {aka '_XDisplay*'}
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Compositor/lib/Wayland/Wayland.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Compositor/lib/Wayland/Wayland.h b/Compositor/lib/Wayland/Wayland.h
+index 35353f6..209d5a5 100644
+--- a/Compositor/lib/Wayland/Wayland.h
++++ b/Compositor/lib/Wayland/Wayland.h
+@@ -1,6 +1,7 @@
+ #ifndef PROJECT_WAYLAND_H
+ #define PROJECT_WAYLAND_H
+ 
++#include <wayland-egl.h>
+ // This define is used in mesa GL implementation to exlcude X11 headers
+ #define MESA_EGL_NO_X11_HEADERS 1
+ 
+-- 
+2.22.1
+
