@@ -6,7 +6,6 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
-           file://0001-WebKitBrowser-Add-Time-to-dependencies.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
