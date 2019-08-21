@@ -28,7 +28,8 @@ WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
 PACKAGECONFIG ?= " \
     release \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
     virtualinput websource webkitbrowser \
     "
 
@@ -49,7 +50,7 @@ PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 # OCDM
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
 PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",-DCDMI=OFF,gstreamer1.0'
-PACKAGECONFIG[opencdmi_prnx_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,'
+PACKAGECONFIG[opencdmi_nexus_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,'
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
