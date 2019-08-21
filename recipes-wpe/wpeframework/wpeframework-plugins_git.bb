@@ -6,6 +6,7 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
+           file://0002-compositor-Add-nxserver-include-dirs-to-target.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
