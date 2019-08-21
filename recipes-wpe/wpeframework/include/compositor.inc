@@ -13,6 +13,7 @@ WPE_COMPOSITOR_RESOLUTION	?= "720p"
 WPE_COMPOSITOR_MEMORY_GFX	?= ""
 WPE_COMPOSITOR_IRMODE		?= "16"
 WPE_COMPOSITOR_SVP			?= "None"
+WPE_COMPOSITOR_BOXMODE		?= "3"
 
 # ----------------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ WPE_COMPOSITOR_EXTRAFLAGS = ' \
 -DPLUGIN_COMPOSITOR_IRMODE=${WPE_COMPOSITOR_IRMODE} \
 -DPLUGIN_COMPOSITOR_VIRTUALINPUT=ON \
 -DPLUGIN_COMPOSITOR_SVP="${WPE_COMPOSITOR_SVP}" \
+-DPLUGIN_COMPOSITOR_BOXMODE=${WPE_COMPOSITOR_BOXMODE} \
 '
 
 # ----------------------------------------------------------------------------
