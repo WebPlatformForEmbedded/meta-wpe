@@ -7,7 +7,7 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-DEPENDS = "zlib"
+DEPENDS = "zlib python-jsonref-native"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
@@ -88,6 +88,7 @@ EXTRA_OECMAKE += " \
     -DTREE_REFERENCE=${SRCREV} \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python-native/python \
 "
 
 do_install_append() {
