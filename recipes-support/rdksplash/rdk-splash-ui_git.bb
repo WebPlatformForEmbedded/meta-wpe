@@ -3,7 +3,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=cbffef879caf8b1db2d5173ff472c28c"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/RDKSplashScreen.git"
-SRCREV = "3a6b89d62dbd407e4281a304078b7a97b49ae961"
+SRCREV = "25d6642978b3fd84ac97dd0beb2655a051b5aca0"
 
 S = "${WORKDIR}/git"
 
