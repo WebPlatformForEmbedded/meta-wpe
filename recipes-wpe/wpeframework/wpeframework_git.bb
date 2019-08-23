@@ -9,7 +9,8 @@ require include/wpeframework.inc
 require include/compositor.inc
 
 DEPENDS = "zlib python-jsonref-native virtual/egl  \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \"
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
+"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
