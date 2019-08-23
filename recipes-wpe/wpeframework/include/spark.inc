@@ -1,5 +1,6 @@
 # TBD find a way to fit the WPEFRAMEWORK platform in here...
-SPARK_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DPLATFORM_WAYLAND_EGL=ON', '-DPLATFORM_WPEFRAMEWORK=ON', d)}"
-#SPARK_PLATFORM = "-DPLATFORM_WAYLAND_EGL=ON"
+SPARK_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DPLATFORM_WAYLAND_EGL=ON', '', d)}"
+SPARK_PLATFORM_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '-DPLATFORM_WAYLAND_EGL=ON', '', d)}"
+SPARK_PLATFORM_append = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '-DPLATFORM_WPEFRAMEWORK=ON', '', d)}"
 
 PACKAGECONFIG[spark]          = "-DPLUGIN_SPARK=ON -DPLUGIN_SPARK_AUTOSTART=false -DPLATFORM_LINUX=ON ${SPARK_PLATFORM},-DPLUGIN_SPARK=OFF,spark,spark"
