@@ -8,7 +8,9 @@ PR = "r0"
 require include/wpeframework.inc
 require include/compositor.inc
 
-DEPENDS = "zlib python-jsonref-native"
+DEPENDS = "zlib python-jsonref-native virtual/egl  \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \"
+
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
@@ -31,7 +33,8 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
-    compositorclient virtualinput websource webkitbrowser \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)} \
+    virtualinput websource webkitbrowser \
     "
 
 # Buildtype
