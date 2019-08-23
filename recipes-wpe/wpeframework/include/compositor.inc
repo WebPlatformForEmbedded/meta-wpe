@@ -36,3 +36,4 @@ PACKAGECONFIG[compositor]     = " \
     ,-DPLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
 
 # ----------------------------------------------------------------------------
+
