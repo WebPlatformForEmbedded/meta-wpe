@@ -10,7 +10,11 @@ require include/wpeframework.inc
 # FIXME the compositor shares flags across wpeframework and wpeframework-plugins. Not sure if this is a good idea...
 include include/compositor.inc
 
-DEPENDS = "zlib python-jsonref-native virtual/egl ${WPE_COMPOSITOR_DEP}"
+DEPENDS = " \
+    zlib python-jsonref-native virtual/egl \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
+"
+
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
@@ -37,12 +41,7 @@ PACKAGECONFIG ?= " \
     "
 
 # add compositor client if Wayland is present
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'compositorclient', '', d)}"
-# add it for RPI regardless if Wayland is present (because we can do dispmanx too)
-PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '', 'compositorclient', d)}"
-# just not with vc4graphics
-PACKAGECONFIG_remove = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'compositorclient', '', d)}"
-
+PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
@@ -80,14 +79,14 @@ PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,,"
 # WebSource event is provided by the WebServer plugin
 
 # Only enable certain events if wpeframework is in distro features
-WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Network', '', d)}"
+WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)}"
 
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
-    Location Time Internet \
+    Location Internet \
 "
 
 EXTRA_OECMAKE += " \
