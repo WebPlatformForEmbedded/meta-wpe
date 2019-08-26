@@ -1,0 +1,26 @@
+From dddc468eb06b94c0fe36b6ff1ec8c8b49a6bf500 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Thu, 22 Aug 2019 15:48:31 -0700
+Subject: [PATCH] Spark: Only check STREQUAL if value exists
+
+This fixes an error when trying to compile Spark without Compositor. Without Compositor the value ${PLUGIN_COMPOSITOR_IMPLEMENTATION} is not present.
+---
+ Spark/Spark.config | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Spark/Spark.config b/Spark/Spark.config
+index c816d4a..88e7d3e 100644
+--- a/Spark/Spark.config
++++ b/Spark/Spark.config
+@@ -7,7 +7,7 @@ end()
+ ans(configuration)
+ 
+ map()
+-if (${PLUGIN_COMPOSITOR_IMPLEMENTATION} STREQUAL "RPI")
++if (${PLUGIN_COMPOSITOR_IMPLEMENTATION} AND ${PLUGIN_COMPOSITOR_IMPLEMENTATION} STREQUAL "RPI")
+     kv(threads 2)
+ end()
+ ans(rootconfig)
+-- 
+2.11.0
+

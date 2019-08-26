@@ -10,7 +10,11 @@ require include/wpeframework.inc
 # FIXME the compositor shares flags across wpeframework and wpeframework-plugins. Not sure if this is a good idea...
 include include/compositor.inc
 
-DEPENDS = "zlib python-jsonref-native virtual/egl ${WPE_COMPOSITOR_DEP}"
+DEPENDS = " \
+    zlib python-jsonref-native virtual/egl \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
+"
+
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
@@ -19,6 +23,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
+           file://0002-WebSerializer-Don-t-treat-PNG-as-binary.patch \
            "
 SRCREV = "7214bcfcf984de5703f54ec9e129be1a65e16a8d"
 
@@ -32,8 +37,11 @@ PACKAGECONFIG ?= " \
     release \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
-    compositorclient virtualinput websource webkitbrowser \
+    virtualinput websource webkitbrowser \
     "
+
+# add compositor client if Wayland is present
+PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
@@ -71,14 +79,14 @@ PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,,"
 # WebSource event is provided by the WebServer plugin
 
 # Only enable certain events if wpeframework is in distro features
-WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', 'Network', '', d)}"
+WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)}"
 
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
-    Location Time Internet \
+    Location Internet \
 "
 
 EXTRA_OECMAKE += " \

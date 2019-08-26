@@ -16,14 +16,24 @@ RPROVIDES_${PN} += "virtual/wpebackend"
 
 inherit cmake pkgconfig
 
-# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'wpeframework', d)}"
-WPE_BACKEND_append = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', ' wayland','', d)}"
-WPE_BACKEND_remove = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'westeros','', d)}"
+# BACKEND has too many flavors to pick on through conventional methods
+# By default we'll take wpeframework when compositor is enabled in DISTRO_FEATURES.
+# However if that is not available take westeros when wayland is there, if all that is not take the EGLFS for SOC
+# which in our case most commonly is RPI
+def backendselector(d):
+    wayland = bb.utils.contains('DISTRO_FEATURES', 'wayland', True, False, d)
+    compositor = bb.utils.contains('DISTRO_FEATURES', 'compositor', True, False, d)
 
-WPE_BACKEND_x86 = "intelce"
-WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
-WPE_BACKEND ?= "rpi"
+    if compositor == False and wayland == False:
+        return 'rpi'
+    elif compositor == False and wayland == True:
+        return 'westeros'
+    else:
+        return 'wpeframework'
+
+
+# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
+WPE_BACKEND     ?= "${@backendselector(d)}"
 
 PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 

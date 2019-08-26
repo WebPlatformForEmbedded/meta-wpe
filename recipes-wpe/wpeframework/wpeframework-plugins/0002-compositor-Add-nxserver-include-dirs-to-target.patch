@@ -1,0 +1,53 @@
+From 3c02f2e90fa7ed5727adae7960b5c5d015772501 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Mon, 19 Aug 2019 16:10:36 -0700
+Subject: [PATCH] [compositor] Add nxserver include dirs to target.
+
+This fixes an error of a header file not found:
+Compositor/lib/Nexus/NexusServer/NexusServer.h:6:25: fatal error: nxserverlib.h: No such file or directory
+ #include <nxserverlib.h>
+
+Fixed by adding /usr/include/nxclient path as part of the include, as found per FindNXSERVER.cmake.
+
+Signed-off-by: Wouter-lucas van Boesschoten <wouter@wouterlucas.com>
+---
+ Compositor/lib/Nexus/CMakeLists.txt             | 5 +++++
+ Compositor/lib/Nexus/NexusServer/CMakeLists.txt | 6 ++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/Compositor/lib/Nexus/CMakeLists.txt b/Compositor/lib/Nexus/CMakeLists.txt
+index b4feda8..9796858 100644
+--- a/Compositor/lib/Nexus/CMakeLists.txt
++++ b/Compositor/lib/Nexus/CMakeLists.txt
+@@ -38,6 +38,11 @@ else()
+             INCLUDE_NEXUS_SERVER
+             )
+ 
++    target_include_directories(${TARGET}
++        PRIVATE
++            ${LIBNXSERVER_INCLUDE_DIR}
++    )
++
+     target_link_libraries(${TARGET}
+         PRIVATE
+             ${NAMESPACE}nexusserver::${NAMESPACE}nexusserver
+diff --git a/Compositor/lib/Nexus/NexusServer/CMakeLists.txt b/Compositor/lib/Nexus/NexusServer/CMakeLists.txt
+index 902d2ec..8f8c9c9 100644
+--- a/Compositor/lib/Nexus/NexusServer/CMakeLists.txt
++++ b/Compositor/lib/Nexus/NexusServer/CMakeLists.txt
+@@ -34,6 +34,12 @@ else()
+     find_package(NXSERVER REQUIRED)
+     find_package(NEXUS REQUIRED)
+     find_package(NXCLIENT_LOCAL REQUIRED)
++
++    target_include_directories(${TARGET}
++        PRIVATE
++            ${LIBNXSERVER_INCLUDE_DIR}
++    )
++
+     target_link_libraries(${TARGET}
+         PRIVATE
+             ${NAMESPACE}Core::${NAMESPACE}Core
+-- 
+2.11.0
+

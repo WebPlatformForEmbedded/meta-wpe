@@ -1,0 +1,25 @@
+From a7ced374d125b7b6cbdf5118d3e166ff615b8bf4 Mon Sep 17 00:00:00 2001
+From: wouterlucas <wouter@wouterlucas.com>
+Date: Tue, 20 Aug 2019 15:46:29 -0700
+Subject: [PATCH] WebSerializer: Don't treat PNG as binary.
+
+This fixes an issue where WebServer returns PNG with incorrect content-type "Content-Type: application/octet-stream". There is a duplicate entry below that returns the correct PNG content type.
+---
+ Source/websocket/WebSerializer.cpp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/Source/websocket/WebSerializer.cpp b/Source/websocket/WebSerializer.cpp
+index e0b6270..67a7951 100644
+--- a/Source/websocket/WebSerializer.cpp
++++ b/Source/websocket/WebSerializer.cpp
+@@ -306,7 +306,6 @@ namespace Web
+     } extensionLookupTable[] = {
+         { Web::MIME_HTML, _TXT("html") },
+         { Web::MIME_HTML, _TXT("htm") },
+-        { Web::MIME_BINARY, _TXT("png") },
+         { Web::MIME_JSON, _TXT("json") },
+         { Web::MIME_CSS, _TXT("css") },
+         { Web::MIME_IMAGE_TIFF, _TXT("tif") },
+-- 
+2.11.0
+
