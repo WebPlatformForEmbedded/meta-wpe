@@ -96,6 +96,8 @@ EXTRA_OECMAKE += " \
     -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python-native/python \
 "
 
+CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DWL_EGL_PLATFORM', '', d)}"
+
 do_install_append() {
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
     then

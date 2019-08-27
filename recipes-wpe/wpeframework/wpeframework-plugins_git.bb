@@ -86,6 +86,8 @@ EXTRA_OECMAKE += " \
 
 # ----------------------------------------------------------------------------
 
+CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DWL_EGL_PLATFORM', '', d)}"
+
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
