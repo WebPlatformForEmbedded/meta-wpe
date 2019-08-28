@@ -7,18 +7,6 @@ Subject: [PATCH] soup-cookie-jar: add API to set a limit of cookies in a jar
  libsoup/soup-cookie-jar.c | 25 ++++++++++++++++++++++++-
  libsoup/soup-cookie-jar.h |  3 +++
  2 files changed, 27 insertions(+), 1 deletion(-)
-diff --git a/libsoup/libsoup-2.4.sym b/libsoup/libsoup-2.4.sym
-index e6ff89e..d3682ca 100644
---- a/libsoup/libsoup-2.4.sym
-+++ b/libsoup/libsoup-2.4.sym
-@@ -153,6 +153,7 @@ soup_cookie_jar_save
- soup_cookie_jar_set_accept_policy
- soup_cookie_jar_set_cookie
- soup_cookie_jar_set_cookie_with_first_party
-+soup_cookie_jar_set_limit
- soup_cookie_jar_text_get_type
- soup_cookie_jar_text_new
- soup_cookie_new
 diff --git a/libsoup/soup-cookie-jar.c b/libsoup/soup-cookie-jar.c
 index 2369c8a7..5c1570a3 100644
 --- a/libsoup/soup-cookie-jar.c
