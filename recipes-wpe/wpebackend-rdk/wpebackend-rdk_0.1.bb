@@ -21,11 +21,11 @@ inherit cmake pkgconfig
 WPE_BACKEND ?= "wpeframework"
 
 WPE_BACKEND_x86 = "intelce"
-WPE_BACKEND ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'nexus', '', d)}"
-WPE_BACKEND ?= "rpi"
-
+WPE_BACKEND_brcm = "nexus"
 # Add westeros dependency in case Wayland is part of distro (else will default to EGLFS)
 WPEFRAMEWORK_DEPS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+
+CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DWL_EGL_PLATFORM', '', d)}"
 
 PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 
@@ -33,8 +33,7 @@ PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 PACKAGECONFIG[imx6]             = "-DUSE_BACKEND_VIV_IMX6_EGL=ON,,imx-gpu-viv"
 PACKAGECONFIG[intelce]          = "-DUSE_BACKEND_INTEL_CE=ON,,intelce-display"
 PACKAGECONFIG[nexus]            = "-DUSE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw"
-PACKAGECONFIG[rpi]              = "-DUSE_BACKEND_BCM_RPI=ON,,userland"
-PACKAGECONFIG[rpi_mesa]         = "-DUSE_BACKEND_BCM_RPI=ON,,mesa"
+PACKAGECONFIG[rpi]              = "-DUSE_BACKEND_BCM_RPI=ON,-DUSE_BACKEND_BCM_RPI=OFF,virtual/egl"
 
 # Wayland selectors
 PACKAGECONFIG[wayland]          = "-DUSE_BACKEND_WAYLAND=ON,,wayland libxkbcommon"
