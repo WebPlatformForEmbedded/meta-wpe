@@ -13,7 +13,7 @@ RDEPENDS_packagegroup-wpewebkit = "\
     wpewebkit-web-inspector-plugin \
 "
 
-RDEPENDS_packagegroup-wpewebkit_rpi = "wpebackend-rdk"
+RDEPENDS_packagegroup-wpewebkit_append_rpi = " wpebackend-rdk "
 
 # Additional OSS packages etc, which are only needed for WPE based images.
 RDEPENDS_packagegroup-wpewebkit += "\
