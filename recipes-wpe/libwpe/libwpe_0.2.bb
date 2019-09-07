@@ -30,4 +30,4 @@ FILES_${PN} += "${libdir}/libwpe-0.2.so ${libdir}/pkgconfig/wpe.pc"
 INSANE_SKIP_${PN} ="dev-so"
 
 RDEPENDS_${PN} = "xkeyboard-config"
-RDEPENDS_${PN}_rpi = "wpebackend-rdk"
+RDEPENDS_${PN}_append_rpi = " wpebackend-rdk "

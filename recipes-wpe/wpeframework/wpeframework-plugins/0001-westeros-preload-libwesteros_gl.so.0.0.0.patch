@@ -1,0 +1,24 @@
+From 512c67ef933c058605969fe4002436ef712ef5f5 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 16 Aug 2019 13:31:42 -0700
+Subject: [PATCH] westeros: preload libwesteros_gl.so.0.0.0
+
+Helps fixing
+ERROR: ../git/drm/westeros-gl/westeros-gl.c:2492 westeros-gl: wstGLInit: unable to resolve eglGetDisplay
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ Compositor/lib/Wayland/Westeros.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/Compositor/lib/Wayland/Westeros.cpp
++++ b/Compositor/lib/Wayland/Westeros.cpp
+@@ -25,7 +25,7 @@ namespace Westeros {
+             string runtimeDir;
+ 
+             Core::SystemInfo::GetEnvironment(_T("XDG_RUNTIME_DIR"), runtimeDir);
+-
++	    Core::SystemInfo::SetEnvironment(_T("LD_PRELOAD"), _T("/usr/lib/libwesteros_gl.so.0.0.0:/usr/lib/libEGL.so.1.0.0"));
+             Core::File path(runtimeDir);
+ 
+             if (path.IsDirectory() == false) {
