@@ -23,6 +23,8 @@ SRC_URI = " \
     file://0013-qtdemux-Don-t-push-GAP-event-if-first-buffer-is-with.patch \
     file://0014-qtdemux-default-key-ids.patch \
     file://0015-qtdemux-Keep-sample-data-from-the-current-fragment-o.patch \
+    file://0016-matroska-Add-the-WebM-encrypted-content-support-in-m.patch \
+    file://0017-matroskdemux-do-not-use-MapInfo.data-after-unmapping.patch \
 "
 
 SRC_URI[md5sum] = "cc0cc13cdb07d4237600b6886b81f31d"
