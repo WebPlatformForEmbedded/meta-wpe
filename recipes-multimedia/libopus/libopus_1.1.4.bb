@@ -34,7 +34,7 @@ DEPENDS_append_armv7a = " ne10"
 DEPENDS_append_armv7ve = " ne10"
 
 python () {
-    if d.getVar('TARGET_FPU') in [ 'soft' ]:
+    if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
         d.appendVar('PACKAGECONFIG', ' fixed-point')
 }
 
@@ -52,4 +52,3 @@ python () {
 #| make[2]: *** [celt/celt.lo] Error 1
 ARM_INSTRUCTION_SET = "arm"
 
-BBCLASSEXTEND = "native nativesdk"
