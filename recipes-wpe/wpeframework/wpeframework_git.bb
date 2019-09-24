@@ -34,7 +34,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositorclient', 'compositorclient', '', d)} \
     virtualinput websource webkitbrowser \
     "
 
