@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework common plugins"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=e338ae07876cc28375de01750cc8a162"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
