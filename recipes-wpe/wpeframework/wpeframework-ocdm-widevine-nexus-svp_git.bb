@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework OpenCDMi module for Widevine Nexus SVP"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
 
 require include/wpeframework-plugins.inc
 
