@@ -6,7 +6,7 @@ PV = "2.22+git${SRCPV}"
 PR = "r0"
 
 SRCREV ?= "d2788a5e62a348ea253a928808c75b7532ecfa86"
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=development/wpe-2.22/new-ocdm-interface"
 
 DEPENDS += "libgcrypt"
 PACKAGECONFIG_append = " webcrypto"
