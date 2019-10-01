@@ -25,8 +25,8 @@ SRCREV = "53e40a75414913d0f19830080c5897b3d42919f1"
 inherit cmake pkgconfig systemd update-rc.d
 
 # Yocto root is under /home/root
-WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
-WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
+WPEFRAMEWORK_PERSISTENT_PATH ?= "/home/root"
+WPEFRAMEWORK_SYSTEM_PREFIX ?= "OE"
 
 PACKAGECONFIG ?= " \
     release \
