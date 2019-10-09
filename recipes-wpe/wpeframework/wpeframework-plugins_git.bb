@@ -6,9 +6,10 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
-           file://0001-WebKitBrowser-Add-Time-to-dependencies.patch \
+           file://0001-ensure-child-count-is-refershed-before-processing-re.patch \
            file://0002-compositor-Add-nxserver-include-dirs-to-target.patch \
            file://0003-Spark-Only-check-STREQUAL-if-value-exists.patch \
+           file://0004-WebKitBrowser-magic-number-for-required-child-moved-.patch \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
