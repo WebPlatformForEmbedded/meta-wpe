@@ -11,6 +11,7 @@ require include/compositor.inc
 
 DEPENDS = "zlib python-jsonref-native virtual/egl ${WPE_COMPOSITOR_DEP}"
 DEPENDS_append_libc-musl = " libexecinfo"
+DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'testapp', 'gtest', '', d)}"
 
 PV = "3.0+git${SRCPV}"
 
@@ -51,6 +52,7 @@ PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libp
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH_SUPPORT=ON,-DBLUETOOTH_SUPPORT=OFF,bluez5"
+PACKAGECONFIG[testapp]          = "-DBUILD_TESTS=ON,-DBUILD_TESTS=OFF"
 
 # OCDM
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
