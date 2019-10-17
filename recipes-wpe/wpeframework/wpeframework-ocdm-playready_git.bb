@@ -7,7 +7,7 @@ require include/wpeframework-plugins.inc
 DEPENDS += " playready"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Playready.git;protocol=https;branch=master"
-SRCREV = "d2c03e0bfe7c4a2612500aa88b5bd3be03222ea0"
+SRCREV = "3a8672dfe33af2a68dcc4c3c0cf69326ad9bb01b"
 
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"

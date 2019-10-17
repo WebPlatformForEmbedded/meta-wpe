@@ -19,14 +19,16 @@ PV = "3.0+git${SRCPV}"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
+           file://38d616ed8a75f0b150049b401e71f2100832d7cb.patch \
+           file://5085881de19f8f3bed82bc8ba3a429b34cbe520a.patch \
            "
-SRCREV = "b7c48820faf06f634116aaac5973796f8857ed2e"
+SRCREV = "e67256318dd23be69f467fd8daecf268bd0d86e1"
 
 inherit cmake pkgconfig systemd update-rc.d
 
 # Yocto root is under /home/root
-WPEFRAMEWORK_PERSISTENT_PATH = "/home/root"
-WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
+WPEFRAMEWORK_PERSISTENT_PATH ?= "/home/root"
+WPEFRAMEWORK_SYSTEM_PREFIX ?= "OE"
 
 PACKAGECONFIG ?= " \
     release \
@@ -55,9 +57,8 @@ PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 
 # OCDM
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
-PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",-DCDMI=OFF,gstreamer1.0'
-PACKAGECONFIG[opencdmi_nexus_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,'
-
+PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",,gstreamer1.0'
+PACKAGECONFIG[opencdmi_nexus_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,broadcom-refsw'
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
 # it feels a bit the other way around but lets set at least webserver and webkit

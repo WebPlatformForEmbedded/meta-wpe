@@ -1,0 +1,38 @@
+From 87d4d4bdec77ace8aa86ae2b2439a6a0c8d0f55b Mon Sep 17 00:00:00 2001
+From: Pawel Stanek <p.stanek@metrological.com>
+Date: Thu, 10 Oct 2019 13:47:14 +0200
+Subject: [PATCH] [OCDM] Always use DestroyMediaKeySession().
+
+---
+ OpenCDMi/FrameworkRPC.cpp | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
+
+diff --git a/OpenCDMi/FrameworkRPC.cpp b/OpenCDMi/FrameworkRPC.cpp
+index b0a6344c..88208673 100644
+--- a/OpenCDMi/FrameworkRPC.cpp
++++ b/OpenCDMi/FrameworkRPC.cpp
+@@ -855,20 +855,11 @@ namespace Plugin {
+ 
+                     mediaKeySession->Run(nullptr);
+ 
+-                    CDMi::IMediaKeysExt* systemExt = dynamic_cast<CDMi::IMediaKeysExt*>(_parent.KeySystem(keySystem));
+-
+-                    if (systemExt != nullptr) {
+-
+-                        systemExt->DestroyMediaKeySessionExt(mediaKeySession);
++                    CDMi::IMediaKeys* system = _parent.KeySystem(keySystem);
++                    if (system != nullptr) {
++                        system->DestroyMediaKeySession(mediaKeySession);
+                     } else {
+-
+-                        CDMi::IMediaKeys* system = _parent.KeySystem(keySystem);
+-                        if (system != nullptr) {
+-
+-                            system->DestroyMediaKeySession(mediaKeySession);
+-                        } else {
+-                            TRACE_L1("No system to handle session = %p\n", session);
+-                        }
++                        TRACE_L1("No system to handle session = %p\n", session);
+                     }
+                 }
+ 
