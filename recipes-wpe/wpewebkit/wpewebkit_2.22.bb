@@ -5,8 +5,9 @@ DEFAULT_PREFERENCE = "-1"
 PV = "2.22+git${SRCPV}"
 PR = "r0"
 
-SRCREV ?= "d2788a5e62a348ea253a928808c75b7532ecfa86"
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=development/wpe-2.22/new-ocdm-interface"
+SRCREV ?= "d6901b4d34d3a0c45bfb96115808f28f26c9e686"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=master \
+           file://0001-make-resume-seek-live-working-for-gst1bcm-18.2.patch"
 
 DEPENDS += "libgcrypt"
 PACKAGECONFIG_append = " webcrypto"
