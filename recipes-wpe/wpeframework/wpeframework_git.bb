@@ -19,10 +19,8 @@ PV = "3.0+git${SRCPV}"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
-           file://38d616ed8a75f0b150049b401e71f2100832d7cb.patch \
-           file://5085881de19f8f3bed82bc8ba3a429b34cbe520a.patch \
            "
-SRCREV = "e67256318dd23be69f467fd8daecf268bd0d86e1"
+SRCREV = "dc5689ee89ca759c4f5fe1c15321729c1f576a71"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -36,8 +34,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine_nexus_svp', 'opencdmi_nexus_svp', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositorclient', 'compositorclient', '', d)} \
-    virtualinput websource webkitbrowser \
+    virtualinput websource webkitbrowser compositorclient gstreamerclient \
     "
 
 # Buildtype
@@ -51,6 +48,7 @@ PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
 PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH_SUPPORT=ON,-DBLUETOOTH_SUPPORT=OFF,bluez5"
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
+PACKAGECONFIG[gstreamerclient]  = "-DGSTREAMERCLIENT=ON,-DGSTREAMERCLIENT=OFF"
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
