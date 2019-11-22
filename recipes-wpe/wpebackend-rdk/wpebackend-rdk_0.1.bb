@@ -8,7 +8,7 @@ DEPENDS += "libwpe glib-2.0"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=http;branch=master \
           "
-SRCREV = "a855d3f61cd94f8b3f16e5e4de6e587363f54ca8"
+SRCREV = "${@bb.utils.contains('DISTRO_FEATURES', 'wpe_src_tip', '${AUTOREV}', 'a855d3f61cd94f8b3f16e5e4de6e587363f54ca8', d)}"
 
 S = "${WORKDIR}/git"
 

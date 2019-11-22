@@ -7,6 +7,6 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Clearkey.git;protocol=https;branch=master \
            file://0001-OpenSSL-align-implementation-with-latest-OpenSSL-1.1.patch \
            "
-SRCREV = "b02f00b12ce216bc5c26782b8174210ff3b5339d"
+SRCREV = "${@bb.utils.contains('DISTRO_FEATURES', 'wpe_src_tip', '${AUTOREV}', 'b02f00b12ce216bc5c26782b8174210ff3b5339d', d)}"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"

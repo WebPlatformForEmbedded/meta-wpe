@@ -2,6 +2,7 @@
 
 # Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
 WPE_COMPOSITOR_IMPL 		?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', 'RPI', d)}"
+WPE_COMPOSITOR_SUB_IMPL         ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
 WPE_COMPOSITOR_DEP 			?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', 'userland', d)}"
 WPE_COMPOSITOR_EXTRAFLAGS 	?= ""
 WPE_COMPOSITOR_HW_READY 	?= "0"
