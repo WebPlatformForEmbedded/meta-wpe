@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 include recipes-core/images/wpe-image.bb
 
-inherit distro_features_check
+inherit features_check
 
 CONFLICT_DISTRO_FEATURES = "wayland x11"
 
