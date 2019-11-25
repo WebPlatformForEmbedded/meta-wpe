@@ -16,6 +16,7 @@ SRCREV = "a84313d0355b3c57033c5e24b9ac927f4bda913b"
 # More complicated plugins are moved seperate includes
 
 include include/compositor.inc
+include include/firmwarecontrol.inc
 include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
@@ -45,6 +46,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
+    ${@bb.utils.contains('FIRMWARECONTROL_PLATFORM', 'none', '', 'firmwarecontrol', d)} \
     deviceinfo dictionary locationsync monitor remote remote-devinput spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
