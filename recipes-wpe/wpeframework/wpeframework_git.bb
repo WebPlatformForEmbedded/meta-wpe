@@ -23,9 +23,8 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
-           file://0002-WebSerializer-Don-t-treat-PNG-as-binary.patch \
            "
-SRCREV = "7214bcfcf984de5703f54ec9e129be1a65e16a8d"
+SRCREV = "3ded3b08c24e86ebdbd5c62603cb2f1cfe408d98"
 
 inherit cmake pkgconfig systemd update-rc.d
 
