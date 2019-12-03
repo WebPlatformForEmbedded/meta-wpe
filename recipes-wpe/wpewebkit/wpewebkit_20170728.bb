@@ -4,7 +4,6 @@ PV = "20170728+git${SRCPV}"
 PR = "r2"
 
 SRCREV ?= "5f899bc2e0e3736908d46ddf473dc4fe5c7f5c95"
-
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
 SRC_URI += "file://0001-Fix-build-with-musl.patch"
 SRC_URI += "file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
