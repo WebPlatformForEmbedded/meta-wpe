@@ -9,6 +9,6 @@ PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=R
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig pythonnative
+inherit cmake pkgconfig python3native
 
 EXTRA_OECMAKE += "-DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
