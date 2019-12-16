@@ -8,7 +8,7 @@ PR = "r0"
 require include/wpeframework.inc
 require include/compositor.inc
 
-DEPENDS = "zlib python-jsonref-native virtual/egl  \
+DEPENDS = "zlib wpeframework-tools-native virtual/egl  \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
 "
 
@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "3ded3b08c24e86ebdbd5c62603cb2f1cfe408d98"
+SRCREV = "1519cc79964106b1b5ef50fcfb3d6165532eabab"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -92,7 +92,6 @@ EXTRA_OECMAKE += " \
     -DTREE_REFERENCE=${SRCREV} \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python-native/python \
     -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
 "
 
