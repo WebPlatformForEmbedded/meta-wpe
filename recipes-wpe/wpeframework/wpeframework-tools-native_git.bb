@@ -12,10 +12,10 @@ SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e
 
 SRCREV = "6cf39ada500c61f373acc40643aa33d6cfd7a6df"
 
-inherit cmake pkgconfig native pythonnative
+inherit cmake pkgconfig native python3native
 
 DEPENDS = "\
-    python-native \
+    python3-native \
     python-jsonref-native \
 "
 
