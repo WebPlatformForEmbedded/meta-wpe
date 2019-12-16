@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-wpeframework-plugins-Linking-InjectedBundle-cpp-file.patch \
            "
 
-SRCREV = "f5cc1a0218e6fe64eb6a2f99b42f5ee2dd635675"
+SRCREV = "185589281e6814d822fe14d1fc00ba056c11513b"
 
 # ----------------------------------------------------------------------------
 

@@ -9,7 +9,7 @@ require include/wpeframework.inc
 require include/compositor.inc
 
 
-DEPENDS = "zlib python-jsonref-native virtual/egl ${WPE_COMPOSITOR_DEP}"
+DEPENDS = "zlib wpeframework-tools-native virtual/egl ${WPE_COMPOSITOR_DEP}"
 DEPENDS_append_libc-musl = " libexecinfo"
 DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'testapp', 'gtest', '', d)}"
 
@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
            "
-SRCREV = "e770ecf4ba1f7e9293c5c0eac7fe4b660025c389"
+SRCREV = "1519cc79964106b1b5ef50fcfb3d6165532eabab"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -95,7 +95,6 @@ EXTRA_OECMAKE += " \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python-native/python \
 "
 
 CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DWL_EGL_PLATFORM', '', d)}"
