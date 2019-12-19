@@ -1,0 +1,36 @@
+From 8a291dcc5e96718455ba571bb81c10b8ffb6aeba Mon Sep 17 00:00:00 2001
+From: Miguel Gomez <magomez@igalia.com>
+Date: Tue, 10 Dec 2019 11:08:14 +0100
+Subject: [PATCH] [holepunch] Ensure that there's a buffer available when
+ starting playback.
+
+---
+ .../graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+index 3ce6813a798..e95c29ebd2c 100644
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+@@ -1378,13 +1378,13 @@ void MediaPlayerPrivateGStreamer::handleMessage(GstMessage* message)
+ #endif
+ 
+ #if USE(GSTREAMER_HOLEPUNCH)
+-        // If we didn't create a video sink, store a reference to the created one.
+         if (currentState == GST_STATE_NULL && newState == GST_STATE_READY) {
+-            if (!m_videoSink) {
++            // If we didn't create a video sink, store a reference to the created one.
++            if (!m_videoSink)
+                 g_object_get(m_pipeline.get(), "video-sink", &m_videoSink.outPtr(), nullptr);
+-                if (m_videoSink)
+-                    pushNextHolePunchBuffer();
+-            }
++
++            // Ensure that there's a buffer with the transparent rectangle available when playback is going to start.
++            pushNextHolePunchBuffer();
+         }
+ #endif
+ 
+-- 
+2.20.1
+
