@@ -7,7 +7,7 @@ require include/wpeframework-plugins.inc
 DEPENDS += " broadcom-refsw"
 
 SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Playready-Nexus-SVP.git;protocol=https;branch=master"
-SRCREV = "7afe25acb014df68068afffe99fdb5355d311d87"
+SRCREV = "2b571aae67c9aaa6ebb6e56ac40b7c8b85aaa3dc"
 
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
