@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "2b62af463988c8fe2a07c188a5233f5aa3c9d961"
+SRCREV = "046ed94b3481f9428472d554823d558fe3a03f29"
 
 inherit cmake pkgconfig systemd update-rc.d
 
