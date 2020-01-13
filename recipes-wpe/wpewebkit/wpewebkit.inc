@@ -44,6 +44,7 @@ PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON,,westeros"
 
 # westeros-sink, override with egl if glimagesink is vsink
 PACKAGECONFIG[westeros-sink] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON -DUSE_GSTREAMER_HOLEPUNCH=ON,,westeros"
+PACKAGECONFIG[wayland-sink]  = "-DUSE_WAYLAND_SINK=ON,,gstreamer1.0-plugins-bad"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
