@@ -19,6 +19,9 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
+           file://0002-CppParser-Python2-Python3-conversion.patch \
+           file://0003-JsonGenerator-Python2-Python3-conversion.patch  \
+           file://0004-StubGenerator-Python2-Python3-conversion.patch  \
            "
 SRCREV = "1519cc79964106b1b5ef50fcfb3d6165532eabab"
 
@@ -95,7 +98,9 @@ EXTRA_OECMAKE += " \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
-"
+    -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=Westeros \
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
+    "
 
 CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DWL_EGL_PLATFORM', '', d)}"
 
