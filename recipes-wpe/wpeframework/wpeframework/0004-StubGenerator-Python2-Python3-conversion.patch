@@ -1,0 +1,203 @@
+diff --git a/Tools//ProxyStubGenerator/StubGenerator.py b/Tools/ProxyStubGenerator/StubGenerator.py
+index a52def4..1fc752d 100755
+--- a/Tools/ProxyStubGenerator/StubGenerator.py
++++ b/Tools/ProxyStubGenerator/StubGenerator.py
+@@ -42,19 +42,19 @@ class Log:
+     def Info(self, text, file = ""):
+         if SHOW_WARNINGS:
+             self.infos.append("INFO: %s%s%s" % (file, ": " if file else "", text))
+-            print self.infos[-1]
++            print(self.infos[-1])
+     def Warn(self, text, file = ""):
+         if SHOW_WARNINGS:
+             self.warnings.append("WARNING: %s%s%s" % (file, ": " if file else "", text))
+-            print self.warnings[-1]
++            print(self.warnings[-1])
+     def Error(self, text, file = ""):
+             self.errors.append("ERROR: %s%s%s" % (file, ": " if file else "", text))
+-            print >> sys.stderr, self.errors[-1]
++            print(self.errors[-1], file=sys.stderr)
+     def Dump(self):
+             if self.errors or self.warnings or self.infos:
+-                print ""
++                print("")
+                 for item in self.errors + self.warnings + self.infos:
+-                    print item
++                    print(item)
+ 
+ log = Log()
+ 
+@@ -122,7 +122,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+         __Traverse(tree, interfaces)
+         return interfaces
+ 
+-    print "\nParsing '%s'..." % source_file
++    print("\nParsing '%s'..." % source_file)
+ 
+     ids = os.path.join(os.path.dirname(source_file), IDS_DEFINITIONS_FILE)
+ 
+@@ -136,7 +136,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+ 
+     for iface in interfaces:
+         if iface.id < MIN_INTERFACE_ID:
+-            log.Warn("invalid interface ID %s (%s) of %s - shall be at least 0x40" % (hex(iface.id) if isinstance(iface.id, (long, int)) else "?", str(iface.id), iface.obj.full_name), source_file)
++            log.Warn("invalid interface ID %s (%s) of %s - shall be at least 0x40" % (hex(iface.id) if isinstance(iface.id, int) else "?", str(iface.id), iface.obj.full_name), source_file)
+ 
+     if scan_only:
+         return interfaces
+@@ -144,7 +144,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+     interface_header_name = os.path.basename(source_file)
+ 
+     with open(output_file, "w") as file:
+-        print "Creating file '%s'..." % output_file
++        print("Creating file '%s'..." % output_file)
+         iface_namespace_l = INTERFACE_NAMESPACE.split("::")
+         iface_namespace = iface_namespace_l[-1]
+ 
+@@ -427,7 +427,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+                 log.Warn("nothing emit for interface class %s" % iface.obj.full_name, source_file)
+                 continue
+ 
+-            print "Emitting stub code for interface '%s'..." % iface_name
++            print("Emitting stub code for interface '%s'..." % iface_name)
+ 
+             # build the announce list upfront
+             announce_list[iface_name] = [class_name, array_name, stub_name, iface]
+@@ -531,7 +531,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+                     emit.Line("")
+                     continue
+                 elif BE_VERBOSE:
+-                     print "  generating code for %s()" % m.full_name
++                     print("  generating code for %s()" % m.full_name)
+ 
+                 proxy_count = 0
+                 output_params = 0
+@@ -817,7 +817,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+             if not emit_methods:
+                 continue
+ 
+-            print "Emitting proxy code for interface '%s'..." % iface_name
++            print("Emitting proxy code for interface '%s'..." % iface_name)
+ 
+             emit.Line("//")
+             emit.Line("// %s interface proxy definitions" % (iface_name))
+@@ -1021,7 +1021,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+             emit.Line("}; // class %s" % class_name)
+             emit.Line()
+ 
+-        print "Emitting stub registration code..."
++        print("Emitting stub registration code...")
+ 
+         #
+         # EMIT REGISTRATION CODE
+@@ -1036,7 +1036,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+         if announce_list:
+             emit.Line()
+ 
+-        for key, val in announce_list.iteritems():
++        for key, val in announce_list.items():
+             emit.Line("typedef ProxyStub::UnknownStubType<%s, %s> %s;" % (key, val[1], val[2]))
+ 
+         emit.Line()
+@@ -1048,7 +1048,7 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+         emit.Line("{")
+         emit.IndentInc()
+ 
+-        for key, val in announce_list.iteritems():
++        for key, val in announce_list.items():
+             emit.Line("RPC::Administrator::Instance().Announce<%s, %s, %s>();" % (key, val[0], val[2]))
+ 
+         emit.IndentDec()
+@@ -1099,24 +1099,24 @@ if __name__ == "__main__":
+         INTERFACE_NAMESPACE = "::" + INTERFACE_NAMESPACE
+ 
+     if args.help_tags:
+-        print "The following special tags are supported:"
+-        print "   @stubgen:skip     - skip parsing of the rest of the file"
+-        print "   @stubgen:omit     - omit generating code for the next item (class or method)"
+-        print "   @stubgen:stub     - generate empty stub for the next item (class or method)"
+-        print "For non-const pointer and reference method/function parameters:"
+-        print "   @in               - denotes an input parameter"
+-        print "   @out              - denotes an output parameter"
+-        print "   @inout            - denotes an input/output parameter (or @in @out)"
+-        print "   @length:<expr>    - specifies a buffer length value (a constant, a parameter name or a math expression)"
+-        print "   @maxlength:<expr> - specifies a maximum buffer length value (a constant, a parameter name or a math expression),"
+-        print "                       if not specified @length is used as maximum length, use round parenthesis for expressions,"
+-        print "                       e.g.: @length:bufferSize @length:(width*height*4)"
+-        print ""
+-        print "The tags shall be placed inside comments."
++        print("The following special tags are supported:")
++        print("   @stubgen:skip     - skip parsing of the rest of the file")
++        print("   @stubgen:omit     - omit generating code for the next item (class or method)")
++        print("   @stubgen:stub     - generate empty stub for the next item (class or method)")
++        print("For non-const pointer and reference method/function parameters:")
++        print("   @in               - denotes an input parameter")
++        print("   @out              - denotes an output parameter")
++        print("   @inout            - denotes an input/output parameter (or @in @out)")
++        print("   @length:<expr>    - specifies a buffer length value (a constant, a parameter name or a math expression)")
++        print("   @maxlength:<expr> - specifies a maximum buffer length value (a constant, a parameter name or a math expression),")
++        print("                       if not specified @length is used as maximum length, use round parenthesis for expressions,")
++        print("                       e.g.: @length:bufferSize @length:(width*height*4)")
++        print("")
++        print("The tags shall be placed inside comments.")
+         sys.exit()
+ 
+     if args.show_version:
+-        print "Version: " + VERSION
++        print("Version: " + VERSION)
+         sys.exit()
+ 
+     if not args.path:
+@@ -1144,10 +1144,10 @@ if __name__ == "__main__":
+                     # dump interfaces if only scanning
+                     for f in sorted(output, key=lambda x: x.id):
+                         if scan_only:
+-                            print f.id, f.obj.full_name
++                            print(f.id, f.obj.full_name)
+ 
+                 except SkipFileError as err:
+-                    print "skipped file '%s'" % err
++                    print("skipped file '%s'" % err)
+                     skipped.append(source_file)
+                 except NoInterfaceError as err:
+                     log.Warn("no interface classes found", source_file)
+@@ -1159,30 +1159,30 @@ if __name__ == "__main__":
+                     log.Error(err, source_file)
+ 
+             if scan_only:
+-                print "\nInterface dump:"
++                print("\nInterface dump:")
+ 
+             sorted_faces = sorted(faces, key=lambda x: x.id)
+             for i, f in enumerate(sorted_faces):
+-                if isinstance(f.id, (long, int)):
++                if isinstance(f.id, int):
+                     if scan_only:
+                         if i and sorted_faces[i - 1].id < f.id - 1:
+-                            print "..."
+-                        print "%s (%s) - '%s'" % (hex(f.id) if isinstance(f.id, (int, long)) else "?", str(f.id), f.obj.full_name)
++                            print("...")
++                        print("%s (%s) - '%s'" % (hex(f.id) if isinstance(f.id, int) else "?", str(f.id), f.obj.full_name))
+                     if i and sorted_faces[i - 1].id == f.id:
+-                        log.Error("duplicate interface ID %s (%s) of %s" % (hex(f.id) if isinstance(f.id, (int, long)) else "?", str(f.id), f.obj.full_name), f.file)
++                        log.Error("duplicate interface ID %s (%s) of %s" % (hex(f.id) if isinstance(f.id, int) else "?", str(f.id), f.obj.full_name), f.file)
+                 elif BE_VERBOSE:
+                     log.Warn("can't evaluate interface ID \"%s\" of %s" % (str(f.id), f.obj.full_name), f.file)
+ 
+-            print ""
+-            print ("ProxyStubGenerator: All done. %i file%s processed" % (len(interface_files) - len(skipped), "s" if len(interface_files) - len(skipped) > 1 else "")) + \
++            print("")
++            print(("ProxyStubGenerator: All done. %i file%s processed" % (len(interface_files) - len(skipped), "s" if len(interface_files) - len(skipped) > 1 else "")) + \
+                 ((" (%i file%s skipped)" % (len(skipped), "s" if len(skipped) > 1 else "")) if skipped else "") + \
+                 (". %i interface%s parsed:" % (len(faces), "s" if len(faces) > 1 else "")) + \
+                 ((" %i error%s" % (len(log.errors), "s" if len(log.errors) > 1 else "")) if log.errors else " no errors") + \
+                 ((" (%i warning%s)" % (len(log.warnings), "s" if len(log.warnings) > 1 else "")) if log.warnings else "") + \
+-                "."
++                ".")
+ 
+             log.Dump()
+         else:
+-            print "Nothing to do."
++            print("Nothing to do.")
+ 
+         sys.exit(1 if len(log.errors) else 0)
