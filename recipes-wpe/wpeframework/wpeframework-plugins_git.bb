@@ -8,6 +8,7 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
+           file://0001-FirmwareControl-Find-cmake-name-changed-from-MFR-to-MFRFW.patch \
            "
 SRCREV = "a84313d0355b3c57033c5e24b9ac927f4bda913b"
 
