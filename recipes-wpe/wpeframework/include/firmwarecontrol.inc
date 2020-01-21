@@ -2,16 +2,8 @@ WPE_FIRMWARECONTROL_EXTRAFLAGS += "${@bb.utils.contains('PREFERRED_PROVIDER_virt
      -DPLUGIN_FIRMWARECONTROL_PLATFORM_RPI=ON \
 ', '', d)}"
 
-WPE_FIRMWARECONTROL_EXTRAFLAGS += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'broadcom-mfrlib', '\
-     -DPLUGIN_FIRMWARECONTROL_PLATFORM_BCM=ON \
-', '', d)}"
-
-WPE_FIRMWARECONTROL_EXTRAFLAGS += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'fwupgrade-lib', '\
-     -DPLUGIN_FIRMWARECONTROL_PLATFORM_BCM=OFF \
-', '', d)}"
-
+# Provider for RPI platform has to be updated once the implementation for mfr fwupgrade is available
 RDEPENDS_${PN} += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'mfrlibs-rpi', 'mfrlibs-rpi', '', d)}"
-RDEPENDS_${PN} += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'broadcom-mfrlib', 'broadcom-mfrlib', '', d)}"
 RDEPENDS_${PN} += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrfwlib', 'fwupgrade-lib', 'fwupgrade-lib', '', d)}"
 
 # Additional flags
