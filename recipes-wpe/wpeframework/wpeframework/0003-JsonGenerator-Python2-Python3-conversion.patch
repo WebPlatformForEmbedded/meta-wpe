@@ -1,5 +1,5 @@
 diff --git a/Tools/JsonGenerator/JsonGenerator.py b/Tools/JsonGenerator/JsonGenerator.py
-index 6de0962..5c2e739 100755
+index 01c60c0..2e396b1 100755
 --- a/Tools/JsonGenerator/JsonGenerator.py
 +++ b/Tools/JsonGenerator/JsonGenerator.py
 @@ -1,6 +1,6 @@
@@ -33,7 +33,7 @@ index 6de0962..5c2e739 100755
              return classname
      def CppEnumerators(self):
 -        return map(lambda x: ("E" if x[0].isdigit() else "") + x.upper(), self.enumerators)
-+              return [("E" if x[0].isdigit() else "") + x.upper() for x in self.enumerators]
++        return [("E" if x[0].isdigit() else "") + x.upper() for x in self.enumerators]
      def CppEnumeratorValues(self):
          return self.values
      def IsDuplicate(self):
@@ -59,15 +59,15 @@ index 6de0962..5c2e739 100755
 +                    for name, method in s["methods"].items():
                          newMethod = JsonMethod(name, self, method, include)
                          self.methods.append(newMethod)
-                 if "events" in s:
--                    for name, method in s["events"].iteritems():
-+                    for name, method in s["events"].items():
-                         newMethod = JsonNotification(name, self, method, include)
-                         self.methods.append(newMethod)
                  if "properties" in s:
 -                    for name, method in s["properties"].iteritems():
 +                    for name, method in s["properties"].items():
                          newMethod = JsonProperty(name, self, method, include)
+                         self.methods.append(newMethod)
+                 if "events" in s:
+-                    for name, method in s["events"].iteritems():
++                    for name, method in s["events"].items():
+                         newMethod = JsonNotification(name, self, method, include)
                          self.methods.append(newMethod)
  
 -        method_list = map(lambda x: x.name, self.methods)
@@ -80,7 +80,7 @@ index 6de0962..5c2e739 100755
                      if name in method_list:
                          del self.methods[method_list.index(name)]
                          method_list.remove(name)
-@@ -513,7 +513,7 @@ def LoadSchema(file, include_path):
+@@ -514,7 +514,7 @@ def LoadSchema(file, include_path):
                          ref_tok[0] = os.path.join(path, ref_tok[0])
                  if not os.path.isfile(ref_tok[0]):
                      raise RuntimeError("$ref file '%s' not found" % ref_tok[0])
@@ -89,7 +89,7 @@ index 6de0962..5c2e739 100755
                  tokens[c + 2] = ref_file
          # Return back the preprocessed JSON as a string
          return " ".join(tokens)
-@@ -539,10 +539,10 @@ def SortByDependency(objects):
+@@ -540,10 +540,10 @@ def SortByDependency(objects):
      sortedObjects = []
      # This will order objects by their relations
      for obj in sorted(objects, key=lambda x: x.CppClass(), reverse=False):
@@ -103,7 +103,7 @@ index 6de0962..5c2e739 100755
              sortedObjects.insert(index, obj)
              for m in movelist:
                  if m in sortedObjects:
-@@ -565,7 +565,7 @@ class ObjectTracker:
+@@ -566,7 +566,7 @@ class ObjectTracker:
      def Add(self, newObj):
          def __Compare(lhs, rhs):
              # NOTE: Two objects are considered identical if they have the same property names and types only!
@@ -112,7 +112,7 @@ index 6de0962..5c2e739 100755
                  if name not in rhs:
                      return False
                  elif rhs[name]["type"] != prop["type"]:
-@@ -576,7 +576,7 @@ class ObjectTracker:
+@@ -577,7 +577,7 @@ class ObjectTracker:
                              return False
                      else:
                          return False
@@ -121,16 +121,16 @@ index 6de0962..5c2e739 100755
                  if name not in lhs:
                      return False
                  elif lhs[name]["type"] != prop["type"]:
-@@ -603,7 +603,7 @@ class ObjectTracker:
+@@ -604,7 +604,7 @@ class ObjectTracker:
      def Reset(self):
          self.objects = []
      def CommonObjects(self):
 -        return SortByDependency(filter(lambda obj: obj.RefCount() > 1, self.Objects()))
-+          return SortByDependency([obj for obj in self.Objects() if obj.RefCount() > 1])
++        return SortByDependency([obj for obj in self.Objects() if obj.RefCount() > 1])
  
  class EnumTracker(ObjectTracker):
      def __IsTopmost(self, obj):
-@@ -634,7 +634,7 @@ class EnumTracker(ObjectTracker):
+@@ -635,7 +635,7 @@ class EnumTracker(ObjectTracker):
                      return obj
              return None
      def CommonObjects(self):
@@ -139,7 +139,7 @@ index 6de0962..5c2e739 100755
  
  #
  # THE EMITTER
-@@ -742,7 +742,7 @@ def EmitHelperCode(root, emit, header_file):
+@@ -743,7 +743,7 @@ def EmitHelperCode(root, emit, header_file):
                  has_statuslistener = True
                  break
  
@@ -148,7 +148,7 @@ index 6de0962..5c2e739 100755
          emit.Line("/*")
          emit.Indent()
          emit.Line("// Copy the code below to %s class definition" % root.JsonName())
-@@ -854,13 +854,13 @@ def EmitHelperCode(root, emit, header_file):
+@@ -855,13 +855,13 @@ def EmitHelperCode(root, emit, header_file):
          emit.Line()
  
          # Method/property/event stubs
@@ -164,7 +164,7 @@ index 6de0962..5c2e739 100755
                  params = method.Properties()[0].CppType()
                  if method.Summary():
                      emit.Line("// Method: %s - %s" % (method.JsonName(), method.Summary().split(".",1)[0]))
-@@ -930,7 +930,7 @@ def EmitHelperCode(root, emit, header_file):
+@@ -931,7 +931,7 @@ def EmitHelperCode(root, emit, header_file):
                      emit.Unindent()
                      emit.Line("}")
                      emit.Line()
@@ -173,7 +173,7 @@ index 6de0962..5c2e739 100755
                  if not method.writeonly:
                      EmitPropertyFc(method, method.GetMethodName(), True)
                  if not method.readonly:
-@@ -938,11 +938,11 @@ def EmitHelperCode(root, emit, header_file):
+@@ -939,11 +939,11 @@ def EmitHelperCode(root, emit, header_file):
  
          for method in root.Properties():
              if isinstance(method, JsonNotification):
@@ -187,7 +187,7 @@ index 6de0962..5c2e739 100755
                  line = ("void %s::%s(%s%s)" % (root.JsonName(), method.MethodName(), "const string& id, " if method.HasSendif() else "", par))
                  if method.included_from:
                      line += " /* %s */" % method.included_from
-@@ -986,7 +986,7 @@ def EmitObjects(root, emit, emitCommon = False):
+@@ -987,7 +987,7 @@ def EmitObjects(root, emit, emitCommon = False):
      def EmitEnum(enum):
          global emittedItems
          emittedItems += 1
@@ -196,7 +196,7 @@ index 6de0962..5c2e739 100755
          root = enum.parent.parent
          while root.parent:
              root = root.parent
-@@ -1033,7 +1033,7 @@ def EmitObjects(root, emit, emitCommon = False):
+@@ -1034,7 +1034,7 @@ def EmitObjects(root, emit, emitCommon = False):
          if jsonObj.IsDuplicate() or (not allowDup and jsonObj.RefCount() > 1):
              return
          if not isinstance(jsonObj, (JsonRpcSchema, JsonMethod)):
@@ -205,7 +205,7 @@ index 6de0962..5c2e739 100755
              emit.Line("class %s : public %s {" % (jsonObj.CppClass(), TypePrefix("Container")))
              emit.Line("public:")
              if jsonObj.Enums():
-@@ -1116,7 +1116,7 @@ def EmitObjects(root, emit, emitCommon = False):
+@@ -1117,7 +1117,7 @@ def EmitObjects(root, emit, emitCommon = False):
      emit.Indent()
      emit.Line()
      if emitCommon and enumTracker.CommonObjects():
@@ -214,7 +214,7 @@ index 6de0962..5c2e739 100755
          emit.Line("// Common enums")
          emit.Line("//")
          emit.Line()
-@@ -1124,7 +1124,7 @@ def EmitObjects(root, emit, emitCommon = False):
+@@ -1125,7 +1125,7 @@ def EmitObjects(root, emit, emitCommon = False):
              if not obj.IsDuplicate() and not obj.included_from:
                  EmitEnum(obj)
      if emitCommon and objTracker.CommonObjects():
@@ -223,7 +223,7 @@ index 6de0962..5c2e739 100755
          emit.Line("// Common classes")
          emit.Line("//")
          emit.Line()
-@@ -1132,7 +1132,7 @@ def EmitObjects(root, emit, emitCommon = False):
+@@ -1133,7 +1133,7 @@ def EmitObjects(root, emit, emitCommon = False):
              if not obj.included_from:
                  EmitClass(obj, True)
      if root.Objects():
@@ -232,7 +232,7 @@ index 6de0962..5c2e739 100755
          emit.Line("// Method params/result classes")
          emit.Line("//")
          emit.Line()
-@@ -1286,7 +1286,7 @@ def CreateDocument(schema, path):
+@@ -1287,7 +1287,7 @@ def CreateDocument(schema, path):
                  if obj["type"] == "object":
                      if "required" not in obj and name and len(obj["properties"]) > 1:
                          trace.Warn('No "required" field for object "%s"' % name)
@@ -241,7 +241,7 @@ index 6de0962..5c2e739 100755
                          __TableObj(pname, props, parentName+"/"+name, obj, prefix, False)
                  elif obj["type"] == "array":
                      __TableObj("", obj["items"], parentName+"/"+name, obj, (prefix + "[#]") if name else "", optional)
-@@ -1304,7 +1304,7 @@ def CreateDocument(schema, path):
+@@ -1305,7 +1305,7 @@ def CreateDocument(schema, path):
  
          def PlainTable(obj, columns, ref="ref"):
              MdTableHeader(columns)
@@ -250,16 +250,16 @@ index 6de0962..5c2e739 100755
                  MdRow(["<a name=\"%s.%s\">%s</a>" % (ref, (prop.split("]",1)[0][1:]) if "]" in prop else prop, prop), val])
              MdBr()
  
-@@ -1351,7 +1351,7 @@ def CreateDocument(schema, path):
+@@ -1352,7 +1352,7 @@ def CreateDocument(schema, path):
                  MdHeader("Description", 3)
                  MdParagraph(props["description"])
              if "events" in props:
 -                MdParagraph("Also see: " + (", ".join(map(lambda x: link("event." + x), props["events"]))))
-+                MdParagraph("Also see: " + (", ".join([link("event." + x) for x in props["events"]]))) 
++                MdParagraph("Also see: " + (", ".join([link("event." + x) for x in props["events"]])))
              if is_property:
                  MdHeader("Value", 3)
                  if not "description" in props["params"]:
-@@ -1451,7 +1451,7 @@ def CreateDocument(schema, path):
+@@ -1452,7 +1452,7 @@ def CreateDocument(schema, path):
          if "events" in interface:
              event_count = len(interface["events"])
          if "include" in interface:
@@ -268,7 +268,7 @@ index 6de0962..5c2e739 100755
                  if "methods" in iface:
                      method_count += len(iface["methods"])
                  if "properties" in iface:
-@@ -1502,7 +1502,7 @@ def CreateDocument(schema, path):
+@@ -1503,7 +1503,7 @@ def CreateDocument(schema, path):
          MdBr()
  
          def mergedict(d1, d2, prop):
@@ -277,7 +277,7 @@ index 6de0962..5c2e739 100755
  
          MdHeader("Introduction")
          MdHeader("Scope", 2)
-@@ -1567,7 +1567,7 @@ def CreateDocument(schema, path):
+@@ -1568,7 +1568,7 @@ def CreateDocument(schema, path):
  
              required = []
              if "configuration" in schema:
@@ -286,7 +286,7 @@ index 6de0962..5c2e739 100755
                  required = schema["configuration"]["required"] if "required" in schema["configuration"] else []
              else:
                  commonConfig2 = commonConfig
-@@ -1586,7 +1586,7 @@ def CreateDocument(schema, path):
+@@ -1587,7 +1587,7 @@ def CreateDocument(schema, path):
              def InterfaceDump(interface, section, header):
                  head = False
                  if section in interface:
@@ -295,7 +295,7 @@ index 6de0962..5c2e739 100755
                          if contents and method not in skip_list:
                              if not head:
                                  MdParagraph("%s interface %s:" % (interface["info"]["class"], section))
-@@ -1617,7 +1617,7 @@ def CreateDocument(schema, path):
+@@ -1618,7 +1618,7 @@ def CreateDocument(schema, path):
              MdParagraph("The following %s are provided by the %s plugin:" % (section, plugin_class))
              InterfaceDump(interface, section, header)
              if "include" in interface:
@@ -304,14 +304,15 @@ index 6de0962..5c2e739 100755
                      if s:
                          if section in s:
                              MdBr()
-@@ -1628,16 +1628,16 @@ def CreateDocument(schema, path):
-                 MdBr()
+@@ -1631,17 +1631,17 @@ def CreateDocument(schema, path):
+             skip_list = []
  
              if section in interface:
 -                for method, props in interface[section].iteritems():
 +                for method, props in interface[section].items():
                      if props:
                          MethodDump(method, props, plugin_class, event, prop)
+                     skip_list.append(method)
  
              if "include" in interface:
 -                for name, s in interface["include"].iteritems():
@@ -321,10 +322,10 @@ index 6de0962..5c2e739 100755
                          if section in s:
 -                            for method, props in s[section].iteritems():
 +                            for method, props in s[section].items():
-                                 MethodDump(method, props, plugin_class, event, prop, cl)
+                                 if props and method not in skip_list:
+                                     MethodDump(method, props, plugin_class, event, prop, cl)
  
-         if method_count:
-@@ -1695,7 +1695,7 @@ if __name__ == "__main__":
+@@ -1700,7 +1700,7 @@ if __name__ == "__main__":
      generateStubs = args.stubs
  
      if args.version:
@@ -333,7 +334,7 @@ index 6de0962..5c2e739 100755
          sys.exit(1)
      elif not args.path or (not generateCode and not generateStubs and not generateDocs):
          argparser.print_help()
-@@ -1724,6 +1724,6 @@ if __name__ == "__main__":
+@@ -1735,6 +1735,6 @@ if __name__ == "__main__":
                  trace.Error(str(err))
              except ValueError as err:
                  trace.Error(str(err))
