@@ -1,9 +1,13 @@
 # Compositor plugin provides an interface to manage windows on the embedded device. Either through Wayland, dispmanx or Nexus
 
 # Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
-WPE_COMPOSITOR_IMPL 		?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', 'RPI', d)}"
-WPE_COMPOSITOR_SUB_IMPL         ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
-WPE_COMPOSITOR_DEP 		?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+WPE_COMPOSITOR_PACKAGE         ?= "none"
+WPE_COMPOSITOR_PACKAGE_brcm    ?= "Nexus"
+WPE_COMPOSITOR_PACKAGE_rpi     ?= "RPI"
+WPE_COMPOSITOR_IMPL            ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', '${WPE_COMPOSITOR_PACKAGE}', d)}"
+WPE_COMPOSITOR_SUB_IMPL        ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
+WPE_COMPOSITOR_DEP             ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+
 WPE_COMPOSITOR_EXTRAFLAGS 	?= ""
 WPE_COMPOSITOR_HW_READY 	?= "0"
 
@@ -30,6 +34,7 @@ WPE_COMPOSITOR_EXTRAFLAGS = ' \
 -DPLUGIN_COMPOSITOR_BOXMODE=${WPE_COMPOSITOR_BOXMODE} \
 '
 
+WPE_COMPOSITOR_EXTRAFLAGS += "${@bb.utils.contains('WPE_COMPOSITOR_PACKAGE', 'Nexus', '-DNEXUS_SERVER_EXTERNAL=ON', '', d)}"
 # ----------------------------------------------------------------------------
 
 PACKAGECONFIG[compositor]     = " \
