@@ -1,6 +1,4 @@
-WPE_FIRMWARECONTROL_EXTRAFLAGS += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'mfrlibs-rpi', '\
-     -DPLUGIN_FIRMWARECONTROL_PLATFORM_RPI=ON \
-', '', d)}"
+WPE_FIRMWARECONTROL_EXTRAFLAGS += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'mfrlibs-rpi', '-DPLUGIN_FIRMWARECONTROL_PLATFORM_RPI=ON', '', d)}"
 
 # Provider for RPI platform has to be updated once the implementation for mfr fwupgrade is available
 RDEPENDS_${PN} += "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/mfrlib', 'mfrlibs-rpi', 'mfrlibs-rpi', '', d)}"
