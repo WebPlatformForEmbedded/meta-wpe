@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0002-FirmwareControl-mfrFWUpgradeInit-Term-calls-added.patch \
            file://0003-FirmwareControl-remove-RPI-check.patch \
            "
-SRCREV = "84e4ae364cb278d064c35aaa194abc0147546793"
+SRCREV = "e0b75be2b60ca44f3ed2e0f13fff7ef27ab8d073"
 
 # ----------------------------------------------------------------------------
 
