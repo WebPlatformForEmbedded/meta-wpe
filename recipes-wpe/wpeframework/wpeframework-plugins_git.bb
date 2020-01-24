@@ -38,8 +38,8 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            'bluetooth', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',            'bluetoothremote', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetoothcontrol',     'bluetoothcontrol', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetoothcontrol',     'bluetoothremote', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',           'compositor', '', d)} \
@@ -53,8 +53,8 @@ PACKAGECONFIG ?= " \
     deviceinfo dictionary locationsync monitor remote remote-devinput spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
-PACKAGECONFIG[bluetooth]       = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=false,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
-PACKAGECONFIG[bluetoothremote] = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=false,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
+PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=false,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
+PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=false,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
 
 PACKAGECONFIG[deviceinfo]     = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[dictionary]     = "-DPLUGIN_DICTIONARY=ON,-DPLUGIN_DICTIONARY=OFF,"
