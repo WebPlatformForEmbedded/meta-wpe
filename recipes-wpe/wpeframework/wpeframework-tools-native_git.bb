@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
 
-SRCREV = "1519cc79964106b1b5ef50fcfb3d6165532eabab"
+SRCREV = "9629e13e398f1bd5c869f9c3c01bce0021604eee"
 
 inherit cmake pkgconfig native python3native
 
