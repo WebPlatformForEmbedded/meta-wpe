@@ -1,0 +1,93 @@
+From 71398e7cf44e6507fbc23f1e243cdcae221a33c1 Mon Sep 17 00:00:00 2001
+From: HaseenaSainul <h.sainul@metrological.com>
+Date: Wed, 15 Jan 2020 13:11:34 +0530
+Subject: [PATCH] FirmwareControl: Find cmake name changed from MFR to MFRFW
+
+---
+ FirmwareControl/CMakeLists.txt                |  4 +--
+ ...{FindMFRLibs.cmake => FindMFRFWLibs.cmake} | 32 +++++++++----------
+ 2 files changed, 18 insertions(+), 18 deletions(-)
+ rename cmake/{FindMFRLibs.cmake => FindMFRFWLibs.cmake} (61%)
+
+diff --git a/FirmwareControl/CMakeLists.txt b/FirmwareControl/CMakeLists.txt
+index c57e3cf..5a4b1a8 100644
+--- a/FirmwareControl/CMakeLists.txt
++++ b/FirmwareControl/CMakeLists.txt
+@@ -1,7 +1,7 @@
+ set(PLUGIN_NAME FirmwareControl)
+ set(MODULE_NAME ${NAMESPACE}${PLUGIN_NAME})
+ 
+-find_package(MFRLibs REQUIRED)
++find_package(MFRFWLibs REQUIRED)
+ find_package(${NAMESPACE}Plugins REQUIRED)
+ find_package(${NAMESPACE}Definitions REQUIRED)
+ find_package(CompileSettingsDebug CONFIG REQUIRED)
+@@ -31,7 +31,7 @@ set_target_properties(${MODULE_NAME} PROPERTIES
+ target_link_libraries(${MODULE_NAME} 
+     PRIVATE
+         CompileSettingsDebug::CompileSettingsDebug
+-        mfrlibs::mfrlibs
++        mfrfwlibs::mfrfwlibs
+         ${NAMESPACE}Plugins::${NAMESPACE}Plugins
+         ${NAMESPACE}Definitions::${NAMESPACE}Definitions
+ )
+diff --git a/cmake/FindMFRLibs.cmake b/cmake/FindMFRFWLibs.cmake
+similarity index 61%
+rename from cmake/FindMFRLibs.cmake
+rename to cmake/FindMFRFWLibs.cmake
+index 3d09ef6..541ac45 100644
+--- a/cmake/FindMFRLibs.cmake
++++ b/cmake/FindMFRFWLibs.cmake
+@@ -1,8 +1,8 @@
+-# - Try to find MFRLIBS
++# - Try to find MFRFWLIBS
+ # Once done this will define
+-#  MFRLIBS_FOUND - System has mfrlibs
+-#  MFRLIBS_INCLUDE_DIRS - The mfrlibs include directories
+-#  MFRLIBS_LIBRARIES - The libraries needed to use mfrlibs
++#  MFRFWLIBS_FOUND - System has mfrfwlibs
++#  MFRFWLIBS_INCLUDE_DIRS - The mfrfwlibs include directories
++#  MFRFWLIBS_LIBRARIES - The libraries needed to use mfrfwlibs
+ #
+ # Copyright (C) 2019 Metrological.
+ #
+@@ -28,24 +28,24 @@
+ # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
+ 
+ find_package(PkgConfig)
+-pkg_check_modules(MFRLIBS mfrlibs)
++pkg_check_modules(MFRFWLIBS fwupgrade)
+ 
+ include(FindPackageHandleStandardArgs)
+-FIND_PACKAGE_HANDLE_STANDARD_ARGS(mfrlibs DEFAULT_MSG MFRLIBS_LIBRARIES)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(mfrfwlibs DEFAULT_MSG MFRFWLIBS_LIBRARIES)
+ 
+-mark_as_advanced(MFRLIBS_INCLUDE_DIRS MFRLIBS_LIBRARIES)
++mark_as_advanced(MFRFWLIBS_INCLUDE_DIRS MFRFWLIBS_LIBRARIES)
+ 
+ 
+-find_library(MFRLIBS_LIBRARY NAMES ${MFRLIBS_LIBRARIES}
+-        HINTS ${MFRLIBS_LIBDIR} ${MFRLIBS_LIBRARY_DIRS}
++find_library(MFRFWLIBS_LIBRARY NAMES ${MFRFWLIBS_LIBRARIES}
++        HINTS ${MFRFWLIBS_LIBDIR} ${MFRFWLIBS_LIBRARY_DIRS}
+         )
+ 
+-if(MFRLIBS_LIBRARY AND NOT TARGET mfrlibs::mfrlibs)
+-    add_library(mfrlibs::mfrlibs UNKNOWN IMPORTED)
+-    set_target_properties(mfrlibs::mfrlibs PROPERTIES
+-            IMPORTED_LOCATION "${MFRLIBS_LIBRARY}"
+-            INTERFACE_LINK_LIBRARIES "${MFRLIBS_LIBRARIES}"
+-            INTERFACE_COMPILE_OPTIONS "${MFRLIBS_DEFINITIONS}"
+-            INTERFACE_INCLUDE_DIRECTORIES "${MFRLIBS_INCLUDE_DIRS}"
++if(MFRFWLIBS_LIBRARY AND NOT TARGET mfrfwlibs::mfrfwlibs)
++    add_library(mfrfwlibs::mfrfwlibs UNKNOWN IMPORTED)
++    set_target_properties(mfrfwlibs::mfrfwlibs PROPERTIES
++            IMPORTED_LOCATION "${MFRFWLIBS_LIBRARY}"
++            INTERFACE_LINK_LIBRARIES "${MFRFWLIBS_LIBRARIES}"
++            INTERFACE_COMPILE_OPTIONS "${MFRFWLIBS_DEFINITIONS}"
++            INTERFACE_INCLUDE_DIRECTORIES "${MFRFWLIBS_INCLUDE_DIRS}"
+             )
+ endif()
+-- 
+2.24.0
+
