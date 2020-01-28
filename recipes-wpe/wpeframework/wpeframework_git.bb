@@ -23,6 +23,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
+           file://0002-NXClient-cmake-to-find-nxserver-include-path.patch \
            "
 SRCREV = "6cf39ada500c61f373acc40643aa33d6cfd7a6df"
 
