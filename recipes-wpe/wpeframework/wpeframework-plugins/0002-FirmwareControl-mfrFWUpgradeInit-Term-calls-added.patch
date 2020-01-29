@@ -1,0 +1,60 @@
+commit 7be235480b170f55b271ff9a771d385e3f04ef33
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Wed Jan 29 05:46:22 2020 +0530
+
+    FirmwareControl : mfrFWUpgradeInit/mfrFWUpgradeTerm call added
+
+diff --git a/FirmwareControl/CMakeLists.txt b/FirmwareControl/CMakeLists.txt
+index 5a4b1a8..963d014 100644
+--- a/FirmwareControl/CMakeLists.txt
++++ b/FirmwareControl/CMakeLists.txt
+@@ -18,12 +18,6 @@ if(PLUGIN_FIRMWARECONTROL_PLATFORM_RPI)
+             FIRMWARECONTROL_PLATFORM_RPI=ON)
+ endif()
+ 
+-if(PLUGIN_FIRMWARECONTROL_PLATFORM_BCM OR PLUGIN_FIRMWARECONTROL_PLATFORM_RPI)
+-    target_compile_definitions(${MODULE_NAME}
+-        PRIVATE
+-            FIRMWARECONTROL_PLATFORM_INIT=ON)
+-endif()
+-
+ set_target_properties(${MODULE_NAME} PROPERTIES
+         CXX_STANDARD 11
+         CXX_STANDARD_REQUIRED YES)
+diff --git a/FirmwareControl/FirmwareControl.cpp b/FirmwareControl/FirmwareControl.cpp
+index cd4afa4..796d6b0 100644
+--- a/FirmwareControl/FirmwareControl.cpp
++++ b/FirmwareControl/FirmwareControl.cpp
+@@ -23,12 +23,14 @@ namespace Plugin {
+         }
+ 
+         string message;
+-#if defined(FIRMWARECONTROL_PLATFORM_INIT)
++#if defined(FIRMWARECONTROL_PLATFORM_RPI)
+         uint32_t status = ConvertMfrStatusToCore(mfr_init());
++#else
++        uint32_t status = ConvertMfrStatusToCore(mfrFWUpgradeInit());
++#endif
+         if (status != Core::ERROR_NONE) {
+             message = _T("Error in MFR library initialization");
+         }
+-#endif
+ 
+         return (message);
+     }
+@@ -36,6 +38,15 @@ namespace Plugin {
+     /* virtual */ void FirmwareControl::Deinitialize(PluginHost::IShell* service)
+     {
+         ASSERT(service != nullptr);
++        string message;
++#if defined(FIRMWARECONTROL_PLATFORM_RPI)
++        uint32_t status = ConvertMfrStatusToCore(mfr_term());
++#else
++        uint32_t status = ConvertMfrStatusToCore(mfrFWUpgradeTerm());
++#endif
++        if (status != Core::ERROR_NONE) {
++            message = _T("Error in MFR library deinitialization");
++        }
+     }
+ 
+     /* virtual */ string FirmwareControl::Information() const
