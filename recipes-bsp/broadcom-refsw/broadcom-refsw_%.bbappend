@@ -15,4 +15,10 @@ do_install_append() {
         install -D -m 0644 ${WORKDIR}/egl.pc    ${D}${libdir}/pkgconfig/egl.pc
         install -D -m 0644 ${WORKDIR}/glesv2.pc ${D}${libdir}/pkgconfig/glesv2.pc
     fi
+    if [ "x${URSR_VERSION}" = "x19.1" ] || [ "x${URSR_VERSION}" = "x19.1.1" ] || [ "x${URSR_VERSION}" = "x19.2" ]
+    then
+        install -D ${S}/obj.${NEXUS_PLATFORM}/nexus/nxclient/${ARCH}-linux/server/libnxserver.a ${D}${libdir}/libnxserver.a
+    else
+        install -D ${S}/obj.${NEXUS_PLATFORM}/nexus/bin/libnxserver.a ${D}${libdir}/libnxserver.a
+    fi
 }
