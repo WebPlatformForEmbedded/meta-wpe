@@ -12,20 +12,19 @@ diff --git a/MediaSession.cpp b/MediaSession.cpp
 index af0585e..22769d0 100644
 --- a/MediaSession.cpp
 +++ b/MediaSession.cpp
-@@ -20,6 +20,7 @@
- #include <iostream>
+@@ -23,6 +23,7 @@
+ #else
  #include <openssl/aes.h>
  #include <openssl/evp.h>
 +#include <openssl/modes.h>
+ #endif
  #include <pthread.h>
  #include <sstream>
- #include <string>
-@@ -191,7 +192,7 @@ CDMi_RESULT MediaKeySession::Decrypt(
+@@ -229,6 +230,7 @@ CDMi_RESULT MediaKeySession::Decrypt(
+     AES_set_encrypt_key(reinterpret_cast<const unsigned char*>(key), strlen(key) * 8, &aesKey);
  
-     memcpy(&(ivec[0]), f_pbIV, f_cbIV);
- 
--    AES_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset);
+     AES_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset);
 +    CRYPTO_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset,(block128_f)AES_encrypt);
+ #endif
  
      /* Return clear content */
-     *f_pcbOpaqueClearContent = f_cbData;
