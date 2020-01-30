@@ -1,0 +1,67 @@
+commit f3feb900fbdc4a07b690e4d67eef1f804e7caf71
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Thu Jan 30 08:20:11 2020 +0530
+
+    FirmwareControl: remove RPI check since RPI also align with the latest mfrAPI changes
+
+diff --git a/FirmwareControl/CMakeLists.txt b/FirmwareControl/CMakeLists.txt
+index 963d014..de3e616 100644
+--- a/FirmwareControl/CMakeLists.txt
++++ b/FirmwareControl/CMakeLists.txt
+@@ -12,12 +12,6 @@ add_library(${MODULE_NAME} SHARED
+     Module.cpp
+ )
+ 
+-if(PLUGIN_FIRMWARECONTROL_PLATFORM_RPI)
+-    target_compile_definitions(${MODULE_NAME}
+-        PRIVATE
+-            FIRMWARECONTROL_PLATFORM_RPI=ON)
+-endif()
+-
+ set_target_properties(${MODULE_NAME} PROPERTIES
+         CXX_STANDARD 11
+         CXX_STANDARD_REQUIRED YES)
+diff --git a/FirmwareControl/FirmwareControl.cpp b/FirmwareControl/FirmwareControl.cpp
+index 11f8641..5b79ddc 100644
+--- a/FirmwareControl/FirmwareControl.cpp
++++ b/FirmwareControl/FirmwareControl.cpp
+@@ -23,11 +23,7 @@ namespace Plugin {
+         }
+ 
+         string message;
+-#if defined(FIRMWARECONTROL_PLATFORM_RPI)
+-        uint32_t status = ConvertMfrStatusToCore(mfr_init());
+-#else
+         uint32_t status = ConvertMfrStatusToCore(mfrFWUpgradeInit());
+-#endif
+         if (status != Core::ERROR_NONE) {
+             message = _T("Error in MFR library initialization");
+         }
+@@ -40,11 +36,7 @@ namespace Plugin {
+         ASSERT(service != nullptr);
+ 
+         string message;
+-#if defined(FIRMWARECONTROL_PLATFORM_RPI)
+-        uint32_t status = ConvertMfrStatusToCore(mfr_term());
+-#else
+         uint32_t status = ConvertMfrStatusToCore(mfrFWUpgradeTerm());
+-#endif
+         if (status != Core::ERROR_NONE) {
+             message = _T("Error in MFR library deinitialization");
+         }
+diff --git a/FirmwareControl/FirmwareControl.h b/FirmwareControl/FirmwareControl.h
+index df0a288..b43b5ab 100644
+--- a/FirmwareControl/FirmwareControl.h
++++ b/FirmwareControl/FirmwareControl.h
+@@ -8,11 +8,7 @@
+ extern "C"
+ {
+ #endif
+-#if defined(FIRMWARECONTROL_PLATFORM_RPI)
+-#include <mfrTypes.h>
+-#else
+ #include <mfrApi.h>
+-#endif
+ #ifdef __cplusplus
+ }
+ #endif
