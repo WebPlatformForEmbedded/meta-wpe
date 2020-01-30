@@ -34,6 +34,17 @@ diff --git a/westeros-main.cpp b/westeros-main.cpp
 index e4e73b7..523cbc7 100644
 --- a/westeros-main.cpp
 +++ b/westeros-main.cpp
+@@ -1321,8 +1321,8 @@ AppCtx* initApp()
+    appCtx= (AppCtx*)calloc( 1, sizeof(AppCtx) );
+    if ( appCtx )
+    {
+-      appCtx->windowWidth= 1280;
+-      appCtx->windowHeight= 720;
++      appCtx->windowWidth= 1920;
++      appCtx->windowHeight= 1080;
+ 
+       #if defined (WESTEROS_PLATFORM_EMBEDDED)
+       appCtx->inputCtx= (InputCtx*)calloc( 1, sizeof(InputCtx) );
 @@ -1334,7 +1334,7 @@ AppCtx* initApp()
        glutInit(&argc,argv);
        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA );
@@ -43,17 +54,6 @@ index e4e73b7..523cbc7 100644
        
        sprintf( appCtx->title, "Westeros-%d", getpid() );
        appCtx->glutWindowId= glutCreateWindow(appCtx->title);
-@@ -1407,8 +1407,8 @@ bool startApp( AppCtx *appCtx, WstCompositor *wctx )
-          appCtx->matrix[15]= 1.0f;
-          appCtx->x= 0;
-          appCtx->y= 0;
--         appCtx->width= 1280;
--         appCtx->height= 720;
-+         appCtx->width= 1920;
-+         appCtx->height= 1080;
-          appCtx->outputWidth= appCtx->width;
-          appCtx->outputHeight= appCtx->height;
-          
 diff --git a/westeros-render.cpp b/westeros-render.cpp
 index f5d5d55..6b2cc46 100644
 --- a/westeros-render.cpp
