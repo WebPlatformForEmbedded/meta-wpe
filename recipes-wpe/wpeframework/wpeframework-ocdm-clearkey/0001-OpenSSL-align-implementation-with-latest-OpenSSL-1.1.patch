@@ -20,11 +20,12 @@ index af0585e..22769d0 100644
  #endif
  #include <pthread.h>
  #include <sstream>
-@@ -229,6 +230,7 @@ CDMi_RESULT MediaKeySession::Decrypt(
+@@ -229,6 +229,6 @@ CDMi_RESULT MediaKeySession::Decrypt(
+     AES_KEY aesKey;
      AES_set_encrypt_key(reinterpret_cast<const unsigned char*>(key), strlen(key) * 8, &aesKey);
- 
-     AES_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset);
+
+-    AES_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset);
 +    CRYPTO_ctr128_encrypt(reinterpret_cast<const unsigned char*>(f_pbData), out, f_cbData, &aesKey, ivec, ecount_buf, &block_offset,(block128_f)AES_encrypt);
  #endif
- 
+
      /* Return clear content */
