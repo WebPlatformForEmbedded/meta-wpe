@@ -12,10 +12,11 @@ do_configure_append() {
     cd -
 }
 
-do_install_append() {
+#Enable this for broadcom as well, during the removal of systemd services
+do_install_append_rpi() {
     if ${@bb.utils.contains('DISTRO_FEATURES', "bluetoothcontrol", "true", "false", d)}
     then
-        if [ -f ${D}${systemd_unitdir} ]
+        if [ -d ${D}${systemd_unitdir} ]
         then
             rm -rf ${D}${systemd_unitdir}
         fi
