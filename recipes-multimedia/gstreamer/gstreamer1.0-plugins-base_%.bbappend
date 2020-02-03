@@ -1,2 +1,2 @@
-PACKAGECONFIG[gl] = "--enable-gl,,"
+PACKAGECONFIG[gl] = "-Dgl=enabled,,"
 PACKAGECONFIG_append = " gl opus"

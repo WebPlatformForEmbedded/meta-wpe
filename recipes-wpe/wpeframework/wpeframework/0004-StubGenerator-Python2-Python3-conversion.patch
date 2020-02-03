@@ -1,5 +1,5 @@
 diff --git a/Tools/ProxyStubGenerator/StubGenerator.py b/Tools/ProxyStubGenerator/StubGenerator.py
-index 0f0d9bc..bef6164 100755
+index 0f0d9bc..4b9529e 100755
 --- a/Tools/ProxyStubGenerator/StubGenerator.py
 +++ b/Tools/ProxyStubGenerator/StubGenerator.py
 @@ -43,21 +43,21 @@ class Log:
@@ -16,7 +16,7 @@ index 0f0d9bc..bef6164 100755
      def Error(self, text, file = ""):
              self.errors.append("%s: ERROR: %s%s%s" % (NAME, file, ": " if file else "", text))
 -            print >> sys.stderr, self.errors[-1]
-+            print (>> sys.stderr, self.errors[-1])
++            print (self.errors[-1], file=sys.stderr)
      def Print(self, text, file = ""):
 -        print("%s: %s%s%s" % (NAME, file, ": " if file else "", text))
 +        print(("%s: %s%s%s" % (NAME, file, ": " if file else "", text)))
@@ -115,16 +115,17 @@ index 0f0d9bc..bef6164 100755
  
              sorted_faces = sorted(faces, key=lambda x: x.id)
              for i, f in enumerate(sorted_faces):
-                 if isinstance(f.id, (long, int)):
+-                if isinstance(f.id, (long, int)):
++                if isinstance(f.id, int):
                      if scan_only:
                          if i and sorted_faces[i - 1].id < f.id - 1:
 -                            print "..."
 -                        print "%s (%s) - '%s'" % (hex(f.id) if isinstance(f.id, (int, long)) else "?", str(f.id), f.obj.full_name)
 +                            print ("...")
-+                        print ("%s (%s) - '%s'" % (hex(f.id) if isinstance(f.id, (int, long)) else "?", str(f.id), f.obj.full_name))
++                        print ("%s (%s) - '%s'" % (hex(f.id) if isinstance(f.id, int) else "?", str(f.id), f.obj.full_name))
                      if i and sorted_faces[i - 1].id == f.id:
 -                        log.Warn("duplicate interface ID %s (%s) of %s" % (hex(f.id) if isinstance(f.id, (int, long)) else "?", str(f.id), f.obj.full_name), f.file)
-+                        log.Warn("duplicate interface ID %s (%s) of %s" % (hex(f.id) if isinstance(f.id, int) else "?", str(f.id), f.obj.full_name), f.file)    
++                        log.Warn("duplicate interface ID %s (%s) of %s" % (hex(f.id) if isinstance(f.id, int) else "?", str(f.id), f.obj.full_name), f.file)
                  else:
                      log.Info("can't evaluate interface ID \"%s\" of %s" % (str(f.id), f.obj.full_name), f.file)
  
