@@ -38,8 +38,8 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetoothcontrol',     'bluetoothcontrol', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetoothcontrol',     'bluetoothremote', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothcontrol', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothremote', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',           'compositor', '', d)} \
@@ -80,7 +80,10 @@ PACKAGECONFIG[webserver]      = "-DPLUGIN_WEBSERVER=ON \
                                  -DPLUGIN_WEBSERVER_PATH="${PLUGIN_WEBSERVER_PATH}" \
                                  ,-DPLUGIN_WEBSERVER=OFF,"
 PACKAGECONFIG[webshell]       = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
-PACKAGECONFIG[wifi]           = "-DPLUGIN_WIFICONTROL=ON,-DPLUGIN_WIFICONTROL=OFF,,wpa-supplicant linux-firmware-bcm43430"
+
+WPE_WIFICONTROL_DEP          ?= ""
+WPE_WIFICONTROL_DEP_rpi      ?= "linux-firmware-bcm43430"
+PACKAGECONFIG[wifi]           = "-DPLUGIN_WIFICONTROL=ON,-DPLUGIN_WIFICONTROL=OFF,,wpa-supplicant ${WPE_WIFICONTROL_DEP}"
 PACKAGECONFIG[wifi_rdkhal]    = "-DPLUGIN_USE_RDK_HAL_WIFI=ON,-DPLUGIN_USE_RDK_HAL_WIFI=OFF,,wifi-hal"
 
 # ----------------------------------------------------------------------------
