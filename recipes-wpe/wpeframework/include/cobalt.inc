@@ -17,6 +17,6 @@ WPE_COBALT_EXTRAFLAGS = ' \
 PACKAGECONFIG[cobalt] = " \
     -DPLUGIN_COBALT=ON \
     ${WPE_COBALT_EXTRAFLAGS}, \
-    -DPLUGIN_COBALT=OFF,cobalt,cobalt \
+    -DPLUGIN_COBALT=OFF,libcobalt,libcobalt \
 "
 # ----------------------------------------------------------------------------
