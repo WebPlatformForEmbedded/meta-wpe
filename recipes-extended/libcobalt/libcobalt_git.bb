@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = " \
 
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework"
 
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=ssh;rev=c62d51a403b2b4e3e7aebbc47c9852ee16ceefdd \
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=c62d51a403b2b4e3e7aebbc47c9852ee16ceefdd \
            git://chromium.googlesource.com/chromium/tools/depot_tools.git;protocol=https;rev=44ea3ffa40fe375a8ae2e0f89968c335d08c8a8a;destsuffix=depot_tools;name=depot_tools \
            file://0001-cobalt-gyp-config-oe-changes.patch \
 "
