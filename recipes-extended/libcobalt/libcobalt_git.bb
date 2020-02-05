@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = " \
 
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework"
 
-SRCREV = "3fdc0d8ce722a5a430a5df26fbe251dfb4c3ae11"
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=ssh; \
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=ssh;rev=c62d51a403b2b4e3e7aebbc47c9852ee16ceefdd \
+           git://chromium.googlesource.com/chromium/tools/depot_tools.git;protocol=https;rev=44ea3ffa40fe375a8ae2e0f89968c335d08c8a8a;destsuffix=depot_tools;name=depot_tools \
            file://0001-cobalt-gyp-config-oe-changes.patch \
 "
 S = "${WORKDIR}/git"
@@ -23,6 +23,7 @@ COBALT_DEPENDENCIES_brcm ?= "gst1-bcm"
 COBALT_BUILD_TYPE = "qa"
 
 do_configure() {
+    export PATH=$PATH:${S}/../depot_tools
     export COBALT_EXECUTABLE_TYPE=shared_library
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
 
@@ -34,10 +35,12 @@ do_configure() {
 }
 
 do_compile() {
+    export PATH=$PATH:${S}/../depot_tools
     ${STAGING_BINDIR_NATIVE}/ninja -C ${S}/src/out/${COBALT_PLATFORM}_${COBALT_BUILD_TYPE} cobalt_deploy
 }
 
 do_install() {
+    export PATH=$PATH:${S}/../depot_tools
     if [ -f ${STAGING_DIR_TARGET}/usr/lib/libcobalt.so ]
     then
         rm -rf ${STAGING_DIR_TARGET}/usr/lib/libcobalt.so
