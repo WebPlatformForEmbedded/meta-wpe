@@ -13,6 +13,8 @@ SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=c62d5
 "
 S = "${WORKDIR}/git"
 
+LD = "${CXX}"
+
 # TODO: we might also have mips here at some point.
 COBALT_PLATFORM ?= ""
 COBALT_PLATFORM_brcm ?= "wpe-brcm-arm"
