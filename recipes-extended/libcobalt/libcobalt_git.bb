@@ -3,6 +3,8 @@ LIC_FILES_CHKSUM = " \
     file://src/LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d \
 "
 
+PR = "r0"
+PACKAGES = "${PN}"
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework"
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=c62d51a403b2b4e3e7aebbc47c9852ee16ceefdd \
@@ -10,7 +12,6 @@ SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=c62d5
            file://0001-cobalt-gyp-config-oe-changes.patch \
 "
 S = "${WORKDIR}/git"
-
 
 # TODO: we might also have mips here at some point.
 COBALT_PLATFORM ?= ""
@@ -27,8 +28,8 @@ do_configure() {
     export COBALT_EXECUTABLE_TYPE=shared_library
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
 
-    export OE_STAGING_DIR=${STAGING_DIR_HOST}/
-    export OE_TOOLCHAIN_PREFIX=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}
+    export COBALT_STAGING_DIR=${STAGING_DIR_HOST}/
+    export COBALT_TOOLCHAIN_PREFIX=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}
 
     export COBALT_INSTALL_DIR=${D}
     ${S}/src/cobalt/build/gyp_cobalt -C ${COBALT_BUILD_TYPE} ${COBALT_PLATFORM}
@@ -52,12 +53,12 @@ do_install() {
     cp -prf ${S}/src/out/${COBALT_PLATFORM}_${COBALT_BUILD_TYPE}/content ${D}/usr/share/
 }
 
-PACKAGE = " \
+COBALT_PACKAGE = " \
     ${libdir}/libcobalt.so \
     ${datadir}/content/* \
 "
-FILES_${PN}     = "${PACAKGE}"
-FILES_${PN}-dev = "${PACAKGE}"
+FILES_${PN}     = "${COBALT_PACKAGE}"
+FILES_${PN}-dev = "${COBALT_PACKAGE}"
 
 #For dev packages only
 INSANE_SKIP_${PN}-dev = "ldflags"
