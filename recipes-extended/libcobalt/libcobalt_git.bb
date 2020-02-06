@@ -27,8 +27,8 @@ do_configure() {
     export COBALT_EXECUTABLE_TYPE=shared_library
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
 
-    export OE_HOME=${STAGING_DIR_HOST}/
-    export OE_NATIVE=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}
+    export OE_STAGING_DIR=${STAGING_DIR_HOST}/
+    export OE_TOOLCHAIN_PREFIX=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}
 
     export COBALT_INSTALL_DIR=${D}
     ${S}/src/cobalt/build/gyp_cobalt -C ${COBALT_BUILD_TYPE} ${COBALT_PLATFORM}
@@ -52,9 +52,12 @@ do_install() {
     cp -prf ${S}/src/out/${COBALT_PLATFORM}_${COBALT_BUILD_TYPE}/content ${D}/usr/share/
 }
 
-FILES_${PN}     = "${libdir}/libcobalt.so"
-FILES_${PN}-dev = "{libdir}/libcobalt.so"
-FILES_${PN}    += "usr/share/content/*"
+PACKAGE = " \
+    ${libdir}/libcobalt.so \
+    ${datadir}/content/* \
+"
+FILES_${PN}     = "${PACAKGE}"
+FILES_${PN}-dev = "${PACAKGE}"
 
 #For dev packages only
 INSANE_SKIP_${PN}-dev = "ldflags"
