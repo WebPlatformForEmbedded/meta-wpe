@@ -19,6 +19,7 @@ SRCREV = "e0b75be2b60ca44f3ed2e0f13fff7ef27ab8d073"
 
 # More complicated plugins are moved seperate includes
 
+include include/cobalt.inc
 include include/compositor.inc
 include include/firmwarecontrol.inc
 include include/ocdm.inc
@@ -53,6 +54,9 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     deviceinfo dictionary locationsync monitor remote remote-devinput spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
+
+PACKAGECONFIG_append_rpi = "cobalt"
+PACKAGECONFIG_append_brcm = "cobalt"
 
 PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=true,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
