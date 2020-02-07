@@ -53,7 +53,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
-    deviceinfo dictionary displayinfo filetransfer locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
+    deviceinfo dictionary displayinfo filetransfer locationsync monitor packager remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
 PACKAGECONFIG_append_rpi = "cobalt"
@@ -77,6 +77,7 @@ PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
                                  -DPLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
                                  -DPLUGIN_NETFLIX_MEMORYLIMIT=307200 \
                                 ,-DPLUGIN_MONITOR=OFF,"
+PACKAGECONFIG[packager]         = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 PACKAGECONFIG[securityagent]    = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[systemdconnector] = "-DPLUGIN_SYSTEMDCONNECTOR=ON,-DPLUGIN_SYSTEMDCONNECTOR=OFF,"
 PACKAGECONFIG[ioconnector]    = "-DPLUGIN_IOCONNECTOR=ON,-DPLUGIN_IOCONNECTOR=OFF,"
