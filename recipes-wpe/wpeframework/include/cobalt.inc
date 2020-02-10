@@ -21,4 +21,5 @@ PACKAGECONFIG[cobalt] = " \
 "
 # ----------------------------------------------------------------------------
 
+DEPENDS += "libcobalt"
 RDEPENDS_${PN} += "libcobalt"
