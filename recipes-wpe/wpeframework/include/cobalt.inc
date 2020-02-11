@@ -20,3 +20,6 @@ PACKAGECONFIG[cobalt] = " \
     -DPLUGIN_COBALT=OFF,libcobalt,libcobalt \
 "
 # ----------------------------------------------------------------------------
+
+DEPENDS += "libcobalt"
+RDEPENDS_${PN} += "libcobalt"

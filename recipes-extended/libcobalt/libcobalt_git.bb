@@ -20,7 +20,7 @@ COBALT_PLATFORM_brcm ?= "wpe-brcm-arm"
 COBALT_PLATFORM_rpi ?= "wpe-rpi"
 
 COBALT_DEPENDENCIES ?= ""
-COBALT_DEPENDENCIES_brcm ?= "gst1-bcm"
+COBALT_DEPENDENCIES_brcm ?= "gstreamer-plugins-soc"
 DEPENDS += "${COBALT_DEPENDENCIES}"
 
 COBALT_BUILD_TYPE = "qa"
