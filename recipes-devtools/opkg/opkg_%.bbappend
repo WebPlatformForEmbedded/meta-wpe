@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append = " \
+SRC_URI_append_class-target = " \
     file://001-provisioning_hook.patch \
     file://002-package_name_code_path_crash_fix.patch \
     file://003-fix_crash_when_opkg_does_reinit.patch \
@@ -9,9 +9,10 @@ SRC_URI_append = " \
 PACKAGECONFIG[libopkg]   = "--enable-libopkg-api,--disable-libopkg-api"
 PACKAGECONFIG[provision] = "--enable-provision,--disable-provision"
 
-PACKAGECONFIG_append = " libopkg "
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'provision', '', d)} "
+PACKAGECONFIG_append_class-target = " libopkg gpg"
+PACKAGECONFIG_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'provision', '', d)} "
 
+DEPENDS_append_class-target = " wpeframework"
 
 do_install_append () {
         install -d ${D}${includedir}/libopkg
