@@ -30,22 +30,22 @@ index 76b53c4..57c6dd2 100644
              }
              else
              {
-@@ -684,10 +681,13 @@ static void gst_westeros_sink_set_property(GObject *object, guint prop_id, const
-                   wl_simple_shell_set_visible( sink->shell, sink->surfaceId, true);
-                   
-                   wl_simple_shell_get_status( sink->shell, sink->surfaceId);
--                  
--                  wl_display_flush( sink->display );
+@@ -779,10 +776,13 @@ static void gst_westeros_sink_set_property(GObject *object, guint prop_id, const
+                      wl_simple_shell_set_visible( sink->shell, sink->surfaceId, true);
+ 
+                      wl_simple_shell_get_status( sink->shell, sink->surfaceId);
+-
+-                     wl_display_flush( sink->display );
+                   }
                 }
-             }
 +
-+            if ( sink->queue )
-+            {
-+                wl_display_dispatch_queue( sink->display, sink->queue );
-+            }
++               if ( sink->queue )
++               {
++                   wl_display_dispatch_queue( sink->display, sink->queue );
++               }
+             }
           }
  
-          g_strfreev(parts);
 @@ -798,7 +798,9 @@ static GstStateChangeReturn gst_westeros_sink_change_state(GstElement *element,
                 {
                    wl_vpc_surface_set_geometry( sink->vpcSurface, sink->windowX, sink->windowY, sink->windowWidth, sink->windowHeight );
