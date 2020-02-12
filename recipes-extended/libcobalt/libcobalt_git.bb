@@ -15,9 +15,16 @@ S = "${WORKDIR}/git"
 LD = "${CXX}"
 
 # TODO: we might also have mips here at some point.
+COBALT_ARCH ?= ""
+COBALT_ARCH_brcm ?= "arm"
+
 COBALT_PLATFORM ?= ""
-COBALT_PLATFORM_brcm ?= "wpe-brcm-arm"
-COBALT_PLATFORM_rpi ?= "wpe-rpi"
+COBALT_PLATFORM_brcm ?= "brcm"
+COBALT_PLATFORM_rpi ?= "rpi"
+
+COBALT_PLATFORM_NAME ?= ""
+COBALT_PLATFORM_NAME_brcm ?= "wpe-${COBALT_PLATFORM}-${COBALT_ARCH}"
+COBALT_PLATFORM_NAME_rpi ?= "wpe-${COBALT_PLATFORM}"
 
 COBALT_DEPENDENCIES ?= ""
 COBALT_DEPENDENCIES_brcm ?= "gstreamer-plugins-soc"
@@ -36,12 +43,12 @@ do_configure() {
     export COBALT_TOOLCHAIN_PREFIX=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}
 
     export COBALT_INSTALL_DIR=${D}
-    ${S}/src/cobalt/build/gyp_cobalt -C ${COBALT_BUILD_TYPE} ${COBALT_PLATFORM}
+    ${S}/src/cobalt/build/gyp_cobalt -C ${COBALT_BUILD_TYPE} ${COBALT_PLATFORM_NAME}
 }
 
 do_compile() {
     export PATH=$PATH:${S}/../depot_tools
-    ${STAGING_BINDIR_NATIVE}/ninja -C ${S}/src/out/${COBALT_PLATFORM}_${COBALT_BUILD_TYPE} cobalt_deploy
+    ${STAGING_BINDIR_NATIVE}/ninja -C ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE} cobalt_deploy
 }
 
 do_install() {
@@ -51,15 +58,29 @@ do_install() {
         rm -rf ${STAGING_DIR_TARGET}/usr/lib/libcobalt.so
     fi
     install -d ${D}${libdir}
-    install -m 0755 ${S}/src/out/${COBALT_PLATFORM}_${COBALT_BUILD_TYPE}/lib/libcobalt.so ${D}${libdir}
+    install -m 0755 ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/lib/libcobalt.so ${D}${libdir}
 
     install -d ${D}/usr/share
-    cp -prf ${S}/src/out/${COBALT_PLATFORM}_${COBALT_BUILD_TYPE}/content ${D}/usr/share/
+    cp -prf ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/content ${D}/usr/share/
+
+    if [ -d "${WORKDIR}/sysroot-destdir/${includedir}/third_party" ]
+    then
+        rm -rf ${WORKDIR}/sysroot-destdir/${includedir}/third_party
+    fi
+    if [ -d "${STAGING_DIR_TARGET}/${includedir}/third_party" ]
+    then
+        rm -rf ${STAGING_DIR_TARGET}/${includedir}/third_party
+    fi
+    install -d ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}
+    cp -prf ${S}/src/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/*.h ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/
+    install -d ${D}/${includedir}/third_party/starboard/wpe/shared
+    cp -prf ${S}/src/third_party/starboard/wpe/shared/*.h ${D}/${includedir}/third_party/starboard/wpe/shared/
 }
 
 COBALT_PACKAGE = " \
     ${libdir}/libcobalt.so \
     ${datadir}/content/* \
+    ${includedir}/* \
 "
 FILES_${PN}     = "${COBALT_PACKAGE}"
 FILES_${PN}-dev = "${COBALT_PACKAGE}"
