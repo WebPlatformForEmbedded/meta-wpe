@@ -23,6 +23,8 @@ COBALT_DEPENDENCIES ?= ""
 COBALT_DEPENDENCIES_brcm ?= "gstreamer-plugins-soc"
 DEPENDS += "${COBALT_DEPENDENCIES}"
 
+RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad wpeframework ${COBALT_DEPENDENCIES}"
+
 COBALT_BUILD_TYPE = "qa"
 
 do_configure() {
