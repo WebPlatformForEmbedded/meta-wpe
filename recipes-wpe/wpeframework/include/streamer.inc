@@ -32,6 +32,8 @@ STREAMER_EXTRA_FLAGS += "${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'QAM',
 
 # Set dependencies
 STREAMER_DEP ?= "${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'Aamp', 'gst-plugins-rdk-aamp', '', d)}"
+DEPENDS += " ${STREAMER_DEP}"
+RDEPENDS_${PN} += " ${STREAMER_DEP}"
 
 # Other options include:
 # -DPLUGIN_STREAMER_BROADCAST_SATELLITE=ON
