@@ -14,7 +14,7 @@ S = "${WORKDIR}/git"
 
 SRC_URI = "git://git@github.com/Metrological/cryptography.git;protocol=ssh;branch=master"
 
-SRCREV = "346c1ae6be00a1275f5f5baf27b19165abe49782"
+SRCREV = "07b7b83d0060dc2e056d4dee0aa3efcaf2694c0f"
 
 inherit cmake pkgconfig
 
