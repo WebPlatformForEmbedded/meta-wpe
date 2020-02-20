@@ -71,10 +71,23 @@ do_install() {
     then
         rm -rf ${STAGING_DIR_TARGET}/${includedir}/third_party
     fi
+
+    if [ -d "${WORKDIR}/sysroot-destdir/${includedir}/starboard" ]
+    then
+        rm -rf ${WORKDIR}/sysroot-destdir/${includedir}/starboard
+    fi
+    if [ -d "${STAGING_DIR_TARGET}/${includedir}/starboard" ]
+    then
+        rm -rf ${STAGING_DIR_TARGET}/${includedir}/starboard
+    fi
+
     install -d ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}
     cp -prf ${S}/src/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/*.h ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/
     install -d ${D}/${includedir}/third_party/starboard/wpe/shared
     cp -prf ${S}/src/third_party/starboard/wpe/shared/*.h ${D}/${includedir}/third_party/starboard/wpe/shared/
+
+    install -d ${D}/${includedir}/starboard
+    cp -prf ${S}/src/starboard/*.h ${D}/${includedir}/starboard/
 }
 
 COBALT_PACKAGE = " \
