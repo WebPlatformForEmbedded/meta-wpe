@@ -63,24 +63,6 @@ do_install() {
     install -d ${D}/usr/share
     cp -prf ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/content ${D}/usr/share/
 
-    if [ -d "${WORKDIR}/sysroot-destdir/${includedir}/third_party" ]
-    then
-        rm -rf ${WORKDIR}/sysroot-destdir/${includedir}/third_party
-    fi
-    if [ -d "${STAGING_DIR_TARGET}/${includedir}/third_party" ]
-    then
-        rm -rf ${STAGING_DIR_TARGET}/${includedir}/third_party
-    fi
-
-    if [ -d "${WORKDIR}/sysroot-destdir/${includedir}/starboard" ]
-    then
-        rm -rf ${WORKDIR}/sysroot-destdir/${includedir}/starboard
-    fi
-    if [ -d "${STAGING_DIR_TARGET}/${includedir}/starboard" ]
-    then
-        rm -rf ${STAGING_DIR_TARGET}/${includedir}/starboard
-    fi
-
     install -d ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}
     cp -prf ${S}/src/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/*.h ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/
     install -d ${D}/${includedir}/third_party/starboard/wpe/shared
@@ -89,6 +71,8 @@ do_install() {
     install -d ${D}/${includedir}/starboard
     cp -prf ${S}/src/starboard/*.h ${D}/${includedir}/starboard/
 }
+
+SSTATE_DUPWHITELIST = "/"
 
 COBALT_PACKAGE = " \
     ${libdir}/libcobalt.so \
