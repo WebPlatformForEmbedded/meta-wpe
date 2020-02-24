@@ -26,16 +26,15 @@ def findRev(file):
 			return m.group()
 
 def updateOeVersion(file, newVersion):
-    # Read contents from file as a single string
+    # Get file contents as one string 
     fd = open(file, 'r')
     file_content = fd.read()
     fd.close()
 
-    # Use RE package to allow for replacement (also allowing for (multiline) REGEX)
+    # Re package will handle multiline input string in substitution
     file_content = (re.sub("[a-z0-9]{40}", newVersion, file_content))
 
-    # Write contents to file.
-    # Using mode 'w' truncates the file.
+    # Write contents and truncate file
     fd = open(file, 'w')
     fd.write(file_content)
     fd.close()	
