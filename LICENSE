@@ -206,12 +206,10 @@ explicitly stated or default to Apache-2.0 licensed.
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
 				
 				MIT LICENSE
 
-
-   Copyright <YEAR> <COPYRIGHT HOLDER>
+   Copyright 2020 RDK Management
 
    Permission is hereby granted, free of charge, to any person obtaining a
    copy of this software and associated documentation files (the "Software"),
