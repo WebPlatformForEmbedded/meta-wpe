@@ -6,11 +6,16 @@ WPE_COBALT_STARBOARD_CONFIGURATION_INCLUDE_brcm ?= "third_party/starboard/wpe/br
 WPE_COBALT_AUTOSTART        ?= "false"
 WPE_COBALT_OUTOFPROCESS     ?= "true"
 
+WPE_COBALT_RESOLUTION       ?= ""
+WPE_COBALT_RESOLUTION_rpi   ?= "720p"
+WPE_COBALT_RESOLUTION_brcm  ?= "1080p"
+
 # ----------------------------------------------------------------------------
 WPE_COBALT_EXTRAFLAGS = ' \
     -DPLUGIN_COBALT_AUTOSTART=${WPE_COBALT_AUTOSTART} \
     -DPLUGIN_COBALT_OUTOFPROCESS=${WPE_COBALT_OUTOFPROCESS} \
     -DWPEFRAMEWORK_PLUGIN_COBALT_STARBOARD_CONFIGURATION_INCLUDE=${WPE_COBALT_STARBOARD_CONFIGURATION_INCLUDE} \
+    -DPLUGIN_COBALT_RESOLUTION=${WPE_COBALT_RESOLUTION} \
 '
 # ----------------------------------------------------------------------------
 

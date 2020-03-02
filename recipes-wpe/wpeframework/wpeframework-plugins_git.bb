@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0004-NEXUS-SERVER-EXTERNAL-header-path-search-included.patch \
            file://0005-FileTransfer-test-plugin-selection-flag.patch \
            file://0006-Streamer-crash-fix.patch \
+           file://0007-Cobalt-resolution-param-configurable.patch \
            "
 SRCREV = "e0b75be2b60ca44f3ed2e0f13fff7ef27ab8d073"
 

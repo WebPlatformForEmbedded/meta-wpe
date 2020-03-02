@@ -1,0 +1,77 @@
+diff --git a/wayland-egl.cpp b/wayland-egl.cpp
+index 6ceee3b..3d4c744 100644
+--- a/wayland-egl.cpp
++++ b/wayland-egl.cpp
+@@ -149,6 +149,9 @@ static void winRegistryHandleGlobalRemove(void *data,
+ bnxsPixmap *createBNXSPixmap( WayEGLDisplay *wayEGLDisplay, struct wl_client *client, struct wl_bnxs_buffer *bnxsBuffer );
+ void destroyBNXSPixmap( WayEGLDisplay *wayEGLDisplay, bnxsPixmap *bpx );
+ 
++static NEXUS_Error eglJoin();
++bool eglJoinStatus = false;
++
+ static bool checkZeroCopy()
+ {
+    bool useZeroCopy= false;
+@@ -887,6 +890,29 @@ exit:
+    return s;   
+ }
+ 
++NEXUS_Error eglJoin()
++{
++    NEXUS_Error rc = NEXUS_SUCCESS;
++    if (!eglJoinStatus)
++    {
++        NxClient_JoinSettings joinSettings;
++
++        NxClient_GetDefaultJoinSettings( &joinSettings );
++        snprintf( joinSettings.name, NXCLIENT_MAX_NAME, "wayland-egl%x", getpid());
++
++        rc= NxClient_Join( &joinSettings );
++        if ( rc )
++        {
++            printf("wayland-egl: eglJoin: error: NxClient_Join failed\n");
++        }
++        else
++        {
++            printf("wayland-egl: eglJoin: NxClient_Join ok as %s\n", joinSettings.name );
++        }
++    }
++    return rc;
++}
++
+ EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay(EGLNativeDisplayType displayId)
+ {
+    EGLDisplay eglDisplay= 0;
+@@ -895,18 +921,12 @@ EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay(EGLNativeDisplayType displayId)
+    if ( !gNxplHandle )
+    {
+       NEXUS_Error rc;
+-      NxClient_JoinSettings joinSettings;
+-
+-      NxClient_GetDefaultJoinSettings( &joinSettings );
+-      snprintf( joinSettings.name, NXCLIENT_MAX_NAME, "wayland-egl%x", getpid());
+-
+-      rc= NxClient_Join( &joinSettings );
++      rc= eglJoin();
+       if ( rc )
+       {
+          printf("wayland-egl: eglGetDisplay: error: NxClient_Join failed\n");
+          goto exit;
+       }
+-      printf("wayland-egl: eglGetDisplay: NxClient_Join ok as %s\n", joinSettings.name );
+ 
+       NXPL_RegisterNexusDisplayPlatform( &gNxplHandle, 0 );
+       if ( !gNxplHandle )
+@@ -1123,7 +1143,11 @@ struct wl_egl_window *wl_egl_window_create(struct wl_surface *surface, int width
+    NXPL_NativeWindowInfo windowInfo;
+    WEGLNativeWindowListener windowListener;
+    struct wl_display *wldisp;
+-   
++
++   if (eglJoin() != NEXUS_SUCCESS)
++   {
++       goto exit;
++   }
+    wldisp= getWLDisplayFromProxy(surface);
+    if ( wldisp )
+    {
