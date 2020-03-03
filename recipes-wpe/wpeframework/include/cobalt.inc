@@ -7,7 +7,7 @@ WPE_COBALT_AUTOSTART        ?= "false"
 WPE_COBALT_OUTOFPROCESS     ?= "true"
 
 WPE_COBALT_RESOLUTION       ?= "720p"
-WPE_COBALT_RESOLUTION_rpi   ?= "${@base_conditional('MODE_64', 'aarch64', '1080p', '720p', d)}"
+WPE_COBALT_RESOLUTION_rpi   ?= "720p"
 WPE_COBALT_RESOLUTION_brcm  ?= "1080p"
 
 # ----------------------------------------------------------------------------
