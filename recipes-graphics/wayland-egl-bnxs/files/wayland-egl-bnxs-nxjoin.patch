@@ -1,5 +1,5 @@
 diff --git a/wayland-egl.cpp b/wayland-egl.cpp
-index 6ceee3b..3d4c744 100644
+index 6ceee3b..25e9545 100644
 --- a/wayland-egl.cpp
 +++ b/wayland-egl.cpp
 @@ -149,6 +149,9 @@ static void winRegistryHandleGlobalRemove(void *data,
@@ -12,7 +12,7 @@ index 6ceee3b..3d4c744 100644
  static bool checkZeroCopy()
  {
     bool useZeroCopy= false;
-@@ -887,6 +890,29 @@ exit:
+@@ -887,6 +890,30 @@ exit:
     return s;   
  }
  
@@ -34,6 +34,7 @@ index 6ceee3b..3d4c744 100644
 +        else
 +        {
 +            printf("wayland-egl: eglJoin: NxClient_Join ok as %s\n", joinSettings.name );
++            NxClient_UnregisterAcknowledgeStandby(NxClient_RegisterAcknowledgeStandby());
 +        }
 +    }
 +    return rc;
@@ -42,7 +43,7 @@ index 6ceee3b..3d4c744 100644
  EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay(EGLNativeDisplayType displayId)
  {
     EGLDisplay eglDisplay= 0;
-@@ -895,18 +921,12 @@ EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay(EGLNativeDisplayType displayId)
+@@ -895,18 +922,12 @@ EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay(EGLNativeDisplayType displayId)
     if ( !gNxplHandle )
     {
        NEXUS_Error rc;
@@ -62,7 +63,7 @@ index 6ceee3b..3d4c744 100644
  
        NXPL_RegisterNexusDisplayPlatform( &gNxplHandle, 0 );
        if ( !gNxplHandle )
-@@ -1123,7 +1143,11 @@ struct wl_egl_window *wl_egl_window_create(struct wl_surface *surface, int width
+@@ -1123,7 +1144,11 @@ struct wl_egl_window *wl_egl_window_create(struct wl_surface *surface, int width
     NXPL_NativeWindowInfo windowInfo;
     WEGLNativeWindowListener windowListener;
     struct wl_display *wldisp;
