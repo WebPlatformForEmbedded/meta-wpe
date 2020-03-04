@@ -7,8 +7,7 @@ PR = "r0"
 PACKAGES = "${PN}"
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework"
 
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=c0e5376052e4c99e9e99866198e78fcff61d42f3 \
-           git://chromium.googlesource.com/chromium/tools/depot_tools.git;protocol=https;rev=44ea3ffa40fe375a8ae2e0f89968c335d08c8a8a;destsuffix=depot_tools;name=depot_tools \
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=a6f2a67ee2ec181a2263d1c1996dce23ac02e1c6  \
 "
 S = "${WORKDIR}/git"
 
@@ -35,7 +34,7 @@ RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-g
 COBALT_BUILD_TYPE = "qa"
 
 do_configure() {
-    export PATH=$PATH:${S}/../depot_tools
+    export PATH=$PATH:${S}/depot_tools
     export COBALT_EXECUTABLE_TYPE=shared_library
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
 
@@ -47,7 +46,7 @@ do_configure() {
 }
 
 do_compile() {
-    export PATH=$PATH:${S}/../depot_tools
+    export PATH=$PATH:${S}/depot_tools
     ${STAGING_BINDIR_NATIVE}/ninja -C ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE} cobalt_deploy
 }
 
