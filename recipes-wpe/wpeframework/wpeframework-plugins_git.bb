@@ -58,8 +58,8 @@ PACKAGECONFIG ?= " \
     deviceinfo dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
-PACKAGECONFIG_append_rpi = "cobalt"
-PACKAGECONFIG_append_brcm = "cobalt"
+PACKAGECONFIG_append_rpi = " cobalt"
+PACKAGECONFIG_append_brcm = " cobalt"
 
 PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=true,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"

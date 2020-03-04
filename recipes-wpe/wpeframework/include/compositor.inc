@@ -20,6 +20,7 @@ WPE_COMPOSITOR_IRMODE		?= "none"
 WPE_COMPOSITOR_IRMODE_brcm	?= "NEXUS_IrInputMode_eCirGISat"
 WPE_COMPOSITOR_SVP			?= "None"
 WPE_COMPOSITOR_BOXMODE		?= "3"
+WPE_COMPOSITOR_NEXUS_SERVER_EXTERNAL ?= "ON"
 
 # ----------------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ WPE_COMPOSITOR_EXTRAFLAGS = ' \
 -DPLUGIN_COMPOSITOR_BOXMODE=${WPE_COMPOSITOR_BOXMODE} \
 '
 
-WPE_COMPOSITOR_EXTRAFLAGS += "${@bb.utils.contains('WPE_COMPOSITOR_PACKAGE', 'Nexus', '-DNEXUS_SERVER_EXTERNAL=ON', '', d)}"
+WPE_COMPOSITOR_EXTRAFLAGS += "${@bb.utils.contains('WPE_COMPOSITOR_PACKAGE', 'Nexus', '-DNEXUS_SERVER_EXTERNAL=${WPE_COMPOSITOR_NEXUS_SERVER_EXTERNAL}', '', d)}"
 # ----------------------------------------------------------------------------
 
 PACKAGECONFIG[compositor]     = " \
