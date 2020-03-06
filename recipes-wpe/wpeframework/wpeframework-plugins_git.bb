@@ -29,7 +29,6 @@ include include/ioconnector.inc
 include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
-include include/snapshot.inc
 include include/spark.inc
 include include/streamer.inc
 include include/webkitbrowser.inc
@@ -82,6 +81,7 @@ PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
                                 ,-DPLUGIN_MONITOR=OFF,"
 PACKAGECONFIG[packager]         = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 PACKAGECONFIG[securityagent]    = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
+PACKAGECONFIG[snapshot]         = "-DPLUGIN_SNAPSHOT=ON,-DPLUGIN_SNAPSHOT=OFF,libpng"
 PACKAGECONFIG[systemdconnector] = "-DPLUGIN_SYSTEMDCONNECTOR=ON,-DPLUGIN_SYSTEMDCONNECTOR=OFF,"
 PACKAGECONFIG[ioconnector]    = "-DPLUGIN_IOCONNECTOR=ON,-DPLUGIN_IOCONNECTOR=OFF,"
 PACKAGECONFIG[timesync]       = "-DPLUGIN_TIMESYNC=ON,-DPLUGIN_TIMESYNC=OFF,"
