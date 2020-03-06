@@ -56,7 +56,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
-    deviceinfo dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
+    deviceinfo dictionary displayinfo locationsync monitor remote remote-devinput securityagent snapshot spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
