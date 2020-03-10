@@ -29,7 +29,6 @@ include include/ioconnector.inc
 include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
-include include/snapshot.inc
 include include/spark.inc
 include include/streamer.inc
 include include/webkitbrowser.inc
@@ -56,11 +55,14 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
-    deviceinfo dictionary displayinfo locationsync monitor remote remote-devinput securityagent snapshot spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
+    deviceinfo dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
 PACKAGECONFIG_append_brcm = " cobalt"
+
+PACKAGECONFIG_append_rpi = " snapshot"
+PACKAGECONFIG_append_brcm = " snapshot"
 
 PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=true,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
