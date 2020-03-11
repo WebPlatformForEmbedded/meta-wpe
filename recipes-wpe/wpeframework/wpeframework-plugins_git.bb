@@ -29,6 +29,7 @@ include include/ioconnector.inc
 include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
+include include/snapshot.inc
 include include/spark.inc
 include include/streamer.inc
 include include/webkitbrowser.inc
