@@ -1,8 +1,7 @@
 # Snapshot only works on BRCM STBs and RPIs
-WPE_SNAPSHOT ?= ""
-WPE_SNAPSHOT_rpi = "snapshot"
-WPE_SNAPSHOT_nexus = "snapshot"
-WPE_SNAPSHOT_DEP = "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl', 'broadcom-refsw', 'broadcom-refsw', 'userland', d)}"
+WPE_SNAPSHOT_DEP ?= ""
+WPE_SNAPSHOT_DEP_rpi = "userland"
+WPE_SNAPSHOT_DEP_brcm = "broadcom-refsw"
 
 # ----------------------------------------------------------------------------
 
