@@ -56,7 +56,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
-    deviceinfo dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
+    deviceinfo dhcpserver dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
@@ -69,6 +69,7 @@ PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTO
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
 
 PACKAGECONFIG[deviceinfo]     = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
+PACKAGECONFIG[dhcpserver]     = "-DPLUGIN_DHCPSERVER=ON,-DPLUGIN_DHCPSERVER=OFF,"
 PACKAGECONFIG[dictionary]     = "-DPLUGIN_DICTIONARY=ON,-DPLUGIN_DICTIONARY=OFF,"
 PACKAGECONFIG[displayinfo]    = "-DPLUGIN_DISPLAYINFO=ON,-DPLUGIN_DISPLAYINFO=OFF,"
 PACKAGECONFIG[dsgcc_client]   = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
