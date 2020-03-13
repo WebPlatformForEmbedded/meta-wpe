@@ -5,7 +5,7 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0001-FirmwareControl-Find-cmake-name-changed-from-MFR-to-MFRFW.patch \
