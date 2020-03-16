@@ -1,21 +1,24 @@
-include spark.inc
-
-DEPENDS_append = " curl freetype util-linux libjpeg-turbo libpng pxcore-libnode giflib sqlite3"
+FILESEXTRAPATHS_prepend := "${THISDIR}/pxcore-libnode:"
 
 SRC_URI += "file://Spark.pc \
-           file://0001-nanosvg-patches.patch \
-           file://0002-pxScene-disable-2DMultisampleEXT.patch \
-           file://0003-spark-wpeframework-compositor.patch \
-           file://0004-dukluv-git.patch \
-           file://0005-pxScene-essos-support-for-shared-lib.patch \
-           file://0006-pxScene-top-issue-fix.patch \
+           file://pxScene-disable-2DMultisampleEXT.patch \
+           file://spark-wpeframework-compositor.patch \
+           file://pxScene-essos-support-for-shared-lib.patch \
 "
 
-inherit cmake pkgconfig
+PACKAGECONFIG ?= " wpeframework"
 
-PACKAGECONFIG ?= " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland westeros', 'wpeframework', d)} \
-"
+#    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland westeros', 'wpeframework', d)} \
+#"
+
+EXTRA_OECMAKE_remove        = " -DBUILD_WITH_WAYLAND=ON"
+EXTRA_OECMAKE_remove        = " -DBUILD_WITH_WESTEROS=ON"
+EXTRA_OECMAKE_remove        = " -DPXCORE_WAYLAND_EGL=ON"
+EXTRA_OECMAKE_remove        = " -DBUILD_PXSCENE_WAYLAND_EGL=ON"
+EXTRA_OECMAKE_remove        = " -DSPARK_BACKGROUND_TEXTURE_CREATION=ON"
+EXTRA_OECMAKE_remove        = " -DSPARK_ENABLE_LRU_TEXTURE_EJECTION=ON"
+EXTRA_OECMAKE_remove        = " -DBUILD_PXSCENE_ESSOS=ON"
+EXTRA_OECMAKE_remove        = " -DPXCORE_ESSOS=ON"
 
 PACKAGECONFIG[rtremote]     = "-DBUILD_RTCORE_LIBS=ON -DBUILD_RTCORE_STATIC_LIB=OFF,,,rtcore rtremote"
 PACKAGECONFIG[wayland]      = "-DBUILD_WITH_WAYLAND=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,wayland"
@@ -25,20 +28,12 @@ PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWOR
 COMPOSITOR          ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
 LIBRTCORE_SUBDIR    ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpe', 'egl', d)}"
 
-PREFERRED_VERSION_pxcore-libnode ?= "6.9.0"
-NODE_FLAG ?= "${@base_version_less_or_equal('PREFERRED_VERSION_pxcore-libnode', '6.9.0', '-DUSE_NODE_8=OFF', '', d)}"
-
 EXTRA_OECMAKE += " \
     -DBUILD_WITH_TEXTURE_USAGE_MONITORING=ON \
-    -DPXCORE_COMPILE_WARNINGS_AS_ERRORS=OFF \
-    -DPXSCENE_COMPILE_WARNINGS_AS_ERRORS=OFF \
-    -DCMAKE_SKIP_RPATH=ON \
     -DPXCORE_MATRIX_HELPERS=OFF \
     -DBUILD_PXWAYLAND_SHARED_LIB=OFF \
     -DBUILD_PXWAYLAND_STATIC_LIB=OFF \
     -DPREFER_SYSTEM_LIBRARIES=ON \
-    -DDISABLE_TURBO_JPEG=ON \
-    -DDISABLE_DEBUG_MODE=ON \
     -DSPARK_BACKGROUND_TEXTURE_CREATION=OFF \
     -DSPARK_ENABLE_LRU_TEXTURE_EJECTION=OFF \
     -DSUPPORT_DUKTAPE=OFF \
@@ -48,13 +43,11 @@ EXTRA_OECMAKE += " \
     -DBUILD_PXSCENE_SHARED_LIB=ON \
     -DBUILD_PXSCENE_APP_WITH_PXSCENE_LIB=ON \
     -DBUILD_RTCORE_LIBS=ON \
-    -DBUILD_RTCORE_STATIC_LIB=OFF \
-    -DSPARK_ENABLE_OPTIMIZED_UPDATE=OFF \
     ${NODE_FLAG} \
 "
 TARGET_CXXFLAGS += " -fno-delete-null-pointer-checks "
 
-do_install() {
+do_install_append() {
     cp -ar ${S}/src/*.h ${STAGING_INCDIR}
     install -d ${STAGING_INCDIR}/unix
     cp -Rpf ${S}/src/unix/*.h ${STAGING_INCDIR}/unix
@@ -68,11 +61,25 @@ do_install() {
     install -d ${PKG_CONFIG_DIR}
     install -m 644 ${WORKDIR}/Spark.pc ${PKG_CONFIG_DIR}/Spark.pc
 
+    if [ -f ${STAGING_DIR_TARGET}/usr/lib/ibSpark.so ]
+    then 
+        rm -rf ${STAGING_DIR_TARGET}/usr/lib/ibSpark.so
+    fi
     install -d ${D}${libdir}
     install -m 755 ${S}/examples/pxScene2d/src/libSpark.so ${D}${libdir}
-    install -m 755 ${S}/build/${LIBRTCORE_SUBDIR}/librtCore.so ${D}${libdir}
+    
+    if [ -f ${STAGING_DIR_TARGET}/usr/lib/librtCore.so ]
+    then
+        rm -rf ${STAGING_DIR_TARGET}/usr/lib/librtCore.so
+    fi
 
-    install -d ${D}${datadir}/WPEFramework/Spark
+    install -m 755 ${S}/build/${LIBRTCORE_SUBDIR}/librtCore.so ${D}${libdir}
+    if [ -d ${D}${datadir}/WPEFramework/Spark ]
+    then
+        rm -rf ${D}${datadir}/WPEFramework/Spark/*
+    else
+        install -d ${D}${datadir}/WPEFramework/Spark
+    fi
     cp -av --no-preserve=ownership ${S}/examples/pxScene2d/src/node_modules ${D}${datadir}/WPEFramework/Spark/
     install -m 755 ${S}/examples/pxScene2d/src/*.js ${D}${datadir}/WPEFramework/Spark/
     install -m 755 ${S}/examples/pxScene2d/src/*.json ${D}${datadir}/WPEFramework/Spark/

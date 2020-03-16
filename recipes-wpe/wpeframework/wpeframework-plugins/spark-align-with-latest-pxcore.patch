@@ -1,0 +1,73 @@
+commit 55540a7529ace062f2d6e205a7ef11fe824939ce
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Mon Mar 16 19:44:35 2020 +0530
+
+    Spark: Changes to align with latest pxcore lib and resolution selection
+
+diff --git a/Spark/Spark.config b/Spark/Spark.config
+index 21488b4..44ca810 100644
+--- a/Spark/Spark.config
++++ b/Spark/Spark.config
+@@ -3,15 +3,15 @@ set (preconditions Internet Graphics)
+ 
+ map()
+     kv(url ${PLUGIN_SPARK_STARTURL})
++    kv(height ${PLUGIN_SPARK_HEIGHT})
++    kv(width ${PLUGIN_SPARK_WIDTH})
+ end()
+ ans(configuration)
+ 
+-map()
+ if (PLUGIN_COMPOSITOR_IMPLEMENTATION AND ${PLUGIN_COMPOSITOR_IMPLEMENTATION} STREQUAL "RPI")
++map()
+     kv(threads 2)
+ end()
+-    kv(height ${PLUGIN_SPARK_HEIGHT})
+-    kv(width ${PLUGIN_SPARK_WIDTH})
+ ans(rootconfig)
+ map_append(${configuration} root ${rootconfig})
+ endif ()
+diff --git a/Spark/Spark.cpp b/Spark/Spark.cpp
+index 0f1bca7..3ca2986 100644
+--- a/Spark/Spark.cpp
++++ b/Spark/Spark.cpp
+@@ -55,7 +55,7 @@ namespace Plugin {
+         // instantiation.
+         _service->Register(&_notification);
+ 
+-        _spark = _service->Root<Exchange::IBrowser>(_connectionId, 2000, _T("SparkImplementation"));
++        _spark = _service->Root<Exchange::IBrowser>(_connectionId, 3000, _T("SparkImplementation"));
+ 
+         if (_spark != nullptr) {
+ 
+diff --git a/Spark/SparkImplementation.cpp b/Spark/SparkImplementation.cpp
+index 31e9456..be1cb8f 100644
+--- a/Spark/SparkImplementation.cpp
++++ b/Spark/SparkImplementation.cpp
+@@ -39,7 +39,7 @@ pxContext context;
+ extern rtScript script;
+ extern bool gDirtyRectsEnabled;
+ extern rtThreadQueue* gUIThreadQueue;
+-extern bool gNewSceneIsTop;
++extern bool topSparkView;
+ 
+ namespace WPEFramework {
+ namespace Plugin {
+@@ -326,6 +326,8 @@ namespace Plugin {
+                 Core::SystemInfo::SetEnvironment(_T("NODE_PATH"), service->DataPath());
+                 Core::SystemInfo::SetEnvironment(_T("SPARK_PATH"), service->DataPath());
+                 Core::SystemInfo::SetEnvironment(_T("RT_EGL_PROVIDER"), config.EGLProvider.Value());
++                Core::SystemInfo::SetEnvironment(_T("SCREEN_WIDTH"), std::to_string(_width));
++                Core::SystemInfo::SetEnvironment(_T("SCREEN_HEIGHT"), std::to_string(_height));
+ 
+                 if (config.ClientIdentifier.IsSet() == true) {
+                     string value(service->Callsign() + ',' + config.ClientIdentifier.Value());
+@@ -631,7 +633,7 @@ namespace Plugin {
+                     Block();
+                 }
+                 else {
+-                    gNewSceneIsTop = true; // Set new Scene as the topest
++                    topSparkView = true; // Set new Scene as the topest
+ 
+                     pxScriptView *scriptView = new pxScriptView(_fullPath.c_str(),"javascript/node/v8");
+                     _view = static_cast<pxViewRef> (scriptView);
