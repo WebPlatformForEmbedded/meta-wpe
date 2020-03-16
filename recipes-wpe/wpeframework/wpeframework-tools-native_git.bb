@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
 PV = "3.0+git${SRCPV}"
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git \
+SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git \
            file://0001-Changes-to-support-JSON-and-ProxyStub-generator-with-python3.patch \
 "
 

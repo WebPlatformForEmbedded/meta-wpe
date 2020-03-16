@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c2b3f2a8aff73c673037a89bee1ee396"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkUI.git;protocol=git;branch=master"
+SRC_URI = "git://github.com/rdkcentral/ThunderUI.git;protocol=git;branch=master"
 SRCREV = "f2cc849bc6f2befaa05edaec1751a24bb863fe86"
 
 do_configure[noexec] = "1"
