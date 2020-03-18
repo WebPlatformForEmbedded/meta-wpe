@@ -6,20 +6,19 @@ SRC_URI += "file://Spark.pc \
            file://pxScene-essos-support-for-shared-lib.patch \
 "
 
-PACKAGECONFIG ?= " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' wpeframework', '', d)}"
+PACKAGECONFIG ?= " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' wpeframework', ' wayland', d)}"
 
-EXTRA_OECMAKE_remove        = " -DBUILD_WITH_WAYLAND=ON"
-EXTRA_OECMAKE_remove        = " -DBUILD_WITH_WESTEROS=ON"
-EXTRA_OECMAKE_remove        = " -DPXCORE_WAYLAND_EGL=ON"
-EXTRA_OECMAKE_remove        = " -DBUILD_PXSCENE_WAYLAND_EGL=ON"
-EXTRA_OECMAKE_remove        = " -DSPARK_BACKGROUND_TEXTURE_CREATION=ON"
-EXTRA_OECMAKE_remove        = " -DSPARK_ENABLE_LRU_TEXTURE_EJECTION=ON"
-EXTRA_OECMAKE_remove        = " -DBUILD_PXSCENE_ESSOS=ON"
-EXTRA_OECMAKE_remove        = " -DPXCORE_ESSOS=ON"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DBUILD_WITH_WAYLAND=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DBUILD_WITH_WESTEROS=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DPXCORE_WAYLAND_EGL=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DBUILD_PXSCENE_WAYLAND_EGL=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DSPARK_BACKGROUND_TEXTURE_CREATION=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DSPARK_ENABLE_LRU_TEXTURE_EJECTION=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DBUILD_PXSCENE_ESSOS=ON', '', d)}"
+EXTRA_OECMAKE_remove  = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DPXCORE_ESSOS=ON', '', d)}"
 
 PACKAGECONFIG[rtremote]     = "-DBUILD_RTCORE_LIBS=ON -DBUILD_RTCORE_STATIC_LIB=OFF,,,rtcore rtremote"
-PACKAGECONFIG[wayland]      = "-DBUILD_WITH_WAYLAND=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,wayland"
-PACKAGECONFIG[westeros]     = "-DBUILD_WITH_WESTEROS=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,westeros"
+PACKAGECONFIG[wayland]      = "-DBUILD_WITH_WAYLAND=ON -DBUILD_WITH_WESTEROS=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,westeros"
 PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWORK=ON,,wpeframework"
 
 COMPOSITOR          ?= "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'wpeframework', 'wayland_egl', d)}"
