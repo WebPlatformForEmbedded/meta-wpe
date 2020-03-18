@@ -24,7 +24,7 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework.service.in \
            file://compositorclient-wayland-zorder-change.patch \
            "
-SRCREV = "192a1d667c7ea2d44492525794f7126d67038551"
+SRCREV = "0dfa0677ec8137f2555f4180e6c061c5cffcf06a"
 
 inherit cmake pkgconfig systemd update-rc.d
 
