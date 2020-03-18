@@ -6,10 +6,7 @@ SRC_URI += "file://Spark.pc \
            file://pxScene-essos-support-for-shared-lib.patch \
 "
 
-PACKAGECONFIG ?= " wpeframework"
-
-#    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland westeros', 'wpeframework', d)} \
-#"
+PACKAGECONFIG ?= " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' wpeframework', '', d)}"
 
 EXTRA_OECMAKE_remove        = " -DBUILD_WITH_WAYLAND=ON"
 EXTRA_OECMAKE_remove        = " -DBUILD_WITH_WESTEROS=ON"
