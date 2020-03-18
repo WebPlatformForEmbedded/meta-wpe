@@ -1,5 +1,5 @@
 # WPE Framework common
-HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
+HOMEPAGE = "https://github.com/rdkcentral"
 SECTION = "wpe"
 
 PV = "3.0+gitr${SRCPV}"
