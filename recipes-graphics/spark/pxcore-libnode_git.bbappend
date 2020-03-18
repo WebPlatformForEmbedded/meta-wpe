@@ -84,6 +84,7 @@ do_install_append() {
     install -m 755 ${S}/examples/pxScene2d/src/*.js ${D}${datadir}/WPEFramework/Spark/
     install -m 755 ${S}/examples/pxScene2d/src/*.json ${D}${datadir}/WPEFramework/Spark/
     install -m 755 ${S}/examples/pxScene2d/src/*.ttf ${D}${datadir}/WPEFramework/Spark/
+    install -m 755 ${S}/examples/pxScene2d/src/sparkpermissions.conf ${D}${datadir}/WPEFramework/Spark/
     cp -av --no-preserve=ownership ${S}/examples/pxScene2d/src/rcvrcore ${D}${datadir}/WPEFramework/Spark/
     cp -av --no-preserve=ownership ${S}/examples/pxScene2d/src/browser ${D}${datadir}/WPEFramework/Spark/
 }
