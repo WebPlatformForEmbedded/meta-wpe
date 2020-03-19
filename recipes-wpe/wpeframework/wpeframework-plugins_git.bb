@@ -44,18 +44,19 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothcontrol', '', d)} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothremote', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',           'compositor', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',             'bluetoothcontrol', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',             'bluetoothremote', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',                'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',               'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',             'compositor', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',              'opencdmi_pr', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',        'opencdmi_prnx', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',    'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',           'opencdmi_vgrdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',               'opencdmi_wv', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',                'network', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                  'network wifi', '', d)} \
+    ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
     deviceinfo dhcpserver dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
