@@ -1,9 +1,9 @@
 SUMMARY = "RDK Reference APP UI"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=cbffef879caf8b1db2d5173ff472c28c"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=db266190918f8a7f7b27769754f98a75"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/RDKSplashScreen.git"
-SRCREV = "25d6642978b3fd84ac97dd0beb2655a051b5aca0"
+SRCREV = "74a27537d11fede7cd0fa6b094db580e08796bcd"
 
 S = "${WORKDIR}/git"
 
