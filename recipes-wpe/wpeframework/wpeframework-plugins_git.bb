@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://osmc-devinput-remote.json \
            file://spark-align-with-latest-pxcore.patch \
            "
-SRCREV = "db0160cd25cd617a1226f17fcd9c3c026ab38196"
+SRCREV = "da5f80753666da8d6a7527c28073255032fb0ed9"
 
 # ----------------------------------------------------------------------------
 
@@ -43,6 +43,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',           'compositor', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'fwupgrade-lib',        'firmwarecontrol', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
