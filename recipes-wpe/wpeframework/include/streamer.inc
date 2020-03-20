@@ -1,6 +1,6 @@
 # Streamer supports QAM or AAMP implementation
 # Add 'QAM' and/or 'Aamp' to STREAMER_IMPLEMENTATIONS
-STREAMER_IMPLEMENTATIONS ?= "Aamp"
+STREAMER_IMPLEMENTATIONS	?= "${@bb.utils.contains('DISTRO_FEATURES', 'aamp', 'Aamp', 'None', d)}"
 
 # AAMP variables
 AAMP_STREAMER_FRONTENDS 	?= "0"
@@ -15,7 +15,7 @@ STREAMER_EXTRA_FLAGS += "${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'Aamp'
 QAM_STREAMER_STANDARD 		?= "DVB"
 QAM_STREAMER_FRONTENDS		?= "1"
 QAM_STREAMER_DECODERS		?= "2"
-QAM_STREAMER_ANNEX 			?= "B"
+QAM_STREAMER_ANNEX 		?= "B"
 QAM_STREAMER_TS_SCANNING 	?= "OFF"
 QAM_STREAMER_HOME_TS 		?= ""
 
@@ -31,7 +31,7 @@ STREAMER_EXTRA_FLAGS += "${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'QAM',
 
 
 # Set dependencies
-STREAMER_DEP ?= "${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'Aamp', 'gst-plugins-rdk-aamp', '', d)}"
+STREAMER_DEP ?= " ${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'Aamp', 'gst-plugins-rdk-aamp', '', d)}"
 DEPENDS += " ${STREAMER_DEP}"
 RDEPENDS_${PN} += " ${STREAMER_DEP}"
 
@@ -40,4 +40,5 @@ RDEPENDS_${PN} += " ${STREAMER_DEP}"
 # -DPLUGIN_STREAMER_BROADCAST_TERRESTRIAL=ON
 # Which are not yet supported by this recipe. Please see: https://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins/blob/master/Streamer/CMakeLists.txt for more info
 
-PACKAGECONFIG[streamer] = "-DPLUGIN_STREAMER=ON -DPLUGIN_STREAMER_IMPLEMENTATIONS=${STREAMER_IMPLEMENTATIONS} ${STREAMER_EXTRA_FLAGS},,${STREAMER_DEP}"
+STREAMER_DISTRO_PACKAGE_AVAILABLE ?= "${@bb.utils.contains('STREAMER_IMPLEMENTATIONS', 'None', 'False', 'True', d)}"
+PACKAGECONFIG[streamer] = "-DPLUGIN_STREAMER=ON -DPLUGIN_STREAMER_IMPLEMENTATIONS=${STREAMER_IMPLEMENTATIONS} ${STREAMER_EXTRA_FLAGS},-DPLUGIN_STREAMER=OFF,${STREAMER_DEP},${STREAMER_DEP}"
