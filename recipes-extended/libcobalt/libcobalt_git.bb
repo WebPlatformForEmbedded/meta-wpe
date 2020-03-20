@@ -7,8 +7,9 @@ PR = "r0"
 PACKAGES = "${PN}"
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework"
 
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;rev=a6f2a67ee2ec181a2263d1c1996dce23ac02e1c6  \
-"
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https"
+SRCREV ?= "8ebfe606fb2ca8bda826a944d29d498a746c2590"
+
 S = "${WORKDIR}/git"
 
 LD = "${CXX}"
@@ -31,7 +32,7 @@ DEPENDS += "${COBALT_DEPENDENCIES}"
 
 RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad wpeframework ${COBALT_DEPENDENCIES}"
 
-COBALT_BUILD_TYPE = "qa"
+COBALT_BUILD_TYPE ?= "qa"
 
 do_configure() {
     export PATH=$PATH:${S}/depot_tools

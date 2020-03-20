@@ -5,7 +5,7 @@ DEFAULT_PREFERENCE = "-1"
 PV = "2.22+git${SRCPV}"
 PR = "r0"
 
-SRCREV ?= "1b1cbd3766f7031ed0e68244bd6b7b6699d9ff91"
+SRCREV ?= "cfa60f95da59dbbc9621ba4142bf4d07f5a5aa86"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22"
 
 DEPENDS += "libgcrypt"

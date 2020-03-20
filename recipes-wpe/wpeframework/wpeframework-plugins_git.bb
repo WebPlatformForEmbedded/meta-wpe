@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework common plugins"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=e338ae07876cc28375de01750cc8a162"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
@@ -8,15 +8,9 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
-           file://0001-FirmwareControl-Find-cmake-name-changed-from-MFR-to-MFRFW.patch \
-           file://0002-FirmwareControl-mfrFWUpgradeInit-Term-calls-added.patch \
-           file://0003-FirmwareControl-remove-RPI-check.patch \
-           file://0004-NEXUS-SERVER-EXTERNAL-header-path-search-included.patch \
-           file://0005-FileTransfer-test-plugin-selection-flag.patch \
-           file://0006-Streamer-crash-fix.patch \
-           file://0007-Cobalt-resolution-param-configurable.patch \
+           file://spark-align-with-latest-pxcore.patch \
            "
-SRCREV = "e0b75be2b60ca44f3ed2e0f13fff7ef27ab8d073"
+SRCREV = "da5f80753666da8d6a7527c28073255032fb0ed9"
 
 # ----------------------------------------------------------------------------
 
@@ -44,28 +38,34 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 
 PACKAGECONFIG ?= " \
     ${WPE_SNAPSHOT} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',             'bluetoothcontrol', '', d)} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',             'bluetoothremote', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',                'opencdmi', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',               'opencdmi_ck', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',             'compositor', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',              'opencdmi_pr', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',        'opencdmi_prnx', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',    'opencdmi_prnx_svp', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',           'opencdmi_vgrdm', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',               'opencdmi_wv', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',                'network', '', d)} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                  'network wifi', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothcontrol', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothremote', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',           'compositor', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',              'systemdconnector', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    deviceinfo dhcpserver dictionary displayinfo locationsync monitor remote remote-devinput securityagent spark timesync tracing ux virtualinput webkitbrowser webserver youtube \
+    deviceinfo dhcpserver dictionary ioconnector locationsync monitor remote remote-devinput systemcommands timesync tracing ux virtualinput webkitbrowser webserver youtube \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
 PACKAGECONFIG_append_brcm = " cobalt"
 
+PACKAGECONFIG_append_rpi = " displayinfo"
+PACKAGECONFIG_append_brcm = " displayinfo"
+
 PACKAGECONFIG_append_rpi = " snapshot"
 PACKAGECONFIG_append_brcm = " snapshot"
 
+PACKAGECONFIG_append_brcm = " volumecontrol"
 PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=true,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
 
@@ -87,11 +87,13 @@ PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
                                 ,-DPLUGIN_MONITOR=OFF,"
 PACKAGECONFIG[packager]         = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 PACKAGECONFIG[securityagent]    = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
+PACKAGECONFIG[systemcommands]   = "-DPLUGIN_SYSTEMCOMMANDS=ON,-DPLUGIN_SYSTEMCOMMANDS=OFF,"
 PACKAGECONFIG[systemdconnector] = "-DPLUGIN_SYSTEMDCONNECTOR=ON,-DPLUGIN_SYSTEMDCONNECTOR=OFF,"
 PACKAGECONFIG[ioconnector]    = "-DPLUGIN_IOCONNECTOR=ON,-DPLUGIN_IOCONNECTOR=OFF,"
 PACKAGECONFIG[timesync]       = "-DPLUGIN_TIMESYNC=ON,-DPLUGIN_TIMESYNC=OFF,"
 PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[virtualinput]   = "-DPLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DPLUGIN_COMPOSITOR_VIRTUALINPUT=OFF,"
+PACKAGECONFIG[volumecontrol]  = "-DPLUGIN_VOLUMECONTROL=ON,-DPLUGIN_VOLUMECONTROL=OFF,"
 PACKAGECONFIG[webproxy]       = "-DPLUGIN_WEBPROXY=ON,-DPLUGIN_WEBPROXY=OFF,"
 PACKAGECONFIG[webserver]      = "-DPLUGIN_WEBSERVER=ON \
                                  -DPLUGIN_WEBSERVER_PORT="${PLUGIN_WEBSERVER_PORT}" \

@@ -1,0 +1,33 @@
+commit 29e2d432ea560eb16dece24838fd3bf67e3495c8
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Mon Mar 16 19:56:20 2020 +0530
+
+    CompositorClient:Wayland:ZOrder changes
+
+diff --git a/Source/compositorclient/Wayland/Westeros.cpp b/Source/compositorclient/Wayland/Westeros.cpp
+index 0bedeb9..8295ff8 100644
+--- a/Source/compositorclient/Wayland/Westeros.cpp
++++ b/Source/compositorclient/Wayland/Westeros.cpp
+@@ -564,7 +564,7 @@ namespace Wayland {
+ 
+     void Display::SurfaceImplementation::ZOrder(const uint32_t order)
+     {
+-        wl_simple_shell_set_zorder(_display->_simpleShell, _id, order);
++        wl_simple_shell_set_zorder(_display->_simpleShell, _id, wl_fixed_from_double(order * 0.1));
+         wl_display_flush(_display->_display);
+         Redraw();
+     }
+@@ -578,7 +578,12 @@ namespace Wayland {
+ 
+     void Display::SurfaceImplementation::SetTop()
+     {
+-        wl_simple_shell_set_zorder(_display->_simpleShell, _id, 0);
++#ifdef BCM_HOST
++        double top = 0.0;
++#else
++        double top = 1.0;
++#endif
++        wl_simple_shell_set_zorder(_display->_simpleShell, _id, wl_fixed_from_double(top));
+         wl_display_flush(_display->_display);
+         Redraw();
+     }
