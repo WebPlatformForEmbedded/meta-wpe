@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://osmc-devinput-remote.json \
            file://spark-align-with-latest-pxcore.patch \
            "
-SRCREV = "da5f80753666da8d6a7527c28073255032fb0ed9"
+SRCREV = "62154208fb185eee3a53a4c95535b7ecd8a32d34"
 
 # ----------------------------------------------------------------------------
 
