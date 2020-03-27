@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://osmc-devinput-remote.json \
            file://spark-align-with-latest-pxcore.patch \
            "
-SRCREV = "62154208fb185eee3a53a4c95535b7ecd8a32d34"
+SRCREV = "27b3399c9230756d6392eec26174b89b85735f9c"
 
 # ----------------------------------------------------------------------------
 
@@ -37,7 +37,6 @@ PLUGIN_WEBSERVER_PATH ?= "/var/www/"
 # ----------------------------------------------------------------------------
 
 PACKAGECONFIG ?= " \
-    ${WPE_SNAPSHOT} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothcontrol', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothremote', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
