@@ -1,16 +1,16 @@
 SUMMARY = "WPE Framework common plugins"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=e338ae07876cc28375de01750cc8a162"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
 
-SRCREV = "31083740e3dd07b5604a121b6dfa100488ddee42"
+SRCREV = "95f0fd95dc1e81b280f241d6d46a7645a66d43f1"
 
 # ----------------------------------------------------------------------------
 

@@ -2,7 +2,7 @@ SUMMARY = "Web Platform for Embedded Framework"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PR = "r0"
 
 require include/wpeframework.inc
@@ -16,11 +16,11 @@ DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "6cf39ada500c61f373acc40643aa33d6cfd7a6df"
+SRCREV = "4594f75b7aa7c86b89f4a488b8472d6f9a41d4ea"
 
 inherit cmake pkgconfig systemd update-rc.d
 
