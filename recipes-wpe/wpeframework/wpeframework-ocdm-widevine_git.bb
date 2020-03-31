@@ -7,7 +7,7 @@ require include/wpeframework-plugins.inc
 DEPENDS += " widevine"
 
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=master"
-SRCREV = "052b138536bf209981a9360cc9ce1ae990a792ed"
+SRCREV = "R1"
 
 do_install_append() {
     install -m 755 -d ${D}/${sysconfdir}/WideVine
