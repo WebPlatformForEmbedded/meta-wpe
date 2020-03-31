@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework OpenCDMi module for PlayReady Nexus SVP"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=363ee002438e52dac11707343db81c4e"
 
 require include/wpeframework-plugins.inc
 
