@@ -6,7 +6,7 @@ require include/wpeframework-plugins.inc
 
 DEPENDS += " playready"
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Playready.git;protocol=https;branch=master"
+SRC_URI = "git://git@github.com/rdkcentral/OCDM-Playready.git;protocol=https;branch=master"
 SRCREV = "3a8672dfe33af2a68dcc4c3c0cf69326ad9bb01b"
 
 
