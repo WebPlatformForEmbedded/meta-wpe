@@ -727,8 +727,8 @@ index 000000000..beacc2186
 +void pxSleepMS(uint32_t msToSleep)
 +{
 +    timeval tv;
-+    tv.tv_sec = 0;
-+    tv.tv_usec = 1000 * msToSleep;
++    tv.tv_sec = msToSleep / 1000;
++    tv.tv_usec = 1000 * (msToSleep % 1000);
 +    select(0, NULL, NULL, NULL, &tv);
 +}
 diff --git a/src/wpeframework/pxWPECompositor.cpp b/src/wpeframework/pxWPECompositor.cpp
@@ -811,10 +811,10 @@ index 000000000..422bdcf5a
 +}
 diff --git a/src/wpeframework/pxWPECompositor.h b/src/wpeframework/pxWPECompositor.h
 new file mode 100644
-index 000000000..d9e1ac9f6
+index 000000000..b523911c9
 --- /dev/null
 +++ b/src/wpeframework/pxWPECompositor.h
-@@ -0,0 +1,294 @@
+@@ -0,0 +1,295 @@
 +/*
 + * Copyright (C) 2019 Metrological
 + * All rights reserved.
@@ -867,7 +867,7 @@ index 000000000..d9e1ac9f6
 +        }
 +        virtual ~Keyboard()
 +        {
-+            ASSERT(_refCount == 1); 
++            ASSERT(_refCount == 1);
 +        }
 +
 +public:
@@ -909,6 +909,7 @@ index 000000000..d9e1ac9f6
 +    ~Display()
 +    {
 +        Stop();
++        close(_display->FileDescriptor());
 +        Wait(Thread::BLOCKED | Thread::STOPPED, Core::infinite);
 +
 +        if (_graphicsSurface != nullptr) {
