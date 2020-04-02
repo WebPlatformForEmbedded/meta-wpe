@@ -7,7 +7,8 @@ require include/wpeframework-plugins.inc
 DEPENDS += " playready"
 
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Playready.git;protocol=https;branch=master"
-SRCREV = "R1"
+# Revision hash of R1 release
+SRCREV = "f1346e55dba19c1002f26aaacde046ee46fc2bd3"
 
 EXTRA_OECMAKE += " \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
