@@ -43,6 +43,10 @@ PACKAGECONFIG ?= " \
 # add compositor client if Wayland is present
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
+# remove opencdm_gst
+# FIXME: rework the distro features / machine features for DRM
+PACKAGECONFIG_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdm_gst', '', d)}"
+
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
 PACKAGECONFIG[debug]          = "-DBUILD_TYPE=Debug,,"
