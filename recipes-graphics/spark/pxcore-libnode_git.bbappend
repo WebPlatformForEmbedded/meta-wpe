@@ -4,6 +4,7 @@ SRC_URI += "file://Spark.pc \
            file://pxScene-disable-2DMultisampleEXT.patch \
            file://spark-wpeframework-compositor.patch \
            file://pxScene-essos-support-for-shared-lib.patch \
+           file://pxScene-initApp-load-issue-fix.patch \
 "
 
 PACKAGECONFIG ?= " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' wpeframework', ' wayland', d)}"
