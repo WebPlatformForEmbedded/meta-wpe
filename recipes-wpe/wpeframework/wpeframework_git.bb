@@ -23,7 +23,8 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "R1"
+# Revision hash of R1 release
+SRCREV = "7769b6b10c33627221efae7cf249caed798c73fb"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -41,6 +42,10 @@ PACKAGECONFIG ?= " \
 
 # add compositor client if Wayland is present
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
+
+# remove opencdm_gst
+# FIXME: rework the distro features / machine features for DRM
+PACKAGECONFIG_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdm_gst', '', d)}"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
