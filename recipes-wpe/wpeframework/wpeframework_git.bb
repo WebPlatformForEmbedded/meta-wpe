@@ -19,9 +19,6 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
            file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
-           file://0002-CppParser-Python2-Python3-conversion.patch \
-           file://0003-JsonGenerator-Python2-Python3-conversion.patch  \
-           file://0004-StubGenerator-Python2-Python3-conversion.patch  \
            "
 SRCREV = "9629e13e398f1bd5c869f9c3c01bce0021604eee"
 

@@ -1,0 +1,28 @@
+From baf8ec1cc4b1c7a77cfd6b1e0901643ac0e30d3c Mon Sep 17 00:00:00 2001
+From: Moorthy Baskar <moorthy.baskaravenkatraman-sambamoorthy@linaro.org>
+Date: Tue, 7 Apr 2020 10:34:01 +0000
+Subject: [PATCH] StubGenerator: remove iface.id min val check
+
+Signed-off-by: Moorthy Baskar <moorthy.baskaravenkatraman-sambamoorthy@linaro.org>
+---
+ Tools/ProxyStubGenerator/StubGenerator.py | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/Tools/ProxyStubGenerator/StubGenerator.py b/Tools/ProxyStubGenerator/StubGenerator.py
+index 4b9529e..479ce6d 100755
+--- a/Tools/ProxyStubGenerator/StubGenerator.py
++++ b/Tools/ProxyStubGenerator/StubGenerator.py
+@@ -144,10 +144,6 @@ def GenerateStubs(output_file, source_file, defaults = "", scan_only = False):
+     if not interfaces:
+         raise NoInterfaceError(source_file)
+ 
+-    for iface in interfaces:
+-        if iface.id < MIN_INTERFACE_ID:
+-            log.Warn("invalid interface ID %s (%s) of %s - shall be at least 0x40" % (hex(iface.id) if isinstance(iface.id, int) else "?", str(iface.id), iface.obj.full_name), source_file)
+-
+     if scan_only:
+         return interfaces
+ 
+-- 
+2.17.1
+

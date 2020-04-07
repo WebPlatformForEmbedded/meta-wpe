@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git;protocol=git
            file://0002-CppParser-Python2-Python3-conversion.patch \
            file://0003-JsonGenerator-Python2-Python3-conversion.patch  \
            file://0004-StubGenerator-Python2-Python3-conversion.patch  \
+           file://0005-StubGenerator-remove-iface.id-min-val-check.patch \
           "
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
