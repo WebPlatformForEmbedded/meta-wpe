@@ -1,0 +1,40 @@
+From 76269000542f3d211ece4a28680d9b2428214eac Mon Sep 17 00:00:00 2001
+From: balav08 <balaji.velmurugan@ltts.com>
+Date: Mon, 3 Feb 2020 19:38:11 +0530
+Subject: [PATCH] wpeframework : Replacing stime() with clocksettime() in
+ SystemInfo.cpp as GLIBC moved to 2.31
+
+As the GLIBC moved to 2.31 from 2.30 the stime() was removed in 2.31 and
+it throws error while building wpeframework in SystemInfo.cpp.So replacing the
+stime() with clocksesttime().
+
+Signed-off-by: balav08 <balaji.velmurugan@ltts.com>
+---
+ Source/core/SystemInfo.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Source/core/SystemInfo.cpp b/Source/core/SystemInfo.cpp
+index e779d72..597094c 100644
+--- a/Source/core/SystemInfo.cpp
++++ b/Source/core/SystemInfo.cpp
+@@ -323,7 +323,17 @@ namespace Core {
+ 
+         time_t value = mktimegm(&setTime);
+ 
++#if defined(__GNU_LIBRARY__)
++  #if (__GLIBC__ >= 2) && (__GLIBC_MINOR__ > 30)
++        timespec ts = {};
++        ts.tv_sec = value;
++        if (clock_settime(CLOCK_REALTIME, &ts) != 0){
++  #else
+         if (stime(&value) != 0) {
++  #endif
++#else
++        if (stime(&value) != 0) {
++#endif
+             TRACE_L1("Failed to set system time [%d]", errno);
+         } else {
+             TRACE_L1("System time updated [%d]", errno);
+-- 
+2.17.1
+
