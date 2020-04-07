@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c2b3f2a8aff73c673037a89bee1ee396"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/ThunderUI.git;protocol=git;branch=master"
-SRCREV = "daacd2046d75ab7a33cd701221b7d73171ebae56"
+SRCREV = "0776915d3b33d8f7f7bac919a54fc2e327484aa5"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
