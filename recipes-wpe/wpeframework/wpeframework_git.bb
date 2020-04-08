@@ -92,13 +92,26 @@ WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     Location Internet \
 "
 
+def getlayerrevision(d):
+    topdir = bb.data.getVar('TOPDIR', d, True)
+
+    layers = (bb.data.getVar("BBLAYERS", d, True) or "").split()
+    for layer in layers:
+        my_layer = layer.split('/')[-1]
+        if my_layer == 'meta-wpe':
+            return base_get_metadata_git_revision(layer, None)
+
+    return "unknown"
+
+WPE_LAYER_REV = "${@getlayerrevision(d)}"
+
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
     -DRPC=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DTREE_REFERENCE=$(shell $(GIT) rev-parse HEAD)  \
+    -DTREE_REFERENCE=${WPE_LAYER_REV}  \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
