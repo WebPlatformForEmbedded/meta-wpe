@@ -29,23 +29,19 @@ SRCREV = "7769b6b10c33627221efae7cf249caed798c73fb"
 inherit cmake pkgconfig systemd update-rc.d
 
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
+WPE_CDMI_ADAPTER_IMPL = "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
 
 PACKAGECONFIG ?= " \
     release \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm opencdm_gst', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm ${WPE_CDMI_ADAPTER_IMPL}', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'provisionproxy', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdmi_prnx_svp', '', d)} \
     virtualinput websource webkitbrowser \
     "
 
 # add compositor client if Wayland is present
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
-
-# remove opencdm_gst
-# FIXME: rework the distro features / machine features for DRM
-PACKAGECONFIG_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp', 'opencdm_gst', '', d)}"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
@@ -67,7 +63,7 @@ PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 # OCDM
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
 PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",-DCDMI=OFF,gstreamer1.0'
-PACKAGECONFIG[opencdmi_prnx_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,'
+PACKAGECONFIG[opencdmi_brcm_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,'
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
@@ -96,13 +92,26 @@ WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     Location Internet \
 "
 
+def getlayerrevision(d):
+    topdir = bb.data.getVar('TOPDIR', d, True)
+
+    layers = (bb.data.getVar("BBLAYERS", d, True) or "").split()
+    for layer in layers:
+        my_layer = layer.split('/')[-1]
+        if my_layer == 'meta-wpe':
+            return base_get_metadata_git_revision(layer, None)
+
+    return "unknown"
+
+WPE_LAYER_REV = "${@getlayerrevision(d)}"
+
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
     -DRPC=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DTREE_REFERENCE=${SRCREV} \
+    -DTREE_REFERENCE=${WPE_LAYER_REV}  \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
