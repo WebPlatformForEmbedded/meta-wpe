@@ -57,6 +57,12 @@ PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
 PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",,gstreamer1.0'
 PACKAGECONFIG[opencdmi_nexus_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,broadcom-refsw'
+
+# cryptography
+PACKAGECONFIG[cryptography-nexus]   = "-DCRYPTOGRAPHY=ON -DCRYPTOGRAPHY_IMPLEMENTATION=Nexus,,broadcom-refsw"
+PACKAGECONFIG[cryptography-openssl] = "-DCRYPTOGRAPHY=ON -DCRYPTOGRAPHY_IMPLEMENTATION=OpenSSL,,openssl"
+PACKAGECONFIG[cryptography-thunder] = "-DCRYPTOGRAPHY=ON -DCRYPTOGRAPHY_IMPLEMENTATION=Thunder,,"
+
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
 # it feels a bit the other way around but lets set at least webserver and webkit
