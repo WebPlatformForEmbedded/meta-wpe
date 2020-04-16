@@ -37,6 +37,4 @@ do_install() {
 }
 
 INSANE_SKIP_${PN}-dev = 'dev-elf'
-
-FILES_${PN} += "${libdir}/wpe-webkit-0.1/injected-bundle/libWPEInjectedBundle.so"
 FILES_${PN}-web-inspector-plugin += "${libdir}/wpe-webkit-0.1/libWPEWebInspectorResources.so"
