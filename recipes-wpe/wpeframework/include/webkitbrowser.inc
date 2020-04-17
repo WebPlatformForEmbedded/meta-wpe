@@ -14,7 +14,7 @@ WEBKITBROWSER_TRANSPARENT ?= "false"
 WEBKITBROWSER_THREADEDPAINTING ?= "1"
 
 # Raspberry PI 3 has 4 cores, set to 4 for RPIs
-WEBKITBROWSER_THREADEDPAINTING_rpi ?= "4"
+WEBKITBROWSER_THREADEDPAINTING_rpi ?= "2"
 
 # ----------------------------------------------------------------------------
 

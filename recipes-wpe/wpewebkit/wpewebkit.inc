@@ -28,7 +28,7 @@ WPE_PLATFORM ?= "egl"
 
 PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
-    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} \
+    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} \
 "
 
 # Mesa only offscreen target support for Westeros backend
@@ -86,6 +86,7 @@ EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_COLOR_MAKEFILE=OFF \
     -DEXPORT_DEPRECATED_WEBKIT2_C_API=ON \
+    -DUSE_LD_GOLD=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DPORT=WPE \
     -G Ninja \
@@ -101,6 +102,7 @@ EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
 FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION_append = " -DNDEBUG"
 
 # JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
 ARM_INSTRUCTION_SET_armv7a = "thumb"
