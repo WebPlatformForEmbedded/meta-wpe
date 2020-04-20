@@ -28,7 +28,7 @@ WPE_PLATFORM ?= "egl"
 
 PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
-    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} \
+    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} \
 "
 
 # Mesa only offscreen target support for Westeros backend
@@ -39,12 +39,11 @@ PACKAGECONFIG[westeros-mesa] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS_MESA=ON,,"
 PACKAGECONFIG[intelce] = "-DUSE_WPEWEBKIT_PLATFORM_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
 PACKAGECONFIG[nexus] = "-DUSE_WPEWEBKIT_PLATFORM_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
 PACKAGECONFIG[qcomdb] = "-DUSE_WPEWEBKIT_PLATFORM_QCOM_DB=ON,,"
-PACKAGECONFIG[egl] = "-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF,gstreamer1.0-plugins-base"
+PACKAGECONFIG[egl] = "-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF,virtual/egl"
 PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON,,westeros"
 
 # westeros-sink, override with egl if glimagesink is vsink
 PACKAGECONFIG[westeros-sink] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON -DUSE_GSTREAMER_HOLEPUNCH=ON,,westeros"
-PACKAGECONFIG[wayland-sink]  = "-DUSE_WAYLAND_SINK=ON,,gstreamer1.0-plugins-bad"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"
@@ -81,13 +80,14 @@ PACKAGECONFIG[opencdm] = "-DENABLE_OPENCDM=ON,-DENABLE_OPENCDM=OFF,wpeframework"
 PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playready"
 
 PACKAGECONFIG[gst_httpsrc] = "-DUSE_GSTREAMER_WEBKIT_HTTP_SRC=ON,,"
-PACKAGECONFIG[gst_holepunch] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
+PACKAGECONFIG[gst_holepunch] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_GSTREAMER_HOLEPUNCH=ON,,"
 
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_COLOR_MAKEFILE=OFF \
     -DEXPORT_DEPRECATED_WEBKIT2_C_API=ON \
     -DBUILD_SHARED_LIBS=ON \
+    -DUSE_LD_GOLD=OFF \
     -DPORT=WPE \
     -G Ninja \
 "
@@ -102,6 +102,7 @@ EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
 FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION_append = " -DNDEBUG"
 
 # JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
 ARM_INSTRUCTION_SET_armv7a = "thumb"

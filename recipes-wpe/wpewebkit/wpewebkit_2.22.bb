@@ -3,7 +3,7 @@ require wpewebkit.inc
 PV = "2.22+git${SRCPV}"
 PR = "r0"
 
-SRCREV ?= "dbaec6ed91c6e27e7f152ea04c0e6d3d9e79542f"
+SRCREV ?= "cfa60f95da59dbbc9621ba4142bf4d07f5a5aa86"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22 \
            file://0001-Fix-build-with-musl.patch \
            file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
