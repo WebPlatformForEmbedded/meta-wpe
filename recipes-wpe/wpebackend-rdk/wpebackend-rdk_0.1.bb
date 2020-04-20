@@ -17,13 +17,24 @@ RPROVIDES_${PN} += "virtual/wpebackend"
 
 inherit cmake pkgconfig
 
-# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND ?= "wpeframework"
+# BACKEND has too many flavors to pick on through conventional methods
+# By default we'll take wpeframework when compositor is enabled in DISTRO_FEATURES.
+# However if that is not available take westeros when wayland is there, if all that is not take the EGLFS for SOC
+# which in our case most commonly is RPI
+def backendselector(d):
+    wayland = bb.utils.contains('DISTRO_FEATURES', 'wayland', True, False, d)
+    compositor = bb.utils.contains('DISTRO_FEATURES', 'compositor', True, False, d)
 
-WPE_BACKEND_x86 = "intelce"
-WPE_BACKEND_brcm = "nexus"
-# Add westeros dependency in case Wayland is part of distro (else will default to EGLFS)
-WPEFRAMEWORK_DEPS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+    if compositor == False and wayland == False:
+        return 'rpi'
+    elif compositor == False and wayland == True:
+        return 'westeros'
+    else:
+        return 'wpeframework'
+
+
+# Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
+WPE_BACKEND     ?= "${@backendselector(d)}"
 
 CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '-DWL_EGL_PLATFORM', '', d)}"
 
@@ -31,15 +42,15 @@ PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 
 # device specific backends
 PACKAGECONFIG[imx6]             = "-DUSE_BACKEND_VIV_IMX6_EGL=ON,,imx-gpu-viv"
-PACKAGECONFIG[intelce]          = "-DUSE_BACKEND_INTEL_CE=ON,,intelce-display"
-PACKAGECONFIG[nexus]            = "-DUSE_BACKEND_BCM_NEXUS=ON,,broadcom-refsw"
-PACKAGECONFIG[rpi]              = "-DUSE_BACKEND_BCM_RPI=ON,-DUSE_BACKEND_BCM_RPI=OFF,virtual/egl"
+PACKAGECONFIG[intelce]          = "-DUSE_BACKEND_INTEL_CE=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,intelce-display"
+PACKAGECONFIG[nexus]            = "-DUSE_BACKEND_BCM_NEXUS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,,broadcom-refsw"
+PACKAGECONFIG[rpi]              = "-DUSE_BACKEND_BCM_RPI=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=ON,-DUSE_BACKEND_BCM_RPI=OFF,virtual/egl"
 
 # Wayland selectors
-PACKAGECONFIG[wayland]          = "-DUSE_BACKEND_WAYLAND=ON,,wayland libxkbcommon"
-PACKAGECONFIG[wayland-egl]      = "-DUSE_BACKEND_WAYLAND_EGL=ON,,wayland libxkbcommon"
-PACKAGECONFIG[westeros]         = "-DUSE_BACKEND_WESTEROS=ON,,wayland westeros libxkbcommon"
-PACKAGECONFIG[bcm-weston]       = "-DUSE_BACKEND_BCM_NEXUS_WAYLAND=ON,,wayland wayland-egl-bnxs libxkbcommon"
+PACKAGECONFIG[wayland]          = "-DUSE_BACKEND_WAYLAND=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
+PACKAGECONFIG[wayland-egl]      = "-DUSE_BACKEND_WAYLAND_EGL=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland libxkbcommon"
+PACKAGECONFIG[westeros]         = "-DUSE_BACKEND_WESTEROS=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland westeros libxkbcommon"
+PACKAGECONFIG[bcm-weston]       = "-DUSE_BACKEND_BCM_NEXUS_WAYLAND=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF,,wayland wayland-egl-bnxs libxkbcommon"
 PACKAGECONFIG[wpeframework]     = "-DUSE_BACKEND_WPEFRAMEWORK=ON -DUSE_KEY_INPUT_HANDLING_LINUX_INPUT=OFF -DUSE_INPUT_LIBINPUT=OFF,,wpeframework wpeframework-plugins libxkbcommon xkeyboard-config ${WPEFRAMEWORK_DEPS}"
 
 # MESA
