@@ -2,7 +2,7 @@ SUMMARY = "Web Platform for Embedded Framework"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=79069d74da393ab7ff3d1f5990c48aad"
 PR = "r0"
 
 require include/wpeframework.inc
@@ -18,12 +18,8 @@ PV = "3.0+git${SRCPV}"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
-           file://0001-Thread.cpp-Include-limits.h-for-PTHREAD_STACK_MIN-de.patch \
-           file://0002-CppParser-Python2-Python3-conversion.patch \
-           file://0003-JsonGenerator-Python2-Python3-conversion.patch  \
-           file://0004-StubGenerator-Python2-Python3-conversion.patch  \
            "
-SRCREV = "9629e13e398f1bd5c869f9c3c01bce0021604eee"
+SRCREV = "6b13033a9252072460b410f170d2bdf53ae5c08b"
 
 inherit cmake pkgconfig systemd update-rc.d
 
