@@ -104,11 +104,20 @@ EXTRANATIVEPATH += "chrpath-native"
 FULL_OPTIMIZATION_remove = "-g"
 FULL_OPTIMIZATION_append = " -DNDEBUG"
 
+# build RPI for -O2 (never a reason to build for -Os on RPIs)
+#FULL_OPTIMIZATION_rpi_remove = "-Os"
+#FULL_OPTIMIZATION_rpi_append = " -O2"
+
+#TUNE_CCARGS_remove = "-fno-omit-frame-pointer -fno-optimize-sibling-calls"
+
 # JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
 ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7r = "thumb"
 ARM_INSTRUCTION_SET_armv7m = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
+
+# Force BFD, gold linker has issues
+LDFLAGS_append = " -fuse-ld=bfd"
 
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
