@@ -133,7 +133,7 @@ do_install_append() {
         sed -e "s|@EXTRA_AFTER@|${extra_after}|g" < ${WORKDIR}/wpeframework.service.in > ${D}${systemd_unitdir}/system/wpeframework.service
     else
         install -d ${D}${sysconfdir}/init.d
-        install -m 0755 ${WORKDIR}/wpeframework-init ${D}${sysconfdir}/init.d/wpeframework
+        sed -e "s|WPEFRAMEWORK_PERSISTENT_PATH|${WPEFRAMEWORK_PERSISTENT_PATH}|g" < ${WORKDIR}/wpeframework-init > ${D}${sysconfdir}/init.d/wpeframework
     fi
 
     if ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "true", "false", d)}

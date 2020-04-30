@@ -16,4 +16,4 @@ TOOLCHAIN = "gcc"
 EXTRA_OECMAKE += "-DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
 
 # Yocto root is under /home/root
-WPEFRAMEWORK_PERSISTENT_PATH = "/home/root/"
+WPEFRAMEWORK_PERSISTENT_PATH ?= "/home/root/"
