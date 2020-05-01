@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
 
 require include/wpeframework-plugins.inc
 
-DEPENDS += " broadcom-refsw"
+DEPENDS += " broadcom-refsw protobuf"
 
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=https;branch=master"
 SRCREV = "89eda99b01cdcf083a5f30476d81cd6fa679cb48"
