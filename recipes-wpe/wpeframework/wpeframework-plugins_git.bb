@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework common plugins"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=e338ae07876cc28375de01750cc8a162"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
            "
 
-SRCREV = "e0b75be2b60ca44f3ed2e0f13fff7ef27ab8d073"
+SRCREV = "8db25cb113b2b1d87b3f874a7dfd395246f2eccc"
 
 # ----------------------------------------------------------------------------
 
