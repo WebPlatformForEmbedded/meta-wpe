@@ -110,6 +110,9 @@ ARM_INSTRUCTION_SET_armv7r = "thumb"
 ARM_INSTRUCTION_SET_armv7m = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
 
+# Force BFD, gold linker has issues
+LDFLAGS_append = " -fuse-ld=bfd"
+
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
 LEAD_SONAME = "libWPEWebKit.so"
