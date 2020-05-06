@@ -98,6 +98,8 @@ EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
 FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION += "-DNDEBUG"
+FULL_OPTIMIZATION += "-O2"
 
 # JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
 ARM_INSTRUCTION_SET_armv7a = "thumb"
