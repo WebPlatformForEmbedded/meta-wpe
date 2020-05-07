@@ -134,6 +134,7 @@ do_install_append() {
     else
         install -d ${D}${sysconfdir}/init.d
         sed -e "s|WPEFRAMEWORK_PERSISTENT_PATH|${WPEFRAMEWORK_PERSISTENT_PATH}|g" < ${WORKDIR}/wpeframework-init > ${D}${sysconfdir}/init.d/wpeframework
+        chmod +x ${D}${sysconfdir}/init.d/wpeframework
     fi
 
     if ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "true", "false", d)}
