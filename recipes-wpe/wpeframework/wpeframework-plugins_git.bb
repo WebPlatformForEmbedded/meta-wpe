@@ -25,6 +25,7 @@ include include/snapshot.inc
 include include/spark.inc
 include include/streamer.inc
 include include/webkitbrowser.inc
+include include/webpa.inc
 
 # ----------------------------------------------------------------------------
 
