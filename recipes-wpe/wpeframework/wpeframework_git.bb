@@ -83,6 +83,7 @@ PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,,"
 WPEFRAMEWORK_DIST_EVENTS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)}"
 
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
+    ${@bb.utils.contains('PACKAGECONFIG', 'compositorclient', 'Platform Graphics', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
