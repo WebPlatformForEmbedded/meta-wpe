@@ -9,6 +9,7 @@ do_configure_prepend() {
 #
 PACKAGECONFIG_rpi = "incapp inctest incplayer increndergl incsbprotocol xdgv4"
 CXXFLAGS_append_rpi = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', ' ', ' -DWESTEROS_PLATFORM_RPI -DWESTEROS_INVERTED_Y -DBUILD_WAYLAND -I${STAGING_INCDIR}/interface/vmcs_host/linux', d)}"
+CXXFLAGS_append_rpi_dunfell = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '-DUSE_MESA', '', d)}"
 
 do_configure_prepend_rpi() {
     sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/rpi/westeros-sink/Makefile.am
