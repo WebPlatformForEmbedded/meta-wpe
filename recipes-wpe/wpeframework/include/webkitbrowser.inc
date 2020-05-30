@@ -1,5 +1,5 @@
 # Provides the WPE WebKitBrowser plugin settings for WPEFramwork
-# Also extends WPE instances in the form of UX and a YouTube specific instance
+# Also extends WPE instances in the form of UX and a Apps specific instance
 
 WEBKITBROWSER_AUTOSTART ?= "true"
 WEBKITBROWSER_MEDIADISKCACHE ?= "false"
@@ -18,6 +18,7 @@ WEBKITBROWSER_THREADEDPAINTING_rpi ?= "2"
 
 # ----------------------------------------------------------------------------
 
+PACKAGECONFIG[apps]           = "-DPLUGIN_WEBKITBROWSER_APPS=ON,-DPLUGIN_WEBKITBROWSER_APPS=OFF,"
 PACKAGECONFIG[ux]             = "-DPLUGIN_WEBKITBROWSER_UX=ON,-DPLUGIN_WEBKITBROWSER_UX=OFF,"
 PACKAGECONFIG[webkitbrowser]  = "-DPLUGIN_WEBKITBROWSER=ON \
    -DPLUGIN_WEBKITBROWSER_AUTOSTART="${WEBKITBROWSER_AUTOSTART}" \
@@ -32,6 +33,5 @@ PACKAGECONFIG[webkitbrowser]  = "-DPLUGIN_WEBKITBROWSER=ON \
    -DPLUGIN_WEBKITBROWSER_TRANSPARENT="${WEBKITBROWSER_TRANSPARENT}" \
    -DPLUGIN_WEBKITBROWSER_THREADEDPAINTING="${WEBKITBROWSER_THREADEDPAINTING}" \
    ,-DPLUGIN_WEBKITBROWSER=OFF,wpewebkit"
-PACKAGECONFIG[youtube]        = "-DPLUGIN_WEBKITBROWSER_YOUTUBE=ON, -DPLUGIN_WEBKITBROWSER_YOUTUBE=OFF,,"
 
 # ----------------------------------------------------------------------------
