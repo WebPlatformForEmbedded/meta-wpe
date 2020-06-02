@@ -16,6 +16,7 @@ SRCREV = "9f971cac2614434bdd85ebabba7b0d9567236c98"
 
 include include/cobalt.inc
 include include/compositor.inc
+include include/dialserver.inc
 include include/firmwarecontrol.inc
 include include/ioconnector.inc
 include include/ocdm.inc
@@ -51,7 +52,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    apps deviceinfo dhcpserver dictionary ioconnector locationsync monitor remote remote-devinput systemcommands timesync tracing ux virtualinput webkitbrowser webserver \
+    apps deviceinfo dhcpserver dialserver dictionary ioconnector locationsync monitor remote remote-devinput systemcommands timesync tracing ux virtualinput webkitbrowser webserver \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
