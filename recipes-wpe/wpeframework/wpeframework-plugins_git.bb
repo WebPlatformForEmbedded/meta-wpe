@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFrameworkPlugins.git;proto
            file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
            "
 
-SRCREV = "8db25cb113b2b1d87b3f874a7dfd395246f2eccc"
+SRCREV = "9f971cac2614434bdd85ebabba7b0d9567236c98"
 
 # ----------------------------------------------------------------------------
 
