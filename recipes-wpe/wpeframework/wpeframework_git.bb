@@ -104,7 +104,7 @@ def getlayerrevision(d):
 
     return "unknown"
 
-WPE_LAYER_REV = "${@getlayerrevision(d)}"
+WPE_LAYER_REV ?= "${@getlayerrevision(d)}"
 
 EXTRA_OECMAKE += " \
     -DINSTALL_HEADERS_TO_TARGET=ON \
