@@ -4,6 +4,10 @@ SUMMARY = "This receipe compiles the westeros compositor gstreamer sink element"
 
 S = "${WORKDIR}/git"
 
+SRC_URI += " \
+           file://0004-Dispatch-custom-queue-instead-flushing-display.patch \
+"
+
 inherit autotools pkgconfig
 
 DEPENDS += "wayland-native wayland westeros-simpleshell westeros-simplebuffer westeros"

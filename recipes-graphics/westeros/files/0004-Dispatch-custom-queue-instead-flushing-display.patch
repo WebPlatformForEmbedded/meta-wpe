@@ -1,8 +1,8 @@
 diff --git a/westeros-sink/westeros-sink.c b/westeros-sink/westeros-sink.c
-index 76b53c4..57c6dd2 100644
+index 0b79a0f..c1faaa7 100644
 --- a/westeros-sink/westeros-sink.c
 +++ b/westeros-sink/westeros-sink.c
-@@ -114,8 +114,6 @@ static void shellSurfaceId(void *data,
+@@ -118,8 +118,6 @@ static void shellSurfaceId(void *data,
     op= wl_fixed_from_double(sink->opacity);
     wl_simple_shell_set_opacity( sink->shell, sink->surfaceId, op);
     wl_simple_shell_get_status( sink->shell, sink->surfaceId );
@@ -11,8 +11,8 @@ index 76b53c4..57c6dd2 100644
  }
  
  static void shellSurfaceCreated(void *data,
-@@ -273,8 +271,6 @@ static void registryHandleGlobal(void *data,
-       wl_proxy_set_queue((struct wl_proxy*)sink->vpc, sink->queue);
+@@ -359,8 +357,6 @@ static void registryHandleGlobal(void *data,
+       wl_output_add_listener(sink->output, &outputListener, sink);
     }
     gst_westeros_sink_soc_registryHandleGlobal( sink, registry, id, interface, version );
 -
@@ -20,17 +20,16 @@ index 76b53c4..57c6dd2 100644
  }
  
  static void registryHandleGlobalRemove(void *data, 
-@@ -541,7 +537,8 @@ gst_westeros_sink_init(GstWesterosSink *sink, GstWesterosSinkClass *gclass)
-                sink->surface= wl_compositor_create_surface(sink->compositor);
-                printf("gst_westeros_sink_init: surface=%p\n", (void*)sink->surface);
-                wl_proxy_set_queue((struct wl_proxy*)sink->surface, sink->queue);
--               wl_display_flush( sink->display );
-+
-+               wl_display_dispatch_queue( sink->display, sink->queue );
-             }
-             else
-             {
-@@ -779,10 +776,13 @@ static void gst_westeros_sink_set_property(GObject *object, guint prop_id, const
+@@ -454,7 +450,7 @@ static void releaseWaylandResources( GstWesterosSink *sink )
+       }
+       if ( sink->display && sink->queue )
+       {
+-         wl_display_flush(sink->display);
++         wl_display_dispatch_queue(sink->display, sink->queue);
+          wl_display_roundtrip_queue(sink->display, sink->queue);
+       }
+       if ( sink->compositor )
+@@ -767,10 +763,13 @@ static void gst_westeros_sink_set_property(GObject *object, guint prop_id, const
                       wl_simple_shell_set_visible( sink->shell, sink->surfaceId, true);
  
                       wl_simple_shell_get_status( sink->shell, sink->surfaceId);
@@ -46,14 +45,21 @@ index 76b53c4..57c6dd2 100644
              }
           }
  
-@@ -798,7 +798,9 @@ static GstStateChangeReturn gst_westeros_sink_change_state(GstElement *element,
-                {
-                   wl_vpc_surface_set_geometry( sink->vpcSurface, sink->windowX, sink->windowY, sink->windowWidth, sink->windowHeight );
+@@ -906,7 +905,7 @@ static GstStateChangeReturn gst_westeros_sink_change_state(GstElement *element,
+                      sink->surface= wl_compositor_create_surface(sink->compositor);
+                      printf("westeros-sink: ready-to-paused: surface=%p\n", (void*)sink->surface);
+                      wl_proxy_set_queue((struct wl_proxy*)sink->surface, sink->queue);
+-                     wl_display_flush( sink->display );
++                     wl_display_dispatch_queue(sink->display, sink->queue);
+                   }
+                   else
+                   {
+@@ -934,7 +933,7 @@ static GstStateChangeReturn gst_westeros_sink_change_state(GstElement *element,
+                   {
+                      wl_vpc_surface_set_geometry( sink->vpcSurface, sink->windowX, sink->windowY, sink->windowWidth, sink->windowHeight );
+                   }
+-                  wl_display_flush( sink->display );
++                  wl_display_dispatch_queue(sink->display, sink->queue);
+                   printf("westeros-sink: ready-to-paused: done add vpcSurface listener\n");
                 }
--               wl_display_flush( sink->display );
-+
-+               wl_display_dispatch_queue( sink->display, sink->queue );
-+
-                printf("westeros-sink: null_to_ready: done add vpcSurface listener\n");
-             }
-             else
+                else
