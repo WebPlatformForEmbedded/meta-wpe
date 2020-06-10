@@ -10,6 +10,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://osmc-devinput-remote.json \
            "
 SRCREV = "d1ff6c13a66569817e1a2a916224176f1b74555c"
+
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
@@ -61,7 +62,8 @@ PACKAGECONFIG_append_brcm = " cobalt"
 PACKAGECONFIG_append_rpi = " displayinfo"
 PACKAGECONFIG_append_brcm = " displayinfo"
 
-PACKAGECONFIG_append_rpi = " snapshot"
+# snapshot implemented with userland support, not applicable on vc4graphics
+PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', 'snapshot', d)}"
 PACKAGECONFIG_append_brcm = " snapshot"
 
 PACKAGECONFIG_append_brcm = " volumecontrol"
