@@ -9,13 +9,15 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "ef7eb299f02d00e264082d27802538c757e300e4"
+SRCREV = "d1ff6c13a66569817e1a2a916224176f1b74555c"
+
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
 
 include include/cobalt.inc
 include include/compositor.inc
+include include/dialserver.inc
 include include/firmwarecontrol.inc
 include include/ioconnector.inc
 include include/ocdm.inc
@@ -51,7 +53,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    apps deviceinfo dhcpserver dictionary ioconnector locationsync monitor remote remote-devinput systemcommands timesync tracing ux virtualinput webkitbrowser webserver \
+    apps deviceinfo dhcpserver dialserver dictionary ioconnector locationsync monitor remote remote-devinput systemcommands timesync tracing ux virtualinput webkitbrowser webserver \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
