@@ -2,7 +2,7 @@ SUMMARY = "Web Platform for Embedded Framework"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=79069d74da393ab7ff3d1f5990c48aad"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PR = "r0"
 
 require include/wpeframework.inc
@@ -15,7 +15,7 @@ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'testapp', 'gtest', '', d)}"
 
 PV = "3.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEFramework.git \
+SRC_URI = "git://github.com/rdkcentral/Thunder.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
