@@ -8,7 +8,7 @@ PACKAGES = "${PN}"
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework"
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https"
-SRCREV ?= "df19c3f5968ed36a8909b07dd38b9414bb01ead2"
+SRCREV ?= "7ad41ce745b13265cf3cf4235d92929e8b13e1c0"
 
 S = "${WORKDIR}/git"
 
