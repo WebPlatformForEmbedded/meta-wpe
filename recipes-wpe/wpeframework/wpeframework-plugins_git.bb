@@ -22,6 +22,7 @@ include include/firmwarecontrol.inc
 include include/ioconnector.inc
 include include/ocdm.inc
 include include/power.inc
+include include/playerinfo.inc
 include include/remotecontrol.inc
 include include/snapshot.inc
 include include/spark.inc
@@ -50,6 +51,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',              'systemdconnector', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'dolby',                'playerinfo_dolby', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
