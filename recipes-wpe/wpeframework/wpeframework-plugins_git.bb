@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "92fdbf0f4771a876dea67de870a2f5384d906dc2"
+SRCREV = "020acfa429233a91664e2cf8266da0f13dfeff73"
 
 # ----------------------------------------------------------------------------
 
@@ -20,6 +20,7 @@ include include/compositor.inc
 include include/dialserver.inc
 include include/firmwarecontrol.inc
 include include/ioconnector.inc
+include include/network.inc
 include include/ocdm.inc
 include include/power.inc
 include include/remotecontrol.inc
@@ -80,7 +81,6 @@ PACKAGECONFIG[filetransfer]   = "-DPLUGIN_FILETRANSFER=ON,-DPLUGIN_FILETRANSFER=
 PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
                                  -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
                                 ,-DPLUGIN_LOCATIONSYNC=OFF,"
-PACKAGECONFIG[network]        = "-DPLUGIN_NETWORKCONTROL=ON,-DPLUGIN_NETWORKCONTROL=OFF,"
 PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
                                  -DPLUGIN_WEBKITBROWSER_MEMORYLIMIT=614400 \
                                  -DPLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
