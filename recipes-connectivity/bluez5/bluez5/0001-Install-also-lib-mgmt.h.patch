@@ -1,0 +1,22 @@
+From c9d256ad5df3d1781f7b8b8323f3ce676cd55e3c Mon Sep 17 00:00:00 2001
+From: bram oosterhuis <mail@bybram.com>
+Date: Mon, 6 Jul 2020 13:00:21 +0000
+Subject: [PATCH] Install also lib/mgmt.h
+
+---
+ Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 0a8c38c..be02f39 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -66,7 +66,7 @@ plugin_LTLIBRARIES =
+ lib_sources = lib/bluetooth.c lib/hci.c lib/sdp.c
+ lib_headers = lib/bluetooth.h lib/hci.h lib/hci_lib.h \
+ 		lib/sco.h lib/l2cap.h lib/sdp.h lib/sdp_lib.h \
+-		lib/rfcomm.h lib/bnep.h lib/cmtp.h lib/hidp.h
++		lib/rfcomm.h lib/bnep.h lib/cmtp.h lib/hidp.h lib/mgmt.h 
+ 
+ extra_headers = lib/mgmt.h lib/uuid.h lib/a2mp.h lib/amp.h
+ extra_sources = lib/uuid.c
