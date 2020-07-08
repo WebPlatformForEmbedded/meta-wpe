@@ -19,7 +19,7 @@ CCACHE_DISABLE[unexport] = "1"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig perlnative pythonnative
+inherit cmake pkgconfig perlnative python3native
 
 WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros westeros-sink', 'egl', d)}"
 WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 'egl', d)}"
