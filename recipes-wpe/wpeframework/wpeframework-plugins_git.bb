@@ -13,8 +13,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
            "
 
-SRCREV = "9f971cac2614434bdd85ebabba7b0d9567236c98"
-
+SRCREV = "2d7cae118f2dca62c84df3a4e753e117c9d6f9d4"
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
