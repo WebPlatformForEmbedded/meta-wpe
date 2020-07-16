@@ -5,17 +5,9 @@ WPE_IOCONNECTOR_PAIRING_PIN ?= ""
 WPE_IOCONNECTOR_PAIRING_CALLSIGN ?= ""
 WPE_IOCONNECTOR_PAIRING_PRODUCER ?= ""
 
-WPE_IOCONNECTOR_PIN1_ID ?= ""
-WPE_IOCONNECTOR_PIN1_MODE ?= ""
-WPE_IOCONNECTOR_PIN1_STATE ?= ""
-
-WPE_IOCONNECTOR_PIN2_ID ?= ""
-WPE_IOCONNECTOR_PIN2_MODE ?= ""
-WPE_IOCONNECTOR_PIN2_STATE ?= ""
-
-WPE_IOCONNECTOR_PIN3_ID ?= ""
-WPE_IOCONNECTOR_PIN3_MODE ?= ""
-WPE_IOCONNECTOR_PIN3_STATE ?= ""
+# Set details of ioconnector pins "Id:Mode:ActiveLow".
+# Example "169:Output:true;172:Output:false;"
+WPE_IOCONNECTOR_PINS ?= "::;::;::;"
 
 # ----------------------------------------------------------------------------
 
@@ -23,14 +15,6 @@ PACKAGECONFIG[ioconnector] = "-DPLUGIN_IOCONNECTOR=ON -DPLUGIN_IOCONNECTOR_AUTOS
     					-DPLUGIN_IOCONNECTOR_PAIRING_PIN=${WPE_IOCONNECTOR_PAIRING_PIN} \
     					-DPLUGIN_IOCONNECTOR_PAIRING_CALLSIGN=${WPE_IOCONNECTOR_PAIRING_CALLSIGN} \
                                         -DPLUGIN_IOCONNECTOR_PAIRING_PRODUCER=${WPE_IOCONNECTOR_PAIRING_PRODUCER} \
-                                        -DPLUGIN_IOCONNECTOR_PIN1_ID=${WPE_IOCONNECTOR_PIN1_ID} \
-                                        -DPLUGIN_IOCONNECTOR_PIN1_MODE=${WPE_IOCONNECTOR_PIN1_MODE} \
-                                        -DPLUGIN_IOCONNECTOR_PIN1_STATE=${WPE_IOCONNECTOR_PIN1_STATE} \
-                                        -DPLUGIN_IOCONNECTOR_PIN2_ID=${WPE_IOCONNECTOR_PIN2_ID} \
-                                        -DPLUGIN_IOCONNECTOR_PIN2_MODE=${WPE_IOCONNECTOR_PIN2_MODE} \
-                                        -DPLUGIN_IOCONNECTOR_PIN2_STATE=${WPE_IOCONNECTOR_PIN2_STATE} \
-                                        -DPLUGIN_IOCONNECTOR_PIN3_ID=${WPE_IOCONNECTOR_PIN3_ID} \
-                                        -DPLUGIN_IOCONNECTOR_PIN3_MODE=${WPE_IOCONNECTOR_PIN3_MODE} \
-                                        -DPLUGIN_IOCONNECTOR_PIN3_STATE=${WPE_IOCONNECTOR_PIN3_STATE} \
+                                        -DPLUGIN_IOCONNECTOR_PINS='${WPE_IOCONNECTOR_PINS}' \
     					,-DPLUGIN_IOCONNECTOR=OFF,"
 # ----------------------------------------------------------------------------
