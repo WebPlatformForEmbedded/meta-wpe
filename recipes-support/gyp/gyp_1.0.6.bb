@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "4f65901d7e2ea6cda50a31affbf2fc67d16aceda54cce3a04a33ccfb6a
 
 S = "${WORKDIR}/git"
 
-inherit pythonnative
+inherit python3native
 
 do_configure() {
 	(cd ${B}; rm -rf build)

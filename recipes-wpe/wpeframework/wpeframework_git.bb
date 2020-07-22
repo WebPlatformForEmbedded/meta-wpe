@@ -18,8 +18,10 @@ PV = "3.0+git${SRCPV}"
 SRC_URI = "git://github.com/rdkcentral/Thunder.git \
            file://wpeframework-init \
            file://wpeframework.service.in \
+           file://bluetooth-fix-error-narrowing-conversion.patch \
+           file://websocket-fixes-deduced-conflicting-types.patch \
            "
-SRCREV = "44015fd94299ccac5a625a27c7878b6a0f2b169f"
+SRCREV = "2e503d56f0c971805d24cb5a3e8faeaa47cb1b54"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -50,7 +52,7 @@ PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPEC
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
 PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
-PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH_SUPPORT=ON,-DBLUETOOTH_SUPPORT=OFF,bluez5"
+PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
 PACKAGECONFIG[testapp]          = "-DBUILD_TESTS=ON,-DBUILD_TESTS=OFF"
 
 # OCDM
@@ -85,6 +87,7 @@ WPEFRAMEWORK_EXTERN_EVENTS ?= " \
 "
 
 EXTRA_OECMAKE += " \
+    -DHIDE_NON_EXTERNAL_SYMBOLS=ON \
     -DINSTALL_HEADERS_TO_TARGET=ON \
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
