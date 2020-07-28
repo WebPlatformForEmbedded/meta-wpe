@@ -6,7 +6,7 @@ WPE_IOCONNECTOR_PAIRING_CALLSIGN ?= ""
 WPE_IOCONNECTOR_PAIRING_PRODUCER ?= ""
 
 # Set details of ioconnector pins "Id:Mode:ActiveLow".
-# Example "169:Output:true;172:Output:false;"
+# Example "169:output:true;172:output:false;"
 WPE_IOCONNECTOR_PINS ?= "::;::;::;"
 
 # ----------------------------------------------------------------------------
