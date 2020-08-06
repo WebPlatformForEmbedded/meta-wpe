@@ -5,6 +5,5 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEPluginLauncher.git"
-SRCREV = "2f425ac9d08aa84927f88ee8f3576e9006b8783b"
-
+SRCREV = "86e05d605138f0324ddc489426dad34fcf3109a2"
 
