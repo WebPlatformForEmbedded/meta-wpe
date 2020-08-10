@@ -20,3 +20,6 @@ LDFLAGS_append = " -fuse-ld=bfd"
 
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH ?= "/home/root/"
+
+# Configure exceptions handling (ON/OFF)
+WPEFRAMEWORK_EXCEPTIONS_ENABLE ?= "OFF"
