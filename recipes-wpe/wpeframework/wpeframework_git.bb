@@ -54,6 +54,7 @@ PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
 PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF, bluez5"
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
+PACKAGECONFIG[gstreamerclient]  = "-DGSTREAMERCLIENT=ON,-DGSTREAMERCLIENT=OFF"
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[securityagent]    = "-DSECURITYAGENT=ON, -DSECURITYAGENT=OFF"
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
@@ -63,6 +64,11 @@ PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
 PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",,gstreamer1.0'
 PACKAGECONFIG[opencdmi_brcm_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,gstreamer-plugins-soc'
+
+# cryptography
+PACKAGECONFIG[cryptography-nexus]   = "-DCRYPTOGRAPHY=ON -DCRYPTOGRAPHY_IMPLEMENTATION=Nexus,,broadcom-refsw"
+PACKAGECONFIG[cryptography-openssl] = "-DCRYPTOGRAPHY=ON -DCRYPTOGRAPHY_IMPLEMENTATION=OpenSSL,,openssl"
+PACKAGECONFIG[cryptography-thunder] = "-DCRYPTOGRAPHY=ON -DCRYPTOGRAPHY_IMPLEMENTATION=Thunder,,"
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
