@@ -23,7 +23,7 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "70a07413f06d1ffd18796fcb1670bba6cd862164"
+SRCREV = "a06e06dac1d87199084e58a1903360134782e9de"
 
 inherit cmake pkgconfig systemd update-rc.d
 
