@@ -8,6 +8,6 @@ DEPENDS += " broadcom-refsw protobuf"
 
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=https;branch=master"
 # Revision hash of R1 release
-SRCREV = "f3d2f2aa8028f0023bf734bc617ab93d63b5fc78"
+SRCREV = "9d9abe25db1b20e421c3b17f45f4c62a8d86d44a"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
