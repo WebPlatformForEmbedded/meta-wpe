@@ -11,6 +11,8 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            "
 SRCREV = "89b3528382b7228510ff2f8a0ce67d5d940e0c95"
 
+SRC_URI += "file://0001-enable-deviceinfo-for-webserver-plugin.patch"
+
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
@@ -55,7 +57,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    apps deviceinfo dhcpserver dialserver dictionary ioconnector locationsync monitor remote remote-devinput systemcommands timesync tracing ux virtualinput webkitbrowser webserver \
+    apps dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync ux virtualinput webkitbrowser webserver \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
@@ -72,27 +74,17 @@ PACKAGECONFIG_append_brcm = " volumecontrol"
 PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=true,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
 
-PACKAGECONFIG[deviceinfo]     = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
 PACKAGECONFIG[dhcpserver]     = "-DPLUGIN_DHCPSERVER=ON,-DPLUGIN_DHCPSERVER=OFF,"
 PACKAGECONFIG[dictionary]     = "-DPLUGIN_DICTIONARY=ON,-DPLUGIN_DICTIONARY=OFF,"
 PACKAGECONFIG[displayinfo]    = "-DPLUGIN_DISPLAYINFO=ON,-DPLUGIN_DISPLAYINFO=OFF,"
 PACKAGECONFIG[dsgcc_client]   = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
 PACKAGECONFIG[dsresolution]   = "-DPLUGIN_DSRESOLUTION=ON,,devicesettings"
 PACKAGECONFIG[filetransfer]   = "-DPLUGIN_FILETRANSFER=ON,-DPLUGIN_FILETRANSFER=OFF,"
-PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
-                                 -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
-                                ,-DPLUGIN_LOCATIONSYNC=OFF,"
-PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
-                                 -DPLUGIN_WEBKITBROWSER_MEMORYLIMIT=614400 \
-                                 -DPLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
-                                 -DPLUGIN_NETFLIX_MEMORYLIMIT=307200 \
-                                ,-DPLUGIN_MONITOR=OFF,"
 PACKAGECONFIG[packager]         = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 PACKAGECONFIG[securityagent]    = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[systemcommands]   = "-DPLUGIN_SYSTEMCOMMANDS=ON,-DPLUGIN_SYSTEMCOMMANDS=OFF,"
 PACKAGECONFIG[systemdconnector] = "-DPLUGIN_SYSTEMDCONNECTOR=ON,-DPLUGIN_SYSTEMDCONNECTOR=OFF,"
 PACKAGECONFIG[timesync]       = "-DPLUGIN_TIMESYNC=ON,-DPLUGIN_TIMESYNC=OFF,"
-PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[virtualinput]   = "-DPLUGIN_COMPOSITOR_VIRTUALINPUT=ON,-DPLUGIN_COMPOSITOR_VIRTUALINPUT=OFF,"
 PACKAGECONFIG[volumecontrol]  = "-DPLUGIN_VOLUMECONTROL=ON,-DPLUGIN_VOLUMECONTROL=OFF,"
 PACKAGECONFIG[volumecontrol_rdkhal]  = "-DRDK_AUDIO_HAL=ON,-DRDK_AUDIO_HAL=OFF,"
@@ -100,7 +92,8 @@ PACKAGECONFIG[webproxy]       = "-DPLUGIN_WEBPROXY=ON,-DPLUGIN_WEBPROXY=OFF,"
 PACKAGECONFIG[webserver]      = "-DPLUGIN_WEBSERVER=ON \
                                  -DPLUGIN_WEBSERVER_PORT="${PLUGIN_WEBSERVER_PORT}" \
                                  -DPLUGIN_WEBSERVER_PATH="${PLUGIN_WEBSERVER_PATH}" \
-                                 ,-DPLUGIN_WEBSERVER=OFF,"
+                                 -DENABLE_DEVICE_INFO=ON \
+                                ,-DPLUGIN_WEBSERVER=OFF,"
 PACKAGECONFIG[webshell]       = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
 
 WPE_WIFICONTROL_DEP          ?= ""
