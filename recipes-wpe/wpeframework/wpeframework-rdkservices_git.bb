@@ -68,7 +68,6 @@ EXTRA_OECMAKE += " \
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/*"
-FILES_${PN} += "${includedir}/WPEFramework/*"
 FILES_${PN}-dev += "${libdir}/cmake/*"
 
 INSANE_SKIP_${PN} += "libdir staticdev dev-so"
