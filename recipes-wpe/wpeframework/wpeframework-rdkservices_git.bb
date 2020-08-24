@@ -6,9 +6,15 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master"
-SRCREV = "fafde8d9fb3aeca340d6a823d9d6de6f5c60d996"
+SRCREV = "8c1eb6665268da539d465753285d078cfed1ba4e"
 
 SRC_URI += "file://0001-remove-default-services.patch"
+
+# ----------------------------------------------------------------------------
+
+# More complicated plugins are moved seperate includes
+
+include include/ocdm.inc
 
 # ----------------------------------------------------------------------------
 
@@ -16,7 +22,18 @@ WPEFRAMEWORK_LOCATIONSYNC_URI ?= "http://jsonip.metrological.com/?maf=true"
 
 # ----------------------------------------------------------------------------
 
-PACKAGECONFIG ?= " deviceinfo locationsync monitor tracing"
+PACKAGECONFIG ?= " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+    deviceinfo locationsync monitor tracing \
+"
+
+# ----------------------------------------------------------------------------
 
 PACKAGECONFIG[deviceinfo]     = "-DENABLE_DEVICE_INFO=ON,-DENABLE_DEVICE_INFO=OFF,"
 PACKAGECONFIG[locationsync]   = "-DENABLE_LOCATION_SYNC=ON \
