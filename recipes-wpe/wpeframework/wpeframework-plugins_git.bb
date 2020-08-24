@@ -44,7 +44,6 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothcontrol', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth',           'bluetoothremote', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor',           'compositor', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',              'systemdconnector', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
@@ -72,8 +71,6 @@ PACKAGECONFIG[displayinfo]    = "-DPLUGIN_DISPLAYINFO=ON,-DPLUGIN_DISPLAYINFO=OF
 PACKAGECONFIG[dsgcc_client]   = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
 PACKAGECONFIG[dsresolution]   = "-DPLUGIN_DSRESOLUTION=ON,,devicesettings"
 PACKAGECONFIG[filetransfer]   = "-DPLUGIN_FILETRANSFER=ON,-DPLUGIN_FILETRANSFER=OFF,"
-PACKAGECONFIG[packager]         = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
-PACKAGECONFIG[securityagent]    = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[systemcommands]   = "-DPLUGIN_SYSTEMCOMMANDS=ON,-DPLUGIN_SYSTEMCOMMANDS=OFF,"
 PACKAGECONFIG[systemdconnector] = "-DPLUGIN_SYSTEMDCONNECTOR=ON,-DPLUGIN_SYSTEMDCONNECTOR=OFF,"
 PACKAGECONFIG[timesync]       = "-DPLUGIN_TIMESYNC=ON,-DPLUGIN_TIMESYNC=OFF,"

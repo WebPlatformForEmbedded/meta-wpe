@@ -30,6 +30,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
     deviceinfo locationsync monitor tracing \
 "
 
@@ -48,6 +49,8 @@ PACKAGECONFIG[monitor]        = "-DENABLE_MONITOR=ON \
                                  -DPLUGIN_NETFLIX_MEMORYLIMIT=307200 \
                                 ,-DENABLE_MONITOR=OFF,"
 PACKAGECONFIG[tracing]        = "-DENABLE_TRACE_CONTROL=ON,-DENABLE_TRACE_CONTROL=OFF,"
+PACKAGECONFIG[securityagent]  = "-DENABLE_SECURITY_AGENT=ON,-DENABLE_SECURITY_AGENT=OFF,"
+PACKAGECONFIG[packager]       = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 
 # ----------------------------------------------------------------------------
 
