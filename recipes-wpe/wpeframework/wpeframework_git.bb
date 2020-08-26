@@ -121,6 +121,10 @@ EXTRA_OECMAKE += " \
     -DEXCEPTIONS_ENABLE=${WPEFRAMEWORK_EXCEPTIONS_ENABLE} \
 "
 
+SELECTED_OPTIMIZATION_append = "\
+    ${@bb.utils.contains('PACKAGECONFIG', 'debugoptimized', " -O0 " , '', d)} \
+"
+
 do_install_append() {
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
     then
