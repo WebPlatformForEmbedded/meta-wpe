@@ -36,6 +36,14 @@ PACKAGECONFIG ?= " \
 
 # ----------------------------------------------------------------------------
 
+WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR ?= "OFF"
+WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL ?= ""
+PACKAGECONFIG[deviceidentification] = \
+                                "-DPLUGIN_DEVICEIDENTIFICATION_USE_MFR=${WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR} \
+                                 -DENABLE_DEVICE_IDENTIFICATION=ON \
+                                 ${WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL} \
+                                ,-DENABLE_DEVICE_IDENTIFICATION=OFF,"
+
 PACKAGECONFIG[deviceinfo]     = "-DENABLE_DEVICE_INFO=ON,-DENABLE_DEVICE_INFO=OFF,"
 PACKAGECONFIG[locationsync]   = "-DENABLE_LOCATION_SYNC=ON \
                                  -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
