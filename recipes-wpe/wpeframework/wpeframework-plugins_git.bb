@@ -11,8 +11,6 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            "
 SRCREV = "10869184523543f67b61c644ac82225363fa99d8"
 
-SRC_URI += "file://0001-enable-deviceinfo-for-webserver-plugin.patch"
-
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
@@ -81,7 +79,7 @@ PACKAGECONFIG[webproxy]       = "-DPLUGIN_WEBPROXY=ON,-DPLUGIN_WEBPROXY=OFF,"
 PACKAGECONFIG[webserver]      = "-DPLUGIN_WEBSERVER=ON \
                                  -DPLUGIN_WEBSERVER_PORT="${PLUGIN_WEBSERVER_PORT}" \
                                  -DPLUGIN_WEBSERVER_PATH="${PLUGIN_WEBSERVER_PATH}" \
-                                 -DENABLE_DEVICE_INFO=ON \
+                                 -DPLUGIN_DEVICEINFO=ON \
                                 ,-DPLUGIN_WEBSERVER=OFF,"
 PACKAGECONFIG[webshell]       = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
 

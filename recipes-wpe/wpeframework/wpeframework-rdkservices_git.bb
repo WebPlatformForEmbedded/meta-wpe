@@ -6,9 +6,7 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master"
-SRCREV = "8c1eb6665268da539d465753285d078cfed1ba4e"
-
-SRC_URI += "file://0001-remove-default-services.patch"
+SRCREV = "bdb42929f7010db8bda83f3b2d5ec1b2f59e7afd"
 
 # ----------------------------------------------------------------------------
 
@@ -40,35 +38,31 @@ WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR ?= "OFF"
 WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL ?= ""
 PACKAGECONFIG[deviceidentification] = \
                                 "-DPLUGIN_DEVICEIDENTIFICATION_USE_MFR=${WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR} \
-                                 -DENABLE_DEVICE_IDENTIFICATION=ON \
+                                 -DPLUGIN_DEVICEIDENTIFICATION=ON \
                                  ${WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL} \
-                                ,-DENABLE_DEVICE_IDENTIFICATION=OFF,"
+                                ,-DPLUGIN_DEVICEIDENTIFICATION=OFF,"
 
-PACKAGECONFIG[deviceinfo]     = "-DENABLE_DEVICE_INFO=ON,-DENABLE_DEVICE_INFO=OFF,"
-PACKAGECONFIG[locationsync]   = "-DENABLE_LOCATION_SYNC=ON \
+PACKAGECONFIG[deviceinfo]     = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
+PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
                                  -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
-                                ,-DENABLE_LOCATION_SYNC=OFF,"
-PACKAGECONFIG[monitor]        = "-DENABLE_MONITOR=ON \
+                                ,-DPLUGIN_LOCATIONSYNC=OFF,"
+PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
                                  -DPLUGIN_WEBKITBROWSER=ON \
                                  -DPLUGIN_WEBKITBROWSER_YOUTUBE=ON \
                                  -DPLUGIN_NETFLIX=ON \
                                  -DPLUGIN_WEBKITBROWSER_MEMORYLIMIT=614400 \
                                  -DPLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
                                  -DPLUGIN_NETFLIX_MEMORYLIMIT=307200 \
-                                ,-DENABLE_MONITOR=OFF,"
-PACKAGECONFIG[tracing]        = "-DENABLE_TRACE_CONTROL=ON,-DENABLE_TRACE_CONTROL=OFF,"
-PACKAGECONFIG[securityagent]  = "-DENABLE_SECURITY_AGENT=ON,-DENABLE_SECURITY_AGENT=OFF,"
+                                ,-DPLUGIN_MONITOR=OFF,"
+PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
+PACKAGECONFIG[securityagent]  = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[packager]       = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 
 # ----------------------------------------------------------------------------
 
 EXTRA_OECMAKE += " \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DPLUGIN_DISPLAYSETTINGS=OFF \
-    -DPLUGIN_LOGGING_PREFERENCES=OFF \
-    -DPLUGIN_USER_PREFERENCES=OFF \
-    -DPLUGIN_SYSTEMSERVICES=OFF \
-    -DPLUGIN_CONTROLSERVICE=OFF \
+    -DCOMCAST_CONFIG=OFF \
 "
 
 # ----------------------------------------------------------------------------
