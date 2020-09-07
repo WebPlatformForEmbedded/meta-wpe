@@ -1,6 +1,6 @@
 # OpenCDM related switches
 
-PACKAGECONFIG[opencdmi]       = "-DENABLE_OPEN_CDMI=ON \
+PACKAGECONFIG[opencdmi]       = "-DPLUGIN_OPENCDMI=ON \
                                  -DPLUGIN_OPENCDMI_AUTOSTART=true \
                                  -DPLUGIN_OPENCDMI_OOP=true \
                                 ,,"
