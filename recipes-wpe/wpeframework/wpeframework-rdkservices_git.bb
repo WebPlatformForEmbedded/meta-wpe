@@ -6,7 +6,7 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master"
-SRCREV = "bdb42929f7010db8bda83f3b2d5ec1b2f59e7afd"
+SRCREV = "b660fdfe726aa097133fd48fe651d5a4410aff4a"
 
 # ----------------------------------------------------------------------------
 
