@@ -3,7 +3,7 @@ require wpewebkit.inc
 PV = "2.22+git${SRCPV}"
 PR = "r0"
 
-SRCREV ?= "e2b034959f3509fc75fca94ce1203ade21deee3d"
+SRCREV ?= "57bbecb9421d206f40a3beb45b9d800288a39b1d"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22"
 
 DEPENDS += "libgcrypt"
