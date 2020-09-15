@@ -1,69 +1,76 @@
 # TODO: Placeholder license 
 LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = " \
-    file://${S}/../NOTICES.txt;md5=f5adad9a750c5dac1df560bc76ed0e34 \
-"
+LIC_FILES_CHKSUM = "file://NOTICES.txt;md5=f5adad9a750c5dac1df560bc76ed0e34"
 
-SRC_URI = "git://git@github.com/Metrological/amazon.git;protocol=ssh;branch=development/thunder-ignition-backend"
-SRCREV = "6e62383175da0c2d0a616975604ea93db7b02adb"
-DEPENDS = "curl freetype icu libcap openssl libjpeg-turbo wpeframework"
+SRC_URI = "git://git@github.com/Metrological/amazon.git;protocol=ssh;branch=AVPKv2.1.0"
+SRCREV = "cd3c0cf9cae45b4c017f2ca7cfc7734c6e628942"
 
+S = "${WORKDIR}/git"
+PR = "r0"
 PACKAGES = "${PN}"
 
-AMAZON_BUILD_TYPE ?= "Debug"
-AMAZON_DEVELOPMENT_MODE ?= "ON"
-AMAZON_USE_DUMMY_DRM ?= "ON"
-AMAZON_FAKE_PLAYER ?= "ON"
+DEPENDS = "curl freetype icu libcap openssl libjpeg-turbo wpeframework"
 
-DEVICE_LAYER_DIR ?= "${S}/../thunder/linux-device-layer"
-DISABLE_SAFE_BUILD_ROOT_CHECK ?= "ON"
-BUILD_AS_SHARED_LIBRARY ?= "ON"
+# TODO: The tests install targets do not respect the toolchain install prefix.
+# Test build artifacts end up being installed in hosts's /usr path, if the 
+# following switches are not passed.
+PACKAGECONFIG[amazon-cert-tests] = "-DCMAKE_INSTALL_PREFIX=${WORKDIR}/artifacts -DUNIT_TESTS_INSTALL_DIR=${WORKDIR}/artifacts, -DCMAKE_INSTALL_PREFIX=${exec_prefix},,"
 
 inherit pkgconfig cmake
 
+AMAZON_BUILD_TYPE ?= "Debug"
+DEVICE_LAYER_DIR ?= "${S}/thunder/linux-device-layer"
+DISABLE_SAFE_BUILD_ROOT_CHECK ?= "ON"
+BUILD_AS_SHARED_LIBRARY ?= "OFF"
+
+OECMAKE_SOURCEPATH = "${S}/ignition/"
 EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=${AMAZON_BUILD_TYPE} \
     -DBUILD_AS_SHARED_LIBRARY=${BUILD_AS_SHARED_LIBRARY} \
-    -DCMAKE_INSTALL_PREFIX=${exec_prefix} \
+    -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
     -DDEVICE_LAYER_DIR=${DEVICE_LAYER_DIR} \
-    -DDEVICE_LAYER_CMAKE_ARGS='-DUSE_DUMMY_DRM=${AMAZON_USE_DUMMY_DRM}' \
-    -DDEVELOPMENT_MODE=${AMAZON_DEVELOPMENT_MODE} \
-    -DUSE_FAKE_PLAYER=${AMAZON_FAKE_PLAYER} \
+    -DDEVICE_LAYER_CMAKE_ARGS='-DUSE_DUMMY_DRM=ON' \
+    -DUSE_CCACHE=ON \
+    -DDEVELOPMENT_MODE=ON \
+    -DUSE_FAKE_PLAYER=ON \
     -DUSE_MEDIA_PIPELINE_BACKEND=OFF \
     -DDISABLE_SAFE_BUILD_ROOT_CHECK=${DISABLE_SAFE_BUILD_ROOT_CHECK} \
-    -DIGNITION_PLATFORM_LINK_LIBRARIES=pthread\;cap"
+    -DIGNITION_PLATFORM_LINK_LIBRARIES=pthread\;cap \
+    "
 
-do_install_append() {
+AMAZON_TARGETS = "${@bb.utils.contains('PACKAGECONFIG', 'amazon-cert-tests', 'test_ignition install-prime-video-device-layer-test integration-tests-package-with-mock-device-layer integration-tests-package', 'all', d)}"
 
-    # The following location contains headers from 3rd party libraries.
-    rm -rf "${D}/${includedir}/hawktracer/"
-    rm -f "${D}/${includedir}/hawktracer.h"
+do_compile() {
+    oe_runmake ${AMAZON_TARGETS}
+}
 
-    # Certificates are already provided by the openssl package.
-    # rm -rf "${D}/${bindir}/certs"
-    
-    # Clean out empty directories.
-    rm -rf "${D}/${exec_prefix}/persist" "${D}/${exec_prefix}/tmp"
+do_install() {
 
-    mkdir -p "${STAGING_INCDIR}/ignition/"
-    cp -r "${DEVICE_LAYER_DIR}/interface/include/." "${STAGING_INCDIR}/ignition/"
+    if ${@bb.utils.contains('PACKAGECONFIG', 'amazon-cert-tests', 'true', 'false', d)}
+    then
+        mkdir -p "${D}/usr/"
+        mv "${WORKDIR}"/artifacts/* "${D}/usr/"
+    fi
 
-    mkdir -p "${D}/${datadir}/ignition/"
+    rm -rf "${D}/${exec_prefix}/tmp"
+    rm -rf "${D}/${exec_prefix}/include"
+
+    mkdir -p "${D}/${datadir}/ignition/" "${STAGING_INCDIR}/ignition/"
     mv  "${D}/${exec_prefix}/manifest" \
         "${D}/${exec_prefix}/default_config.json" \
         "${D}/${exec_prefix}/shaders" \
         "${D}/${exec_prefix}/fonts" \
         "${D}/${exec_prefix}/images" \
+        "${D}/${exec_prefix}/assets" \
         "${D}/${exec_prefix}/lua" "${D}/${datadir}/ignition/"
+
+    # Header files required for building the WPEPluginAmazon.
+    cp -r "${DEVICE_LAYER_DIR}/interface/include/." "${STAGING_INCDIR}/ignition/"
 }
 
 AMAZON_FILES = "\
-                ${exec_prefix}/tests \
-                ${bindir}/ignition \
-                ${libdir}/libignition.so \
-                ${libdir}/libprime-video-device-layer.so \
-                ${libdir}/libamazon_backend_device.so \
-                ${libdir}/libamazon_player.so \
-                ${datadir}/ignition/ \
+                ${bindir}/* \
+                ${libdir}/* \
+                ${datadir}/*/ \
                 "
 
 FILES_${PN}     +=  "${AMAZON_FILES}"
