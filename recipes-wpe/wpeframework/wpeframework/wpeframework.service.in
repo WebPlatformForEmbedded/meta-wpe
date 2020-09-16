@@ -10,7 +10,7 @@ Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="XDG_RUNTIME_DIR=/run"
 ExecStart=-/usr/bin/WPEFramework -b
 ExecStop=/bin/kill $MAINPID
-KillMode=process
+KillMode=control-group
 
 [Install]
 WantedBy=multi-user.target
