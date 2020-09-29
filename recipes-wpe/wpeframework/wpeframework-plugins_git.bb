@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "d3015afea507279e337be148837372a16b8815ea"
+SRCREV = "39b044aab8f09f4be66d9143907e3aa123d484bf"
 
 # ----------------------------------------------------------------------------
 
