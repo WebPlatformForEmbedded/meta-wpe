@@ -9,6 +9,7 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstr
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https"
 SRCREV ?= "a232bffee442824ebec75b540ae3e2ccc5416328"
+SRC_URI += "file://0001-disable-debugger-fix.patch"
 
 S = "${WORKDIR}/git"
 

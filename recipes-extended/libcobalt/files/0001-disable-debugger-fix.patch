@@ -1,0 +1,12 @@
+diff -ruN cobalt.orig/src/cobalt/build/cobalt_configuration.py cobalt/src/cobalt/build/cobalt_configuration.py
+--- cobalt.orig/src/cobalt/build/cobalt_configuration.py	2020-09-23 23:35:14.000000000 +0530
++++ cobalt/src/cobalt/build/cobalt_configuration.py	2020-10-06 10:19:48.401763542 +0530
+@@ -43,7 +43,7 @@
+ 
+         # This is here rather than cobalt_configuration.gypi so that it's
+         # available for browser_bindings_gen.gyp.
+-        'enable_debugger': 0 if config_name == Config.GOLD else 1,
++        'enable_debugger': 0,
+ 
+         # Cobalt uses OpenSSL on all platforms.
+         'use_openssl': 1,
