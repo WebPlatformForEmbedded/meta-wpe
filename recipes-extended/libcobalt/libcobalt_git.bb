@@ -32,7 +32,7 @@ DEPENDS += "${COBALT_DEPENDENCIES}"
 
 RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad wpeframework ${COBALT_DEPENDENCIES}"
 
-COBALT_BUILD_TYPE ?= "qa"
+COBALT_BUILD_TYPE ?= "gold"
 
 do_configure() {
     export PATH=$PATH:${S}/depot_tools
