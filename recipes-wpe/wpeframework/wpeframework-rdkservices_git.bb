@@ -5,7 +5,9 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master"
+SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master \
+           file://0001-deviceinfo-networkinfo-alignment.patch"
+
 SRCREV = "b660fdfe726aa097133fd48fe651d5a4410aff4a"
 
 # ----------------------------------------------------------------------------
