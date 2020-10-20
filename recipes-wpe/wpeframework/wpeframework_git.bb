@@ -7,13 +7,7 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-# FIXME the compositor shares flags across wpeframework and wpeframework-plugins. Not sure if this is a good idea...
-include include/compositor.inc
-
-DEPENDS = " \
-    zlib wpeframework-tools-native virtual/egl \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
-"
+DEPENDS = "zlib virtual/egl"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
@@ -23,24 +17,17 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "2172077b12eb0691840208812004d10f1fe08246"
+SRCREV = "16cbd3d55fd166eda89bf2fc9833e4e0fe2573c1"
 
 inherit cmake pkgconfig systemd update-rc.d
 
 WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
-WPE_CDMI_ADAPTER_IMPL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
 
 PACKAGECONFIG ?= " \
     release \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm ${WPE_CDMI_ADAPTER_IMPL}', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'provisionproxy', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
-    virtualinput websource webkitbrowser \
+    websource webkitbrowser \
     "
-
-# add compositor client if Wayland is present
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
@@ -50,19 +37,9 @@ PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
 PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
 PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
 
-
 PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF, bluez5"
-PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
-PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
-PACKAGECONFIG[securityagent]    = "-DSECURITYAGENT=ON, -DSECURITYAGENT=OFF"
 PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
-PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
-
-# OCDM
-PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
-PACKAGECONFIG[opencdm_gst]      = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",,gstreamer1.0'
-PACKAGECONFIG[opencdmi_brcm_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,gstreamer-plugins-soc'
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
@@ -117,10 +94,8 @@ EXTRA_OECMAKE += " \
     -DTREE_REFERENCE=${WPE_LAYER_REV}  \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
-    -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
-    -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_SUB_IMPL} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
     -DEXCEPTIONS_ENABLE=${WPEFRAMEWORK_EXCEPTIONS_ENABLE} \
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
 "
 
 do_install_append() {
@@ -141,11 +116,6 @@ do_install_append() {
         sed -e "s|WPEFRAMEWORK_PERSISTENT_PATH|${WPEFRAMEWORK_PERSISTENT_PATH}|g" < ${WORKDIR}/wpeframework-init > ${D}${sysconfdir}/init.d/wpeframework
         chmod +x ${D}${sysconfdir}/init.d/wpeframework
     fi
-
-    if ${@bb.utils.contains("PACKAGECONFIG", "opencdm", "true", "false", d)}
-    then
-        install -m 0644 ${D}${includedir}/WPEFramework/interfaces/IDRM.h ${D}${includedir}/cdmi.h
-    fi
 }
 
 SYSTEMD_SERVICE_${PN} = "wpeframework.service"
@@ -158,7 +128,6 @@ FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
-FILES_${PN} += "${includedir}/cdmi.h"
 FILES_${PN}-dev += "${libdir}/cmake/*"
 
 # ----------------------------------------------------------------------------
@@ -177,12 +146,3 @@ RRECOMMENDS_${PN} = "${PN}-initscript"
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
-
-# ----------------------------------------------------------------------------
-
-RDEPENDS_${PN}_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', 'userland', d)}"
-
-# Avoid settings ADNEEDED in LDFLAGS as this can cause the libcompositor.so to drop linking to libEGL/libGLES
-# which might not be needed at first glance but will cause problems higher up in the change, there for lets drop -Wl,--as-needed
-# some distros, like POKY (morty) enable --as-needed by default (e.g. https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/conf/distro/include/as-needed.inc?h=morty)
-ASNEEDED = ""
