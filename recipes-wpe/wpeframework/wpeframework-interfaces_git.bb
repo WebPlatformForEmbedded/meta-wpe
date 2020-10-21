@@ -13,13 +13,6 @@ SRCREV = "e17057ec4ae3d2f72dee9362d88e25c39fe4d2fa"
 
 PACKAGECONFIG ?= "release"
 
-# Buildtype
-PACKAGECONFIG[debug]          = "-DBUILD_TYPE=Debug,,"
-PACKAGECONFIG[debugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
-PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
-PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
-PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
-
 # ----------------------------------------------------------------------------
 
 EXTRA_OECMAKE += " \

@@ -27,13 +27,6 @@ PACKAGECONFIG ?= " \
     virtualinput \
     "
 
-# Buildtype
-PACKAGECONFIG[debug]          = "-DBUILD_TYPE=Debug,,"
-PACKAGECONFIG[debugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
-PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
-PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
-PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
-
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
