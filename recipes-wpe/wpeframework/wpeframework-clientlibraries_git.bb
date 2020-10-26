@@ -13,7 +13,7 @@ SRCREV = "bea2273b40525b01cc306e4acb03d13bf3d79313"
 include include/compositor.inc
 
 DEPENDS = " \
-    wpeframework wpeframework-interfaces \
+    wpeframework-interfaces \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
 "
 
