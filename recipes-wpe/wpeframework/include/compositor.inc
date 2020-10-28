@@ -7,6 +7,7 @@ WPE_COMPOSITOR_PACKAGE_rpi     ?= "RPI"
 WPE_COMPOSITOR_IMPL            ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', '${WPE_COMPOSITOR_PACKAGE}', d)}"
 WPE_COMPOSITOR_SUB_IMPL        ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
 WPE_COMPOSITOR_DEP             ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+WPE_COMPOSITOR_PLUGIN_DEP      ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework-clientlibraries', '', d)}"
 
 WPE_COMPOSITOR_EXTRAFLAGS 	?= ""
 WPE_COMPOSITOR_HW_READY 	?= "0"
@@ -44,7 +45,7 @@ PACKAGECONFIG[compositor]     = " \
     -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
     -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_SUB_IMPL} \
     ${WPE_COMPOSITOR_EXTRAFLAGS} \
-    ,-DPLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP}"
+    ,-DPLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP} ${WPE_COMPOSITOR_PLUGIN_DEP}"
 
 # ----------------------------------------------------------------------------
 

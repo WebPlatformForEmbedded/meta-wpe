@@ -4,10 +4,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PR = "r0"
 
 require include/wpeframework.inc
-DEPENDS = "wpeframework wpeframework-tools-native"
+DEPENDS = "wpeframework"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
-SRCREV = "e17057ec4ae3d2f72dee9362d88e25c39fe4d2fa"
+SRCREV = "c9b00174618d507bed703f81fc50d3ddbd67c8eb"
 
 # ----------------------------------------------------------------------------
 

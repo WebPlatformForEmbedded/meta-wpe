@@ -7,7 +7,7 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-DEPENDS = "zlib virtual/egl"
+DEPENDS = "zlib virtual/egl wpeframework-tools-native"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "16cbd3d55fd166eda89bf2fc9833e4e0fe2573c1"
+SRCREV = "2dff35e844acbeb728c95ff0f2ea9ed43fd22db9"
 
 inherit cmake pkgconfig systemd update-rc.d
 
