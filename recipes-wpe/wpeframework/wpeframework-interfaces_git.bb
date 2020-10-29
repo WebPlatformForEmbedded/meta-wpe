@@ -24,7 +24,10 @@ EXTRA_OECMAKE += " \
 # ----------------------------------------------------------------------------
 
 do_install_append() {
-    install -m 0644 ${D}${includedir}/WPEFramework/interfaces/IDRM.h ${D}${includedir}/cdmi.h
+    if ${@bb.utils.contains("DISTRO_FEATURES", "opencdm", "true", "false", d)}
+    then
+        install -m 0644 ${D}${includedir}/WPEFramework/interfaces/IDRM.h ${D}${includedir}/cdmi.h
+    fi
 }
 
 # ----------------------------------------------------------------------------
