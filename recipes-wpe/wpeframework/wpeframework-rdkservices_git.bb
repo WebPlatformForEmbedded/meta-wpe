@@ -5,16 +5,16 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master \
-           file://0001-deviceinfo-networkinfo-alignment.patch"
+SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2010"
 
-SRCREV = "b660fdfe726aa097133fd48fe651d5a4410aff4a"
+SRCREV = "fbcaa7ad3b3008559b8ef1cb864c13e8f8a76ced"
 
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
 
 include include/ocdm.inc
+include include/webkitbrowser.inc
 
 # ----------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
-    deviceinfo locationsync monitor tracing \
+    deviceinfo locationsync monitor tracing webkitbrowser \
 "
 
 # ----------------------------------------------------------------------------

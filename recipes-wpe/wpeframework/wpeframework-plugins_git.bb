@@ -27,7 +27,6 @@ include include/remotecontrol.inc
 include include/snapshot.inc
 include include/spark.inc
 include include/streamer.inc
-include include/webkitbrowser.inc
 include include/webpa.inc
 
 # ----------------------------------------------------------------------------
@@ -46,7 +45,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    apps dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync ux virtualinput webkitbrowser webserver \
+    apps dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync ux virtualinput webserver \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
@@ -100,11 +99,8 @@ EXTRA_OECMAKE += " \
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
-      if ${@bb.utils.contains("PACKAGECONFIG", "webkitbrowser", "true", "false", d)}
-      then
-          install -d ${D}/var/www
-          install -m 0755 ${WORKDIR}/index.html ${D}/var/www/
-      fi
+      install -d ${D}/var/www
+      install -m 0755 ${WORKDIR}/index.html ${D}/var/www/
       install -d ${D}${PLUGIN_WEBSERVER_PATH}
     fi
 }
