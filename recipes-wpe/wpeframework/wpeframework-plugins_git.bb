@@ -45,7 +45,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    apps dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync ux virtualinput webserver \
+    dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync virtualinput webserver \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
