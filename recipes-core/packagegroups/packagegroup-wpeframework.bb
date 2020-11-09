@@ -9,6 +9,8 @@ PACKAGES = "\
 
 RDEPENDS_packagegroup-wpeframework = "\
     wpeframework \
+    wpeframework-interfaces \
+    wpeframework-clientlibraries \
     wpeframework-plugins \
     wpeframework-rdkservices \
     wpeframework-ui \
