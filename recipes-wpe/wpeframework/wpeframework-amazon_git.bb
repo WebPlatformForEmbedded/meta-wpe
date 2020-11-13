@@ -5,16 +5,25 @@ LIC_FILES_CHKSUM = "file://README.md;md5=29509c3e80f3a22b82a5ff6a60df5794"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://git@github.com/Metrological/WPEPluginAmazon.git;protocol=ssh;branch=development/ignition_2"
-SRCREV = "55461f3616eeb5df5139e2bcba2d96d1b9b013cb"
+SRC_URI = "git://git@github.com/Metrological/WPEPluginAmazon.git;protocol=ssh;branch=master"
+SRCREV = "3ff6a32ad010ee243765223a338a979c7be3e943"
 
 DEPENDS = "wpeframework libamazon"
 
 inherit cmake pkgconfig
 
+WPE_AMAZON_PRIME_MANUFACTURER ?= "AMLogic"
+WPE_AMAZON_PRIME_MODEL_NAME ?= "S905X2"
+WPE_AMAZON_PRIME_DTID ?= "A1FB14CA4S6ISD"
+WPE_AMAZON_PRIME_CHIPSET_NAME ?= ""
+
 EXTRA_OECMAKE = " \
                 -DCMAKE_BUILD_TYPE=Debug \
-                -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3\
+                -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
+                -DPLUGIN_AMAZON_PRIME_MANUFACTURER=${WPE_AMAZON_PRIME_MANUFACTURER} \
+                -DPLUGIN_AMAZON_PRIME_MODEL_NAME=${WPE_AMAZON_PRIME_MODEL_NAME} \
+                -DPLUGIN_AMAZON_PRIME_DTID=${WPE_AMAZON_PRIME_DTID} \
+                -DPLUGIN_AMAZON_PRIME_CHIPSET_NAME=${WPE_AMAZON_PRIME_CHIPSET_NAME} \
                 "
 
 FILES_${PN} += " \
