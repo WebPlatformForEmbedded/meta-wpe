@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework OpenCDMi module for playready"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=c2b3f2a8aff73c673037a89bee1ee396"
 
 require include/wpeframework-plugins.inc
 
