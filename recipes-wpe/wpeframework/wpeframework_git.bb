@@ -65,7 +65,7 @@ WPEFRAMEWORK_DIST_EVENTS ?= " \
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     ${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', 'Bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'Decryption', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'Provisioning', 'Provisioning', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'securityagent', 'Security', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
