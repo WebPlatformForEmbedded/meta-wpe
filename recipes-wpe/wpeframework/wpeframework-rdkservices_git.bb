@@ -5,16 +5,18 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=master \
-           file://0001-deviceinfo-networkinfo-alignment.patch"
+SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2010 \
+           file://0001-monitor-Enable-monitored-plugins-when-built-from-ext.patch \
+"
 
-SRCREV = "b660fdfe726aa097133fd48fe651d5a4410aff4a"
+SRCREV = "6fddde4f6a596624886abd44dafcffb01418bcb7"
 
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
 
 include include/ocdm.inc
+include include/monitor.inc
 
 # ----------------------------------------------------------------------------
 
@@ -31,7 +33,8 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
-    deviceinfo locationsync monitor tracing \
+    monitor monitor_webkit monitor_webkit_ux monitor_opencdmi \
+    deviceinfo locationsync tracing \
 "
 
 # ----------------------------------------------------------------------------
@@ -49,14 +52,6 @@ PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
                                  -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
                                 ,-DPLUGIN_LOCATIONSYNC=OFF,"
 PACKAGECONFIG[messenger]      = "-DPLUGIN_MESSENGER=ON,-DPLUGIN_MESSENGER=OFF,"
-PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
-                                 -DPLUGIN_WEBKITBROWSER=ON \
-                                 -DPLUGIN_WEBKITBROWSER_YOUTUBE=ON \
-                                 -DPLUGIN_NETFLIX=ON \
-                                 -DPLUGIN_WEBKITBROWSER_MEMORYLIMIT=614400 \
-                                 -DPLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
-                                 -DPLUGIN_NETFLIX_MEMORYLIMIT=307200 \
-                                ,-DPLUGIN_MONITOR=OFF,"
 PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[securityagent]  = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[packager]       = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
