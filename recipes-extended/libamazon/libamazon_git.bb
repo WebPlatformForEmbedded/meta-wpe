@@ -3,21 +3,20 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://NOTICES.txt;md5=f5adad9a750c5dac1df560bc76ed0e34"
 
 SRC_URI = "git://git@github.com/Metrological/amazon.git;protocol=ssh;branch=AVPKv2.1.0"
-SRCREV = "cd3c0cf9cae45b4c017f2ca7cfc7734c6e628942"
+SRCREV = "5d2b638b0f962e860a2e771ed64c4440d64fd285"
 
 S = "${WORKDIR}/git"
 PR = "r0"
 PV = "git"
 PACKAGES += " ${PN}-SOLIBSDEV"
 
-DEPENDS = "curl openssl libcap wpeframework libamazon-backend"
+DEPENDS = "curl openssl libcap wpeframework libamazon-backend libjpeg-turbo"
 
 # TODO: The tests install targets do not respect the toolchain install prefix.
 # Test build artifacts end up being installed in hosts's /usr path, 
 # if the following switches are not passed.
 PACKAGECONFIG[amazon-cert-tests] = "-DCMAKE_INSTALL_PREFIX=${WORKDIR}/artifacts, -DCMAKE_INSTALL_PREFIX=${exec_prefix},,"
 
-# Sane defaults section:
 AMAZON_USE_SYSTEM_LIBRARIES ?= "OFF"
 AMAZON_BUILD_LIBJPEG ?= "OFF"
 AMAZON_BUILD_LIBPNG ?= "ON"
@@ -52,9 +51,6 @@ EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=${AMAZON_BUILD_TYPE} \
     -DIGNITE_DISABLE_ICU_BUILD=${AMAZON_IGNITE_DISABLE_ICU_BUILD} \
     "
 
-# 
-#  (aka interaction-tests)
-
 TEST_TARGETS = "install-prime-video-device-layer-test integration-tests-package"
 
 EXTRA_OECMAKE_BUILD = "${@bb.utils.contains('PACKAGECONFIG', 'amazon-cert-tests', "${TEST_TARGETS}", 'all', d)}"
@@ -80,7 +76,6 @@ do_install_append() {
         "${D}/${exec_prefix}/images" \
         "${D}/${exec_prefix}/lua" "${D}/${datadir}/ignition/"
 
-    # Header files required for building the WPEPluginAmazon.
     cp -r "${DEVICE_LAYER_DIR}/../interface/include/." "${STAGING_INCDIR}/ignition/"
 }
 

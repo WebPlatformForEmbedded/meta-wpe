@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://README.md;md5=29509c3e80f3a22b82a5ff6a60df5794"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://git@github.com/Metrological/WPEPluginAmazon.git;protocol=ssh;branch=master"
-SRCREV = "3ff6a32ad010ee243765223a338a979c7be3e943"
+SRCREV = "f22a3f4326a5ea1825140be064141269f0e1228b"
 
 DEPENDS = "wpeframework libamazon"
 

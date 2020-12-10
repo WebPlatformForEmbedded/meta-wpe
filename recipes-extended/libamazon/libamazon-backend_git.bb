@@ -2,16 +2,16 @@
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://README.md;md5=3e8e4652020108dca4d09adbf9d3cc43"
 
-SRC_URI = "git://git@github.com/Metrological/amazon-backend.git;protocol=ssh;branch=development/ignition"
-SRCREV = "9e4b56e133711a6549645f0543513c02accbb5d1"
+SRC_URI = "git://git@github.com/Metrological/amazon-backend.git;protocol=ssh;branch=development/gstreamerclient"
+SRCREV = "22b5b548f6ad1dabb66983607db21bafa2177a49"
 
 S = "${WORKDIR}/git"
 PR = "r0"
 PACKAGES += " ${PN}-SOLIBSDEV"
 
-# WPEFramework - Core, GstreamerClient
-# WPEFramework-RDKServices - DisplayInfo
-DEPENDS = "wpeframework wpeframework-rdkservices wpeframework-clientlibraries"
+# wpeframework - Core, GstreamerClient
+# wpeframework-clientlibraries - DisplayInfo
+DEPENDS = "wpeframework wpeframework-clientlibraries"
 
 inherit pkgconfig cmake
 
