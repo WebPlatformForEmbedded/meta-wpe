@@ -35,13 +35,14 @@ OECMAKE_SOURCEPATH = "${S}/ignition/"
 EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=${AMAZON_BUILD_TYPE} \
     -DBUILD_AS_SHARED_LIBRARY=${BUILD_AS_SHARED_LIBRARY} \
     -DBUILD_SHARED_LIBRARY_LAUNCHER=${BUILD_AS_SHARED_LIBRARY} \
-    -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
     -DDEVICE_LAYER_DIR=${DEVICE_LAYER_DIR} \
     -DDEVICE_LAYER_CMAKE_ARGS='-DUSE_DUMMY_DRM=ON' \
     -DUSE_CCACHE=ON \
     -DDEVELOPMENT_MODE=ON \
     -DDISABLE_SAFE_BUILD_ROOT_CHECK=${DISABLE_SAFE_BUILD_ROOT_CHECK} \
     -DIGNITION_PLATFORM_LINK_LIBRARIES=pthread\;cap \
+    -DUSE_FAKE_PLAYER=ON \
+    -DENABLE_TESTS=OFF \
     -DUSE_SYSTEM_LIBRARIES=${AMAZON_USE_SYSTEM_LIBRARIES} \
     -DBUILD_HARFBUZZ_LIB=${AMAZON_BUILD_HARFBUZZ_LIB} \
     -DBUILD_LIBJPEG=${AMAZON_BUILD_LIBJPEG} \
@@ -69,6 +70,15 @@ do_install_append() {
     rm -rf "${D}/${exec_prefix}/src"
 
     mkdir -p "${D}/${datadir}/ignition/" "${STAGING_INCDIR}/ignition/"
+
+    # TODO:
+    # Figure out, which cmake variable doubles the install path.
+    # This results in two manifest files instead of one which was
+    # appended during build time.
+    # For now, manually add the required two lines into amazon's manifest.
+    cat "${S}/ignition/assets/manifest" "${D}/${exec_prefix}/manifest" > "${D}/${exec_prefix}/manifest.temp"
+    mv "${D}/${exec_prefix}/manifest.temp" "${D}/${exec_prefix}/manifest"
+
     mv  "${D}/${exec_prefix}/manifest" \
         "${D}/${exec_prefix}/default_config.json" \
         "${D}/${exec_prefix}/shaders" \
