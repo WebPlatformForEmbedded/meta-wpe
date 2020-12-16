@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "07e85ca1141ae7eae4dcaba66ad6a509f1cce007"
+SRCREV = "7de8fc6e55a40e4936318ad318e7da1ba93ab701"
 
 inherit cmake pkgconfig systemd update-rc.d
 
@@ -64,8 +64,8 @@ WPEFRAMEWORK_DIST_EVENTS ?= " \
 
 WPEFRAMEWORK_EXTERN_EVENTS ?= " \
     ${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', 'Bluetooth', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'opencdm', 'Decryption', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'provisionproxy', 'Provisioning', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'Decryption', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'securityagent', 'Security', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \

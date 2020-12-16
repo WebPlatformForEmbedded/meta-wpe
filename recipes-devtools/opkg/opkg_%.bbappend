@@ -12,7 +12,7 @@ PACKAGECONFIG[provision] = "--enable-provision,--disable-provision"
 PACKAGECONFIG_append_class-target = " libopkg gpg"
 PACKAGECONFIG_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'provision', '', d)} "
 
-DEPENDS_append_class-target = " wpeframework"
+DEPENDS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'wpeframework-clientlibraries', '', d)}"
 
 do_install_append () {
         install -d ${D}${includedir}/libopkg

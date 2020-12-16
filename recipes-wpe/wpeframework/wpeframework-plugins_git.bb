@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;bran
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "9577f6c02c8a14210416c3fc956a82ed1a002d82"
+SRCREV = "4b67d0baad34607018f08ed6077cf27cce7c9b1e"
 
 # ----------------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ SRCREV = "9577f6c02c8a14210416c3fc956a82ed1a002d82"
 include include/cobalt.inc
 include include/compositor.inc
 include include/dialserver.inc
+include include/displayinfo.inc
 include include/firmwarecontrol.inc
 include include/ioconnector.inc
 include include/network.inc
@@ -65,7 +66,6 @@ PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_B
 
 PACKAGECONFIG[dhcpserver]     = "-DPLUGIN_DHCPSERVER=ON,-DPLUGIN_DHCPSERVER=OFF,"
 PACKAGECONFIG[dictionary]     = "-DPLUGIN_DICTIONARY=ON,-DPLUGIN_DICTIONARY=OFF,"
-PACKAGECONFIG[displayinfo]    = "-DPLUGIN_DISPLAYINFO=ON,-DPLUGIN_DISPLAYINFO=OFF,"
 PACKAGECONFIG[dsgcc_client]   = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
 PACKAGECONFIG[dsresolution]   = "-DPLUGIN_DSRESOLUTION=ON,,devicesettings"
 PACKAGECONFIG[filetransfer]   = "-DPLUGIN_FILETRANSFER=ON,-DPLUGIN_FILETRANSFER=OFF,"
