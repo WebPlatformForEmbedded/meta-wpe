@@ -8,7 +8,7 @@ PACKAGES = "${PN}"
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad ninja-native bison-native wpeframework-clientlibraries"
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https"
-SRCREV ?= "ab57ca17ee2f5ddc139ae3db59926a703432c3fd"
+SRCREV ?= "295cd1f4288ae227c7fe7bb836ac8b2f08465028"
 
 S = "${WORKDIR}/git"
 
@@ -38,6 +38,7 @@ do_configure() {
     export PATH=$PATH:${S}/depot_tools
     export COBALT_EXECUTABLE_TYPE=shared_library
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
+    export COBALT_HAS_PROVISION="${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 1, 0, d)}"
 
     export COBALT_STAGING_DIR=${STAGING_DIR_HOST}/
     export COBALT_TOOLCHAIN_PREFIX=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}

@@ -5,9 +5,12 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2010"
+SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2010 \
+           file://0001-monitor-Enable-monitored-plugins-when-built-from-ext.patch \
+           file://0002-Add-FindMFRFWLibs.patch \
+"
 
-SRCREV = "fbcaa7ad3b3008559b8ef1cb864c13e8f8a76ced"
+SRCREV = "6fddde4f6a596624886abd44dafcffb01418bcb7"
 
 # ----------------------------------------------------------------------------
 
@@ -15,6 +18,7 @@ SRCREV = "fbcaa7ad3b3008559b8ef1cb864c13e8f8a76ced"
 
 include include/ocdm.inc
 include include/webkitbrowser.inc
+include include/monitor.inc
 
 # ----------------------------------------------------------------------------
 
@@ -23,15 +27,17 @@ WPEFRAMEWORK_LOCATIONSYNC_URI ?= "http://jsonip.metrological.com/?maf=true"
 # ----------------------------------------------------------------------------
 
 PACKAGECONFIG ?= " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'netflix',             'monitor_netflix', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'monitor_opencdmi', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready',            'opencdmi_pr', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus',      'opencdmi_prnx', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_nexus_svp',  'opencdmi_prnx_svp', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
-    apps deviceinfo locationsync monitor tracing ux webkitbrowser \
+    apps deviceinfo locationsync monitor monitor_webkit monitor_webkit_ux monitor_cobalt tracing ux webkitbrowser \
 "
 
 # ----------------------------------------------------------------------------
@@ -49,14 +55,6 @@ PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
                                  -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
                                 ,-DPLUGIN_LOCATIONSYNC=OFF,"
 PACKAGECONFIG[messenger]      = "-DPLUGIN_MESSENGER=ON,-DPLUGIN_MESSENGER=OFF,"
-PACKAGECONFIG[monitor]        = "-DPLUGIN_MONITOR=ON \
-                                 -DPLUGIN_WEBKITBROWSER=ON \
-                                 -DPLUGIN_WEBKITBROWSER_YOUTUBE=ON \
-                                 -DPLUGIN_NETFLIX=ON \
-                                 -DPLUGIN_WEBKITBROWSER_MEMORYLIMIT=614400 \
-                                 -DPLUGIN_YOUTUBE_MEMORYLIMIT=614400 \
-                                 -DPLUGIN_NETFLIX_MEMORYLIMIT=307200 \
-                                ,-DPLUGIN_MONITOR=OFF,"
 PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[securityagent]  = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[packager]       = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
