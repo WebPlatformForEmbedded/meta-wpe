@@ -7,6 +7,7 @@ require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2010 \
            file://0001-monitor-Enable-monitored-plugins-when-built-from-ext.patch \
+           file://0002-Add-FindMFRFWLibs.patch \
 "
 
 SRCREV = "6fddde4f6a596624886abd44dafcffb01418bcb7"
