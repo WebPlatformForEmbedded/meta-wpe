@@ -17,6 +17,7 @@ SRCREV = "6fddde4f6a596624886abd44dafcffb01418bcb7"
 # More complicated plugins are moved seperate includes
 
 include include/ocdm.inc
+include include/webkitbrowser.inc
 include include/monitor.inc
 
 # ----------------------------------------------------------------------------
@@ -36,8 +37,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
-    monitor monitor_webkit monitor_webkit_ux monitor_cobalt\
-    deviceinfo locationsync tracing \
+    apps deviceinfo locationsync monitor monitor_webkit monitor_webkit_ux monitor_cobalt tracing ux webkitbrowser \
 "
 
 # ----------------------------------------------------------------------------
