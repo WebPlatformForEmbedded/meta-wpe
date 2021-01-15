@@ -21,7 +21,7 @@ SRCREV = "3a75e7d2a5c5a9446a5ad8a7d29f456a442bfb84"
 
 inherit cmake pkgconfig systemd update-rc.d
 
-WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
+WPEFRAMEWORK_SYSTEM_PREFIX ?= "OE"
 
 PACKAGECONFIG ?= " \
     release \
