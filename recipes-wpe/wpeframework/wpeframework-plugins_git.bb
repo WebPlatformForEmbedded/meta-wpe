@@ -55,6 +55,8 @@ PACKAGECONFIG_append_brcm = " cobalt"
 PACKAGECONFIG_append_rpi = " displayinfo"
 PACKAGECONFIG_append_brcm = " displayinfo"
 
+PACKAGECONFIG_append_rpi = " playerinfo"
+
 # snapshot implemented with userland support, not applicable on vc4graphics
 PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', 'snapshot', d)}"
 PACKAGECONFIG_append_brcm = " snapshot"
