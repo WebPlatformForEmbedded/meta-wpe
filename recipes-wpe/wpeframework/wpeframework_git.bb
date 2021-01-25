@@ -17,11 +17,11 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "7de8fc6e55a40e4936318ad318e7da1ba93ab701"
+SRCREV = "f7a64ee03661ef5c13388f904716b9b5f282fb40"
 
 inherit cmake pkgconfig systemd update-rc.d
 
-WPEFRAMEWORK_SYSTEM_PREFIX = "OE"
+WPEFRAMEWORK_SYSTEM_PREFIX ?= "OE"
 
 PACKAGECONFIG ?= " \
     release \

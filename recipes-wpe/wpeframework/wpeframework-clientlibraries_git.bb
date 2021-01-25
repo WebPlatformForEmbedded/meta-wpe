@@ -6,7 +6,7 @@ PR = "r0"
 require include/wpeframework.inc
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master"
-SRCREV = "daafd21254f07aa63086d926eadf77b08385b395"
+SRCREV = "2c6a60b434a1527ec89ea90ab58f8b75f690484f"
 
 # ----------------------------------------------------------------------------
 
@@ -28,14 +28,15 @@ PACKAGECONFIG ?= " \
     "
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
-PACKAGECONFIG_append_rpi = " displayinfo"
+PACKAGECONFIG_append_rpi = " displayinfo playerinfo"
 
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
+PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON,-DCRYPTOGRAPHY=OFF,"
+PACKAGECONFIG[displayinfo]      = "-DDISPLAYINFO=ON,-DDISPLAYINFO=OFF,"
+PACKAGECONFIG[playerinfo]       = "-DPLAYERINFO=ON,-DPLAYERINFO=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
-PACKAGECONFIG[securityagent]    = "-DSECURITYAGENT=ON, -DSECURITYAGENT=OFF"
+PACKAGECONFIG[securityagent]    = "-DSECURITYAGENT=ON,-DSECURITYAGENT=OFF"
 PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
-PACKAGECONFIG[displayinfo]      = "-DDISPLAYINFO=ON, -DDISPLAYINFO=OFF,"
-PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON, -DCRYPTOGRAPHY=OFF,"
 WPE_CRYPTOGRAPHY_IMPL ?= "OpenSSL"
 
 # OCDM
