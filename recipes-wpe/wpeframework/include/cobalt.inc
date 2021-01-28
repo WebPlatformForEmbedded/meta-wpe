@@ -20,8 +20,6 @@ WPE_COBALT_MODEL_NAME           ?= ""
 WPE_COBALT_MODEL_YEAR           ?= ""
 WPE_COBALT_OPERATOR_NAME        ?= ""
 WPE_COBALT_FRIENDLY_NAME        ?= ""
-WPE_COBALT_SCOPE                ?= ""
-WPE_COBALT_SECRET               ?= ""
 # ----------------------------------------------------------------------------
 WPE_COBALT_EXTRAFLAGS = ' \
     -DPLUGIN_COBALT_AUTOSTART=${WPE_COBALT_AUTOSTART} \
@@ -38,8 +36,6 @@ WPE_COBALT_EXTRAFLAGS = ' \
     -DPLUGIN_COBALT_MODEL_YEAR=${WPE_COBALT_MODEL_YEAR} \
     -DPLUGIN_COBALT_OPERATOR_NAME=${WPE_COBALT_OPERATOR_NAME} \
     -DPLUGIN_COBALT_FRIENDLY_NAME=${WPE_COBALT_FRIENDLY_NAME} \
-    -DPLUGIN_COBALT_SCOPE=${WPE_COBALT_SCOPE} \
-    -DPLUGIN_COBALT_SECRET=${WPE_COBALT_SECRET} \
 '
 # ----------------------------------------------------------------------------
 
