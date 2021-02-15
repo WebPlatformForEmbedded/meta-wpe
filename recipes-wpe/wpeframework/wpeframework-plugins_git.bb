@@ -5,11 +5,11 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=R2 \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "9577f6c02c8a14210416c3fc956a82ed1a002d82"
+SRCREV = "29368601e1fdf08bf4a4d6c60288a4dc0d91ebe4"
 
 # ----------------------------------------------------------------------------
 
