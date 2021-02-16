@@ -6,7 +6,6 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2101 \
-           file://0001-monitor-Enable-monitored-plugins-when-built-from-ext.patch \
 "
 
 SRCREV = "776c2e4d7b35c57f0c0f0e302ea3d87fb2f3270f"
