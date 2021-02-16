@@ -17,6 +17,7 @@ SRCREV = "776c2e4d7b35c57f0c0f0e302ea3d87fb2f3270f"
 
 include include/ocdm.inc
 include include/monitor.inc
+include include/webkitbrowser.inc
 
 # ----------------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
     monitor monitor_webkit monitor_webkit_ux monitor_opencdmi \
-    deviceinfo locationsync tracing \
+    deviceinfo locationsync tracing webkitbrowser \
 "
 
 # ----------------------------------------------------------------------------
