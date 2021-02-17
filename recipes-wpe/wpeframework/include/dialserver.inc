@@ -1,6 +1,7 @@
 # Provides the WPE DIALServer plugin settings
 WPE_DIALSERVER_NAME             ?= "MetroDIALServer"
 WPE_DIALSERVER_AUTOSTART        ?= "true"
+WPE_DIALSERVER_INTERFACE        ?= "'0.0.0.0'"
 
 # Configure YouTube mode active/passive
 WPE_DIALSERVER_YOUTUBE_MODE     ?= "passive" 
@@ -25,6 +26,7 @@ WPE_DIALSERVER_NETFLIX_EXTRAFLAGS = ' \
 WPE_DIALSERVER_EXTRAFLAGS = ' \
     -DPLUGIN_DIALSERVER_NAME=${WPE_DIALSERVER_NAME} \
     -DPLUGIN_DIALSERVER_AUTOSTART=${WPE_DIALSERVER_AUTOSTART} \
+    -DPLUGIN_DIALSERVER_INTERFACE=${WPE_DIALSERVER_INTERFACE} \
     ${@bb.utils.contains('PACKAGECONFIG', 'cobalt', '${WPE_DIALSERVER_YOUTUBE_EXTRAFLAGS}', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'netflix', '${WPE_DIALSERVER_NETFLIX_EXTRAFLAGS}', '', d)} \
 '
