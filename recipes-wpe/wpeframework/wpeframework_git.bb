@@ -13,11 +13,11 @@ DEPENDS_append_libc-musl = " libexecinfo"
 
 PV = "3.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=R2 \
            file://wpeframework-init \
            file://wpeframework.service.in \
            "
-SRCREV = "07e85ca1141ae7eae4dcaba66ad6a509f1cce007"
+SRCREV = "071c0036af603e1cfe654da5a00d8d617359a517"
 
 inherit cmake pkgconfig systemd update-rc.d
 

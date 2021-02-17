@@ -5,11 +5,11 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
+SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=R2 \
            file://index.html \
            file://osmc-devinput-remote.json \
            "
-SRCREV = "9577f6c02c8a14210416c3fc956a82ed1a002d82"
+SRCREV = "29368601e1fdf08bf4a4d6c60288a4dc0d91ebe4"
 
 # ----------------------------------------------------------------------------
 
@@ -27,7 +27,6 @@ include include/remotecontrol.inc
 include include/snapshot.inc
 include include/spark.inc
 include include/streamer.inc
-include include/webkitbrowser.inc
 include include/webpa.inc
 
 # ----------------------------------------------------------------------------
@@ -46,7 +45,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder',              'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi',                'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    apps dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync ux virtualinput webkitbrowser webserver \
+    apps dhcpserver dialserver dictionary ioconnector remote remote-devinput systemcommands timesync ux virtualinput webserver \
 "
 
 PACKAGECONFIG_append_rpi = " cobalt"
@@ -100,12 +99,9 @@ EXTRA_OECMAKE += " \
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
-      if ${@bb.utils.contains("PACKAGECONFIG", "webkitbrowser", "true", "false", d)}
-      then
-          install -d ${D}/var/www
-          install -m 0755 ${WORKDIR}/index.html ${D}/var/www/
-      fi
-      install -d ${D}${PLUGIN_WEBSERVER_PATH}
+       install -d ${D}/var/www
+       install -m 0755 ${WORKDIR}/index.html ${D}/var/www/
+       install -d ${D}${PLUGIN_WEBSERVER_PATH}
     fi
 }
 

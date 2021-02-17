@@ -5,11 +5,10 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2010 \
-           file://0001-monitor-Enable-monitored-plugins-when-built-from-ext.patch \
+SRC_URI = "git://github.com/rdkcentral/rdkservices.git;protocol=git;branch=sprint/2101 \
 "
 
-SRCREV = "6fddde4f6a596624886abd44dafcffb01418bcb7"
+SRCREV = "776c2e4d7b35c57f0c0f0e302ea3d87fb2f3270f"
 
 # ----------------------------------------------------------------------------
 
@@ -17,6 +16,7 @@ SRCREV = "6fddde4f6a596624886abd44dafcffb01418bcb7"
 
 include include/ocdm.inc
 include include/monitor.inc
+include include/webkitbrowser.inc
 
 # ----------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
     monitor monitor_webkit monitor_webkit_ux monitor_opencdmi \
-    deviceinfo locationsync tracing \
+    deviceinfo locationsync tracing webkitbrowser \
 "
 
 # ----------------------------------------------------------------------------

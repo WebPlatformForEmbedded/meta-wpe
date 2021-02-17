@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PV = "3.0+git${SRCPV}"
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master"
-SRCREV = "07e85ca1141ae7eae4dcaba66ad6a509f1cce007"
+SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=R2"
+SRCREV = "071c0036af603e1cfe654da5a00d8d617359a517"
 
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"

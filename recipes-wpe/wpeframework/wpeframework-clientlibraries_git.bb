@@ -5,8 +5,8 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master"
-SRCREV = "15dd1acdaf981ba8413bae77b112e798d92fe616"
+SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=R2"
+SRCREV = "23c50ddc3aeebfcaef41ebfd7713b235003b45cb"
 
 # ----------------------------------------------------------------------------
 
@@ -34,8 +34,11 @@ PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libp
 PACKAGECONFIG[securityagent]    = "-DSECURITYAGENT=ON, -DSECURITYAGENT=OFF"
 PACKAGECONFIG[virtualinput]     = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 PACKAGECONFIG[displayinfo]      = "-DDISPLAYINFO=ON, -DDISPLAYINFO=OFF,"
-PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON, -DCRYPTOGRAPHY=OFF,"
+
+# Cryptography
 WPE_CRYPTOGRAPHY_IMPL ?= "OpenSSL"
+WPE_CRYPTOGRAPHY_IMPL_DEPS ?= ""
+PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON, -DCRYPTOGRAPHY=OFF,${WPE_CRYPTOGRAPHY_IMPL_DEPS}"
 
 # OCDM
 PACKAGECONFIG[opencdm]          = "-DCDMI=ON,-DCDMI=OFF,"
