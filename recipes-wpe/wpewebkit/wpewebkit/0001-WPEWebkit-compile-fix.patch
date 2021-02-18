@@ -1,0 +1,25 @@
+diff --git a/Source/JavaScriptCore/generate-bytecode-files b/Source/JavaScriptCore/generate-bytecode-files
+index 7838ed3fee04..eae0efc56e61 100644
+--- a/Source/JavaScriptCore/generate-bytecode-files
++++ b/Source/JavaScriptCore/generate-bytecode-files
+@@ -215,7 +215,7 @@ if __name__ == "__main__":
+         initBytecodesFile = openOrExit(initASMFileName, "w")
+ 
+     try:
+-        bytecodeSections = json.load(bytecodeFile, encoding = "utf-8")
++        bytecodeSections = json.load(bytecodeFile)
+     except:
+         print("Unexpected error parsing {0}: {1}".format(bytecodeJSONFile, sys.exc_info()))
+ 
+diff --git a/Source/ThirdParty/ANGLE/include/platform/Platform.h b/Source/ThirdParty/ANGLE/include/platform/Platform.h
+index aa1221a86e8d..7ada55527902 100644
+--- a/Source/ThirdParty/ANGLE/include/platform/Platform.h
++++ b/Source/ThirdParty/ANGLE/include/platform/Platform.h
+@@ -9,6 +9,7 @@
+ #ifndef ANGLE_PLATFORM_H
+ #define ANGLE_PLATFORM_H
+ 
++#include <cstddef>
+ #include <stdint.h>
+ #include <array>
+ 

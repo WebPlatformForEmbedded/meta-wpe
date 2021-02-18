@@ -17,11 +17,12 @@ PACKAGECONFIG[remote]           = "-DPLUGIN_REMOTECONTROL=ON \
 PACKAGECONFIG[remote-ir]        = "-DPLUGIN_REMOTECONTROL_IR=ON \
                                   ,-DPLUGIN_REMOTECONTROL_IR=OFF,"
 PACKAGECONFIG[remote-devinput]  = "-DPLUGIN_REMOTECONTROL_DEVINPUT=ON,-DPLUGIN_REMOTECONTROL_DEVINPUT=OFF,"
-PACKAGECONFIG[remote-gp]        = "-DPLUGIN_REMOTECONTROL_RFCE_NAME=${REMOTECONTROL_RF4CE_NAME} \
+PACKAGECONFIG[remote-gp]        = "-DPLUGIN_REMOTECONTROL_RFCE=ON \
+                                   -DPLUGIN_REMOTECONTROL_RFCE_NAME=${REMOTECONTROL_RF4CE_NAME} \
                                    -DPLUGIN_REMOTECONTROL_RFCE_REMOTE_ID=${REMOTECONTROL_RF4CE_REMOTE_ID} \
                                    -DPLUGIN_REMOTECONTROL_RFCE_MODULE=${REMOTECONTROL_RF4CE_MODULE} \
                                    -DPLUGIN_REMOTECONTROL_RFCE_NODE_ID=${REMOTECONTROL_RF4CE_NODE_ID} \
-                                    ,,${REMOTECONTROL_RF4CE_DEPENDENCY}"
+                                   ,-DPLUGIN_REMOTECONTROL_RFCE=OFF,${REMOTECONTROL_RF4CE_DEPENDENCY}"
 
 
 # ----------------------------------------------------------------------------

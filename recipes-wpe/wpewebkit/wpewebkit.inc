@@ -28,7 +28,7 @@ WPE_PLATFORM ?= "egl"
 
 PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
-    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb logs mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} \
+    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio ${WPE_PLATFORM} \
 "
 
 # Mesa only offscreen target support for Westeros backend
@@ -77,16 +77,17 @@ PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
 
 
 # DRM
-PACKAGECONFIG[opencdm] = "-DENABLE_OPENCDM=ON,-DENABLE_OPENCDM=OFF,wpeframework"
+PACKAGECONFIG[opencdm] = "-DENABLE_OPENCDM=ON,-DENABLE_OPENCDM=OFF,wpeframework-clientlibraries"
 PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playready"
 
 PACKAGECONFIG[gst_httpsrc] = "-DUSE_GSTREAMER_WEBKIT_HTTP_SRC=ON,,"
-PACKAGECONFIG[gst_holepunch] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
+PACKAGECONFIG[gst_holepunch] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_GSTREAMER_HOLEPUNCH=ON,,"
 
 EXTRA_OECMAKE += " \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_COLOR_MAKEFILE=OFF \
     -DEXPORT_DEPRECATED_WEBKIT2_C_API=ON \
+    -DUSE_LD_GOLD=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DPORT=WPE \
     -G Ninja \
@@ -102,12 +103,16 @@ EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
 FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION_append = " -DNDEBUG"
 
 # JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
 ARM_INSTRUCTION_SET_armv7a = "thumb"
 ARM_INSTRUCTION_SET_armv7r = "thumb"
 ARM_INSTRUCTION_SET_armv7m = "thumb"
 ARM_INSTRUCTION_SET_armv7ve = "thumb"
+
+# Force BFD, gold linker has issues
+LDFLAGS_append = " -fuse-ld=bfd"
 
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 
@@ -152,7 +157,7 @@ RDEPS_EXTRA = " \
     gstreamer1.0-plugins-good-interleave \
     gstreamer1.0-plugins-good-matroska \
     gstreamer1.0-plugins-good-mpg123 \
-    gstreamer1.0-plugins-bad-dashdemux \
+    gstreamer1.0-plugins-bad-dash \
     gstreamer1.0-plugins-bad-hls \
     gstreamer1.0-plugins-bad-mpegtsdemux \
     gstreamer1.0-plugins-bad-opusparse \

@@ -15,13 +15,11 @@ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'testapp', 'gtest', '', d)}"
 
 PV = "3.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/rdkcentral/Thunder.git \
+SRC_URI = "git://github.com/rdkcentral/Thunder.git;branch=R2 \
            file://wpeframework-init \
            file://wpeframework.service.in \
-           file://bluetooth-fix-error-narrowing-conversion.patch \
-           file://websocket-fixes-deduced-conflicting-types.patch \
            "
-SRCREV = "2e503d56f0c971805d24cb5a3e8faeaa47cb1b54"
+SRCREV = "071c0036af603e1cfe654da5a00d8d617359a517"
 
 inherit cmake pkgconfig systemd update-rc.d
 
