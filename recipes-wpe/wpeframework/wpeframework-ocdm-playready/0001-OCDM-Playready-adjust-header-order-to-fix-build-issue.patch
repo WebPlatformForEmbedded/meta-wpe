@@ -1,0 +1,52 @@
+commit 473a9593a7871bfba7fedb03592eda3eba15fc6f
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Fri Feb 19 14:46:20 2021 +0530
+
+    Change header order to avoid _has_include check for stat.h
+
+diff --git a/MediaSession.cpp b/MediaSession.cpp
+index 2da9425..ddc9c46 100644
+--- a/MediaSession.cpp
++++ b/MediaSession.cpp
+@@ -23,7 +23,6 @@
+ #include <string.h>
+ #include <vector>
+ #include <sys/utsname.h>
+-#include <core/core.h>
+ 
+ using namespace WPEFramework;
+ using SafeCriticalSection = Core::SafeSyncType<Core::CriticalSection>;
+diff --git a/MediaSession.h b/MediaSession.h
+index 6dfa234..1a622f3 100644
+--- a/MediaSession.h
++++ b/MediaSession.h
+@@ -17,6 +17,8 @@
+ 
+ #pragma once
+ 
++#include <core/core.h>
++
+ #include <drmbuild_oem.h>
+ #include <drmmanager.h>
+ #include <drmmathsafe.h>
+@@ -41,7 +43,6 @@
+ 
+ #include <string.h>
+ #include <memory>
+-//#include <cdmi.h>
+ #include <interfaces/IDRM.h>
+ 
+ namespace CDMi {
+diff --git a/MediaSessionExt.cpp b/MediaSessionExt.cpp
+index befa259..19e956a 100644
+--- a/MediaSessionExt.cpp
++++ b/MediaSessionExt.cpp
+@@ -25,8 +25,6 @@
+ 
+ using namespace std;
+ 
+-#include <core/core.h>
+-
+ using namespace WPEFramework;
+ using SafeCriticalSection = Core::SafeSyncType<Core::CriticalSection>;
+ extern Core::CriticalSection drmAppContextMutex_;
