@@ -17,6 +17,6 @@ EXTRA_OECMAKE += " \
 "
 
 FILES_${PN} = " \
-    ${datadir}/WPEFramework/OCDM/*.drm \
+    ${datadir}/WPEFramework/OCDM/Playready.drm \
+    ${WPEFRAMEWORK_PERSISTENT_PATH}OCDM/playready \
 "
-FILES_${PN}-dbg += "${WPEFRAMEWORK_PERSISTENT_PATH}"
