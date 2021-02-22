@@ -1,14 +1,12 @@
 SUMMARY = "WPE Framework OpenCDMi module for PlayReady Nexus"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 require include/wpeframework-plugins.inc
 
 DEPENDS += " broadcom-refsw"
 
-SRC_URI = "git://git@github.com/WebPlatformForEmbedded/OCDM-Playready-Nexus.git;protocol=https;branch=master"
-SRCREV = "7c3a2fe8a458e0472405b50ada2cd66433042e52"
+SRC_URI = "git://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/OCDM-Playready-Nexus.git;protocol=http;branch=master"
+SRCREV = "cdb2e784a03b2d01c03a12d008bf1d9e034f7b62"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
-
-COMPATIBLE_MACHINE = "(brcm)"
