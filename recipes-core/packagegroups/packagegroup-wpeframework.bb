@@ -12,6 +12,5 @@ RDEPENDS_packagegroup-wpeframework = "\
     wpeframework-interfaces \
     wpeframework-clientlibraries \
     wpeframework-plugins \
-    wpeframework-rdkservices \
     wpeframework-ui \
 "
