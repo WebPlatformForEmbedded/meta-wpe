@@ -5,13 +5,13 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=R2 \
+SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
            file://index.html \
            file://osmc-devinput-remote.json \
            file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
            "
 
-SRCREV = "29368601e1fdf08bf4a4d6c60288a4dc0d91ebe4"
+SRCREV = "d2eb1029b21a3d72019690a7a4b06b7aa1cf0075"
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes

@@ -5,8 +5,8 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=R2"
-SRCREV = "23c50ddc3aeebfcaef41ebfd7713b235003b45cb"
+SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master"
+SRCREV = "c88c918430e8bd496f9eb486cac4f0f20568e849"
 
 # ----------------------------------------------------------------------------
 
@@ -27,10 +27,11 @@ PACKAGECONFIG ?= " \
     "
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
-PACKAGECONFIG_append_rpi = " displayinfo playerinfo"
+PACKAGECONFIG_append_rpi = " displayinfo playerinfo deviceinfo"
 
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON,-DCRYPTOGRAPHY=OFF,"
+PACKAGECONFIG[deviceinfo]       = "-DDEVICEINFO=ON,-DDEVICEINFO=OFF,"
 PACKAGECONFIG[displayinfo]      = "-DDISPLAYINFO=ON,-DDISPLAYINFO=OFF,"
 PACKAGECONFIG[playerinfo]       = "-DPLAYERINFO=ON,-DPLAYERINFO=OFF,"
 PACKAGECONFIG[provisionproxy]   = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
