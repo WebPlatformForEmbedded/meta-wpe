@@ -5,8 +5,8 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI =  "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.git;protocol=ssh;branch=development/cmake-webkitbrowser"
-SRCREV = "1bd797d3abc4166ef3ba61b5a11423ea0152bf5d"
+SRC_URI =  "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.git;protocol=ssh;branch=master"
+SRCREV = "e4b05b30c9ba10b855daab1c7525c5cfbc22c94a"
 
 # ----------------------------------------------------------------------------
 
