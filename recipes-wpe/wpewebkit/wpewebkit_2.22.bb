@@ -6,6 +6,7 @@ PR = "r0"
 SRCREV ?= "57bbecb9421d206f40a3beb45b9d800288a39b1d"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22 \
            file://0001-WPEWebkit-compile-fix.patch \
+           file://0001-Fix-for-missing-heap-vm-main.patch \
 "
 
 DEPENDS += "libgcrypt"
@@ -14,6 +15,11 @@ PACKAGECONFIG_append = " webcrypto"
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} all
 }
+
+EXTRA_OECMAKE += " \
+    -DEXPORT_DEPRECATED_WEBKIT2_C_API=ON \
+    -DUSE_LD_GOLD=OFF \
+" 
 
 do_install() {
     DESTDIR=${D} cmake -DCOMPONENT=Development -P ${B}/Source/WebKit/cmake_install.cmake
@@ -40,3 +46,5 @@ do_install() {
 
 INSANE_SKIP_${PN}-dev = 'dev-elf'
 FILES_${PN}-web-inspector-plugin += "${libdir}/wpe-webkit-0.1/libWPEWebInspectorResources.so"
+
+RCONFLICTS_${PN} = "libwpe (> 0.2)"

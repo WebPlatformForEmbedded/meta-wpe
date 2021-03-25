@@ -1,0 +1,50 @@
+From f2f086efd6d0416b2199f7a4154af0b24638e310 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <mail@bybram.com>
+Date: Tue, 23 Mar 2021 23:43:02 +0100
+Subject: [PATCH] page: remove constness to Orientation and Motion controllers
+
+---
+ Source/WebCore/page/DOMWindow.cpp | 4 ++--
+ Source/WebCore/page/DOMWindow.h   | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Source/WebCore/page/DOMWindow.cpp b/Source/WebCore/page/DOMWindow.cpp
+index 6b70ec3e9a7d..d45bd88d3012 100644
+--- a/Source/WebCore/page/DOMWindow.cpp
++++ b/Source/WebCore/page/DOMWindow.cpp
+@@ -1984,7 +1984,7 @@ bool DOMWindow::addEventListener(const AtomString& eventType, Ref<EventListener>
+ 
+ #if ENABLE(DEVICE_ORIENTATION)
+ 
+-DeviceOrientationController* DOMWindow::deviceOrientationController() const
++DeviceOrientationController* DOMWindow::deviceOrientationController()
+ {
+ #if PLATFORM(IOS_FAMILY)
+     return document() ? &document()->deviceOrientationController() : nullptr;
+@@ -1993,7 +1993,7 @@ DeviceOrientationController* DOMWindow::deviceOrientationController() const
+ #endif
+ }
+ 
+-DeviceMotionController* DOMWindow::deviceMotionController() const
++DeviceMotionController* DOMWindow::deviceMotionController()
+ {
+ #if PLATFORM(IOS_FAMILY)
+     return document() ? &document()->deviceMotionController() : nullptr;
+diff --git a/Source/WebCore/page/DOMWindow.h b/Source/WebCore/page/DOMWindow.h
+index 06839a215b7e..35999f86bd29 100644
+--- a/Source/WebCore/page/DOMWindow.h
++++ b/Source/WebCore/page/DOMWindow.h
+@@ -369,8 +369,8 @@ public:
+     bool isAllowedToUseDeviceMotionOrientation(String& message) const;
+     bool isAllowedToAddDeviceMotionOrientationListener(String& message) const;
+ 
+-    DeviceOrientationController* deviceOrientationController() const;
+-    DeviceMotionController* deviceMotionController() const;
++    DeviceOrientationController* deviceOrientationController();
++    DeviceMotionController* deviceMotionController();
+ #endif
+ 
+     void resetAllGeolocationPermission();
+-- 
+2.25.1
+
