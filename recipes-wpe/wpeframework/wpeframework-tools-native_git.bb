@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
 
-SRCREV = "e02f61f3d2e88235f54e0b17e6a09f0304d29fe8"
+SRCREV = "58f90a90002ae294eea4c6f17d47952322942c62"
 
 inherit cmake pkgconfig native python3native
 

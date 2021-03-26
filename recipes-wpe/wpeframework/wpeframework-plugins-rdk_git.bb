@@ -1,4 +1,4 @@
-SUMMARY = "WPEFramework rdkservices"
+SUMMARY = "WPEFramework Plugins RDK"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 PR = "r1"
@@ -6,7 +6,7 @@ PR = "r1"
 require include/wpeframework-plugins.inc
 
 SRC_URI =  "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.git;protocol=ssh;branch=master"
-SRCREV = "e4b05b30c9ba10b855daab1c7525c5cfbc22c94a"
+SRCREV = "572073d269bff2ad29974201aa827ce28414fd30"
 
 # ----------------------------------------------------------------------------
 
