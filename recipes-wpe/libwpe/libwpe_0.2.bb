@@ -1,5 +1,7 @@
 require libwpe.inc
 
+S = "${WORKDIR}/git"
+
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
 

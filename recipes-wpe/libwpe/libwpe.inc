@@ -11,5 +11,3 @@ RPROVIDES_${PN} += "virtual/libwpe"
 CFLAGS_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', '-D_GNU_SOURCE', d)}"
 
 inherit cmake
-
-S = "${WORKDIR}/git"
