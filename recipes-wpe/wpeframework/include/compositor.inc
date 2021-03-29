@@ -47,5 +47,6 @@ PACKAGECONFIG[compositor]     = " \
     ${WPE_COMPOSITOR_EXTRAFLAGS} \
     ,-DPLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP} ${WPE_COMPOSITOR_PLUGIN_DEP}"
 
+PACKAGECONFIG[vc4graphics] = "-DVC6=ON,,libdrm mesa"
 # ----------------------------------------------------------------------------
 
