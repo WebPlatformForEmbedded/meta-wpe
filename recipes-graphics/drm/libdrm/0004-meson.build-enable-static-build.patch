@@ -1,0 +1,167 @@
+From 1c8752e6b258dac2662a9208cd481705ecabba9a Mon Sep 17 00:00:00 2001
+From: Peter Seiderer <ps.report@gmx.net>
+Date: Wed, 18 Jul 2018 21:35:18 +0200
+Subject: [PATCH] meson.build: enable static build
+
+Use meson library instead of shared_library to enable static build.
+
+Upstream suggested: https://lists.freedesktop.org/archives/dri-devel/2018-July/183886.html
+Signed-off-by: Peter Seiderer <ps.report@gmx.net>
+
+---
+ amdgpu/meson.build    | 2 +-
+ etnaviv/meson.build   | 2 +-
+ exynos/meson.build    | 2 +-
+ freedreno/meson.build | 2 +-
+ intel/meson.build     | 2 +-
+ libkms/meson.build    | 2 +-
+ meson.build           | 2 +-
+ nouveau/meson.build   | 2 +-
+ omap/meson.build      | 2 +-
+ radeon/meson.build    | 2 +-
+ tegra/meson.build     | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/amdgpu/meson.build b/amdgpu/meson.build
+index a1781f5..043a8ef 100644
+--- a/amdgpu/meson.build
++++ b/amdgpu/meson.build
+@@ -21,7 +21,7 @@
+ 
+ datadir_amdgpu = join_paths(get_option('prefix'), get_option('datadir'), 'libdrm')
+ 
+-libdrm_amdgpu = shared_library(
++libdrm_amdgpu = library(
+   'drm_amdgpu',
+   [
+     files(
+diff --git a/etnaviv/meson.build b/etnaviv/meson.build
+index 6040cf6..8b82ed0 100644
+--- a/etnaviv/meson.build
++++ b/etnaviv/meson.build
+@@ -19,7 +19,7 @@
+ # SOFTWARE.
+ 
+ 
+-libdrm_etnaviv = shared_library(
++libdrm_etnaviv = library(
+   'drm_etnaviv',
+   [
+     files(
+diff --git a/exynos/meson.build b/exynos/meson.build
+index 40d66fc..7d1edfe 100644
+--- a/exynos/meson.build
++++ b/exynos/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_exynos = shared_library(
++libdrm_exynos = library(
+   'drm_exynos',
+   [files('exynos_drm.c', 'exynos_fimg2d.c'), config_file],
+   c_args : libdrm_c_args,
+diff --git a/freedreno/meson.build b/freedreno/meson.build
+index 63b84fc..49e6659 100644
+--- a/freedreno/meson.build
++++ b/freedreno/meson.build
+@@ -39,7 +39,7 @@ if with_freedreno_kgsl
+   )
+ endif
+ 
+-libdrm_freedreno = shared_library(
++libdrm_freedreno = library(
+   'drm_freedreno',
+   [files_freedreno, config_file],
+   c_args : libdrm_c_args,
+diff --git a/intel/meson.build b/intel/meson.build
+index 4d3f1eb..5fa06c2 100644
+--- a/intel/meson.build
++++ b/intel/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_intel = shared_library(
++libdrm_intel = library(
+   'drm_intel',
+   [
+     files(
+diff --git a/libkms/meson.build b/libkms/meson.build
+index 216be4d..8d17bb2 100644
+--- a/libkms/meson.build
++++ b/libkms/meson.build
+@@ -41,7 +41,7 @@ if with_exynos
+   libkms_include += include_directories('../exynos')
+ endif
+ 
+-libkms = shared_library(
++libkms = library(
+   'kms',
+   [files_libkms, config_file],
+   c_args : libdrm_c_args,
+diff --git a/meson.build b/meson.build
+index 07d2e08..5922fb6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -294,7 +294,7 @@ add_project_arguments('-include', '@0@'.format(config_file), language : 'c')
+ inc_root = include_directories('.')
+ inc_drm = include_directories('include/drm')
+ 
+-libdrm = shared_library(
++libdrm = library(
+   'drm',
+   [files(
+      'xf86drm.c', 'xf86drmHash.c', 'xf86drmRandom.c', 'xf86drmSL.c',
+diff --git a/nouveau/meson.build b/nouveau/meson.build
+index 9bd58fc..af45336 100644
+--- a/nouveau/meson.build
++++ b/nouveau/meson.build
+@@ -19,7 +19,7 @@
+ # SOFTWARE.
+ 
+ 
+-libdrm_nouveau = shared_library(
++libdrm_nouveau = library(
+   'drm_nouveau',
+   [files( 'nouveau.c', 'pushbuf.c', 'bufctx.c', 'abi16.c'), config_file],
+   c_args : libdrm_c_args,
+diff --git a/omap/meson.build b/omap/meson.build
+index 53330b6..bfd59f0 100644
+--- a/omap/meson.build
++++ b/omap/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_omap = shared_library(
++libdrm_omap = library(
+   'drm_omap',
+   [files('omap_drm.c'), config_file],
+   include_directories : [inc_root, inc_drm],
+diff --git a/radeon/meson.build b/radeon/meson.build
+index ca12832..31fe9cd 100644
+--- a/radeon/meson.build
++++ b/radeon/meson.build
+@@ -19,7 +19,7 @@
+ # SOFTWARE.
+ 
+ 
+-libdrm_radeon = shared_library(
++libdrm_radeon = library(
+   'drm_radeon',
+   [
+     files(
+diff --git a/tegra/meson.build b/tegra/meson.build
+index 88613b9..edddf72 100644
+--- a/tegra/meson.build
++++ b/tegra/meson.build
+@@ -18,7 +18,7 @@
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+ 
+-libdrm_tegra = shared_library(
++libdrm_tegra = library(
+   'drm_tegra',
+   [files('tegra.c'), config_file],
+   include_directories : [inc_root, inc_drm],
