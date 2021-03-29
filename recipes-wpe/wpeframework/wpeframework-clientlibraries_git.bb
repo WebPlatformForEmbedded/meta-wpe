@@ -5,7 +5,8 @@ PR = "r0"
 
 require include/wpeframework.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master"
+SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master \
+            file://0001-cmake-become-more-easy-in-findgbm.patch"
 SRCREV = "6b1db1b63f7e1af5f856d2e69133808306756ed5"
 
 # ----------------------------------------------------------------------------
@@ -28,6 +29,7 @@ PACKAGECONFIG ?= " \
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 PACKAGECONFIG_append_rpi = " displayinfo playerinfo deviceinfo"
+PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'vc4graphics', '', d)}"
 
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON,-DCRYPTOGRAPHY=OFF,"
