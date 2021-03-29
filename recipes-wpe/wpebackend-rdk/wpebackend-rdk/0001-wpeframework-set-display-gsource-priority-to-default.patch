@@ -1,0 +1,25 @@
+From 74d27bc5b3549a10a8ca2edd7714b99d391d5ee5 Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <mail@bybram.com>
+Date: Sat, 27 Mar 2021 09:29:39 +0100
+Subject: [PATCH] wpeframework: set display gsource priority to default
+
+---
+ src/wpeframework/display.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/wpeframework/display.cpp b/src/wpeframework/display.cpp
+index c75c9ac..e833bc3 100644
+--- a/src/wpeframework/display.cpp
++++ b/src/wpeframework/display.cpp
+@@ -243,7 +243,7 @@ Display::Display(IPC::Client& ipc, const std::string& name)
+ 
+         g_source_add_poll(m_eventSource, &source->pfd);
+         g_source_set_name(m_eventSource, "[WPE] Display");
+-        g_source_set_priority(m_eventSource, G_PRIORITY_HIGH + 30);
++        g_source_set_priority(m_eventSource, G_PRIORITY_DEFAULT);
+         g_source_set_can_recurse(m_eventSource, TRUE);
+         g_source_attach(m_eventSource, g_main_context_get_thread_default());
+     }
+-- 
+2.25.1
+

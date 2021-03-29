@@ -1,0 +1,101 @@
+From 526042ddd6329af27b7ac2f7e8e7fc34e9f719ad Mon Sep 17 00:00:00 2001
+From: Bram Oosterhuis <mail@bybram.com>
+Date: Sun, 28 Mar 2021 11:46:25 +0200
+Subject: [PATCH] wpeframework: no wayland egl no pain
+
+---
+ CMakeLists.txt                  | 10 ----------
+ cmake/FindWaylandEGL.cmake      |  4 +++-
+ src/wpeframework/CMakeLists.txt | 20 ++++++++++++++------
+ 3 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ecd2b3..603292e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -123,16 +123,6 @@ endif ()
+ 
+ if (USE_BACKEND_WPEFRAMEWORK)
+     include(src/wpeframework/CMakeLists.txt)
+-
+-    set(WPEBACKEND_RDK_PUBLIC_HEADERS
+-        src/wpeframework/compositorclient-get-surface.h
+-    )
+-
+-    install(
+-        FILES ${WPEBACKEND_RDK_PUBLIC_HEADERS}
+-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wpe-rdk-${WPEBACKEND_RDK_API_VERSION}/wpe
+-    )
+-
+ endif ()
+ 
+ if (USE_BACKEND_WAYLAND_EGL)
+diff --git a/cmake/FindWaylandEGL.cmake b/cmake/FindWaylandEGL.cmake
+index 27940d4..fc49335 100644
+--- a/cmake/FindWaylandEGL.cmake
++++ b/cmake/FindWaylandEGL.cmake
+@@ -31,10 +31,12 @@
+ find_package(PkgConfig)
+ pkg_check_modules(PC_WAYLAND_EGL wayland-egl)
+ 
++set(WAYLAND_EGL_FOUND ${PC_WAYLAND_EGL_FOUND} CACHE INTERNAL "" FORCE)
++
+ find_path(WAYLAND_EGL_INCLUDE_DIRS
+     NAMES wayland-egl.h
+     HINTS ${PC_WAYLAND_EGL_INCLUDE_DIRS} ${PC_WAYLAND_EGL_INCLUDEDIR}
+-)
++) 
+ 
+ foreach (_library ${PC_WAYLAND_EGL_LIBRARIES})
+     find_library(WAYLAND_EGL_LIBRARIES_${_library} ${_library}
+diff --git a/src/wpeframework/CMakeLists.txt b/src/wpeframework/CMakeLists.txt
+index 6ce409a..6a8e724 100644
+--- a/src/wpeframework/CMakeLists.txt
++++ b/src/wpeframework/CMakeLists.txt
+@@ -1,4 +1,5 @@
+ find_package(Wayland QUIET)
++find_package(WaylandEGL QUIET)
+ find_package(EGL REQUIRED)
+ find_package(compositorclient REQUIRED)
+ 
+@@ -7,9 +8,7 @@ list(APPEND WPE_PLATFORM_LIBRARIES
+     compositorclient::compositorclient
+ )
+ 
+-if (WAYLAND_FOUND)
+-    find_package(WaylandEGL REQUIRED)
+-
++if (WAYLAND_FOUND AND WAYLAND_EGL_FOUND)
+     list(APPEND WPE_PLATFORM_INCLUDE_DIRECTORIES
+         ${WAYLAND_INCLUDE_DIRS}
+         ${WAYLAND_EGL_INCLUDE_DIRS}
+@@ -24,6 +23,18 @@ if (WAYLAND_FOUND)
+         ${WAYLAND_EGL_CFLAGS}
+     )
+ 
++    list(APPEND WPE_PLATFORM_SOURCES
++        src/wpeframework/compositorclient-get-surface.cpp
++    )
++
++    set(WPEBACKEND_RDK_PUBLIC_HEADERS
++        src/wpeframework/compositorclient-get-surface.h
++    )
++
++    install(
++        FILES ${WPEBACKEND_RDK_PUBLIC_HEADERS}
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wpe-rdk-${WPEBACKEND_RDK_API_VERSION}/wpe
++    )
+ endif()
+ 
+ add_definitions(-DBACKEND_WPEFRAMEWORK=1)
+@@ -33,7 +44,4 @@ list(APPEND WPE_PLATFORM_SOURCES
+     src/wpeframework/renderer-backend.cpp
+     src/wpeframework/view-backend.cpp
+     src/wpeframework/display.cpp
+-    src/wpeframework/compositorclient-get-surface.cpp
+ )
+-
+-
+-- 
+2.25.1
+
