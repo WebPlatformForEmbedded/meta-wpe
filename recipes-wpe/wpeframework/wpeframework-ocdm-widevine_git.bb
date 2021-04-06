@@ -1,21 +1,15 @@
 SUMMARY = "WPE Framework OpenCDMi module for widevine"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=1fe8768cbb5fd322f7d50656133549de"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1384d4b11dad572771bc2dad384029a6"
 
 require include/wpeframework-plugins.inc
 
 DEPENDS += " widevine"
 
-SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=master"
-# Revision hash of R1 release
-SRCREV = "adb0c34ebe04ccdff54090de3c5614357bc1d858"
+SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=development/widevine-15.3.0"
 
-do_install_append() {
-    install -m 755 -d ${D}/${sysconfdir}/WideVine
-    install -m 755 ${S}/tools/keybox/testkeybox.bin ${D}/${sysconfdir}/WideVine/keybox.bin
-}
+SRCREV = "795ae7c85489ad5e24eafd666a6adf07ef5a76ad"
 
 FILES_${PN} = " \
     ${datadir}/WPEFramework/OCDM/*.drm \
-    ${sysconfdir}/WideVine/* \
 "
