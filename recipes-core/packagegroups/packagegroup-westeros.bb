@@ -21,6 +21,4 @@ RDEPENDS_packagegroup-westeros = "\
 
 WESTEROS_SOC ?= "westeros-soc-drm"
 
-WESTEROS_SOC_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros-soc-drm", "westeros-render-dispmanx", d)}"
-
 WESTEROS_RENDERER ?= ""

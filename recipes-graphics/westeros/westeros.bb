@@ -2,10 +2,11 @@ require westeros.inc
 
 SUMMARY = "This receipe compiles the westeros compositor component"
 
-SRC_URI += "file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
+SRC_URI += " \
+           file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
            file://0002-Add_VCX_flags_support.patch \
            file://0003-Set-default-resolution-to-1080.patch \
-           "
+"
 
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
@@ -26,7 +27,6 @@ PACKAGECONFIG[modules] = "--enable-modules=yes"
 S = "${WORKDIR}/git"
 
 WESTEROS_BACKEND ?= "westeros-soc-drm"
-WESTEROS_BACKEND_rpi = "${@bb.utils.contains("MACHINE_FEATURES", "vc4graphics", "westeros-soc-drm", "westeros-soc-rpi", d)}"
 
 DEPENDS += "\
            westeros-simplebuffer \

@@ -3,7 +3,6 @@
 # Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
 WPE_COMPOSITOR_PACKAGE       ?= "none"
 WPE_COMPOSITOR_PACKAGE_brcm  ?= "Nexus"
-WPE_COMPOSITOR_PACKAGE_rpi   ?= "RPI"
 WPE_COMPOSITOR_IMPL          ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', '${WPE_COMPOSITOR_PACKAGE}', d)}"
 WPE_COMPOSITOR_SUB_IMPL      ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
 WPE_COMPOSITOR_DEP           ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"

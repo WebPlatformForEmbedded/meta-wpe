@@ -5,5 +5,3 @@ DESCRIPTION = "WPE initramfs rootfs image"
 LICENSE = "MIT"
 
 require wpe-eglfs-image.bb
-
-IMAGE_FSTYPES_rpi = " ${INITRAMFS_FSTYPES}"

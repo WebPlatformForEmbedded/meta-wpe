@@ -9,5 +9,3 @@ SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend.git"
 SRCREV = "4be4c7df5734d125148367a90da477c8d40d9eaf"
 
 CXXFLAGS += "-D_GLIBCXX_USE_CXX11_ABI=0"
-
-RDEPENDS_${PN}_append_rpi = " wpebackend-rdk "
