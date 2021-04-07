@@ -1,4 +1,4 @@
-SINK_SOC ?= ""
+SINK_SOC ??= ""
 SINK_SOC_PATH = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'v4l2', '${SINK_SOC}', d)}"
 AUTOTOOLS_SCRIPT_PATH = "${S}/drm/westeros-sink"
 

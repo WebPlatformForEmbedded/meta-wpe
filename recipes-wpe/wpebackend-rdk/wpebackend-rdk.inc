@@ -25,7 +25,7 @@ def backendselector(d):
     compositor = bb.utils.contains('DISTRO_FEATURES', 'compositor', True, False, d)
 
     if compositor == False and wayland == False:
-        return 'platform'
+        return 'rpi'
     elif compositor == False and wayland == True:
         return 'westeros'
     else:
@@ -33,8 +33,7 @@ def backendselector(d):
 
 
 # Default back end selections. Please override in your machine config using WPE_BACKEND=<> to meet your machine required
-WPE_BACKEND_SELECTED = "${@backendselector(d)}"
-WPE_BACKEND     ?= " ${@bb.utils.contains('WPE_BACKEND_SELECTED', 'platform', '${WPE_BACKEND_PLATFORM}', '${WPE_BACKEND_SELECTED}', d)}"
+WPE_BACKEND     ?= "${@backendselector(d)}"
 
 PACKAGECONFIG ?= "${WPE_BACKEND} virtualinput"
 
