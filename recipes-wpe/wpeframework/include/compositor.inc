@@ -1,26 +1,26 @@
 # Compositor plugin provides an interface to manage windows on the embedded device. Either through Wayland, dispmanx or Nexus
 
 # Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
-WPE_COMPOSITOR_PACKAGE       ?= "none"
-WPE_COMPOSITOR_PACKAGE_brcm  ?= "Nexus"
-WPE_COMPOSITOR_IMPL          ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', '${WPE_COMPOSITOR_PACKAGE}', d)}"
-WPE_COMPOSITOR_SUB_IMPL      ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
-WPE_COMPOSITOR_DEP           ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
-WPE_COMPOSITOR_PLUGIN_DEP    ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework-clientlibraries', '', d)}"
+WPE_COMPOSITOR_PACKAGE       ??= "none"
+WPE_COMPOSITOR_PACKAGE_brcm  ??= "Nexus"
+WPE_COMPOSITOR_IMPL          ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', '${WPE_COMPOSITOR_PACKAGE}', d)}"
+WPE_COMPOSITOR_SUB_IMPL      ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
+WPE_COMPOSITOR_DEP           ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
+WPE_COMPOSITOR_PLUGIN_DEP    ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework-clientlibraries', '', d)}"
 
-WPE_COMPOSITOR_EXTRAFLAGS    ?= ""
-WPE_COMPOSITOR_HW_READY      ?= "0"
+WPE_COMPOSITOR_EXTRAFLAGS    ??= ""
+WPE_COMPOSITOR_HW_READY      ??= "0"
 
 # Additional flags
-WPE_COMPOSITOR_AUTOSTART     ?= "true"
-WPE_COMPOSITOR_OUTOFPROCESS  ?= "true"
-WPE_COMPOSITOR_RESOLUTION    ?= "720p"
-WPE_COMPOSITOR_MEMORY_GFX    ?= ""
-WPE_COMPOSITOR_IRMODE        ?= "none"
-WPE_COMPOSITOR_IRMODE_brcm   ?= "NEXUS_IrInputMode_eCirGISat"
-WPE_COMPOSITOR_SVP           ?= "None"
-WPE_COMPOSITOR_BOXMODE       ?= "3"
-WPE_COMPOSITOR_NEXUS_SERVER_EXTERNAL ?= "ON"
+WPE_COMPOSITOR_AUTOSTART     ??= "true"
+WPE_COMPOSITOR_OUTOFPROCESS  ??= "true"
+WPE_COMPOSITOR_RESOLUTION    ??= "720p"
+WPE_COMPOSITOR_MEMORY_GFX    ??= ""
+WPE_COMPOSITOR_IRMODE        ??= "none"
+WPE_COMPOSITOR_IRMODE_brcm   ??= "NEXUS_IrInputMode_eCirGISat"
+WPE_COMPOSITOR_SVP           ??= "None"
+WPE_COMPOSITOR_BOXMODE       ??= "3"
+WPE_COMPOSITOR_NEXUS_SERVER_EXTERNAL ??= "ON"
 
 # ----------------------------------------------------------------------------
 
