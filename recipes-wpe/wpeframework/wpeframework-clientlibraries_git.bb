@@ -13,10 +13,7 @@ SRCREV = "6b1db1b63f7e1af5f856d2e69133808306756ed5"
 
 include include/compositor.inc
 
-DEPENDS = " \
-    wpeframework-tools-native wpeframework-interfaces \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', '${WPE_COMPOSITOR_DEP}', '', d)} \
-"
+DEPENDS = "wpeframework-tools-native wpeframework-interfaces"
 
 WPE_CDMI_ADAPTER_IMPL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
 
@@ -29,7 +26,6 @@ PACKAGECONFIG ?= " \
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
-PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON,-DCRYPTOGRAPHY=OFF,"
 PACKAGECONFIG[deviceinfo]       = "-DDEVICEINFO=ON,-DDEVICEINFO=OFF,"
 PACKAGECONFIG[displayinfo]      = "-DDISPLAYINFO=ON,-DDISPLAYINFO=OFF,"
@@ -49,8 +45,6 @@ PACKAGECONFIG[opencdmi_brcm_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEM
 EXTRA_OECMAKE += " \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
-    -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_SUB_IMPL} \
     -DCRYPTOGRAPHY_IMPLEMENTATION=${WPE_CRYPTOGRAPHY_IMPL} \
     -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
 "
