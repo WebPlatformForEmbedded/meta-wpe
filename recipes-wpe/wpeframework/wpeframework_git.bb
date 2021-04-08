@@ -24,7 +24,7 @@ inherit cmake pkgconfig systemd update-rc.d
 PROVIDES += "thunder"
 RPROVIDES_${PN} += "thunder"
 
-WPEFRAMEWORK_SYSTEM_PREFIX ?= "OE"
+WPEFRAMEWORK_SYSTEM_PREFIX ??= "OE"
 
 PACKAGECONFIG ?= " \
     release \
@@ -40,15 +40,29 @@ PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
 PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
 PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
 
-PACKAGECONFIG[bluetooth]        = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
-PACKAGECONFIG[cyclicinspector]  = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
-PACKAGECONFIG[testloader]       = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
+PACKAGECONFIG[bluetooth]         = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
+PACKAGECONFIG[broadcast]         = "-DBROADCAST=ON,-DBROADCAST=OFF,"
+PACKAGECONFIG[broadcastsiparse]  = "-DBROADCAST_SI_PARSING=ON,-DBROADCAST_SI_PARSING=OFF,"
+PACKAGECONFIG[virtualinput]      = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
+PACKAGECONFIG[wcharsupport]      = "-DWCHAR_SUPPORT=ON,-DWCHAR_SUPPORT=OFF,"
+
+PACKAGECONFIG[cyclicinspector]    = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
+PACKAGECONFIG[hidenonexternalsymbols] = "-DHIDE_NON_EXTERNAL_SYMBOLS=ON,-DHIDE_NON_EXTERNAL_SYMBOLS=OFF,"
+PACKAGECONFIG[performancemonitor] = "-DPERFORMANCE_MONITOR=ON,-DPERFORMANCE_MONITO=OFF,"
+PACKAGECONFIG[profiler]           = "-DPROFILER=ON,-DPROFILER=OFF,"
+PACKAGECONFIG[testloader]         = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
+
+PACKAGECONFIG[deadlockdetection] = "-DDEADLOCK_DETECTION=ON,-DDEADLOCK_DETECTION=OFF,"
+PACKAGECONFIG[disabletracing]    = "-DDISABLE_TRACING=ON,-DDISABLE_TRACING=OFF,"
+PACKAGECONFIG[exceptionhandling] = "-DEXCEPTIONS_ENABLE=ON,-DEXCEPTIONS_ENABLE=OFF,"
+PACKAGECONFIG[exceptioncatching] = "-DEXCEPTION_CATCHING=ON,-DEXCEPTION_CATCHING=OFF,"
+PACKAGECONFIG[warningreporting]  = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OFF,"
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
 # it feels a bit the other way around but lets set at least webserver and webkit
-PACKAGECONFIG[websource]       = "-DPLUGIN_WEBSERVER=ON,,"
-PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,,"
+PACKAGECONFIG[webserver]       = "-DPLUGIN_WEBSERVER=ON,-DPLUGIN_WEBSERVER=OFF,"
+PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWSER=OFF,"
 
 # FIXME, determine this a little smarter
 # Provision event is required for libprovision and provision plugin

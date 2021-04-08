@@ -12,9 +12,6 @@ inherit autotools pkgconfig
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
 AUTOTOOLS_SCRIPT_PATH = "${S}/simplebuffer"
-do_configure_prepend() {
-    sed -i -e 's/-lwesteros_simplebuffer_client/-lwesteros_compositor -lwesteros_simplebuffer_client/g' ${S}/rpi/westeros-sink/Makefile.am
-}
 
 do_compile_prepend() {
    export SCANNER_TOOL=${STAGING_BINDIR_NATIVE}/wayland-scanner

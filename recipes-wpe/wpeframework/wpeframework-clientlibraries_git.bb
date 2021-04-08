@@ -28,8 +28,6 @@ PACKAGECONFIG ?= " \
     "
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
-PACKAGECONFIG_append_rpi = " displayinfo playerinfo deviceinfo"
-PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'vc4graphics', '', d)}"
 
 PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
 PACKAGECONFIG[cryptography]     = "-DCRYPTOGRAPHY=ON,-DCRYPTOGRAPHY=OFF,"
@@ -67,8 +65,6 @@ INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
 
 # ----------------------------------------------------------------------------
-
-RDEPENDS_${PN}_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', 'userland', d)}"
 
 # Avoid settings ADNEEDED in LDFLAGS as this can cause the libcompositor.so to drop linking to libEGL/libGLES
 # which might not be needed at first glance but will cause problems higher up in the change, there for lets drop -Wl,--as-needed

@@ -7,7 +7,4 @@ DEPENDS = "virtual/egl libxkbcommon"
 PROVIDES += "virtual/libwpe"
 RPROVIDES_${PN} += "virtual/libwpe"
 
-# Workaround build issue with RPi userland EGL libraries.
-CFLAGS_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', '-D_GNU_SOURCE', d)}"
-
 inherit cmake

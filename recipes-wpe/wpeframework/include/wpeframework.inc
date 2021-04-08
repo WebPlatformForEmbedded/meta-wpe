@@ -4,8 +4,8 @@ SECTION = "wpe"
 
 PV = "3.0+gitr${SRCPV}"
 
-PACKAGECONFIG ??= ""
-PACKAGECONFIG[debug]            = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
+PACKAGECONFIG      ??= ""
+PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
 
 S = "${WORKDIR}/git"
 
@@ -19,7 +19,7 @@ EXTRA_OECMAKE += "-DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
 LDFLAGS_append = " -fuse-ld=bfd"
 
 # Yocto root is under /home/root
-WPEFRAMEWORK_PERSISTENT_PATH ?= "/home/root/"
+WPEFRAMEWORK_PERSISTENT_PATH ??= "/home/root/"
 
 # Configure exceptions handling (ON/OFF)
-WPEFRAMEWORK_EXCEPTIONS_ENABLE ?= "OFF"
+WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"

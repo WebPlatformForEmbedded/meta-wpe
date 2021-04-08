@@ -179,13 +179,6 @@ RDEPENDS_${PN} += " \
                                                     ', '', d)} \
 "
 
-RDEPS_EXTRA_append_rpi = " \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'gstreamer1.0-plugins-good-video4linux2 ', '', d)} \
-    gstreamer1.0-omx \
-    gstreamer1.0-plugins-bad-faad \
-    gstreamer1.0-plugins-base-opengl \
-"
-
 # The RDEPS_EXTRA plugins are all required for certain media playback use cases,
 # but have not yet been classified as being specific dependencies for video,
 # webaudio or mediasource. Until that classification is done, add them all to

@@ -46,16 +46,7 @@ PACKAGECONFIG ?= " \
     dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync virtualinput webserver \
 "
 
-PACKAGECONFIG_append_rpi = " displayinfo"
-PACKAGECONFIG_append_brcm = " displayinfo"
-
-PACKAGECONFIG_append_rpi = " playerinfo"
-
-# snapshot implemented with userland support, not applicable on vc4graphics
-PACKAGECONFIG_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '', 'snapshot', d)}"
-PACKAGECONFIG_append_brcm = " snapshot"
-
-PACKAGECONFIG_append_brcm = " volumecontrol"
+PACKAGECONFIG_append_brcm = " displayinfo snapshot volumecontrol"
 PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON -DPLUGIN_BLUETOOTH_AUTOSTART=true,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
 PACKAGECONFIG[bluetoothremote]  = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
 
@@ -79,7 +70,6 @@ PACKAGECONFIG[webserver]      = "-DPLUGIN_WEBSERVER=ON \
 PACKAGECONFIG[webshell]       = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
 
 WPE_WIFICONTROL_DEP          ?= ""
-WPE_WIFICONTROL_DEP_rpi      ?= "linux-firmware-bcm43430"
 PACKAGECONFIG[wifi]           = "-DPLUGIN_WIFICONTROL=ON,-DPLUGIN_WIFICONTROL=OFF,,wpa-supplicant ${WPE_WIFICONTROL_DEP}"
 PACKAGECONFIG[wifi_rdkhal]    = "-DPLUGIN_USE_RDK_HAL_WIFI=ON,-DPLUGIN_USE_RDK_HAL_WIFI=OFF,,wifi-hal"
 

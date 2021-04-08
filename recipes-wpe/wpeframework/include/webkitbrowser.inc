@@ -16,9 +16,7 @@ WEBKITBROWSER_WEBINSPECTOR ?= "0.0.0.0:9998"
 WEBKITBROWSER_USER ?= ""
 WEBKITBROWSER_GROUP ?= ""
 WEBKITBROWSER_RESOLUTION ?= "720p"
-
-# Raspberry PI 3 has 4 cores, set to 4 for RPIs
-WEBKITBROWSER_THREADEDPAINTING_rpi ?= "2"
+WEBKITBROWSER_THREADEDPAINTING ??= ""
 
 # ----------------------------------------------------------------------------
 
