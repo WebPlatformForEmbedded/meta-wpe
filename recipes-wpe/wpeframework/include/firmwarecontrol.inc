@@ -1,11 +1,12 @@
-# Additional flags
-WPE_FIRMWARECONTROL_AUTOSTART ?= "true"
-WPE_FIRMWARECONTROL_SOURCE_LOCATION ?= ""
-WPE_FIRMWARECONTROL_DOWNLOAD_LOCATION ?= "/tmp"
-WPE_FIRMWARECONTROL_WAITTIME ?= "-1"
+# Provides the WPE FirmwareControl plugin settings
+
+WPE_FIRMWARECONTROL_AUTOSTART ??= "true"
+WPE_FIRMWARECONTROL_SOURCE_LOCATION ??= ""
+WPE_FIRMWARECONTROL_DOWNLOAD_LOCATION ??= "/tmp"
+WPE_FIRMWARECONTROL_WAITTIME ??= "-1"
 
 # BSP/OEM Specific implementation dependency
-WPE_FIRMWARECONTROL_DEPENDS ?= "fwupgrade-lib"
+WPE_FIRMWARECONTROL_DEPENDS ??= "fwupgrade-lib"
 
 # ----------------------------------------------------------------------------
 
