@@ -4,8 +4,8 @@ WPE_DIALSERVER_MODEL            ??= "Generic Platform"
 WPE_DIALSERVER_MANUFACTURER     ??= "Metrological"
 WPE_DIALSERVER_DESCRIPTION      ??= "Metrological DIAL Reference Server."
 WPE_DIALSERVER_AUTOSTART        ??= "true"
-# Use device host name
-WPE_DIALSERVER_INTERFACE        ??= "hostname"
+# Use device host name/ip
+WPE_DIALSERVER_INTERFACE        ??= "0.0.0.0"
 
 # Configure YouTube mode active/passive
 WPE_DIALSERVER_YOUTUBE_MODE     ??= "passive"
