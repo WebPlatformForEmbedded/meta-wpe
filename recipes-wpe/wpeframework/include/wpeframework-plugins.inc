@@ -1,5 +1,5 @@
 # Common for WPE Framework plugins
-require wpeframework.inc
+require wpeframework-common.inc
 
 DEPENDS = "wpeframework-clientlibraries"
 

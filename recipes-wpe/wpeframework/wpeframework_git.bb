@@ -1,36 +1,25 @@
 SUMMARY = "Web Platform for Embedded Framework"
-HOMEPAGE = "https://github.com/rdkcentral"
-SECTION = "wpe"
-LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
-PR = "r0"
 
 require include/wpeframework.inc
+require include/wpeframework-common.inc
 
 DEPENDS = "zlib virtual/egl wpeframework-tools-native"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
-PV = "3.0+git${SRCPV}"
+SRC_URI += "file://wpeframework-init \
+    file://wpeframework.service.in"
 
-SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master \
-           file://wpeframework-init \
-           file://wpeframework.service.in \
-           "
-SRCREV = "58f90a90002ae294eea4c6f17d47952322942c62"
-
-inherit cmake pkgconfig systemd update-rc.d
+inherit systemd update-rc.d
 
 PROVIDES += "thunder"
 RPROVIDES_${PN} += "thunder"
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "OE"
 
-PACKAGECONFIG ?= " \
-    release \
+PACKAGECONFIG ??= " release \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    websource webkitbrowser \
-    "
+    websource webkitbrowser"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
@@ -74,20 +63,16 @@ PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWS
 # WebSource event is provided by the WebServer plugin
 
 # Only enable certain events if wpeframework is in distro features
-WPEFRAMEWORK_DIST_EVENTS ?= " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'Platform Graphics', '', d)} \
-"
+WPEFRAMEWORK_DIST_EVENTS ??= " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'Platform Graphics', '', d)}"
 
-WPEFRAMEWORK_EXTERN_EVENTS ?= " \
-    ${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', 'Bluetooth', '', d)} \
+WPEFRAMEWORK_EXTERN_EVENTS ??= " ${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', 'Bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'Decryption', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'Provisioning', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'securityagent', 'Security', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
-    Location Internet \
-"
+    Location Internet"
 
 def getlayerrevision(d):
     topdir = d.getVar('TOPDIR')
@@ -100,10 +85,9 @@ def getlayerrevision(d):
 
     return "unknown"
 
-WPE_LAYER_REV ?= "${@getlayerrevision(d)}"
+WPE_LAYER_REV ??= "${@getlayerrevision(d)}"
 
-EXTRA_OECMAKE += " \
-    -DINSTALL_HEADERS_TO_TARGET=ON \
+EXTRA_OECMAKE += " -DINSTALL_HEADERS_TO_TARGET=ON \
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
     -DRPC=ON \
@@ -113,8 +97,7 @@ EXTRA_OECMAKE += " \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DEXCEPTIONS_ENABLE=${WPEFRAMEWORK_EXCEPTIONS_ENABLE} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-"
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3"
 
 do_install_append() {
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}

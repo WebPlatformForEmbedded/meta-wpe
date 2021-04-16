@@ -3,19 +3,17 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PR = "r0"
 
-require include/wpeframework.inc
+require include/wpeframework-common.inc
 DEPENDS = "wpeframework-tools-native wpeframework"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
-SRCREV = "5211dcc0c924073c1b6a48ef582a56c6d34fa13c"
+SRCREV = "3a5a192935737e585bca1befa2017427fba3a26d"
 
 # ----------------------------------------------------------------------------
 
-EXTRA_OECMAKE += " \
-    -DBUILD_SHARED_LIBS=ON \
+EXTRA_OECMAKE += " -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-"
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3"
 
 # ----------------------------------------------------------------------------
 

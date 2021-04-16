@@ -3,26 +3,23 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PR = "r0"
 
-require include/wpeframework.inc
+require include/wpeframework-common.inc
+DEPENDS = "wpeframework-tools-native wpeframework-interfaces"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master \
-            file://0001-cmake-become-more-easy-in-findgbm.patch"
-SRCREV = "6b1db1b63f7e1af5f856d2e69133808306756ed5"
+    file://0001-cmake-become-more-easy-in-findgbm.patch"
 
+SRCREV = "902558858ebd620eff4f92452b5daa19ee9ce4d8"
 # ----------------------------------------------------------------------------
 
 include include/compositor.inc
 
-DEPENDS = "wpeframework-tools-native wpeframework-interfaces"
-
 WPE_CDMI_ADAPTER_IMPL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
 
-PACKAGECONFIG ?= " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm ${WPE_CDMI_ADAPTER_IMPL}', '', d)} \
+PACKAGECONFIG ?= " ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm ${WPE_CDMI_ADAPTER_IMPL}', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'provisionproxy', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
-    virtualinput \
-    "
+    virtualinput"
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 
@@ -42,12 +39,10 @@ PACKAGECONFIG[opencdmi_brcm_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEM
 
 # ----------------------------------------------------------------------------
 
-EXTRA_OECMAKE += " \
-    -DBUILD_SHARED_LIBS=ON \
+EXTRA_OECMAKE += " -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
     -DCRYPTOGRAPHY_IMPLEMENTATION=${WPE_CRYPTOGRAPHY_IMPL} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 \
-"
+    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 "
 
 # ----------------------------------------------------------------------------
 
