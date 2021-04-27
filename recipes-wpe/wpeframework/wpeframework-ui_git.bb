@@ -11,10 +11,10 @@ do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 
 do_install() {
-	rm -rf ${D}${datadir}/WPEFramework/Controller/UI/*
-	mkdir -p ${D}${datadir}/WPEFramework/Controller/UI
-	cp -r ${S}/src/* ${D}${datadir}/WPEFramework/Controller/UI
-	cp -r ${S}/dist/* ${D}${datadir}/WPEFramework/Controller/UI
+    rm -rf ${D}${datadir}/WPEFramework/Controller/UI/*
+    mkdir -p ${D}${datadir}/WPEFramework/Controller/UI
+    cp -r ${S}/src/* ${D}${datadir}/WPEFramework/Controller/UI
+    cp -r ${S}/dist/* ${D}${datadir}/WPEFramework/Controller/UI
 }
 
 FILES_${PN} += "${datadir}/WPEFramework/Controller/UI/*"
