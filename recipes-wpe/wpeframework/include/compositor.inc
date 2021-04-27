@@ -19,7 +19,7 @@ WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_PATH       ??= ""
 WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY ??="https://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/thundernanoservices/Compositor"
 WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_VERSION    ??= "master"
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[compositor] = "-DPLUGIN_COMPOSITOR=ON \
     -DPLUGIN_COMPOSITOR_AUTOSTART=${WPE_COMPOSITOR_AUTOSTART} \
     -DPLUGIN_COMPOSITOR_OUTOFPROCESS=${WPE_COMPOSITOR_OUTOFPROCESS} \
@@ -42,4 +42,4 @@ PACKAGECONFIG[compositorclient_wayland] = "-DPLUGIN_COMPOSITOR_IMPLEMENTATION='W
      -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_WAYLAND_SUB_IMPL},,${WPE_COMPOSITOR_WAYLAND_DEP}"
 
 PACKAGECONFIG[vc4graphics] = "-DVC6=ON,,libdrm mesa"
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------

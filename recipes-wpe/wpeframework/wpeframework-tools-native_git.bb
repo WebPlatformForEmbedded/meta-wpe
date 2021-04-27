@@ -3,7 +3,7 @@ SUMMARY = "Host/Native tooling for the Web Platform for Embedded Framework"
 require include/wpeframework.inc
 inherit cmake pkgconfig native python3native
 
-DEPENDS = " python3-native python3-jsonref-native"
+DEPENDS += " python3-native python3-jsonref-native"
 
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/Tools"
 

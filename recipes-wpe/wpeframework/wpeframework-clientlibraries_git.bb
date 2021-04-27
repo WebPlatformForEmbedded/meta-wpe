@@ -3,8 +3,9 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 PR = "r0"
 
+inherit python3native
 require include/wpeframework-common.inc
-DEPENDS = "wpeframework-tools-native wpeframework-interfaces"
+DEPENDS += " wpeframework-tools-native wpeframework-interfaces"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master \
     file://0001-cmake-become-more-easy-in-findgbm.patch"
@@ -42,7 +43,7 @@ PACKAGECONFIG[opencdmi_brcm_svp]= '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEM
 EXTRA_OECMAKE += " -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
     -DCRYPTOGRAPHY_IMPLEMENTATION=${WPE_CRYPTOGRAPHY_IMPL} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3 "
+    -DPYTHON_EXECUTABLE=${PYTHON}"
 
 # ----------------------------------------------------------------------------
 

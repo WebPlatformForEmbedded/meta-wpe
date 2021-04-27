@@ -3,19 +3,22 @@ SUMMARY = "Web Platform for Embedded Framework"
 require include/wpeframework.inc
 require include/wpeframework-common.inc
 
-DEPENDS = "zlib virtual/egl wpeframework-tools-native"
+DEPENDS += "zlib virtual/egl wpeframework-tools-native"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
 SRC_URI += "file://wpeframework-init \
     file://wpeframework.service.in"
 
-inherit systemd update-rc.d
+inherit systemd update-rc.d python3native
 
 PROVIDES += "thunder"
 RPROVIDES_${PN} += "thunder"
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "OE"
+
+# Configure exceptions handling (ON/OFF)
+WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"
 
 PACKAGECONFIG ??= " release \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
@@ -97,7 +100,7 @@ EXTRA_OECMAKE += " -DINSTALL_HEADERS_TO_TARGET=ON \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DEXCEPTIONS_ENABLE=${WPEFRAMEWORK_EXCEPTIONS_ENABLE} \
-    -DPYTHON_EXECUTABLE=${STAGING_BINDIR_NATIVE}/python3-native/python3"
+    -DPYTHON_EXECUTABLE=${PYTHON}"
 
 do_install_append() {
     if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}

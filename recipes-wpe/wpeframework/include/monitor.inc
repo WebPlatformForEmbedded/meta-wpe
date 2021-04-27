@@ -1,14 +1,14 @@
 # Provides configuration for the Monitor Plugin
 WPE_MONITOR_AUTOSTART ??= "true"
-WPE_MONITOR_COBALT_MEMORYLIMIT ??= "614400"
 
+WPE_MONITOR_COBALT_MEMORYLIMIT ??= "614400"
 WPE_MONITOR_WEBKITBROWSER_MEMORYLIMIT ??= "614400"
 WPE_MONITOR_WEBKITBROWSER_APPS_MEMORYLIMIT ??= "614400"
 WPE_MONITOR_WEBKITBROWSER_RESIDENT_APP_MEMORYLIMIT ??= "614400"
 WPE_MONITOR_WEBKITBROWSER_UX_MEMORYLIMIT ??= "614400"
 WPE_MONITOR_WEBKITBROWSER_YOUTUBE_MEMORYLIMIT ??= "614400"
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[monitor] = "-DPLUGIN_MONITOR=ON \
     -DPLUGIN_MONITOR_AUTOSTART=${WPE_MONITOR_AUTOSTART} \
     ,-DPLUGIN_MONITOR=OFF,,"
@@ -38,4 +38,4 @@ PACKAGECONFIG[monitor_webkit_ux] = "-DPLUGIN_MONITOR_WEBKITBROWSER_UX=ON \
 PACKAGECONFIG[monitor_webkit_youtube] = "-DPLUGIN_MONITOR_WEBKITBROWSER_YOUTUBE=ON \
     -DPLUGIN_MONITOR_WEBKITBROWSER_YOUTUBE_MEMORYLIMIT=${WPE_MONITOR_WEBKITBROWSER_YOUTUBE_MEMORYLIMIT} \
     ,-DPLUGIN_MONITOR_WEBKITBROWSER_YOUTUBE=OFF,,"
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------

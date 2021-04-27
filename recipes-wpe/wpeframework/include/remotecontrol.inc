@@ -16,7 +16,7 @@ WPE_REMOTECONTROL_RF4CE_NODE_ID ??= "249"
 WPE_REMOTECONTROL_RFCE_AUTOPAIRING ??= "false"
 WPE_REMOTECONTROL_RFCE_NVM_LUT ??= "DEFAULT"
 WPE_REMOTECONTROL_RF4CE_DEPENDENCY ??= "rf4ce-hal-gp"
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 
 PACKAGECONFIG[remote] = "-DPLUGIN_REMOTECONTROL=ON \
     -DPLUGIN_REMOTECONTROL_AUTOSTART=${WPE_REMOTECONTROL_AUTOSTART} \
@@ -39,7 +39,7 @@ PACKAGECONFIG[remote-gp] = "-DPLUGIN_REMOTECONTROL_RFCE=ON \
     -DPLUGIN_REMOTECONTROL_RFCE_NVM_LUT=${WPE_REMOTECONTROL_RFCE_NVM_LUT} \
     ,-DPLUGIN_REMOTECONTROL_RFCE=OFF,${WPE_REMOTECONTROL_RF4CE_DEPENDENCY}"
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "remote-devinput", "true", "false", d)}
@@ -48,6 +48,6 @@ do_install_append() {
     fi
 }
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 
 FILES_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'remote-devinput', '${datadir}/WPEFramework/RemoteControl/devinput-remote.json', '', d)}"

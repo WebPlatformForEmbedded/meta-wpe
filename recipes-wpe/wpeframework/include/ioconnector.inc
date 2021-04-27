@@ -11,7 +11,7 @@ WPE_IOCONNECTOR_REPORTING_PIN ??= ""
 # Example "169:output:true;172:output:false;"
 WPE_IOCONNECTOR_PINS ??= "::;::;::;"
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[ioconnector] = "-DPLUGIN_IOCONNECTOR=ON -DPLUGIN_IOCONNECTOR_AUTOSTART=${WPE_IOCONNECTOR_AUTOSTART} \
     -DPLUGIN_IOCONNECTOR_PAIRING_PIN=${WPE_IOCONNECTOR_PAIRING_PIN} \
     -DPLUGIN_IOCONNECTOR_PAIRING_CALLSIGN=${WPE_IOCONNECTOR_PAIRING_CALLSIGN} \
@@ -19,4 +19,4 @@ PACKAGECONFIG[ioconnector] = "-DPLUGIN_IOCONNECTOR=ON -DPLUGIN_IOCONNECTOR_AUTOS
     -DPLUGIN_IOCONNECTOR_REPORTING_PIN=${WPE_IOCONNECTOR_REPORTING_PIN} \
     -DPLUGIN_IOCONNECTOR_PINS='${WPE_IOCONNECTOR_PINS}' \
     ,-DPLUGIN_IOCONNECTOR=OFF,"
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------

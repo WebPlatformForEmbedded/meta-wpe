@@ -9,7 +9,7 @@ WPE_POWER_PERSIST_STATE ??= "OFF"
 WPE_POWER_IMPLEMENTATION ??= "Linux"
 WPE_POWER_DEP ??= ""
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[power] = "-DPLUGIN_POWER=ON \
     -DPLUGIN_POWER_AUTOSTART=${WPE_POWER_AUTOSTART} \
     -DPLUGIN_POWER_GPIOPIN=${WPE_POWER_GPIOPIN} \
@@ -21,4 +21,4 @@ PACKAGECONFIG[power] = "-DPLUGIN_POWER=ON \
 
 PACKAGECONFIG[power_mfrstate] = "-DPLUGIN_POWER_MFRPERSIST_STATE=ON \
     ,-DPLUGIN_POWER_MFRPERSIST_STATE=OFF,,"
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------
