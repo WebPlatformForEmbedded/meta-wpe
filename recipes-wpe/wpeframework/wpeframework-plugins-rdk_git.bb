@@ -33,7 +33,7 @@ PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg',         'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine',             'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
-    apps deviceinfo locationsync monitor monitor_webkit monitor_webkit_ux monitor_cobalt tracing ux webkitbrowser \
+    deviceinfo locationsync monitor monitor_webkit monitor_webkit_ux monitor_cobalt tracing webkitbrowser webkitbrowser_apps webkitbrowser_ux \
 "
 
 # ----------------------------------------------------------------------------
