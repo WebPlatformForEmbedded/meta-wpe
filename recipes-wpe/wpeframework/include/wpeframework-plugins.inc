@@ -1,7 +1,7 @@
 # Common for WPE Framework plugins
-require wpeframework.inc
+require wpeframework-common.inc
 
-DEPENDS = "wpeframework-clientlibraries"
+DEPENDS += " wpeframework-clientlibraries"
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so"

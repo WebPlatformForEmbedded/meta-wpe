@@ -1,51 +1,45 @@
-# Compositor plugin provides an interface to manage windows on the embedded device. Either through Wayland, dispmanx or Nexus
-
-# Compositor settings, if Wayland is in the distro set the implementation to Wayland with Westeros dependency
-WPE_COMPOSITOR_PACKAGE       ??= "none"
-WPE_COMPOSITOR_PACKAGE_brcm  ??= "Nexus"
-WPE_COMPOSITOR_IMPL          ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Wayland', '${WPE_COMPOSITOR_PACKAGE}', d)}"
-WPE_COMPOSITOR_SUB_IMPL      ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'Westeros', '', d)}"
-WPE_COMPOSITOR_DEP           ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros', '', d)}"
-WPE_COMPOSITOR_PLUGIN_DEP    ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wpeframework-clientlibraries', '', d)}"
-
-WPE_COMPOSITOR_EXTRAFLAGS    ??= ""
-WPE_COMPOSITOR_HW_READY      ??= "0"
+# Provides the WPE Compositor plugin & client settings
 
 # Additional flags
 WPE_COMPOSITOR_AUTOSTART     ??= "true"
 WPE_COMPOSITOR_OUTOFPROCESS  ??= "true"
 WPE_COMPOSITOR_RESOLUTION    ??= "720p"
-WPE_COMPOSITOR_MEMORY_GFX    ??= ""
-WPE_COMPOSITOR_IRMODE        ??= "none"
-WPE_COMPOSITOR_IRMODE_brcm   ??= "NEXUS_IrInputMode_eCirGISat"
-WPE_COMPOSITOR_SVP           ??= "None"
-WPE_COMPOSITOR_BOXMODE       ??= "3"
-WPE_COMPOSITOR_NEXUS_SERVER_EXTERNAL ??= "ON"
 
+# Additional flags for Wayland implementations
 # ----------------------------------------------------------------------------
+WPE_COMPOSITOR_VIRTUALINPUT  ??= "ON"
+WPE_COMPOSITOR_CURSOR_FILE   ??= ""
 
-WPE_COMPOSITOR_EXTRAFLAGS = ' \
--DPLUGIN_COMPOSITOR_AUTOSTART=${WPE_COMPOSITOR_AUTOSTART} \
--DPLUGIN_COMPOSITOR_OUTOFPROCESS=${WPE_COMPOSITOR_OUTOFPROCESS} \
--DPLUGIN_COMPOSITOR_RESOLUTION=${WPE_COMPOSITOR_RESOLUTION} \
--DPLUGIN_COMPOSITOR_MEMORY_GFX=${WPE_COMPOSITOR_MEMORY_GFX} \
--DPLUGIN_COMPOSITOR_IRMODE=${WPE_COMPOSITOR_IRMODE} \
--DPLUGIN_COMPOSITOR_VIRTUALINPUT=ON \
--DPLUGIN_COMPOSITOR_SVP="${WPE_COMPOSITOR_SVP}" \
--DPLUGIN_COMPOSITOR_BOXMODE=${WPE_COMPOSITOR_BOXMODE} \
-'
+# Choose westeros or weston dependency
+WPE_COMPOSITOR_WAYLAND_SUB_IMPL ??= "Westeros"
+WPE_COMPOSITOR_WAYLAND_DEP      ??= "westeros"
 
-WPE_COMPOSITOR_EXTRAFLAGS += "${@bb.utils.contains('WPE_COMPOSITOR_PACKAGE', 'Nexus', '-DNEXUS_SERVER_EXTERNAL=${WPE_COMPOSITOR_NEXUS_SERVER_EXTERNAL}', '', d)}"
-# ----------------------------------------------------------------------------
+# Repo details
+WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_PATH       ??= ""
+WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY ??="https://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/thundernanoservices/Compositor"
+WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_VERSION    ??= "master"
 
-PACKAGECONFIG[compositor]     = " \
-    -DPLUGIN_COMPOSITOR=ON \
-    -DPLUGIN_COMPOSITOR_HARDWAREREADY=${WPE_COMPOSITOR_HW_READY} \
-    -DPLUGIN_COMPOSITOR_IMPLEMENTATION=${WPE_COMPOSITOR_IMPL} \
-    -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_SUB_IMPL} \
-    ${WPE_COMPOSITOR_EXTRAFLAGS} \
-    ,-DPLUGIN_COMPOSITOR=OFF,${WPE_COMPOSITOR_DEP} ${WPE_COMPOSITOR_PLUGIN_DEP}"
+# -----------------------------------------------------------------------------------------------------------
+PACKAGECONFIG[compositor] = "-DPLUGIN_COMPOSITOR=ON \
+    -DPLUGIN_COMPOSITOR_AUTOSTART=${WPE_COMPOSITOR_AUTOSTART} \
+    -DPLUGIN_COMPOSITOR_OUTOFPROCESS=${WPE_COMPOSITOR_OUTOFPROCESS} \
+    -DPLUGIN_COMPOSITOR_RESOLUTION=${WPE_COMPOSITOR_RESOLUTION} \
+    ,-DPLUGIN_COMPOSITOR=OFF,wpeframework-clientlibraries"
+
+PACKAGECONFIG[compositor_rpi]       = "-DPLUGIN_COMPOSITOR_IMPLEMENTATION='RPI',,"
+
+PACKAGECONFIG[compositor_wayland] = "-DPLUGIN_COMPOSITOR_IMPLEMENTATION='Wayland' \
+    -DCOMPOSITOR_WAYLAND_IMPLEMENTATION_PATH=${WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_PATH} \
+    -DCOMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY=${WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY} \
+    -DCOMPOSITOR_WAYLAND_IMPLEMENTATION_VERSION=${WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_VERSION} \
+    -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_WAYLAND_SUB_IMPL} \
+    -DPLUGIN_COMPOSITOR_CURSOR_FILE=${WPE_COMPOSITOR_CURSOR_FILE} \
+    -DPLUGIN_COMPOSITOR_VIRTUALINPUT=${WPE_COMPOSITOR_VIRTUALINPUT},,${WPE_COMPOSITOR_WAYLAND_DEP}"
+
+PACKAGECONFIG[compositorclient] = "-DCOMPOSITORCLIENT=ON,-DCOMPOSITORCLIENT=OFF"
+PACKAGECONFIG[compositorclient_rpi] = "-DPLUGIN_COMPOSITOR_IMPLEMENTATION='RPI',,"
+PACKAGECONFIG[compositorclient_wayland] = "-DPLUGIN_COMPOSITOR_IMPLEMENTATION='Wayland' \
+     -DPLUGIN_COMPOSITOR_SUB_IMPLEMENTATION=${WPE_COMPOSITOR_WAYLAND_SUB_IMPL},,${WPE_COMPOSITOR_WAYLAND_DEP}"
 
 PACKAGECONFIG[vc4graphics] = "-DVC6=ON,,libdrm mesa"
-# ----------------------------------------------------------------------------
-
+# -----------------------------------------------------------------------------------------------------------

@@ -1,25 +1,14 @@
-# WPE Framework common
-HOMEPAGE = "https://github.com/rdkcentral"
+# Common for thunder and tools
 SECTION = "wpe"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
+HOMEPAGE = "https://github.com/rdkcentral/Thunder"
 
-PV = "3.0+gitr${SRCPV}"
+SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
+SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
+SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master"
+SRCREV = "3e7c6f09af0a495ca51caa564370fb2c4f23c39e"
 
-PACKAGECONFIG      ??= ""
-PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,-DCMAKE_BUILD_TYPE=Release,"
-
+PR = "r0"
+PV = "3.0+git${SRCPV}"
 S = "${WORKDIR}/git"
-
-inherit cmake pkgconfig
-
-TOOLCHAIN = "gcc"
-
-EXTRA_OECMAKE += "-DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
-
-# Force BFD (to avoid gold)
-LDFLAGS_append = " -fuse-ld=bfd"
-
-# Yocto root is under /home/root
-WPEFRAMEWORK_PERSISTENT_PATH ??= "/home/root/"
-
-# Configure exceptions handling (ON/OFF)
-WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"
