@@ -1,4 +1,4 @@
-From 2d03e47da3e93823930cb22328f1ff3008211bf9 Mon Sep 17 00:00:00 2001
+From ef7c28cb23d6aa3d0c217b96c450e5cd10e429a7 Mon Sep 17 00:00:00 2001
 From: Charlie Turner <chturne@gmail.com>
 Date: Fri, 25 May 2018 14:08:17 +0100
 Subject: [PATCH 5/6] Check if an upstream demuxer provided a default kid.
@@ -14,7 +14,7 @@ protection event, and use this as a fallback.
  1 file changed, 44 insertions(+)
 
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index 9d46441ca..d222ffbf3 100644
+index a68d4da97..afbcfcb17 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
 @@ -450,6 +450,9 @@ struct _QtDemuxStream
@@ -35,7 +35,7 @@ index 9d46441ca..d222ffbf3 100644
    return stream;
  }
  
-@@ -2476,6 +2480,32 @@ gst_qtdemux_handle_sink_event (GstPad * sinkpad, GstObject * parent,
+@@ -2474,6 +2478,32 @@ gst_qtdemux_handle_sink_event (GstPad * sinkpad, GstObject * parent,
      case GST_EVENT_PROTECTION:
      {
        const gchar *system_id = NULL;
@@ -68,7 +68,7 @@ index 9d46441ca..d222ffbf3 100644
  
        gst_event_parse_protection (event, &system_id, NULL, NULL);
        GST_DEBUG_OBJECT (demux, "Received protection event for system ID %s",
-@@ -2688,6 +2718,8 @@ gst_qtdemux_stream_clear (QtDemuxStream * stream)
+@@ -2686,6 +2716,8 @@ gst_qtdemux_stream_clear (QtDemuxStream * stream)
    g_queue_foreach (&stream->protection_scheme_event_queue,
        (GFunc) gst_event_unref, NULL);
    g_queue_clear (&stream->protection_scheme_event_queue);
@@ -77,7 +77,7 @@ index 9d46441ca..d222ffbf3 100644
    gst_qtdemux_stream_flush_segments_data (stream);
    gst_qtdemux_stream_flush_samples_data (stream);
  }
-@@ -2953,6 +2985,18 @@ qtdemux_parse_piff (GstQTDemux * qtdemux, const guint8 * buffer, gint length,
+@@ -2951,6 +2983,18 @@ qtdemux_parse_piff (GstQTDemux * qtdemux, const guint8 * buffer, gint length,
    } else if ((flags & 0x000002)) {
      uses_sub_sample_encryption = TRUE;
    }
@@ -98,3 +98,4 @@ index 9d46441ca..d222ffbf3 100644
            &iv_size)) {
 -- 
 2.17.1
+

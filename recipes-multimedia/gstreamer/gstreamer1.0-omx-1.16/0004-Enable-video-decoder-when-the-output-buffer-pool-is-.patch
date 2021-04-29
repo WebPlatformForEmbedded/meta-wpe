@@ -1,7 +1,7 @@
-From d1ab429792eca4727f9de41ccab824a65755aecc Mon Sep 17 00:00:00 2001
+From a1f95086e51b7e6bcceea8fb54a71c78f334d5f3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Mon, 17 Dec 2018 16:14:51 +0100
-Subject: [PATCH 4/7] Enable video decoder when the output buffer pool is null
+Subject: [PATCH 4/9] Enable video decoder when the output buffer pool is null
 
 This fixes a "seek never completes" issue. At some point the decoder was
 disabled and drained (no buffers allocated for output) and it was never

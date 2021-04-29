@@ -1,4 +1,4 @@
-From 2f9f65d322f2ff87fd5b0852f7728876189e63cf Mon Sep 17 00:00:00 2001
+From 28ab9277034e234feec3d2b4de014d042855cab4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Alicia=20Boya=20Garc=C3=ADa?= <aboya@igalia.com>
 Date: Wed, 22 Nov 2017 19:25:45 +0100
 Subject: [PATCH 3/6] matroskademux: Start stream time at zero
@@ -25,3 +25,4 @@ index b2cd9b5d4..ae9f3b786 100644
            "generated segment starting at %" GST_TIME_FORMAT ": %"
 -- 
 2.17.1
+
