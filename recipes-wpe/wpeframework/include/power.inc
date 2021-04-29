@@ -10,15 +10,19 @@ WPE_POWER_IMPLEMENTATION ??= "Linux"
 WPE_POWER_DEP ??= ""
 
 # -----------------------------------------------------------------------------------------------------------
-PACKAGECONFIG[power] = "-DPLUGIN_POWER=ON \
+PACKAGECONFIG[power] = "\
+    -DPLUGIN_POWER=ON \
     -DPLUGIN_POWER_AUTOSTART=${WPE_POWER_AUTOSTART} \
     -DPLUGIN_POWER_GPIOPIN=${WPE_POWER_GPIOPIN} \
     -DPLUGIN_POWER_GPIOTYPE=${WPE_POWER_GPIOTYPE} \
     -DPLUGIN_POWER_POWER_KEY=${WPE_POWER_POWER_KEY} \
     -DPLUGIN_POWER_CONTROL_CLIENTS=${WPE_POWER_CONTROL_CLIENTS} \
     -DPLUGIN_POWER_IMPLEMENTATION=${WPE_POWER_IMPLEMENTATION} \
-    ,-DPLUGIN_POWER=OFF,${WPE_POWER_DEP}"
+    ,-DPLUGIN_POWER=OFF,${WPE_POWER_DEP} \
+"
 
-PACKAGECONFIG[power_mfrstate] = "-DPLUGIN_POWER_MFRPERSIST_STATE=ON \
-    ,-DPLUGIN_POWER_MFRPERSIST_STATE=OFF,,"
+PACKAGECONFIG[power_mfrstate] = "\
+    -DPLUGIN_POWER_MFRPERSIST_STATE=ON \
+    ,-DPLUGIN_POWER_MFRPERSIST_STATE=OFF,, \
+"
 # -----------------------------------------------------------------------------------------------------------

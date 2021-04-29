@@ -14,12 +14,13 @@ LIC_FILES_CHKSUM = "file://docs/license.rst;md5=9aa1bc48c9826ad9fdb16661f6930496
 
 PE = "2"
 
-SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-           file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-           file://0002-meson.build-make-TLS-ELF-optional.patch \
-           file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-           file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-           "
+SRC_URI = "\
+    https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+    file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
+    file://0002-meson.build-make-TLS-ELF-optional.patch \
+    file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+    file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
+"
 
 SRC_URI[sha256sum] = "e6204e98e6a8d77cf9dc5d34f99dd8e3ef7144f3601c808ca0dd26ba522e0d84"
 
@@ -35,13 +36,13 @@ do_install_append() {
 
 DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native"
 EXTRANATIVEPATH += "chrpath-native"
-PROVIDES = " \
+PROVIDES = "\
     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
     virtual/mesa \
-    "
+"
 
 inherit meson pkgconfig python3native gettext features_check
 
@@ -56,7 +57,7 @@ export YOCTO_ALTERNATE_MULTILIB_NAME = "${base_libdir}"
 export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE}"
 export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
 
-MESA_LLVM_RELEASE ?= "${LLVMVERSION}"
+MESA_LLVM_RELEASE ??= "${LLVMVERSION}"
 
 # set the MESA_BUILD_TYPE to either 'release' (default) or 'debug'
 # by default the upstream mesa sources build a debug release
@@ -71,7 +72,7 @@ def check_buildtype(d):
     return 'plain'
 MESON_BUILDTYPE = "${@check_buildtype(d)}"
 
-EXTRA_OEMESON = " \
+EXTRA_OEMESON = "\
     -Dshared-glapi=enabled \
     -Dgallium-opencl=disabled \
     -Dglx-read-only-text=true \
@@ -82,11 +83,11 @@ def strip_comma(s):
     return s.strip(',')
 
 PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium virgl', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
-                   elf-tls \
-		   "
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium virgl', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+    elf-tls \
+"
 PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls x11"
 PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls x11"
 
@@ -154,8 +155,10 @@ GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',r600', 
 GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
 
 PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers=''"
-PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm${MESA_LLVM_RELEASE} llvm-native \
-                               elfutils"
+PACKAGECONFIG[gallium-llvm] = "\
+    -Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm${MESA_LLVM_RELEASE} llvm-native \
+    elfutils \
+"
 PACKAGECONFIG[xa]  = "-Dgallium-xa=enabled, -Dgallium-xa=disabled"
 PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
 
@@ -183,18 +186,19 @@ RDEPENDS_${PN}-dev = ""
 # Add dependency so that GLES3 header don't need to be added manually
 RDEPENDS_libgles2-mesa-dev += "libgles3-mesa-dev"
 
-PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-             libosmesa libosmesa-dev \
-             libgl-mesa libgl-mesa-dev \
-             libglapi libglapi-dev \
-             libgbm libgbm-dev \
-             libgles1-mesa libgles1-mesa-dev \
-             libgles2-mesa libgles2-mesa-dev \
-             libgles3-mesa libgles3-mesa-dev \
-             libxatracker libxatracker-dev \
-             mesa-megadriver mesa-vulkan-drivers \
-             mesa-vdpau-drivers \
-            "
+PACKAGES =+ "\
+    libegl-mesa libegl-mesa-dev \
+    libosmesa libosmesa-dev \
+    libgl-mesa libgl-mesa-dev \
+    libglapi libglapi-dev \
+    libgbm libgbm-dev \
+    libgles1-mesa libgles1-mesa-dev \
+    libgles2-mesa libgles2-mesa-dev \
+    libgles3-mesa libgles3-mesa-dev \
+    libxatracker libxatracker-dev \
+    mesa-megadriver mesa-vulkan-drivers \
+    mesa-vdpau-drivers \
+"
 
 do_install_append () {
     # Drivers never need libtool .la files

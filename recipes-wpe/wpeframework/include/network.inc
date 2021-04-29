@@ -9,10 +9,12 @@ WPE_NETWORKCONTROL_DHCP_RESONSE_TIMEOUT ??= "5"
 WPE_NETWORKCONTROL_INTERFACES ??= "wlan0:Dynamic:::;eth0:Dynamic:::;"
 
 # ---------------------------------------------------------------------------------------------------------------------
-PACKAGECONFIG[network] = "-DPLUGIN_NETWORKCONTROL=ON \
+PACKAGECONFIG[network] = "\
+    -DPLUGIN_NETWORKCONTROL=ON \
     -DPLUGIN_NETWORKCONTROL_AUTOSTART=${WPE_NETWORKCONTROL_AUTOSTART} \
     -DPLUGIN_NETWORKCONTROL_DHCP_RETRIES=${WPE_NETWORKCONTROL_DHCP_RETRIES} \
     -DPLUGIN_NETWORKCONTROL_DHCP_RESONSE_TIMEOUT=${WPE_NETWORKCONTROL_DHCP_RESONSE_TIMEOUT} \
     -DPLUGIN_NETWORKCONTROL_INTERFACES='${WPE_NETWORKCONTROL_INTERFACES}' \
-    ,-DPLUGIN_NETWORKCONTROL=OFF,"
+    ,-DPLUGIN_NETWORKCONTROL=OFF, \
+"
 # ---------------------------------------------------------------------------------------------------------------------

@@ -20,11 +20,11 @@ include include/monitor.inc
 
 # ----------------------------------------------------------------------------
 
-WPEFRAMEWORK_LOCATIONSYNC_URI ?= "http://jsonip.metrological.com/?maf=true"
+WPEFRAMEWORK_LOCATIONSYNC_URI ??= "http://jsonip.metrological.com/?maf=true"
 
 # ----------------------------------------------------------------------------
 
-PACKAGECONFIG ?= " \
+PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey',             'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'netflix',             'monitor_netflix', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm',              'opencdmi', '', d)} \
@@ -40,26 +40,29 @@ PACKAGECONFIG ?= " \
 
 # ----------------------------------------------------------------------------
 
-WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR ?= "OFF"
-WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL ?= ""
-PACKAGECONFIG[deviceidentification] = \
-                                "-DPLUGIN_DEVICEIDENTIFICATION=ON \
-                                 -DPLUGIN_DEVICEIDENTIFICATION_USE_MFR=${WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR} \
-                                 ${WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL} \
-                                ,-DPLUGIN_DEVICEIDENTIFICATION=OFF,"
+WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR ??= "OFF"
+WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL ??= ""
+PACKAGECONFIG[deviceidentification] = "\
+    -DPLUGIN_DEVICEIDENTIFICATION=ON \
+    -DPLUGIN_DEVICEIDENTIFICATION_USE_MFR=${WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR} \
+    ${WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL} \
+    ,-DPLUGIN_DEVICEIDENTIFICATION=OFF, \
+"
 
-PACKAGECONFIG[deviceinfo]     = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
-PACKAGECONFIG[locationsync]   = "-DPLUGIN_LOCATIONSYNC=ON \
-                                 -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
-                                ,-DPLUGIN_LOCATIONSYNC=OFF,"
-PACKAGECONFIG[messenger]      = "-DPLUGIN_MESSENGER=ON,-DPLUGIN_MESSENGER=OFF,"
-PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
-PACKAGECONFIG[securityagent]  = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
-PACKAGECONFIG[packager]       = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
+PACKAGECONFIG[deviceinfo] = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
+PACKAGECONFIG[locationsync] = "\
+    -DPLUGIN_LOCATIONSYNC=ON \
+    -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
+    ,-DPLUGIN_LOCATIONSYNC=OFF, \
+"
+PACKAGECONFIG[messenger] = "-DPLUGIN_MESSENGER=ON,-DPLUGIN_MESSENGER=OFF,"
+PACKAGECONFIG[tracing] = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
+PACKAGECONFIG[securityagent] = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
+PACKAGECONFIG[packager] = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 
 # ----------------------------------------------------------------------------
 
-EXTRA_OECMAKE += " \
+EXTRA_OECMAKE += "\
     -DBUILD_REFERENCE=${SRCREV} \
     -DCOMCAST_CONFIG=OFF \
 "

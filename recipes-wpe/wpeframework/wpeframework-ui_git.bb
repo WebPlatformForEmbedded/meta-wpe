@@ -1,11 +1,11 @@
 SUMMARY = "WPE Framework User Interface"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=c2b3f2a8aff73c673037a89bee1ee396"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=66fe57b27abb01505f399ce4405cfea0"
 
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://github.com/rdkcentral/ThunderUI.git"
-SRCREV = "75148aa85f738ccae853595a820c3151b9b57cc8"
+SRCREV = "38e1f94d7aae99bd9d43f8bf23f8d7a372e2feb9"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"

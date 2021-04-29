@@ -10,6 +10,6 @@ SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;bran
 
 SRCREV = "795ae7c85489ad5e24eafd666a6adf07ef5a76ad"
 
-FILES_${PN} = " \
+FILES_${PN} = "\
     ${datadir}/WPEFramework/OCDM/*.drm \
 "

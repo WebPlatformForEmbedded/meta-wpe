@@ -5,12 +5,14 @@ PR = "r1"
 
 require include/wpeframework-plugins.inc
 
-SRC_URI = "git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
+SRC_URI = "\
+git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
     file://index.html \
     file://osmc-devinput-remote.json \
-    file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch"
+    file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
+"
 
-SRCREV = "e7da86b0bf14459690f95dcd91a19f9a6145743c"
+SRCREV = "ed708cc5ddf674783bf994ca7d5d5d995b50a35f"
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
@@ -36,14 +38,16 @@ PLUGIN_WEBSERVER_PATH ??= "/var/www/"
 
 # ----------------------------------------------------------------------------
 
-PACKAGECONFIG ?= " ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetoothcontrol', '', d)} \
+PACKAGECONFIG ??= "\
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetoothcontrol', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetoothremote', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositor', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemdconnector', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver"
+    dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
+"
 
 PACKAGECONFIG_append_brcm = " displayinfo snapshot volumecontrol"
 PACKAGECONFIG[dsgcc_client] = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
@@ -56,21 +60,25 @@ PACKAGECONFIG[timesync] = "-DPLUGIN_TIMESYNC=ON,-DPLUGIN_TIMESYNC=OFF,"
 PACKAGECONFIG[volumecontrol] = "-DPLUGIN_VOLUMECONTROL=ON,-DPLUGIN_VOLUMECONTROL=OFF,"
 PACKAGECONFIG[volumecontrol_rdkhal] = "-DRDK_AUDIO_HAL=ON,-DRDK_AUDIO_HAL=OFF,"
 PACKAGECONFIG[webproxy] = "-DPLUGIN_WEBPROXY=ON,-DPLUGIN_WEBPROXY=OFF,"
-PACKAGECONFIG[webserver] = "-DPLUGIN_WEBSERVER=ON \
+PACKAGECONFIG[webserver] = "\
+    -DPLUGIN_WEBSERVER=ON \
     -DPLUGIN_WEBSERVER_PORT="${PLUGIN_WEBSERVER_PORT}" \
     -DPLUGIN_WEBSERVER_PATH="${PLUGIN_WEBSERVER_PATH}" \
     -DPLUGIN_DEVICEINFO=ON \
-    ,-DPLUGIN_WEBSERVER=OFF,"
-PACKAGECONFIG[webshell]       = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
+    ,-DPLUGIN_WEBSERVER=OFF, \
+"
+PACKAGECONFIG[webshell] = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
 
-WPE_WIFICONTROL_DEP          ?= ""
-PACKAGECONFIG[wifi]           = "-DPLUGIN_WIFICONTROL=ON,-DPLUGIN_WIFICONTROL=OFF,,wpa-supplicant ${WPE_WIFICONTROL_DEP}"
-PACKAGECONFIG[wifi_rdkhal]    = "-DPLUGIN_USE_RDK_HAL_WIFI=ON,-DPLUGIN_USE_RDK_HAL_WIFI=OFF,,wifi-hal"
+WPE_WIFICONTROL_DEP ??= ""
+PACKAGECONFIG[wifi] = "-DPLUGIN_WIFICONTROL=ON,-DPLUGIN_WIFICONTROL=OFF,,wpa-supplicant ${WPE_WIFICONTROL_DEP}"
+PACKAGECONFIG[wifi_rdkhal] = "-DPLUGIN_USE_RDK_HAL_WIFI=ON,-DPLUGIN_USE_RDK_HAL_WIFI=OFF,,wifi-hal"
 
 # ----------------------------------------------------------------------------
 
-EXTRA_OECMAKE += " -DBUILD_REFERENCE=${SRCREV} \
-    -DBUILD_SHARED_LIBS=ON"
+EXTRA_OECMAKE += "\
+    -DBUILD_REFERENCE=${SRCREV} \
+    -DBUILD_SHARED_LIBS=ON \
+"
 
 # ----------------------------------------------------------------------------
 

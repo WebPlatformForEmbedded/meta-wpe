@@ -12,9 +12,11 @@ SRCREV = "3a5a192935737e585bca1befa2017427fba3a26d"
 
 # ----------------------------------------------------------------------------
 
-EXTRA_OECMAKE += " -DBUILD_SHARED_LIBS=ON \
+EXTRA_OECMAKE += "\
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DPYTHON_EXECUTABLE=${PYTHON}"
+    -DPYTHON_EXECUTABLE=${PYTHON} \
+"
 
 # ----------------------------------------------------------------------------
 

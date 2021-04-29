@@ -7,8 +7,10 @@ DEPENDS += "zlib virtual/egl wpeframework-tools-native"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
-SRC_URI += "file://wpeframework-init \
-    file://wpeframework.service.in"
+SRC_URI += "\
+    file://wpeframework-init \
+    file://wpeframework.service.in \
+"
 
 inherit systemd update-rc.d python3native
 
@@ -20,41 +22,43 @@ WPEFRAMEWORK_SYSTEM_PREFIX ??= "OE"
 # Configure exceptions handling (ON/OFF)
 WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"
 
-PACKAGECONFIG ??= " release \
+PACKAGECONFIG ??= "\
+    release \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    websource webkitbrowser"
+    webserver webkitbrowser \
+"
 
 # Buildtype
 # Maybe we need to couple this to a Yocto feature
-PACKAGECONFIG[debug]          = "-DBUILD_TYPE=Debug,,"
+PACKAGECONFIG[debug] = "-DBUILD_TYPE=Debug,,"
 PACKAGECONFIG[debugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
 PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
-PACKAGECONFIG[release]        = "-DBUILD_TYPE=Release,,"
-PACKAGECONFIG[production]     = "-DBUILD_TYPE=Production,,"
+PACKAGECONFIG[release] = "-DBUILD_TYPE=Release,,"
+PACKAGECONFIG[production] = "-DBUILD_TYPE=Production,,"
 
-PACKAGECONFIG[bluetooth]         = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
-PACKAGECONFIG[broadcast]         = "-DBROADCAST=ON,-DBROADCAST=OFF,"
-PACKAGECONFIG[broadcastsiparse]  = "-DBROADCAST_SI_PARSING=ON,-DBROADCAST_SI_PARSING=OFF,"
-PACKAGECONFIG[virtualinput]      = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
-PACKAGECONFIG[wcharsupport]      = "-DWCHAR_SUPPORT=ON,-DWCHAR_SUPPORT=OFF,"
+PACKAGECONFIG[bluetooth] = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
+PACKAGECONFIG[broadcast] = "-DBROADCAST=ON,-DBROADCAST=OFF,"
+PACKAGECONFIG[broadcastsiparse] = "-DBROADCAST_SI_PARSING=ON,-DBROADCAST_SI_PARSING=OFF,"
+PACKAGECONFIG[virtualinput] = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
+PACKAGECONFIG[wcharsupport] = "-DWCHAR_SUPPORT=ON,-DWCHAR_SUPPORT=OFF,"
 
-PACKAGECONFIG[cyclicinspector]    = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
+PACKAGECONFIG[cyclicinspector] = "-DTEST_CYCLICINSPECTOR=ON,-DTEST_CYCLICINSPECTOR=OFF,"
 PACKAGECONFIG[hidenonexternalsymbols] = "-DHIDE_NON_EXTERNAL_SYMBOLS=ON,-DHIDE_NON_EXTERNAL_SYMBOLS=OFF,"
 PACKAGECONFIG[performancemonitor] = "-DPERFORMANCE_MONITOR=ON,-DPERFORMANCE_MONITO=OFF,"
-PACKAGECONFIG[profiler]           = "-DPROFILER=ON,-DPROFILER=OFF,"
-PACKAGECONFIG[testloader]         = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
+PACKAGECONFIG[profiler] = "-DPROFILER=ON,-DPROFILER=OFF,"
+PACKAGECONFIG[testloader] = "-DTEST_LOADER=ON,-DTEST_LOADER=OFF,"
 
 PACKAGECONFIG[deadlockdetection] = "-DDEADLOCK_DETECTION=ON,-DDEADLOCK_DETECTION=OFF,"
-PACKAGECONFIG[disabletracing]    = "-DDISABLE_TRACING=ON,-DDISABLE_TRACING=OFF,"
+PACKAGECONFIG[disabletracing] = "-DDISABLE_TRACING=ON,-DDISABLE_TRACING=OFF,"
 PACKAGECONFIG[exceptionhandling] = "-DEXCEPTIONS_ENABLE=ON,-DEXCEPTIONS_ENABLE=OFF,"
 PACKAGECONFIG[exceptioncatching] = "-DEXCEPTION_CATCHING=ON,-DEXCEPTION_CATCHING=OFF,"
-PACKAGECONFIG[warningreporting]  = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OFF,"
+PACKAGECONFIG[warningreporting] = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OFF,"
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
 # it feels a bit the other way around but lets set at least webserver and webkit
-PACKAGECONFIG[webserver]       = "-DPLUGIN_WEBSERVER=ON,-DPLUGIN_WEBSERVER=OFF,"
-PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWSER=OFF,"
+PACKAGECONFIG[webserver] = "-DPLUGIN_WEBSERVER=ON,-DPLUGIN_WEBSERVER=OFF,"
+PACKAGECONFIG[webkitbrowser] = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWSER=OFF,"
 
 # FIXME, determine this a little smarter
 # Provision event is required for libprovision and provision plugin
@@ -66,16 +70,20 @@ PACKAGECONFIG[webkitbrowser]   = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWS
 # WebSource event is provided by the WebServer plugin
 
 # Only enable certain events if wpeframework is in distro features
-WPEFRAMEWORK_DIST_EVENTS ??= " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'Platform Graphics', '', d)}"
+WPEFRAMEWORK_DIST_EVENTS ??= "\
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'Network Time', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'Platform Graphics', '', d)} \
+"
 
-WPEFRAMEWORK_EXTERN_EVENTS ??= " ${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', 'Bluetooth', '', d)} \
+WPEFRAMEWORK_EXTERN_EVENTS ??= "\
+    ${@bb.utils.contains('PACKAGECONFIG', 'bluetooth', 'Bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'Decryption', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'Provisioning', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'websource', 'WebSource', '', d)} \
+    ${@bb.utils.contains('PACKAGECONFIG', 'webserver', 'WebSource', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'securityagent', 'Security', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
-    Location Internet"
+    Location Internet \
+"
 
 def getlayerrevision(d):
     topdir = d.getVar('TOPDIR')
@@ -90,7 +98,8 @@ def getlayerrevision(d):
 
 WPE_LAYER_REV ??= "${@getlayerrevision(d)}"
 
-EXTRA_OECMAKE += " -DINSTALL_HEADERS_TO_TARGET=ON \
+EXTRA_OECMAKE += "\
+    -DINSTALL_HEADERS_TO_TARGET=ON \
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
     -DRPC=ON \
