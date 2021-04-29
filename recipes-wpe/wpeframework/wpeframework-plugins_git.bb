@@ -15,7 +15,10 @@ SRCREV = "e7da86b0bf14459690f95dcd91a19f9a6145743c"
 
 # More complicated plugins are moved seperate includes
 
+include include/bluetooth.inc
 include include/compositor.inc
+include include/dhcpserver.inc
+include include/dictionary.inc
 include include/dialserver.inc
 include include/displayinfo.inc
 include include/firmwarecontrol.inc
@@ -28,8 +31,8 @@ include include/remotecontrol.inc
 # ----------------------------------------------------------------------------
 
 WPEFRAMEWORK_LOCATIONSYNC_URI ?= "http://jsonip.metrological.com/?maf=true"
-PLUGIN_WEBSERVER_PORT ?= "8080"
-PLUGIN_WEBSERVER_PATH ?= "/var/www/"
+PLUGIN_WEBSERVER_PORT ??= "8080"
+PLUGIN_WEBSERVER_PATH ??= "/var/www/"
 
 # ----------------------------------------------------------------------------
 
@@ -43,14 +46,6 @@ PACKAGECONFIG ?= " ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'blueto
     dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver"
 
 PACKAGECONFIG_append_brcm = " displayinfo snapshot volumecontrol"
-PACKAGECONFIG[bluetoothcontrol] = "-DPLUGIN_BLUETOOTH=ON \
-    -DPLUGIN_BLUETOOTH_AUTOSTART=true \
-    ,-DPLUGIN_BLUETOOTH=OFF,,bluez5"
-PACKAGECONFIG[bluetoothremote] = "-DPLUGIN_BLUETOOTHREMOTECONTROL=ON \
-    -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART=true \
-    ,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF,"
-PACKAGECONFIG[dhcpserver] = "-DPLUGIN_DHCPSERVER=ON,-DPLUGIN_DHCPSERVER=OFF,"
-PACKAGECONFIG[dictionary] = "-DPLUGIN_DICTIONARY=ON,-DPLUGIN_DICTIONARY=OFF,"
 PACKAGECONFIG[dsgcc_client] = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
 PACKAGECONFIG[dsresolution] = "-DPLUGIN_DSRESOLUTION=ON,,devicesettings"
 PACKAGECONFIG[filetransfer] = "-DPLUGIN_FILETRANSFER=ON,-DPLUGIN_FILETRANSFER=OFF,"
