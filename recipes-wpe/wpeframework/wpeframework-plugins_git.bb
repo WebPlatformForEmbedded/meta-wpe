@@ -18,6 +18,7 @@ SRCREV = "ed708cc5ddf674783bf994ca7d5d5d995b50a35f"
 # More complicated plugins are moved seperate includes
 
 include include/bluetooth.inc
+include include/cobalt.inc
 include include/compositor.inc
 include include/dhcpserver.inc
 include include/dictionary.inc
@@ -54,7 +55,7 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder', 'network', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
-    dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
+    cobalt dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
 "
 
 PACKAGECONFIG_append_brcm = " displayinfo snapshot volumecontrol"
