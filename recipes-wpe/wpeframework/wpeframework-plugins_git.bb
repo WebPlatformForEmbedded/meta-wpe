@@ -23,18 +23,26 @@ include include/dhcpserver.inc
 include include/dictionary.inc
 include include/dialserver.inc
 include include/displayinfo.inc
+include include/filetransfer.inc
 include include/firmwarecontrol.inc
 include include/ioconnector.inc
 include include/network.inc
 include include/power.inc
 include include/playerinfo.inc
 include include/remotecontrol.inc
+include include/snapshot.inc
+include include/systemcommands.inc
+include include/systemdconnector.inc
+include include/timesync.inc
+include include/volumecontrol.inc
+include include/webproxy.inc
+include include/webserver.inc
+include include/webshell.inc
+include include/wifi.inc
 
 # ----------------------------------------------------------------------------
 
 WPEFRAMEWORK_LOCATIONSYNC_URI ?= "http://jsonip.metrological.com/?maf=true"
-PLUGIN_WEBSERVER_PORT ??= "8080"
-PLUGIN_WEBSERVER_PATH ??= "/var/www/"
 
 # ----------------------------------------------------------------------------
 
@@ -52,26 +60,6 @@ PACKAGECONFIG ??= "\
 PACKAGECONFIG_append_brcm = " displayinfo snapshot volumecontrol"
 PACKAGECONFIG[dsgcc_client] = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
 PACKAGECONFIG[dsresolution] = "-DPLUGIN_DSRESOLUTION=ON,,devicesettings"
-PACKAGECONFIG[filetransfer] = "-DPLUGIN_FILETRANSFER=ON,-DPLUGIN_FILETRANSFER=OFF,"
-PACKAGECONFIG[snapshot] = "-DPLUGIN_SNAPSHOT=ON,-DPLUGIN_SNAPSHOT=OFF,libpng"
-PACKAGECONFIG[systemcommands] = "-DPLUGIN_SYSTEMCOMMANDS=ON,-DPLUGIN_SYSTEMCOMMANDS=OFF,"
-PACKAGECONFIG[systemdconnector] = "-DPLUGIN_SYSTEMDCONNECTOR=ON,-DPLUGIN_SYSTEMDCONNECTOR=OFF,"
-PACKAGECONFIG[timesync] = "-DPLUGIN_TIMESYNC=ON,-DPLUGIN_TIMESYNC=OFF,"
-PACKAGECONFIG[volumecontrol] = "-DPLUGIN_VOLUMECONTROL=ON,-DPLUGIN_VOLUMECONTROL=OFF,"
-PACKAGECONFIG[volumecontrol_rdkhal] = "-DRDK_AUDIO_HAL=ON,-DRDK_AUDIO_HAL=OFF,"
-PACKAGECONFIG[webproxy] = "-DPLUGIN_WEBPROXY=ON,-DPLUGIN_WEBPROXY=OFF,"
-PACKAGECONFIG[webserver] = "\
-    -DPLUGIN_WEBSERVER=ON \
-    -DPLUGIN_WEBSERVER_PORT="${PLUGIN_WEBSERVER_PORT}" \
-    -DPLUGIN_WEBSERVER_PATH="${PLUGIN_WEBSERVER_PATH}" \
-    -DPLUGIN_DEVICEINFO=ON \
-    ,-DPLUGIN_WEBSERVER=OFF, \
-"
-PACKAGECONFIG[webshell] = "-DPLUGIN_WEBSHELL=ON,-DPLUGIN_WEBSHELL=OFF,"
-
-WPE_WIFICONTROL_DEP ??= ""
-PACKAGECONFIG[wifi] = "-DPLUGIN_WIFICONTROL=ON,-DPLUGIN_WIFICONTROL=OFF,,wpa-supplicant ${WPE_WIFICONTROL_DEP}"
-PACKAGECONFIG[wifi_rdkhal] = "-DPLUGIN_USE_RDK_HAL_WIFI=ON,-DPLUGIN_USE_RDK_HAL_WIFI=OFF,,wifi-hal"
 
 # ----------------------------------------------------------------------------
 
