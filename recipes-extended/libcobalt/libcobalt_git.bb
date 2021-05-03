@@ -3,10 +3,7 @@ LIC_FILES_CHKSUM = "\
     file://src/LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d \
 "
 PR = "r0"
-PACKAGES = "\
-    ${PN} \
-    ${PN}-dbg \
-"
+PACKAGES = "${PN}"
 
 inherit pythonnative
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad python-native ninja-native bison-native wpeframework-clientlibraries"
@@ -77,8 +74,10 @@ COBALT_PACKAGE = " \
 "
 FILES_${PN}     = "${COBALT_PACKAGE}"
 FILES_${PN}-dev = "${COBALT_PACKAGE}"
-FILES_${PN}-dbg = "${COBALT_PACKAGE}"
 
-INSANE_SKIP_${PN}-dbg = "ldflags"
+INSANE_SKIP_${PN} = "ldflags"
 INSANE_SKIP_${PN}-dev = "ldflags"
 INSANE_SKIP_${PN} += "dev-deps"
+
+INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
+INHIBIT_PACKAGE_STRIP = '1'

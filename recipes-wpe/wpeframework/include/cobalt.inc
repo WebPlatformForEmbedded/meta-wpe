@@ -26,8 +26,6 @@ WPE_COBALT_SECRET ??= ""
 WPE_COBALT_PLAYBACKRATES ??= ""
 WPE_COBALT_WEBINSPECTOR_ADDRESS ??= "0.0.0.0:9222"
 
-#RDEPENDS_${PN} += " libcobalt"
-RDEPENDS_${PN} += " libcobalt-dbg"
 # -----------------------------------------------------------------------------------------------------------
 WPE_COBALT_EXTRAFLAGS = "\
     -DPLUGIN_COBALT_AUTOSTART="${WPE_COBALT_AUTOSTART}" \
