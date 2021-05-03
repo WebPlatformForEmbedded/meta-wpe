@@ -12,7 +12,7 @@ git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
 
-SRCREV = "ed708cc5ddf674783bf994ca7d5d5d995b50a35f"
+SRCREV = "527d915e67faaee305adc915c35e3f7b48e0f706"
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
@@ -26,12 +26,19 @@ include include/dialserver.inc
 include include/displayinfo.inc
 include include/filetransfer.inc
 include include/firmwarecontrol.inc
+include include/inputswitch.inc
 include include/ioconnector.inc
+include include/languageadministrator.inc
 include include/network.inc
-include include/power.inc
+include include/performancemonitor.inc
 include include/playerinfo.inc
+include include/power.inc
+include include/processcontainers.inc
+include include/processmonitor.inc
 include include/remotecontrol.inc
+include include/resourcemonitor.inc
 include include/snapshot.inc
+include include/svalbard.inc
 include include/systemcommands.inc
 include include/systemdconnector.inc
 include include/timesync.inc
@@ -57,11 +64,6 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
     cobalt dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
 "
-
-PACKAGECONFIG_append_brcm = " displayinfo snapshot volumecontrol"
-PACKAGECONFIG[dsgcc_client] = "-DPLUGIN_DSGCCCLIENT=ON,,broadcom-refsw"
-PACKAGECONFIG[dsresolution] = "-DPLUGIN_DSRESOLUTION=ON,,devicesettings"
-
 # ----------------------------------------------------------------------------
 
 EXTRA_OECMAKE += "\
