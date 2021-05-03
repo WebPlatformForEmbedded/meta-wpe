@@ -3,6 +3,13 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 PR = "r1"
 
+require include/deviceidentification.inc
+require include/deviceinfo.inc
+require include/locationsync.inc
+require include/messenger.inc
+require include/packager.inc
+require include/securityagent.inc
+require include/tracecontrol.inc
 require include/wpeframework-plugins.inc
 
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.git;protocol=ssh;branch=master"
@@ -35,27 +42,6 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'security',             'securityagent', '', d)} \
     deviceinfo locationsync monitor monitor_webkit monitor_webkit_ux monitor_cobalt tracing webkitbrowser webkitbrowser_apps webkitbrowser_ux \
 "
-
-# ----------------------------------------------------------------------------
-
-WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR ?= "OFF"
-WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL ?= ""
-PACKAGECONFIG[deviceidentification] = "\
-    -DPLUGIN_DEVICEIDENTIFICATION=ON \
-    -DPLUGIN_DEVICEIDENTIFICATION_USE_MFR=${WPEFRAMEWORK_DEVICE_IDENTIFICATION_USE_MFR} \
-    ${WPEFRAMEWORK_DEVICE_IDENTIFICATION_IMPL} \
-    ,-DPLUGIN_DEVICEIDENTIFICATION=OFF, \
-"
-PACKAGECONFIG[deviceinfo] = "-DPLUGIN_DEVICEINFO=ON,-DPLUGIN_DEVICEINFO=OFF,"
-PACKAGECONFIG[locationsync] = "\
-    -DPLUGIN_LOCATIONSYNC=ON \
-    -DPLUGIN_LOCATIONSYNC_URI=${WPEFRAMEWORK_LOCATIONSYNC_URI} \
-    ,-DPLUGIN_LOCATIONSYNC=OFF, \
-"
-PACKAGECONFIG[messenger] = "-DPLUGIN_MESSENGER=ON,-DPLUGIN_MESSENGER=OFF,"
-PACKAGECONFIG[tracing] = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
-PACKAGECONFIG[securityagent] = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
-PACKAGECONFIG[packager] = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
 
 # ----------------------------------------------------------------------------
 
