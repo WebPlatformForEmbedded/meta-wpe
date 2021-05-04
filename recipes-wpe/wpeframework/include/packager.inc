@@ -7,7 +7,7 @@ PACKAGECONFIG[packager] = "\
     -DPLUGIN_PACKAGER=ON \
     -DPLUGIN_PACKAGER_AUTOSTART="${WPE_PACKAGER_AUTOSTART}" \
     -DPLUGIN_PACKAGER_OUTOFPROCESS="${WPE_PACKAGER_OUTOFPROCESS}" \
-    ,-DPLUGIN_PACKAGER=OFF, \
+    ,-DPLUGIN_PACKAGER=OFF,opkg \
 "
 
 # -----------------------------------------------------------------------------------------------------------
