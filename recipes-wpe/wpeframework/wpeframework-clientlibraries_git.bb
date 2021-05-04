@@ -12,7 +12,7 @@ SRC_URI = "\
     file://0001-cmake-become-more-easy-in-findgbm.patch \
 "
 
-SRCREV = "902558858ebd620eff4f92452b5daa19ee9ce4d8"
+SRCREV = "1ebc44a9b63d3882608ff03a1b121446df4065f7"
 # ----------------------------------------------------------------------------
 
 include include/compositor.inc
@@ -27,27 +27,35 @@ PACKAGECONFIG ??= "\
 "
 
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
+WPE_INCLUDE_SOFTWARE_CRYPTOGRAPHY_LIBRARY ??= "OFF"
+PACKAGECONFIG[cryptography] = "\
+    -DCRYPTOGRAPHY=ON \
+    -DINCLUDE_SOFTWARE_CRYPTOGRAPHY_LIBRARY="${WPE_INCLUDE_SOFTWARE_CRYPTOGRAPHY_LIBRARY}" \
+    -DCRYPTOGRAPHY_IMPLEMENTATION="${WPE_CRYPTOGRAPHY_IMPLEMENTATION}" \
+    ,-DCRYPTOGRAPHY=OFF, \
+"
+PACKAGECONFIG[cryptography_thunder] = "-DCRYPTOGRAPHY_IMPLEMENTATION="Thunder",,"
+PACKAGECONFIG[cryptography_openssl] = "-DCRYPTOGRAPHY_IMPLEMENTATION="OpenSSL",,"
 
-PACKAGECONFIG[cryptography] = "-DCRYPTOGRAPHY=ON,-DCRYPTOGRAPHY=OFF,"
 PACKAGECONFIG[deviceinfo] = "-DDEVICEINFO=ON,-DDEVICEINFO=OFF,"
 PACKAGECONFIG[displayinfo] = "-DDISPLAYINFO=ON,-DDISPLAYINFO=OFF,"
+PACKAGECONFIG[gstreamerclient] = "-DGSTREAMERCLIENT=ON,-DGSTREAMERCLIENT=OFF,gstreamer1 gst1-plugins-base"
+PACKAGECONFIG[gstreamerclient_rpi] = "-DPLUGIN_COMPOSITOR_IMPLEMENTATION='RPI',,"
+
 PACKAGECONFIG[playerinfo] = "-DPLAYERINFO=ON,-DPLAYERINFO=OFF,"
 PACKAGECONFIG[provisionproxy] = "-DPROVISIONPROXY=ON,-DPROVISIONPROXY=OFF,libprovision"
 PACKAGECONFIG[securityagent] = "-DSECURITYAGENT=ON,-DSECURITYAGENT=OFF"
 PACKAGECONFIG[virtualinput] = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
-WPE_CRYPTOGRAPHY_IMPL ??= "OpenSSL"
 
 # OCDM
 PACKAGECONFIG[opencdm] = "-DCDMI=ON,-DCDMI=OFF,"
 PACKAGECONFIG[opencdm_gst] = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",,gstreamer1.0'
-PACKAGECONFIG[opencdmi_brcm_svp] = '-DCDMI_BCM_NEXUS_SVP=ON -DCDMI_ADAPTER_IMPLEMENTATION="broadcom-svp",,gstreamer-plugins-soc'
 
 # ----------------------------------------------------------------------------
 
 EXTRA_OECMAKE += "\
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DCRYPTOGRAPHY_IMPLEMENTATION=${WPE_CRYPTOGRAPHY_IMPL} \
     -DPYTHON_EXECUTABLE=${PYTHON} \
 "
 
