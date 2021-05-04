@@ -11,8 +11,7 @@ SRC_URI = "\
     file://0001-OCDM-Playready-adjust-header-order-to-fix-build-issue.patch \
 "
 
-# Revision hash of R1 release
-SRCREV = "59b3deba0710b9f372fd333fcc7aca2ebed483a6"
+SRCREV = "a233e3f472ff3847fc1c4f7759c7172d4ca4ceee"
 EXTRA_OECMAKE += "\
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
 "
