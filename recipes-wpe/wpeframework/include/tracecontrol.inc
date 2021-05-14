@@ -4,8 +4,8 @@ WPE_TRACECONTROL_REMOTE ??= "false"
 WPE_TRACECONTROL_PORT ??= "0"
 WPE_TRACECONTROL_BINDING ??= "0.0.0.0"
 WPE_TRACECONTROL_CONSOLE ??= "false"
-WPE_TRACECONTROL_SYSLOG  ??= "true"
-WPE_TRACECONTROL_ABBREVIATED ??= "true"
+WPE_TRACECONTROL_SYSLOG  ??= "false"
+WPE_TRACECONTROL_ABBREVIATED ??= "false"
 
 # -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[tracing] = "\
