@@ -12,7 +12,7 @@ git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
 
-SRCREV = "527d915e67faaee305adc915c35e3f7b48e0f706"
+SRCREV = "89ef27e49086bc8fae80c116392e9113da1e2649"
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes

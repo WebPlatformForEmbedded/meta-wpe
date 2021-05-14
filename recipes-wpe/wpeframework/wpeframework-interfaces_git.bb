@@ -8,7 +8,7 @@ require include/wpeframework-common.inc
 DEPENDS += " wpeframework-tools-native wpeframework"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
-SRCREV = "3a5a192935737e585bca1befa2017427fba3a26d"
+SRCREV = "d0a0c33e991bc88b4cd9f71d5d2faf9de415b819"
 
 # ----------------------------------------------------------------------------
 
