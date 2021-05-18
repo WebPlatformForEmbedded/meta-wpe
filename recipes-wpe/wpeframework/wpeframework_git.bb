@@ -23,7 +23,6 @@ WPEFRAMEWORK_SYSTEM_PREFIX ??= "OE"
 WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"
 
 PACKAGECONFIG ??= "\
-    release \
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
     webserver webkitbrowser \
 "
