@@ -16,25 +16,17 @@
 
 inherit image
 
-SUMMARY = "Base class for images built as a sidecar solution (archive with selected libraries)."
-SECTION = "wpe"
-LICENSE = "Apache-2.0"
-
 WPE_SIDECAR_FILENAMES_TO_COPY ??= ""
 
 do_makewpe() {
-    echo "${WPE_SIDECAR_FILENAMES_TO_COPY}" >> "${IMAGE_ROOTFS}/temp_filename_list.txt"
 
-    xargs -n1 < "${IMAGE_ROOTFS}/temp_filename_list.txt" > "${IMAGE_ROOTFS}/filename_list.txt" 
-
-    while read line
-    do
+    for line in ${WPE_SIDECAR_FILENAMES_TO_COPY}; do
 	    find "${IMAGE_ROOTFS}" -name "$line*" -printf "%P\n" >> "${IMAGE_ROOTFS}/absolute_filepath_list.txt"
-    done < "${IMAGE_ROOTFS}"/filename_list.txt
+    done
 
     mkdir -p "${IMAGE_ROOTFS}/.temp_sysroot"
     rsync -ar --files-from="${IMAGE_ROOTFS}"/absolute_filepath_list.txt "${IMAGE_ROOTFS}" "${IMAGE_ROOTFS}/.temp_sysroot"
-    rsync -ar "${IMAGE_ROOTFS}/.temp_sysroot/" "${IMAGE_ROOTFS}" --delete
+    rsync -ar --delete "${IMAGE_ROOTFS}/.temp_sysroot/" "${IMAGE_ROOTFS}"
     rm -rf "${IMAGE_ROOTFS}/.temp_sysroot"
 }
 
