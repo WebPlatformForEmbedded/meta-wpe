@@ -1,6 +1,6 @@
 SUMMARY = "WPE Framework common plugins"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=47b1321b4411e96bb5aeb94521850d43"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
@@ -12,7 +12,7 @@ git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
 
-SRCREV = "89ef27e49086bc8fae80c116392e9113da1e2649"
+SRCREV = "4fb9cd13bfb4a953397003a6eed6582e1a4a14e0"
 # ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
