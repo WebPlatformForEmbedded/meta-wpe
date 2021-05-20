@@ -1,5 +1,8 @@
 # Provides configuration for the Cobalt Plugin
+
 WPE_COBALT_STARBOARD_CONFIGURATION_INCLUDE ??= ""
+# Note: provide cobalt starboard configuration include from the platform layer,
+# as like WPE_COBALT_STARBOARD_CONFIGURATION_INCLUDE = "third_party/starboard/wpe/platform/arm/configuration_public.h"
 
 # Additional flags
 WPE_COBALT_AUTOSTART ??= "false"
