@@ -48,10 +48,8 @@ include include/webserver.inc
 include include/webshell.inc
 include include/wifi.inc
 
-# ----------------------------------------------------------------------------
-
-WPEFRAMEWORK_LOCATIONSYNC_URI ?= "http://jsonip.metrological.com/?maf=true"
-
+# Added deprecated plugins for backward compatibility
+include include/plugins_deprecated.inc
 # ----------------------------------------------------------------------------
 
 PACKAGECONFIG ??= "\

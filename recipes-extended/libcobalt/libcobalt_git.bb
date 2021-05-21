@@ -8,8 +8,8 @@ PACKAGES = "${PN}"
 inherit pythonnative
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad python-native ninja-native bison-native wpeframework-clientlibraries"
 
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https"
-SRCREV ??= "317861a3a73a17b0400442c8bb90ec8c347fe94b"
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=development/rpi-gcc9-compile"
+SRCREV ??= "3caeb22104e97b6048651fd9f9c53dfe91655553"
 
 S = "${WORKDIR}/git"
 
@@ -27,42 +27,42 @@ RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-g
 COBALT_BUILD_TYPE ??= "gold"
 
 do_configure() {
-    export PATH=$PATH:${S}/depot_tools
-    export COBALT_EXECUTABLE_TYPE=shared_library
+    export PATH="$PATH:${S}/depot_tools"
+    export COBALT_EXECUTABLE_TYPE="shared_library"
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
     export COBALT_HAS_PROVISION="${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 1, 0, d)}"
 
-    export COBALT_STAGING_DIR=${STAGING_DIR_HOST}/
-    export COBALT_TOOLCHAIN_PREFIX=${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}
+    export COBALT_STAGING_DIR="${STAGING_DIR_HOST}/"
+    export COBALT_TOOLCHAIN_PREFIX="${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}"
 
-    export COBALT_INSTALL_DIR=${D}
-    ${S}/src/cobalt/build/gyp_cobalt -C ${COBALT_BUILD_TYPE} ${COBALT_PLATFORM_NAME}
+    export COBALT_INSTALL_DIR="${D}"
+    "${S}/src/cobalt/build/gyp_cobalt" -C "${COBALT_BUILD_TYPE}" "${COBALT_PLATFORM_NAME}"
 }
 
 do_compile() {
-    export PATH=$PATH:${S}/depot_tools
-    ${STAGING_BINDIR_NATIVE}/ninja -C ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE} cobalt_deploy
+    export PATH="$PATH:${S}/depot_tools"
+    "${STAGING_BINDIR_NATIVE}/ninja" -C "${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}" cobalt_deploy
 }
 
 do_install() {
-    export PATH=$PATH:${S}/../depot_tools
-    if [ -f ${STAGING_DIR_TARGET}/usr/lib/libcobalt.so ]
+    export PATH="$PATH:${S}/../depot_tools"
+    if [ -f "${STAGING_DIR_TARGET}/usr/lib/libcobalt.so" ]
     then
-        rm -rf ${STAGING_DIR_TARGET}/usr/lib/libcobalt.so
+        rm -rf "${STAGING_DIR_TARGET}/usr/lib/libcobalt.so"
     fi
-    install -d ${D}${libdir}
-    install -m 0755 ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/lib/libcobalt.so ${D}${libdir}
+    install -d "${D}${libdir}"
+    install -m 0755 "${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/lib/libcobalt.so" "${D}${libdir}"
 
-    install -d ${D}${datadir}/content
-    cp -arv --no-preserve=ownership ${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/content ${D}${datadir}/
+    install -d "${D}${datadir}/content"
+    cp -arv --no-preserve=ownership "${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/content" "${D}${datadir}/"
 
-    install -d ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}
-    cp -prf ${S}/src/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/*.h ${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/
-    install -d ${D}/${includedir}/third_party/starboard/wpe/shared
-    cp -prf ${S}/src/third_party/starboard/wpe/shared/*.h ${D}/${includedir}/third_party/starboard/wpe/shared/
+    install -d "${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}"
+    cp -prf "${S}/src/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/"*.h "${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/"
+    install -d "${D}/${includedir}/third_party/starboard/wpe/shared"
+    cp -prf "${S}/src/third_party/starboard/wpe/shared/"*.h "${D}/${includedir}/third_party/starboard/wpe/shared/"
 
-    install -d ${D}/${includedir}/starboard
-    cp -prf ${S}/src/starboard/*.h ${D}/${includedir}/starboard/
+    install -d "${D}/${includedir}/starboard"
+    cp -prf "${S}/src/starboard/"*.h "${D}/${includedir}/starboard/"
 }
 
 SSTATE_DUPWHITELIST = "/"

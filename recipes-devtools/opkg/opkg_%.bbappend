@@ -16,6 +16,6 @@ PACKAGECONFIG_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'p
 DEPENDS_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'wpeframework-clientlibraries', '', d)}"
 
 do_install_append () {
-        install -d ${D}${includedir}/libopkg
-        install -m 0644 ${S}/libopkg/*.h ${D}${includedir}/libopkg
+    install -d ${D}${includedir}/libopkg
+    install -m 0644 ${S}/libopkg/*.h ${D}${includedir}/libopkg
 }

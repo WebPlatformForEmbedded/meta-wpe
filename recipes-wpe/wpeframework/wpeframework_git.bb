@@ -24,7 +24,7 @@ WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    webserver webkitbrowser \
+    webserver_autoresume webkitbrowser_autoresume \
 "
 
 # Buildtype
@@ -38,6 +38,7 @@ PACKAGECONFIG[production] = "-DBUILD_TYPE=Production,,"
 PACKAGECONFIG[bluetooth] = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
 PACKAGECONFIG[broadcast] = "-DBROADCAST=ON,-DBROADCAST=OFF,"
 PACKAGECONFIG[broadcastsiparse] = "-DBROADCAST_SI_PARSING=ON,-DBROADCAST_SI_PARSING=OFF,"
+PACKAGECONFIG[securesocket] = "-DSECURE_SOCKET=ON,-DSECURE_SOCKET=OFF,openssl"
 PACKAGECONFIG[virtualinput] = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 PACKAGECONFIG[wcharsupport] = "-DWCHAR_SUPPORT=ON,-DWCHAR_SUPPORT=OFF,"
 
@@ -56,8 +57,8 @@ PACKAGECONFIG[warningreporting] = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OF
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
 # it feels a bit the other way around but lets set at least webserver and webkit
-PACKAGECONFIG[webserver] = "-DPLUGIN_WEBSERVER=ON,-DPLUGIN_WEBSERVER=OFF,"
-PACKAGECONFIG[webkitbrowser] = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWSER=OFF,"
+PACKAGECONFIG[webserver_autoresume] = "-DPLUGIN_WEBSERVER=ON,-DPLUGIN_WEBSERVER=OFF,"
+PACKAGECONFIG[webkitbrowser_autoresume] = "-DPLUGIN_WEBKITBROWSER=ON,-DPLUGIN_WEBKITBROWSER=OFF,"
 
 # FIXME, determine this a little smarter
 # Provision event is required for libprovision and provision plugin
@@ -98,7 +99,6 @@ def getlayerrevision(d):
 WPE_LAYER_REV ??= "${@getlayerrevision(d)}"
 
 EXTRA_OECMAKE += "\
-    -DINSTALL_HEADERS_TO_TARGET=ON \
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
     -DRPC=ON \

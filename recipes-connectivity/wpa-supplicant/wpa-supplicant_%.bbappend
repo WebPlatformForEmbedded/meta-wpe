@@ -1,5 +1,5 @@
 do_configure_append () {
-    if ${@bb.utils.contains_any("PACKAGECONFIG_pn-wpeframework", [ "debug", "debugoptimized" ], "true", "false", d)}
+    if "${@bb.utils.contains_any('PACKAGECONFIG_pn-wpeframework-buildtype', [ 'debug', 'debugoptimized' ], 'true', 'false', d)}"
     then
         if grep -q '\bCONFIG_DEBUG_FILE\b' wpa_supplicant/.config; then
             sed -i -e '/\bCONFIG_DEBUG_FILE\b/s/.*/CONFIG_DEBUG_FILE=y/' wpa_supplicant/.config
