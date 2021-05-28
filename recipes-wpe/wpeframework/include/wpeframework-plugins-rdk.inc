@@ -25,8 +25,13 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg', 'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine', 'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
-    deviceinfo locationsync monitor monitor_webkit monitor_webkit_ux monitor_cobalt \
-    tracing webkitbrowser webkitbrowser_apps webkitbrowser_ux \
+    deviceinfo locationsync monitor monitor_webkit tracing webkitbrowser \
+"
+# FIXME: these config has to be selected based on system config requirement.
+# For the time being these are hardcoded
+PACKAGECONFIG += "\
+    monitor_webkit_ux monitor_cobalt \
+    webkitbrowser webkitbrowser_apps webkitbrowser_ux \
 "
 
 EXTRA_OECMAKE += "\
@@ -40,3 +45,4 @@ FILES_${PN}-dev += "${libdir}/cmake/*"
 
 INSANE_SKIP_${PN} += "libdir staticdev dev-so"
 INSANE_SKIP_${PN}-dbg += "libdir"
+

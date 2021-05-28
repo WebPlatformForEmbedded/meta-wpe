@@ -7,3 +7,4 @@ SRC_URI = "git://git@github.com/rdkcentral/rdkservices.git;protocol=ssh;branch=m
 SRCREV = "9d02a5006449b795394623ba023d98c10a60bcf2"
 
 require include/wpeframework-plugins-rdk.inc
+
