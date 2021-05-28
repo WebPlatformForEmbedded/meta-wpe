@@ -4,7 +4,6 @@ WPE_OPENCDMI_OUTOFPROCESS ??= "true"
 WPE_OPENCDMI_USER ??= ""
 WPE_OPENCDMI_GROUP ??= ""
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[opencdmi] = "\
     -DPLUGIN_OPENCDMI=ON \
     -DPLUGIN_OPENCDMI_AUTOSTART="${WPE_OPENCDMI_AUTOSTART}" \

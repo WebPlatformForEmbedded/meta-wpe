@@ -132,7 +132,6 @@ WPE_WEBKITBROWSER_THUNDER_DECRYPTOR_PREFERENCE ??= "true"
 WPE_WEBKITBROWSER_WEBGL ??= "true"
 WPE_WEBKITBROWSER_WINDOWCLOSE ??= "false"
 
-# ----------------------------------------------------------------------------
 PACKAGECONFIG[webkitbrowser_amazon] = "\
     -DPLUGIN_AMAZON_HYBRID=ON \
     -DPLUGIN_AMAZON_AUTOSTART="${WPE_AMAZON_AUTOSTART}" \
@@ -287,5 +286,3 @@ PACKAGECONFIG[webkitbrowser] = "\
     -DPLUGIN_WEBKITBROWSER_WINDOWCLOSE="${WPE_WEBKITBROWSER_WINDOWCLOSE}" \
     ,-DPLUGIN_WEBKITBROWSER=OFF,wpewebkit \
 "
-
-# ----------------------------------------------------------------------------

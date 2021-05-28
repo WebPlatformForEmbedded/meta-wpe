@@ -14,8 +14,6 @@ require tracecontrol.inc
 require webkitbrowser.inc
 require wpeframework-plugins.inc
 
-# ----------------------------------------------------------------------------
-
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey', 'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'netflix', 'monitor_netflix', '', d)} \
@@ -31,13 +29,10 @@ PACKAGECONFIG ??= "\
     tracing webkitbrowser webkitbrowser_apps webkitbrowser_ux \
 "
 
-# ----------------------------------------------------------------------------
 EXTRA_OECMAKE += "\
     -DBUILD_REFERENCE=${SRCREV} \
     -DCOMCAST_CONFIG=OFF \
 "
-
-# ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/*"

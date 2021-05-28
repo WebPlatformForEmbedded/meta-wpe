@@ -6,7 +6,6 @@ WPE_COMPOSITOR_OUTOFPROCESS ??= "true"
 WPE_COMPOSITOR_RESOLUTION ??= "720p"
 
 # Additional flags for Wayland implementations
-# ----------------------------------------------------------------------------
 WPE_COMPOSITOR_VIRTUALINPUT ??= "ON"
 WPE_COMPOSITOR_CURSOR_FILE ??= ""
 
@@ -19,7 +18,6 @@ WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_PATH ??= ""
 WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY ??="https://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/thundernanoservices/Compositor"
 WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_VERSION ??= "master"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[compositor] = "\
     -DPLUGIN_COMPOSITOR=ON \
     -DPLUGIN_COMPOSITOR_AUTOSTART=${WPE_COMPOSITOR_AUTOSTART} \
@@ -50,4 +48,3 @@ PACKAGECONFIG[compositorclient_wayland] = "\
 "
 
 PACKAGECONFIG[vc4graphics] = "-DVC6=ON,,libdrm mesa"
-# -----------------------------------------------------------------------------------------------------------

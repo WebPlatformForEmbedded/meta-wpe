@@ -3,7 +3,6 @@ WPE_BLUETOOTH_AUTOSTART ??= "true"
 WPE_BLUETOOTH_PERSISTMAC ??= "false"
 WPE_BLUETOOTHREMOTECONTROL_AUTOSTART ??= "true"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[bluetoothcontrol] = "\
     -DPLUGIN_BLUETOOTH=ON \
     -DPLUGIN_BLUETOOTH_AUTOSTART="${WPE_BLUETOOTH_AUTOSTART}" \
@@ -16,4 +15,3 @@ PACKAGECONFIG[bluetoothremote] = "\
     -DPLUGIN_BLUETOOTHREMOTECONTROL_AUTOSTART="${WPE_BLUETOOTHREMOTECONTROL_AUTOSTART}" \
     ,-DPLUGIN_BLUETOOTHREMOTECONTROL=OFF, \
 "
-# -----------------------------------------------------------------------------------------------------------

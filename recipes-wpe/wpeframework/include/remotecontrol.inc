@@ -16,7 +16,6 @@ WPE_REMOTECONTROL_RF4CE_NODE_ID ??= "249"
 WPE_REMOTECONTROL_RFCE_AUTOPAIRING ??= "false"
 WPE_REMOTECONTROL_RFCE_NVM_LUT ??= "DEFAULT"
 WPE_REMOTECONTROL_RF4CE_DEPENDENCY ??= "rf4ce-hal-gp"
-# -----------------------------------------------------------------------------------------------------------
 
 PACKAGECONFIG[remote] = "\
     -DPLUGIN_REMOTECONTROL=ON \
@@ -43,15 +42,11 @@ PACKAGECONFIG[remote-gp] = "\
     ,-DPLUGIN_REMOTECONTROL_RFCE=OFF,${WPE_REMOTECONTROL_RF4CE_DEPENDENCY} \
 "
 
-# -----------------------------------------------------------------------------------------------------------
-
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "remote-devinput", "true", "false", d)}
     then
       cp -av --no-preserve=ownership ${WORKDIR}/osmc-devinput-remote.json ${D}${datadir}/WPEFramework/RemoteControl/devinput-remote.json
     fi
 }
-
-# -----------------------------------------------------------------------------------------------------------
 
 FILES_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'remote-devinput', '${datadir}/WPEFramework/RemoteControl/devinput-remote.json', '', d)}"

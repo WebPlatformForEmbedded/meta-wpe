@@ -25,7 +25,6 @@ WPE_COBALT_SECRET ??= ""
 WPE_COBALT_PLAYBACKRATES ??= ""
 WPE_COBALT_WEBINSPECTOR_ADDRESS ??= "0.0.0.0:9222"
 
-# -----------------------------------------------------------------------------------------------------------
 WPE_COBALT_EXTRAFLAGS = "\
     -DPLUGIN_COBALT_AUTOSTART="${WPE_COBALT_AUTOSTART}" \
     -DPLUGIN_COBALT_OUTOFPROCESS="${WPE_COBALT_OUTOFPROCESS}" \
@@ -52,4 +51,3 @@ PACKAGECONFIG[cobalt] = "\
     ${WPE_COBALT_EXTRAFLAGS}, \
     -DPLUGIN_COBALT=OFF,libcobalt,libcobalt \
 "
-# -----------------------------------------------------------------------------------------------------------

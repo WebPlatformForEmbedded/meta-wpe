@@ -5,7 +5,6 @@ WPE_WEBSERVER_PORT ??= "8080"
 WPE_WEBSERVER_PATH ??= "/var/www/"
 WPE_DEVICEINFO_ENABLED ??= "ON"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[webserver] = "\
     -DPLUGIN_WEBSERVER=ON \
     -DPLUGIN_WEBSERVER_AUTOSTART="${WPE_WEBSERVER_AUTOSTART}" \
@@ -15,5 +14,3 @@ PACKAGECONFIG[webserver] = "\
     -DPLUGIN_DEVICEINFO="${WPE_DEVICEINFO_ENABLED}" \
     ,-DPLUGIN_WEBSERVER=OFF, \
 "
-
-# -----------------------------------------------------------------------------------------------------------

@@ -4,7 +4,6 @@ WPE_PLAYERINFO_AUTOSTART ??= "true"
 
 WPE_PLAYERINFO_DOLBY_PLATFORM_IMPL ??= "None"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[playerinfo] = "\
     -DPLUGIN_PLAYERINFO=ON \
     -DPLUGIN_PLAYERINFO_AUTOSTART=${WPE_PLAYERINFO_AUTOSTART} \
@@ -16,4 +15,3 @@ PACKAGECONFIG[playerinfo_dolby] = "\
     -DDOLBY_IMPLEMENTATION=${WPE_PLAYERINFO_DOLBY_PLATFORM_IMPL} \
     ,-DDOLBY_SUPPORT=OFF, \
 "
-# -----------------------------------------------------------------------------------------------------------

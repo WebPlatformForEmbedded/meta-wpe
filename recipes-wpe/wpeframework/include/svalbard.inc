@@ -4,7 +4,6 @@ WPE_SVALBARD_OUTOFPROCESS ??= "false"
 WPE_SVALBARD_USER ??= ""
 WPE_SVALBARD_GROUP ??= ""
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[svalbard] = "\
     -DPLUGIN_SVALBARD=ON \
     -DPLUGIN_SVALBARD_AUTOSTART="${WPE_SVALBARD_AUTOSTART}" \
@@ -13,5 +12,3 @@ PACKAGECONFIG[svalbard] = "\
     -DPLUGIN_SVALBARD_GROUP="${WPE_SVALBARD_GROUP}" \
     ,-DPLUGIN_SVALBARD=OFF, \
 "
-
-# -----------------------------------------------------------------------------------------------------------

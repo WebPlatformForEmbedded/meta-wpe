@@ -11,7 +11,6 @@ WPE_DISPLAYINFO_GPU_MEMORY_FREE_PATTERN ??= "CmaFree:"
 WPE_DISPLAYINFO_GPU_MEMORY_TOTAL_PATTERN ??= "CmaTotal:"
 WPE_DISPLAYINFO_GPU_MEMORY_UNIT_MULTIPLIER ??= "1024"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[displayinfo] = "\
     -DPLUGIN_DISPLAYINFO=ON \
     -DPLUGIN_DISPLAYINFO_USE_BEST_MODE=${WPE_DISPLAYINFO_USE_BEST_MODE} \
@@ -25,4 +24,3 @@ PACKAGECONFIG[displayinfo] = "\
     -DPLUGIN_DISPLAYINFO_GPU_MEMORY_UNIT_MULTIPLIER=${WPE_DISPLAYINFO_GPU_MEMORY_UNIT_MULTIPLIER} \
     ,-DPLUGIN_DISPLAYINFO=OFF, \
 "
-# -----------------------------------------------------------------------------------------------------------

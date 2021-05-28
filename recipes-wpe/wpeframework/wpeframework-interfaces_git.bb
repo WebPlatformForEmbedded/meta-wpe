@@ -10,15 +10,11 @@ DEPENDS += " wpeframework-tools-native wpeframework"
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
 SRCREV = "d1bc20942965cb754c07ff28350ff9ea261771f8"
 
-# ----------------------------------------------------------------------------
-
 EXTRA_OECMAKE += "\
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
     -DPYTHON_EXECUTABLE=${PYTHON} \
 "
-
-# ----------------------------------------------------------------------------
 
 do_install_append() {
     if ${@bb.utils.contains("DISTRO_FEATURES", "opencdm", "true", "false", d)}
@@ -26,8 +22,6 @@ do_install_append() {
         install -m 0644 ${D}${includedir}/WPEFramework/interfaces/IDRM.h ${D}${includedir}/cdmi.h
     fi
 }
-
-# ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/* ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"

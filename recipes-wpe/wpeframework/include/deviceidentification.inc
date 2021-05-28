@@ -3,7 +3,6 @@ WPE_DEVICEIDENTIFICATION_AUTOSTART ??= "true"
 WPE_DEVICEIDENTIFICATION_USE_MFR ??= "OFF"
 WPE_DEVICEIDENTIFICATION_IMPL ??= ""
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[deviceidentification] = "\
     -DPLUGIN_DEVICEIDENTIFICATION=ON \
     -DPLUGIN_DEVICEIDENTIFICATION_AUTOSTART="${WPE_DEVICEIDENTIFICATION_AUTOSTART}" \
@@ -12,4 +11,3 @@ PACKAGECONFIG[deviceidentification] = "\
     ,-DPLUGIN_DEVICEIDENTIFICATION=OFF, \
 "
 
-# -----------------------------------------------------------------------------------------------------------

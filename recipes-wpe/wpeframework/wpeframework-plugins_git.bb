@@ -13,7 +13,6 @@ git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
 "
 
 SRCREV = "4fb9cd13bfb4a953397003a6eed6582e1a4a14e0"
-# ----------------------------------------------------------------------------
 
 # More complicated plugins are moved seperate includes
 
@@ -50,7 +49,6 @@ include include/wifi.inc
 
 # Added deprecated plugins for backward compatibility
 include include/plugins_deprecated.inc
-# ----------------------------------------------------------------------------
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetoothcontrol', '', d)} \
@@ -62,14 +60,11 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
     cobalt dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
 "
-# ----------------------------------------------------------------------------
 
 EXTRA_OECMAKE += "\
     -DBUILD_REFERENCE=${SRCREV} \
     -DBUILD_SHARED_LIBS=ON \
 "
-
-# ----------------------------------------------------------------------------
 
 do_install_append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
@@ -79,8 +74,6 @@ do_install_append() {
       install -d ${D}${PLUGIN_WEBSERVER_PATH}
     fi
 }
-
-# ----------------------------------------------------------------------------
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/* /var/www/index.html"

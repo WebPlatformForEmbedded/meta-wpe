@@ -2,11 +2,9 @@
 WPE_TIMESYNC_AUTOSTART ??= "true"
 WPE_TIMESYNC_DEFFERED ??= "OFF"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[timesync] = "\
     -DPLUGIN_TIMESYNC=ON \
     -DPLUGIN_TIMESYNC_AUTOSTART="${WPE_TIMESYNC_AUTOSTART}" \
     -DPLUGIN_TIMESYNC_DEFFERED=${WPE_TIMESYNC_DEFFERED} \
     ,-DPLUGIN_TIMESYNC=OFF, \
 "
-# -----------------------------------------------------------------------------------------------------------

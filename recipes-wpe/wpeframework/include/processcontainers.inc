@@ -1,11 +1,8 @@
 # Provides configuration for the ProcessContainers Plugin
 WPE_PROCESSCONTAINERS_AUTOSTART ??= "true"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[processcontainers] = "\
     -DPLUGIN_PROCESSCONTAINERS=ON \
     -DPLUGIN_PROCESSCONTAINERS_AUTOSTART="${WPE_PROCESSCONTAINERS_AUTOSTART}" \
     ,-DPLUGIN_PROCESSCONTAINERS=OFF, \
 "
-
-# -----------------------------------------------------------------------------------------------------------

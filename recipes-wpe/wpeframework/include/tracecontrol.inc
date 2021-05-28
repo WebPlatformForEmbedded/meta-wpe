@@ -7,7 +7,6 @@ WPE_TRACECONTROL_CONSOLE ??= "false"
 WPE_TRACECONTROL_SYSLOG  ??= "false"
 WPE_TRACECONTROL_ABBREVIATED ??= "false"
 
-# -----------------------------------------------------------------------------------------------------------
 PACKAGECONFIG[tracing] = "\
     -DPLUGIN_TRACECONTROL=ON \
     -DPLUGIN_TRACECONTROL_AUTOSTART="${WPE_TRACECONTROL_AUTOSTART}" \
@@ -19,5 +18,3 @@ PACKAGECONFIG[tracing] = "\
     -DPLUGIN_TRACECONTROL_ABBREVIATED="${WPE_TRACECONTROL_ABBREVIATED}" \
     ,-DPLUGIN_TRACECONTROL=OFF, \
 "
-
-# -----------------------------------------------------------------------------------------------------------

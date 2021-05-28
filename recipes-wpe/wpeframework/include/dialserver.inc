@@ -12,7 +12,6 @@ WPE_DIALSERVER_YOUTUBE_MODE ??= "passive"
 WPE_DIALSERVER_YOUTUBE_CALLSIGN ??= "${@bb.utils.contains('WPE_DIALSERVER_YOUTUBE_MODE', 'active', 'Cobalt', '', d)}"
 WPE_DIALSERVER_YOUTUBE_RUNTIMECHANGE ??= "true"
 
-# -----------------------------------------------------------------------------------------------------------
 WPE_DIALSERVER_EXTRAFLAGS = "\
     -DPLUGIN_DIALSERVER_NAME="${WPE_DIALSERVER_NAME}" \
     -DPLUGIN_DIALSERVER_MODEL="${WPE_DIALSERVER_MODEL}" \
@@ -30,4 +29,3 @@ PACKAGECONFIG[dial_youtube] = "\
     -DPLUGIN_DIALSERVER_YOUTUBE_RUNTIMECHANGE=${WPE_DIALSERVER_YOUTUBE_RUNTIMECHANGE} \
     ,-DPLUGIN_DIALSERVER_ENABLE_YOUTUBE=OFF,, \
 "
-# -----------------------------------------------------------------------------------------------------------

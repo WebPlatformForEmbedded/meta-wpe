@@ -132,29 +132,19 @@ do_install_append() {
 
 SYSTEMD_SERVICE_${PN} = "wpeframework.service"
 
-# ----------------------------------------------------------------------------
-
 PACKAGES =+ "${PN}-initscript"
-
 FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
-
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
 FILES_${PN}-dev += "${libdir}/cmake/*"
 
-# ----------------------------------------------------------------------------
-
 INITSCRIPT_PACKAGES = "${PN}-initscript"
 INITSCRIPT_NAME_${PN}-initscript = "wpeframework"
+INITSCRIPT_PARAMS_${PN}-initscript = "defaults ${WPEFRAMEWORK_START} 24"
+RRECOMMENDS_${PN} = "${PN}-initscript"
 
 # If WPE Framework is enabled as distro feature, start earlier. Assuming packagegroup-wpe-boot is used and we're in control for the network
 WPEFRAMEWORK_START = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '40', '80', d)}"
-
-INITSCRIPT_PARAMS_${PN}-initscript = "defaults ${WPEFRAMEWORK_START} 24"
-
-RRECOMMENDS_${PN} = "${PN}-initscript"
-
-# ----------------------------------------------------------------------------
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
