@@ -49,3 +49,4 @@ INSANE_SKIP_${PN}-dev = 'dev-elf'
 FILES_${PN}-web-inspector-plugin += "${libdir}/wpe-webkit-0.1/libWPEWebInspectorResources.so"
 
 RCONFLICTS_${PN} = "libwpe (< 1.0)"
+

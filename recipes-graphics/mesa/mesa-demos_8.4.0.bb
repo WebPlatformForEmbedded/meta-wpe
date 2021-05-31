@@ -62,3 +62,4 @@ do_install_append() {
         	mv ${D}${bindir}/clear ${D}${bindir}/clear.mesa-demos
 	fi
 }
+

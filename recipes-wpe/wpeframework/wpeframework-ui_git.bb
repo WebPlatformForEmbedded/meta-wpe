@@ -18,3 +18,4 @@ do_install() {
 }
 
 FILES_${PN} += "${datadir}/WPEFramework/Controller/UI/*"
+

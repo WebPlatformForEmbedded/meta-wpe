@@ -11,3 +11,4 @@ EXTRA_OECONF += "--disable-gtk-doc \
                 --enable-vala=no \
                 --without-gnome \
                "
+

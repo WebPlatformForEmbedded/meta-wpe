@@ -20,3 +20,4 @@ FILES_${PN} = "\
     ${datadir}/WPEFramework/OCDM/Playready.drm \
     ${WPEFRAMEWORK_PERSISTENT_PATH}OCDM/playready \
 "
+

@@ -12,3 +12,4 @@ SRC_URI = "\
 "
 
 RCONFLICTS_${PN} = "libwpe (< 1.4) wpebackend-fdo (< 1.6)"
+

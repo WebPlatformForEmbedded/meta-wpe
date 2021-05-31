@@ -13,3 +13,4 @@ SRC_URI += "\
     file://0008-Improved-video-decoder-stopping-on-flushing.patch \
     file://0009-Don-t-abort-gst_omx_video_dec_disable-if-there-s-a-t.patch \
 "
+

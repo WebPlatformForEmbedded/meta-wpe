@@ -60,3 +60,4 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
 FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
 
 BBCLASSEXTEND = "native nativesdk"
+

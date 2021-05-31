@@ -8,3 +8,4 @@ PROVIDES += "virtual/libwpe"
 RPROVIDES_${PN} += "virtual/libwpe"
 
 inherit cmake
+

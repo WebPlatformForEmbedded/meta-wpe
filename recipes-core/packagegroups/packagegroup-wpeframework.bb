@@ -14,3 +14,4 @@ RDEPENDS_packagegroup-wpeframework = "\
     wpeframework-plugins \
     wpeframework-ui \
 "
+

@@ -75,3 +75,4 @@ do_install() {
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-rdk.so"
 INSANE_SKIP ="dev-so"
+

@@ -308,3 +308,4 @@ FILES_libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la \
 RREPLACES_mesa-megadriver = "mesa"
 RCONFLICTS_mesa-megadriver = "mesa"
 RPROVIDES_mesa-megadriver = "mesa"
+

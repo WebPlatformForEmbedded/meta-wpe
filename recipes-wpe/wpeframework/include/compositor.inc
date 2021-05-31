@@ -48,3 +48,4 @@ PACKAGECONFIG[compositorclient_wayland] = "\
 "
 
 PACKAGECONFIG[vc4graphics] = "-DVC6=ON,,libdrm mesa"
+

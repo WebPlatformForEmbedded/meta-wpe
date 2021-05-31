@@ -19,3 +19,4 @@ RDEPENDS_packagegroup-wpewebkit += "\
     fontconfig-utils \
     ttf-bitstream-vera \
 "
+

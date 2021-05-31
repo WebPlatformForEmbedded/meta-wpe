@@ -8,3 +8,4 @@ PACKAGECONFIG[volumecontrol] = "\
 "
 
 PACKAGECONFIG[volumecontrol_rdkhal] = "-DRDK_AUDIO_HAL=ON,-DRDK_AUDIO_HAL=OFF,"
+

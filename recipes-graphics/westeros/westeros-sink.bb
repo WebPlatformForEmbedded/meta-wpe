@@ -18,3 +18,4 @@ do_compile_prepend() {
 
 CFLAGS += "-I${S}/protocol"
 CFLAGS_append_toolchain-clang = " -Wno-error=c++11-narrowing"
+

@@ -50,3 +50,4 @@ do_install_append() {
 }
 
 FILES_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'remote-devinput', '${datadir}/WPEFramework/RemoteControl/devinput-remote.json', '', d)}"
+

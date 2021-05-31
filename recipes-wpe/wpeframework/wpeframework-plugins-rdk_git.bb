@@ -7,3 +7,4 @@ SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.g
 SRCREV = "aefc318b470b41ad8ea0858c01292970f1e8e8af"
 
 require include/wpeframework-plugins-rdk.inc
+

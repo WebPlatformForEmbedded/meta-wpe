@@ -36,3 +36,4 @@ do_install() {
     chrpath --delete ${D}${bindir}/WPEStorageProcess
     chrpath --delete ${D}${bindir}/WPEWebDriver
 }
+

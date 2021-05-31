@@ -30,3 +30,4 @@ FILES_${PN} += "${includedir}/cdmi.h"
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
+

@@ -82,3 +82,4 @@ FILES_${PN}-dev += "${libdir}/cmake/*"
 
 INSANE_SKIP_${PN} += "libdir staticdev dev-so"
 INSANE_SKIP_${PN}-dbg += "libdir"
+

@@ -8,3 +8,4 @@ SRC_URI = "git://git@github.com/rdkcentral/OCDM-Clearkey.git;protocol=https;bran
 SRCREV = "1524b947f5c28100326415a2ac1d02f3974acdc8"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
+

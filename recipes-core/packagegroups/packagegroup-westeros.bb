@@ -22,3 +22,4 @@ RDEPENDS_packagegroup-westeros = "\
 WESTEROS_SOC ?= "westeros-soc-drm"
 
 WESTEROS_RENDERER ?= ""
+
