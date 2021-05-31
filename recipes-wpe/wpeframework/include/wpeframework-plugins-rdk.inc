@@ -29,9 +29,9 @@ PACKAGECONFIG ??= "\
 "
 # FIXME: these config has to be selected based on system config requirement.
 # For the time being these are hardcoded
-PACKAGECONFIG += "\
-    monitor_webkit_ux monitor_cobalt \
-    webkitbrowser webkitbrowser_apps webkitbrowser_ux \
+PACKAGECONFIG_append = "\
+    monitor_cobalt monitor_webkit_ux \
+    webkitbrowser_apps webkitbrowser_ux \
 "
 
 EXTRA_OECMAKE += "\
