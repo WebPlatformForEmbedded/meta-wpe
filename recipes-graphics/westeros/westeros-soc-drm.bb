@@ -28,3 +28,4 @@ DEBIAN_NOAUTONAME_${PN}-staticdev = "1"
 inherit autotools pkgconfig
 
 FILES_${PN} = "${libdir}/*"
+

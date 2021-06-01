@@ -13,3 +13,4 @@ PACKAGECONFIG_class-target = "opengl dri ${@bb.utils.contains('DISTRO_FEATURES',
 
 # When NOT using X11, we need to make sure we have swrast available.
 DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', ',swrast', d)}"
+

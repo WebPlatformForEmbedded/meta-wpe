@@ -18,3 +18,4 @@ do_compile_prepend() {
    export SCANNER_TOOL=${STAGING_BINDIR_NATIVE}/wayland-scanner
    oe_runmake -C ${S}/simpleshell/protocol
 }
+

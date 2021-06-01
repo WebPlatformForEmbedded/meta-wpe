@@ -1,7 +1,7 @@
-From 966db4d75df6b5de9d6dac6b03543fdf65bec592 Mon Sep 17 00:00:00 2001
+From d81a55e27d1b8f66aa32912a24c2fcfe3b226acf Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Mon, 17 Jun 2019 17:00:56 +0000
-Subject: [PATCH 7/7] Manual revert of 7b6be34 omxbufferpool: deallocate OMX
+Subject: [PATCH 7/9] Manual revert of 7b6be34 omxbufferpool: deallocate OMX
  buffers when stopping
 
 Causes crashes when the app (eg: WebKit) still owns EGL buffers after the

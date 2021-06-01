@@ -8,15 +8,13 @@ require include/wpeframework-common.inc
 DEPENDS += " wpeframework-tools-native wpeframework"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
-SRCREV = "3a5a192935737e585bca1befa2017427fba3a26d"
+SRCREV = "d1bc20942965cb754c07ff28350ff9ea261771f8"
 
-# ----------------------------------------------------------------------------
-
-EXTRA_OECMAKE += " -DBUILD_SHARED_LIBS=ON \
+EXTRA_OECMAKE += "\
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_REFERENCE=${SRCREV} \
-    -DPYTHON_EXECUTABLE=${PYTHON}"
-
-# ----------------------------------------------------------------------------
+    -DPYTHON_EXECUTABLE=${PYTHON} \
+"
 
 do_install_append() {
     if ${@bb.utils.contains("DISTRO_FEATURES", "opencdm", "true", "false", d)}
@@ -25,8 +23,6 @@ do_install_append() {
     fi
 }
 
-# ----------------------------------------------------------------------------
-
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/* ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
 FILES_${PN}-dev += "${libdir}/cmake/*"
@@ -34,3 +30,4 @@ FILES_${PN} += "${includedir}/cdmi.h"
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
+

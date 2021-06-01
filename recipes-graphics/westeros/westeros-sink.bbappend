@@ -19,3 +19,4 @@ FILES_${PN} += "${libdir}/gstreamer-*/*.so"
 FILES_${PN}-dev += "${libdir}/gstreamer-*/*.la"
 FILES_${PN}-dbg += "${libdir}/gstreamer-*/.debug/*"
 FILES_${PN}-staticdev += "${libdir}/gstreamer-*/*.a "
+

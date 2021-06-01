@@ -18,3 +18,4 @@ SECURITY_CFLAGS_remove="-pie"
 COMPATIBLE_MACHINE ?= "null"
 
 inherit autotools pkgconfig
+

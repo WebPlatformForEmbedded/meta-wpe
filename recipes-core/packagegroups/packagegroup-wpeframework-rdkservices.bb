@@ -6,3 +6,4 @@ inherit packagegroup
 PACKAGES = "packagegroup-wpeframework-rdkservices"
 
 RDEPENDS_packagegroup-wpeframework-rdkservices = "wpeframework-rdkservices"
+

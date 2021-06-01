@@ -5,3 +5,4 @@ DEPENDS += " wpeframework-clientlibraries"
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/wpeframework/plugins/*.so"
+

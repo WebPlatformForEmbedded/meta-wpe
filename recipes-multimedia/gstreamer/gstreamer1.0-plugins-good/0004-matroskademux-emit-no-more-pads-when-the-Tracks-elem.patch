@@ -1,4 +1,4 @@
-From 013fc050b3ce33629a56d21dd4366229a98322ed Mon Sep 17 00:00:00 2001
+From d1a349779448f7a80185aeba847a3e38e894c5c6 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Alicia=20Boya=20Garc=C3=ADa?= <ntrrgc@gmail.com>
 Date: Thu, 14 Dec 2017 18:57:56 +0100
 Subject: [PATCH 4/6] matroskademux: emit no-more-pads when the Tracks element
@@ -224,3 +224,4 @@ index ae9f3b786..c54520d1a 100644
            demux->cluster_prevsize = 0;
 -- 
 2.17.1
+

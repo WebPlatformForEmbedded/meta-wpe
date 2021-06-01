@@ -10,9 +10,10 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
 PROVIDES = "drm"
 DEPENDS = "libpthread-stubs"
 
-SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           file://0001-meson-Also-search-for-rst2man.py.patch \
-          "
+SRC_URI = "\
+    http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
+    file://0001-meson-Also-search-for-rst2man.py.patch \
+"
 
 SRC_URI[sha256sum] = "d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb"
 
@@ -59,3 +60,4 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
 FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
 
 BBCLASSEXTEND = "native nativesdk"
+

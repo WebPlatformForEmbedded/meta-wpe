@@ -7,7 +7,7 @@ LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80"
 
 # WPE WebKit Common
-DEPENDS += " \
+DEPENDS += "\
     libwpe \
     bison-native ccache-native glib-2.0-native gperf-native harfbuzz-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
@@ -28,11 +28,11 @@ WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 
 WPE_PLATFORM_x86 ?= "intelce"
 WPE_PLATFORM ?= "egl"
 
-PACKAGECONFIG ?= " \
-        ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
-        2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio webcrypto woff2 gst_gl remote-inspector openjpeg unified-builds service-worker \
-        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '' ,d)} \
-        ${WPE_PLATFORM} \
+PACKAGECONFIG ?= "\
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
+    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio webcrypto woff2 gst_gl remote-inspector openjpeg unified-builds service-worker \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '' ,d)} \
+    ${WPE_PLATFORM} \
 "
 
 # Mesa only offscreen target support for Westeros backend
@@ -102,17 +102,11 @@ PACKAGECONFIG[playready] = "-DENABLE_PLAYREADY=ON,-DENABLE_PLAYREADY=OFF,playrea
 PACKAGECONFIG[gst_httpsrc] = "-DUSE_GSTREAMER_WEBKIT_HTTP_SRC=ON,,"
 PACKAGECONFIG[gst_holepunch] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_GSTREAMER_HOLEPUNCH=ON,,"
 
-EXTRA_OECMAKE += " \
+EXTRA_OECMAKE += "\
     -DCMAKE_BUILD_TYPE=Release \
     -DPORT=WPE \
     -G Ninja \
 " 
-
-# Enable CCACHE
-#EXTRA_OECMAKE += " \
-#    -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-#    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-#"
 
 EXTRANATIVEPATH += "chrpath-native"
 
@@ -147,7 +141,7 @@ FILES_${PN}-qtwpe-qml-plugin += "${libdir}/qt5/qml/org/wpewebkit/qtwpe/*"
 INSANE_SKIP_${PN}-qtwpe-qml-plugin = "dev-so"
 
 # Extra runtime depends
-RDEPENDS_${PN} += " \
+RDEPENDS_${PN} += "\
     virtual/wpebackend \
     ${@bb.utils.contains('PACKAGECONFIG', 'mediasource', 'gstreamer1.0-plugins-good-isomp4', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'webaudio', 'gstreamer1.0-plugins-good-wavparse', '', d)} \
@@ -187,13 +181,13 @@ RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
 RDEPS_VIDEO += "${RDEPS_EXTRA}"
 RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
 
-RDEPENDS_${PN} += " \
+RDEPENDS_${PN} += "\
     virtual/libwpe \
     virtual/wpebackend \
 "
 
 # Extra runtime recommends
-RRECOMMENDS_${PN} += " \
+RRECOMMENDS_${PN} += "\
     ca-certificates \
     shared-mime-info \
     ttf-bitstream-vera \
@@ -201,3 +195,4 @@ RRECOMMENDS_${PN} += " \
     ${PN}-qtwpe-qml-plugin \
     ${@bb.utils.contains('PACKAGECONFIG', 'video', 'gstreamer1.0-plugins-base-meta gstreamer1.0-plugins-good-meta gstreamer1.0-plugins-bad-meta', '', d)} \
 "
+

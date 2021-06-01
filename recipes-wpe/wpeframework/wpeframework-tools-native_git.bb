@@ -8,3 +8,4 @@ DEPENDS += " python3-native python3-jsonref-native"
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/Tools"
 
 FILES_${PN} += "${datadir}/*/Modules/*.cmake"
+

@@ -7,3 +7,4 @@ require include/wpeframework-plugins.inc
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEPluginLauncher.git"
 SRCREV = "2f425ac9d08aa84927f88ee8f3576e9006b8783b"
 
+

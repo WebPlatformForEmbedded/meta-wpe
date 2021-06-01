@@ -8,8 +8,7 @@ DEPENDS += " widevine"
 
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=development/widevine-15.3.0"
 
-SRCREV = "795ae7c85489ad5e24eafd666a6adf07ef5a76ad"
+SRCREV = "70b3acf9af4fa74631d1eb071596534b02bae206"
 
-FILES_${PN} = " \
-    ${datadir}/WPEFramework/OCDM/*.drm \
-"
+FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
+

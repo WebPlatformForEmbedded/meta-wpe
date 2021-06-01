@@ -7,6 +7,7 @@ require include/wpeframework-plugins.inc
 DEPENDS += " broadcom-refsw"
 
 SRC_URI = "git://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=http;branch=master"
-SRCREV = "88ee2c16e82c6b826e492aa918e25f68e8a61bfb"
+SRCREV = "fa60a8b37af4da396a8ba108dc4f9f85b6eaf10e"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
+

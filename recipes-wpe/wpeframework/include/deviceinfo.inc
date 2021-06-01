@@ -1,0 +1,9 @@
+# Provides configuration for the DeviceInfo Plugin
+WPE_DEVICEINFO_AUTOSTART ??= "true"
+
+PACKAGECONFIG[deviceinfo] = "\
+    -DPLUGIN_DEVICEINFO=ON \
+    -DPLUGIN_DEVICEINFO_AUTOSTART="${WPE_DEVICEINFO_AUTOSTART}" \
+    ,-DPLUGIN_DEVICEINFO=OFF, \
+"
+

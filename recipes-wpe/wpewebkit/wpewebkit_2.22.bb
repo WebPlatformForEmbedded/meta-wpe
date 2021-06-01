@@ -4,9 +4,10 @@ PV = "2.22+git${SRCPV}"
 PR = "r0"
 
 SRCREV ?= "57bbecb9421d206f40a3beb45b9d800288a39b1d"
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22 \
-           file://0001-WPEWebkit-compile-fix.patch \
-           file://0001-Fix-for-missing-heap-vm-main.patch \
+SRC_URI = "\
+    git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=wpe-2.22 \
+    file://0001-WPEWebkit-compile-fix.patch \
+    file://0001-Fix-for-missing-heap-vm-main.patch \
 "
 
 DEPENDS += "libgcrypt"
@@ -16,7 +17,7 @@ do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} all
 }
 
-EXTRA_OECMAKE += " \
+EXTRA_OECMAKE += "\
     -DEXPORT_DEPRECATED_WEBKIT2_C_API=ON \
     -DUSE_LD_GOLD=OFF \
 " 
@@ -48,3 +49,4 @@ INSANE_SKIP_${PN}-dev = 'dev-elf'
 FILES_${PN}-web-inspector-plugin += "${libdir}/wpe-webkit-0.1/libWPEWebInspectorResources.so"
 
 RCONFLICTS_${PN} = "libwpe (< 1.0)"
+

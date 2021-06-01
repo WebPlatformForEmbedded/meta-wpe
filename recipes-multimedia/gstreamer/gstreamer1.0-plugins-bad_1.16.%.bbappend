@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI += " \
+SRC_URI += "\
     file://0001-adaptivedemux-minimal-HTTP-context-support.patch \
     file://0002-Fix-to-set-current_fragment-for-live-streaming.patch \
     file://0003-Add-a-workaround-patch-for-the-mss-live-stream-fragm.patch \
@@ -10,4 +10,6 @@ SRC_URI += " \
     file://0007-Fix-HLS-live-stream-issues-with-http-cdn.metrologica.patch \
     file://0008-Parse-playready-payload.patch \
     file://0009-mssdemux-support-for-live-content-as-vod.patch \
+    file://0010-mssdemux-return-initialization-data-decoded-from-bas.patch \
 "
+

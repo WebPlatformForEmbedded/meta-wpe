@@ -14,3 +14,4 @@ do_install() {
         cp -rf ${S}/* ${D}/var/www/RDKSplashScreen
         rm ${D}/var/www/RDKSplashScreen/LICENSE
 }
+
