@@ -12,7 +12,7 @@ SRC_URI = "\
     file://0001-cmake-become-more-easy-in-findgbm.patch \
 "
 
-SRCREV = "4bfd8a74f8336e609f45ecd0de33d6732651a325"
+SRCREV = "0836dacda628aeb7345e5bbf5d1a93b8f8a2864e"
 
 include include/compositor.inc
 
