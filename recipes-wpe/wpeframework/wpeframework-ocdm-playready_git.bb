@@ -7,11 +7,11 @@ require include/wpeframework-plugins.inc
 DEPENDS += " playready"
 
 SRC_URI = "\
-    git://git@github.com/rdkcentral/OCDM-Playready.git;protocol=https;branch=development/modulename_fix \
+    git://git@github.com/rdkcentral/OCDM-Playready.git;protocol=https;branch=PR2.5 \
     file://0001-OCDM-Playready-adjust-header-order-to-fix-build-issue.patch \
 "
 
-SRCREV = "70e69f4a5a9252f980398b6eadb53d282debbf0b"
+SRCREV = "9c530ee979d67aeb07c710f6c51026ae37807936"
 EXTRA_OECMAKE += "\
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
 "
