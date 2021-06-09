@@ -17,7 +17,7 @@ inherit systemd update-rc.d python3native
 PROVIDES += "thunder"
 RPROVIDES_${PN} += "thunder"
 
-WPEFRAMEWORK_SYSTEM_PREFIX ??= "OE"
+WPEFRAMEWORK_SYSTEM_PREFIX ??= "WPE"
 
 # Configure exceptions handling (ON/OFF)
 WPEFRAMEWORK_EXCEPTIONS_ENABLE ??= "OFF"
