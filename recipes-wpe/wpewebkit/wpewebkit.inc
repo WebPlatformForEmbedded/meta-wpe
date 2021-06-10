@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf
 # WPE WebKit Common
 DEPENDS += "\
     libwpe \
-    bison-native ccache-native glib-2.0-native gperf-native harfbuzz-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
+    bison-native ccache-native glib-2.0-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
     libepoxy libpng libsoup-2.4 libwebp libxml2 libxslt thunder\
     virtual/egl virtual/libgles2 \
@@ -20,8 +20,9 @@ CCACHE_DISABLE[unexport] = "1"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig perlnative python3native
-inherit ${@'cmake_qt5' if 'qt5-layer' in d.getVar('BBFILE_COLLECTIONS').split() else ''}
+inherit cmake pkgconfig perlnative
+inherit ${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'morty', 'pythonnative', 'python3native')}
+inherit ${@'cmake_qt5' if 'qt5-layer' in d.getVar('BBFILE_COLLECTIONS', True).split() else ''}
 
 WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros westeros-sink', 'egl', d)}"
 WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 'egl', d)}"
@@ -30,7 +31,7 @@ WPE_PLATFORM ?= "egl"
 
 PACKAGECONFIG ?= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
-    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio webcrypto woff2 gst_gl remote-inspector openjpeg unified-builds service-worker \
+    2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio webcrypto gst_gl remote-inspector openjpeg unified-builds service-worker \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '' ,d)} \
     ${WPE_PLATFORM} \
 "
@@ -43,7 +44,7 @@ PACKAGECONFIG[westeros-mesa] = "-DUSE_WPEWEBKIT_BACKEND_WESTEROS_MESA=ON,,"
 PACKAGECONFIG[intelce] = "-DUSE_WPEWEBKIT_PLATFORM_INTEL_CE=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
 PACKAGECONFIG[nexus] = "-DUSE_WPEWEBKIT_PLATFORM_BCM_NEXUS=ON -DUSE_HOLE_PUNCH_GSTREAMER=ON,,"
 PACKAGECONFIG[qcomdb] = "-DUSE_WPEWEBKIT_PLATFORM_QCOM_DB=ON,,"
-PACKAGECONFIG[egl] = "-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF,gstreamer1.0-plugins-base"
+PACKAGECONFIG[egl] = "-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF,gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON,,westeros"
 
 # westeros-sink, override with egl if glimagesink is vsink
@@ -140,12 +141,17 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 FILES_${PN}-qtwpe-qml-plugin += "${libdir}/qt5/qml/org/wpewebkit/qtwpe/*"
 INSANE_SKIP_${PN}-qtwpe-qml-plugin = "dev-so"
 
+GL_DEPENDENCY = "gstreamer1.0-plugins-bad-opengl"
+GL_DEPENDENCY_dunfell = "gstreamer1.0-plugins-base-opengl"
+
+MPG_DEPENDENCY = "gstreamer1.0-plugins-ugly-mpg123"
+MPG_DEPENDENCY_dunfell = "gstreamer1.0-plugins-good-mpg123"
 # Extra runtime depends
 RDEPENDS_${PN} += "\
     virtual/wpebackend \
     ${@bb.utils.contains('PACKAGECONFIG', 'mediasource', 'gstreamer1.0-plugins-good-isomp4', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'webaudio', 'gstreamer1.0-plugins-good-wavparse', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'gst_gl', 'gstreamer1.0-plugins-base-opengl', '', d)} \
+    ${@bb.utils.contains('PACKAGECONFIG', 'gst_gl', '${GL_DEPENDENCY}', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'video', 'gstreamer1.0-plugins-base-app \
                                                     gstreamer1.0-plugins-base-playback \
                                                     gstreamer1.0-plugins-base-audioconvert \
@@ -163,7 +169,7 @@ RDEPENDS_${PN} += "\
                                                     gstreamer1.0-plugins-good-deinterlace \
                                                     gstreamer1.0-plugins-good-interleave \
                                                     gstreamer1.0-plugins-good-matroska \
-                                                    gstreamer1.0-plugins-good-mpg123 \
+                                                    ${MPG_DEPENDENCY} \
                                                     gstreamer1.0-plugins-bad-dashdemux \
                                                     gstreamer1.0-plugins-bad-hls \
                                                     gstreamer1.0-plugins-bad-mpegtsdemux \

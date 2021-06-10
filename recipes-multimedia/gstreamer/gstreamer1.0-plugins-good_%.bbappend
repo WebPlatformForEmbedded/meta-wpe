@@ -1,3 +1,4 @@
-PACKAGECONFIG_append = " matroska mpg123"
-PACKAGECONFIG[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
+PACKAGECONFIG_dunfell[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
+PACKAGECONFIG_append_dunfell = " matroska"
+PACKAGECONFIG_append = " mpg123"
 

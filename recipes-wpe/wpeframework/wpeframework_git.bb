@@ -91,9 +91,9 @@ WPEFRAMEWORK_EXTERN_EVENTS ??= "\
 "
 
 def getlayerrevision(d):
-    topdir = d.getVar('TOPDIR')
+    topdir = d.getVar('TOPDIR', d, True)
 
-    layers = (d.getVar("BBLAYERS") or "").split()
+    layers = (d.getVar("BBLAYERS", d, True) or "").split()
     for layer in layers:
         my_layer = layer.split('/')[-1]
         if my_layer == 'meta-wpe':

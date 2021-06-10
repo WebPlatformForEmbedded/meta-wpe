@@ -12,7 +12,6 @@ require packager.inc
 require securityagent.inc
 require tracecontrol.inc
 require webkitbrowser.inc
-require wpeframework-plugins.inc
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey', 'opencdmi_ck', '', d)} \
