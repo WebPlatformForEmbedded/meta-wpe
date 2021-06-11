@@ -14,3 +14,4 @@ SRC_URI += "\
     file://0009-qtdemux-added-support-for-cbcs-encryption-scheme.patch \
 "
 
+PACKAGECONFIG[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
