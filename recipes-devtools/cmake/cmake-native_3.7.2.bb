@@ -35,3 +35,5 @@ do_install() {
 }
 
 do_compile[progress] = "percent"
+DEFAULT_PREFERENCE = "-1"
+

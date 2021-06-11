@@ -47,3 +47,6 @@ FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
 FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
 
 BBCLASSEXTEND = "nativesdk"
+
+DEFAULT_PREFERENCE = "-1"
+

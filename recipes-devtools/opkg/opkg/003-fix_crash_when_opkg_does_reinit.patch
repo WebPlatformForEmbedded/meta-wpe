@@ -1,8 +1,8 @@
 diff --git a/libopkg/opkg.c b/libopkg/opkg.c
-index 581b343..89d7e21 100644
+index 1706e22..c940c53 100644
 --- a/libopkg/opkg.c
 +++ b/libopkg/opkg.c
-@@ -128,6 +128,12 @@ int opkg_new()
+@@ -130,6 +130,12 @@ int opkg_new()
      int r;
      saved_conf = *opkg_config;
  

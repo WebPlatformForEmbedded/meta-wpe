@@ -1,8 +1,8 @@
 diff --git a/libopkg/opkg.c b/libopkg/opkg.c
-index c296362..12da529 100644
+index 05de83d..1706e22 100644
 --- a/libopkg/opkg.c
 +++ b/libopkg/opkg.c
-@@ -209,7 +209,10 @@ int opkg_install_package(const char *package_url,
+@@ -207,7 +207,10 @@ int opkg_install_package(const char *package_url,
      /* Pre-process the package name to handle remote URLs and paths to
       * ipk/opk files.
       */
@@ -15,12 +15,12 @@ index c296362..12da529 100644
      /* ... */
      pkg_info_preinstall_check();
 diff --git a/libopkg/opkg_download.c b/libopkg/opkg_download.c
-index a37b10d..039452c 100644
+index 5c74f66..8c66ecd 100644
 --- a/libopkg/opkg_download.c
 +++ b/libopkg/opkg_download.c
-@@ -415,6 +415,9 @@ int opkg_prepare_url_for_install(const char *url, char **namep)
- {
-     int r;
+@@ -425,6 +425,9 @@ int opkg_prepare_url_for_install(const char *url, char **namep)
+     abstract_pkg_vec_t *apkgs = NULL;
+     abstract_pkg_t *ab_pkg = NULL;
  
 +    if (namep)
 +        *namep = NULL;
@@ -28,8 +28,8 @@ index a37b10d..039452c 100644
      /* First heuristic: Maybe it's a remote URL. */
      if (url_has_remote_protocol(url)) {
          char *cache_location;
-@@ -453,6 +456,13 @@ int opkg_prepare_url_for_install(const char *url, char **namep)
-             return opkg_prepare_file_for_install(pkg->local_filename, namep);
+@@ -498,6 +501,13 @@ int opkg_prepare_url_for_install(const char *url, char **namep)
+             }
          }
  
 +     /*
@@ -40,5 +40,5 @@ index a37b10d..039452c 100644
 +            *namep = url;
 +
          /* Nothing special to do. */
-         return 0;
+         goto CLEANUP;
      }
