@@ -1,4 +1,4 @@
-PACKAGECONFIG_dunfell[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
-PACKAGECONFIG_append_dunfell = " matroska"
+PACKAGECONFIG[matroska] = "-Dmatroska=enabled,,"
+PACKAGECONFIG_append = " ${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'dunfell', 'matroska', '')}"
 PACKAGECONFIG_append = " mpg123"
 
