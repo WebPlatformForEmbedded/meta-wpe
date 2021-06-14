@@ -3,11 +3,11 @@ SUMMARY = "Web Platform for Embedded Framework"
 require include/wpeframework.inc
 require include/wpeframework-common.inc
 
-DEPENDS += "zlib virtual/egl wpeframework-tools-native"
+DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
-SRC_URI += "\
+SRC_URI_append = "\
     file://wpeframework-init \
     file://wpeframework.service.in \
 "

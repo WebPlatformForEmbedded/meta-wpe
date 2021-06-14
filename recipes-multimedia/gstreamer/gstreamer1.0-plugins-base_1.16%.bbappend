@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
 PACKAGECONFIG[gl] ?= "-Dgl=enabled -Dgl_winsys=egl,,"
 
-SRC_URI += "\
+SRC_URI_append = "\
     file://0001-meson-add-window-system-egl.patch \
     file://0002-decodebin-Manually-sync-element-states-with-parent-a.patch \
     file://0003-gstglcolorconvert-Reverse-direction-when-asking-for-.patch \

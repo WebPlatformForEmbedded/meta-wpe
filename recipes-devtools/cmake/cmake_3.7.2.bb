@@ -2,7 +2,7 @@ require cmake.inc
 
 inherit cmake
 
-DEPENDS += "curl expat zlib libarchive xz ncurses bzip2"
+DEPENDS_append = " curl expat zlib libarchive xz ncurses bzip2"
 
 SRC_URI_append_class-nativesdk = " \
     file://OEToolchainConfig.cmake \

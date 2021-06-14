@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=66fe57b27abb01505f399ce4405cfea0"
 
 require include/wpeframework-plugins.inc
 
-DEPENDS += " playready"
+DEPENDS_append = " playready"
 
 SRC_URI = "\
     git://git@github.com/rdkcentral/OCDM-Playready.git;protocol=https;branch=PR2.5 \

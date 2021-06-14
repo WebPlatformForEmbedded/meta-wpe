@@ -5,7 +5,7 @@ SUMMARY = "This receipe compiles the westeros compositor simple-shelk component"
 S = "${WORKDIR}/git"
 LICENSE_LOCATION = "${S}/LICENSE"
 
-DEPENDS += "wayland wayland-native glib-2.0"
+DEPENDS_append = " wayland wayland-native glib-2.0"
 
 inherit autotools pkgconfig
 

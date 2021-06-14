@@ -1,9 +1,9 @@
 require cmake.inc
 inherit native
 
-DEPENDS += "bzip2-replacement-native expat-native xz-native zlib-native curl-native"
+DEPENDS_append = " bzip2-replacement-native expat-native xz-native zlib-native curl-native"
 
-SRC_URI += "\
+SRC_URI_append = "\
     file://cmlibarchive-disable-ext2fs.patch \
 "
 

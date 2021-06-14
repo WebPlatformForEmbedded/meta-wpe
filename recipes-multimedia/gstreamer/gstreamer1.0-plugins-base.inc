@@ -9,7 +9,7 @@ SRC_URI_append = "\
 
 LICENSE = "GPLv2+ & LGPLv2+"
 
-DEPENDS += "iso-codes util-linux zlib"
+DEPENDS_append = " iso-codes util-linux zlib"
 
 inherit gettext
 

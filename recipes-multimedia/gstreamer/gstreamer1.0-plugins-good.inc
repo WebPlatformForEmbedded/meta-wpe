@@ -2,7 +2,7 @@ require gstreamer1.0-plugins.inc
 
 LICENSE = "GPLv2+ & LGPLv2.1+"
 
-DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
+DEPENDS_append = " gstreamer1.0-plugins-base libcap zlib bzip2"
 
 inherit gettext
 

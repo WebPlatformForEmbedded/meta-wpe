@@ -8,11 +8,17 @@ PACKAGES = "${PN}"
 inherit pythonnative
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad python-native ninja-native bison-native wpeframework-clientlibraries"
 
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=master"
-SRC_URI_append = "${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'dunfell', '${GCC8_9_COMPILE_FIX_PATCHES}', '')}"
-GCC8_9_COMPILE_FIX_PATCHES = "\
-    file://0001-changes-for-gcc-8.patch \
+GCC_MAJOR_VERSION = "${@oe.utils.trim_version("${GCCVERSION}", 1)}"
+GCC_8_PATCH = "file://0001-changes-for-gcc-8.patch"
+GCC_9_PATCH = "\
+    ${GCC_8_PATCH} \
     file://0002-changes-for-gcc-9.patch \
+"
+
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=master"
+SRC_URI_append = "\
+    ${@bb.utils.contains('GCC_MAJOR_VERSION', '8', '${GCC_8_PATCH}', '', d)} \
+    ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCH}', '', d)} \
 "
 SRCREV ??= "06acca6a6d5224bb61bbf6092b4d8d6ba3f5970b"
 
@@ -25,7 +31,7 @@ COBALT_PLATFORM ??= ""
 COBALT_PLATFORM_NAME ??= ""
 
 COBALT_DEPENDENCIES ??= ""
-DEPENDS += "${COBALT_DEPENDENCIES}"
+DEPENDS_append = " ${COBALT_DEPENDENCIES}"
 
 RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad wpeframework ${COBALT_DEPENDENCIES}"
 

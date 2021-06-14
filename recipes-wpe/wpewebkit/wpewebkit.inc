@@ -7,7 +7,7 @@ LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80"
 
 # WPE WebKit Common
-DEPENDS += "\
+DEPENDS_append = "\
     libwpe \
     bison-native ccache-native glib-2.0-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
@@ -33,6 +33,7 @@ PACKAGECONFIG ?= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
     2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio webcrypto gst_gl remote-inspector openjpeg unified-builds service-worker \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '' ,d)} \
+    ${@bb.utils.contains('DISTRO_CODENAME', 'dunfell', 'woff2', '' ,d)} \
     ${WPE_PLATFORM} \
 "
 
