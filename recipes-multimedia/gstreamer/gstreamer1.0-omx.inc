@@ -1,11 +1,13 @@
 SUMMARY = "OpenMAX IL plugins for GStreamer"
+DESCRIPTION = "GStreamer OpenMAX IL wrapper plugin. This plugin wraps available \
+OpenMAX IL components and makes them available as standard GStreamer elements."
 HOMEPAGE = "http://gstreamer.freedesktop.org/"
 SECTION = "multimedia"
 
 LICENSE = "LGPLv2.1"
 LICENSE_FLAGS = "commercial"
 
-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+DEPENDS_append = " gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 
 inherit autotools pkgconfig gettext gtk-doc upstream-version-is-even
 

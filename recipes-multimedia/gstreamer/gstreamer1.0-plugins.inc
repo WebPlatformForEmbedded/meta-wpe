@@ -1,9 +1,11 @@
 SUMMARY = "Plugins for the GStreamer multimedia framework 1.x"
+DESCRIPTION = "GStreamer is a multimedia framework for encoding and decoding video and sound. \
+It supports a wide range of formats including mp3, ogg, avi, mpeg and quicktime."
 HOMEPAGE = "http://gstreamer.freedesktop.org/"
 BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
 SECTION = "multimedia"
 
-DEPENDS = "gstreamer1.0 glib-2.0-native"
+DEPENDS_append = " gstreamer1.0 glib-2.0-native"
 
 inherit autotools pkgconfig upstream-version-is-even gobject-introspection gtk-doc
 

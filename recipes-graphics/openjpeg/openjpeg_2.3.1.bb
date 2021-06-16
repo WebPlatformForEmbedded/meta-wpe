@@ -3,9 +3,9 @@ HOMEPAGE = "http://www.openjpeg.org"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=c648878b4840d7babaade1303e7f108c"
 
-DEPENDS = "libpng tiff lcms zlib"
+DEPENDS_append = " libpng tiff lcms zlib"
 
-SRC_URI = " \
+SRC_URI = "\
     git://github.com/uclouvain/openjpeg.git \
     file://0002-Do-not-ask-cmake-to-export-binaries-they-don-t-make-.patch \
     file://CVE-2020-6851.patch \

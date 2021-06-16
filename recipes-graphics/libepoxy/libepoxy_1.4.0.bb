@@ -1,4 +1,8 @@
 SUMMARY = "OpenGL function pointer management library"
+DESCRIPTION = "Epoxy is a library for handling OpenGL function pointer management \
+It hides the complexity of dlopen(), dlsym(), glXGetProcAddress(), eglGetProcAddress(), etc. \
+from the app developer, with very little knowledge needed on their part. \
+They get to read GL specs and write code using undecorated function names like glCompileShader()"
 HOMEPAGE = "https://github.com/anholt/libepoxy/"
 SECTION = "libs"
 
@@ -14,7 +18,7 @@ inherit autotools pkgconfig features_check
 
 REQUIRED_DISTRO_FEATURES = "opengl"
 
-DEPENDS = "util-macros virtual/egl"
+DEPENDS_append = " util-macros virtual/egl"
 
 PACKAGECONFIG[x11] = "--enable-glx, --disable-glx, virtual/libx11"
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"

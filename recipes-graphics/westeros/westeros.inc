@@ -13,7 +13,7 @@ export SCANNER_TOOL = "wayland-scanner"
 
 acpaths = "-I cfg"
 
-DEPENDS_append = "\
+DEPENDS_append = " \
     wayland-native \
     gstreamer1.0 \
     wayland \

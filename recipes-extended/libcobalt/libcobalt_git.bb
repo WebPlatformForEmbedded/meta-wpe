@@ -1,3 +1,7 @@
+DESCRIPTION = " Cobalt is a lightweight application container \
+(i.e. an application runtime, like a JVM or the Flash Player) \
+that is compatible with a subset of the W3C HTML5 specifications"
+
 LICENSE = "BSD-3-Clause & BSD-2-Clause & Apache-2.0 & MIT & ISC & OpenSSL & CC0-1.0 & LGPL-2.0 & LGPL-2.1 & PD & Zlib & MPL-2.0"
 LIC_FILES_CHKSUM = "\
     file://src/LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d \
@@ -9,16 +13,16 @@ inherit pythonnative
 DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad python-native ninja-native bison-native wpeframework-clientlibraries"
 
 GCC_MAJOR_VERSION = "${@oe.utils.trim_version("${GCCVERSION}", 1)}"
-GCC_8_PATCH = "file://0001-changes-for-gcc-8.patch"
-GCC_9_PATCH = "\
-    ${GCC_8_PATCH} \
+GCC_8_PATCHLIST = "file://0001-changes-for-gcc-8.patch"
+GCC_9_PATCHLIST = "\
+    ${GCC_8_PATCHLIST} \
     file://0002-changes-for-gcc-9.patch \
 "
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=master"
-SRC_URI_append = "\
-    ${@bb.utils.contains('GCC_MAJOR_VERSION', '8', '${GCC_8_PATCH}', '', d)} \
-    ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCH}', '', d)} \
+SRC_URI_append = " \
+    ${@bb.utils.contains('GCC_MAJOR_VERSION', '8', '${GCC_8_PATCHLIST}', '', d)} \
+    ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)} \
 "
 SRCREV ??= "06acca6a6d5224bb61bbf6092b4d8d6ba3f5970b"
 
