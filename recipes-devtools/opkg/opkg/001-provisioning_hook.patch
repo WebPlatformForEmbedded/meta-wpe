@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 52e1025..7888b38 100644
+index e090a10..2d4b625 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -10,6 +10,7 @@ AC_CONFIG_HEADERS(config.h)
@@ -10,7 +10,7 @@ index 52e1025..7888b38 100644
  
  # Disable C++/Fortran checks
  define([AC_LIBTOOL_LANG_CXX_CONFIG], [:])
-@@ -74,6 +75,18 @@ if test "x$want_curl" = "xyes"; then
+@@ -116,6 +117,18 @@ if test "x$want_curl" = "xyes"; then
  fi
  AM_CONDITIONAL(HAVE_CURL, test "x$want_curl" = "xyes")
  
@@ -30,10 +30,10 @@ index 52e1025..7888b38 100644
  AC_ARG_ENABLE(sha256,
                AC_HELP_STRING([--enable-sha256], [Enable sha256sum check
 diff --git a/libopkg/Makefile.am b/libopkg/Makefile.am
-index 3e62c24..c714bf6 100644
+index 2e2fb05..c50254b 100644
 --- a/libopkg/Makefile.am
 +++ b/libopkg/Makefile.am
-@@ -38,6 +38,11 @@ if HAVE_OPENSSL
+@@ -40,6 +40,11 @@ if HAVE_OPENSSL
  opkg_sources += opkg_openssl.c
  opkg_headers += opkg_openssl.h
  endif
@@ -45,7 +45,7 @@ index 3e62c24..c714bf6 100644
  if HAVE_GPGME
  opkg_sources += opkg_gpg.c
  opkg_headers += opkg_gpg.h
-@@ -67,7 +72,7 @@ libopkg_include_HEADERS = $(opkg_headers)
+@@ -68,7 +73,7 @@ libopkg_include_HEADERS = $(opkg_headers)
  endif
  
  libopkg_la_LIBADD = $(LIBARCHIVE_LIBS) \
@@ -55,12 +55,12 @@ index 3e62c24..c714bf6 100644
  
  libopkg_la_LDFLAGS = -version-info 1:0:0
 diff --git a/libopkg/opkg_install.c b/libopkg/opkg_install.c
-index 975d9c6..d3843bb 100644
+index c1e7e04..c99a976 100644
 --- a/libopkg/opkg_install.c
 +++ b/libopkg/opkg_install.c
-@@ -926,6 +926,17 @@ int opkg_install_pkg(pkg_t * pkg, int from_upgrade)
-             return -1;
-         }
+@@ -921,6 +921,17 @@ int opkg_install_pkg(pkg_t * pkg)
+         if (err)
+             return err;
      }
 +#ifdef HAVE_PROVISION
 +    /* Weird. opkg_download_pkg() calls pkg_verify() which checks the signature but it seems it's not always called
@@ -74,11 +74,11 @@ index 975d9c6..d3843bb 100644
 +    }
 +#endif
  
-     if (opkg_config->download_only) {
- #ifndef HAVE_SOLVER
+     if (opkg_config->noaction)
+         return 0;
 diff --git a/libopkg/opkg_provision.cpp b/libopkg/opkg_provision.cpp
 new file mode 100644
-index 0000000..3baac7b
+index 0000000..d952606
 --- /dev/null
 +++ b/libopkg/opkg_provision.cpp
 @@ -0,0 +1,257 @@
@@ -375,10 +375,10 @@ index 0000000..89940be
 +#endif
 +#endif
 diff --git a/libopkg/opkg_verify.c b/libopkg/opkg_verify.c
-index a71591d..9f9ea29 100644
+index 2c36841..da3c546 100644
 --- a/libopkg/opkg_verify.c
 +++ b/libopkg/opkg_verify.c
-@@ -53,6 +53,20 @@ int opkg_verify_openssl_signature(const char *file, const char *sigfile)
+@@ -55,6 +55,20 @@ int opkg_verify_openssl_signature(const char *file, const char *sigfile)
  }
  #endif
  
@@ -399,7 +399,7 @@ index a71591d..9f9ea29 100644
  int opkg_verify_md5sum(const char *file, const char *md5sum)
  {
      int r;
-@@ -104,6 +118,8 @@ int opkg_verify_signature(const char *file, const char *sigfile)
+@@ -106,6 +120,8 @@ int opkg_verify_signature(const char *file, const char *sigfile)
          return opkg_verify_gpg_signature(file, sigfile);
      else if (strcmp(opkg_config->signature_type, "openssl") == 0)
          return opkg_verify_openssl_signature(file, sigfile);
@@ -409,10 +409,10 @@ index a71591d..9f9ea29 100644
      opkg_msg(ERROR, "signature_type option '%s' not understood.\n",
               opkg_config->signature_type);
 diff --git a/libopkg/pkg.c b/libopkg/pkg.c
-index b142b99..bfc061c 100644
+index bd679db..97d6efc 100644
 --- a/libopkg/pkg.c
 +++ b/libopkg/pkg.c
-@@ -262,6 +262,19 @@ int pkg_init_from_file(pkg_t * pkg, const char *filename)
+@@ -271,6 +271,19 @@ int pkg_init_from_file(pkg_t * pkg, const char *filename)
  
      pkg->local_filename = xstrdup(filename);
  
@@ -432,7 +432,7 @@ index b142b99..bfc061c 100644
      tmp = xstrdup(filename);
      sprintf_alloc(&control_path, "%s/%s.control.XXXXXX", opkg_config->tmp_dir,
                    basename(tmp));
-@@ -1417,11 +1430,13 @@ int pkg_verify(pkg_t * pkg)
+@@ -1562,11 +1575,13 @@ int pkg_verify(pkg_t * pkg)
      }
  
      if (opkg_config->check_pkg_signature) {

@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
 PACKAGECONFIG_remove = "gtk"
 
-SRC_URI += "\
+SRC_URI_append = " \
     file://0001-souphttpsrc-cookie-jar-and-context-query-support.patch \
     file://0002-0007-qtdemux-dont-check-pushbased-edts.patch.patch \
     file://0003-matroskademux-Start-stream-time-at-zero.patch \
@@ -14,3 +14,4 @@ SRC_URI += "\
     file://0009-qtdemux-added-support-for-cbcs-encryption-scheme.patch \
 "
 
+PACKAGECONFIG[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"

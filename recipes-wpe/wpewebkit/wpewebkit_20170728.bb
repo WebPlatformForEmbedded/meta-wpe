@@ -7,8 +7,10 @@ PR = "r2"
 
 SRCREV ?= "f9402295bed27deb780d38e33c20e397eccb009a"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
-SRC_URI += "file://0001-Fix-build-with-musl.patch"
-SRC_URI += "file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch"
+SRC_URI_append = " \
+    file://0001-Fix-build-with-musl.patch \
+    file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
+"
 
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} libWPEWebKit.so libWPEWebInspectorResources.so WPEWebProcess WPENetworkProcess WPEStorageProcess WPEWebDriver

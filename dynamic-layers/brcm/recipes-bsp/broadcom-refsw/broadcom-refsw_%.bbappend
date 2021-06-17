@@ -3,7 +3,7 @@
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI += " \
+SRC_URI_append = " \
     file://egl.pc \
     file://glesv2.pc \
 "

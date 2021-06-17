@@ -5,7 +5,7 @@ SUMMARY = "This receipe compiles the westeros compositor simplebuffer component"
 S = "${WORKDIR}/git"
 LICENSE_LOCATION = "${S}/LICENSE"
 
-DEPENDS += "virtual/libgl wayland-native wayland glib-2.0"
+DEPENDS_append = " virtual/libgl wayland-native wayland glib-2.0"
 
 inherit autotools pkgconfig
 

@@ -1,8 +1,11 @@
+SUMMARY = "This receipe compiles the westeros compositor component"
+DESCRIPTION = "Wayland Compositor: Westeros is a light-weight Wayland compositor library.\
+    It uses the Wayland protocols, and is designed to be compatible with applications built\
+    to use Wayland compositors."
+
 require westeros.inc
 
-SUMMARY = "This receipe compiles the westeros compositor component"
-
-SRC_URI += "\
+SRC_URI_append = " \
     file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
     file://0002-Add_VCX_flags_support.patch \
     file://0003-Set-default-resolution-to-1080.patch \
@@ -26,9 +29,9 @@ PACKAGECONFIG[modules] = "--enable-modules=yes"
 
 S = "${WORKDIR}/git"
 
-WESTEROS_BACKEND ?= "westeros-soc-drm"
+WESTEROS_BACKEND ??= "westeros-soc-drm"
 
-DEPENDS += "\
+DEPENDS_append = " \
     westeros-simplebuffer \
     westeros-simpleshell \
     ${WESTEROS_BACKEND} \

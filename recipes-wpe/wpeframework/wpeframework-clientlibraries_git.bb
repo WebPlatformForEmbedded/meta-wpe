@@ -5,7 +5,7 @@ PR = "r0"
 
 inherit python3native
 require include/wpeframework-common.inc
-DEPENDS += " wpeframework-tools-native wpeframework-interfaces"
+DEPENDS_append = " wpeframework-tools-native wpeframework-interfaces"
 
 SRC_URI = "\
     git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master \

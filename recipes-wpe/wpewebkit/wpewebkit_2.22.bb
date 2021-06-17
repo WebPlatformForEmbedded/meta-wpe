@@ -10,7 +10,7 @@ SRC_URI = "\
     file://0001-Fix-for-missing-heap-vm-main.patch \
 "
 
-DEPENDS += "libgcrypt"
+DEPENDS_append = " libgcrypt"
 PACKAGECONFIG_append = " webcrypto"
 
 do_compile() {

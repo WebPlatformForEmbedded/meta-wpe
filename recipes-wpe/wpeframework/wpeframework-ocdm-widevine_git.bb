@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1384d4b11dad572771bc2dad384029a6"
 
 require include/wpeframework-plugins.inc
 
-DEPENDS += " widevine"
+DEPENDS_append = " widevine"
 
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=development/widevine-15.3.0"
 
