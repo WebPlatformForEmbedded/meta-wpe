@@ -33,9 +33,9 @@ PACKAGECONFIG ?= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)} \
     2dcanvas deviceorientation encryptedmedia fullscreenapi fetchapi gamepad indexeddb mediasource mediastatistics notifications nativevideo sampling-profiler subtitle subtlecrypto video webaudio webcrypto gst_gl remote-inspector openjpeg unified-builds service-worker \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '' ,d)} \
-    ${@bb.utils.contains('DISTRO_CODENAME', 'dunfell', 'woff2', '' ,d)} \
     ${WPE_PLATFORM} \
 "
+PACKAGECONFIG_append_dunfell = " woff2"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
@@ -142,8 +142,13 @@ INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
 FILES_${PN}-qtwpe-qml-plugin += "${libdir}/qt5/qml/org/wpewebkit/qtwpe/*"
 INSANE_SKIP_${PN}-qtwpe-qml-plugin = "dev-so"
 
-GL_DEPENDENCY = " ${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'dunfell', 'gstreamer1.0-plugins-base-opengl', 'gstreamer1.0-plugins-bad-opengl')}"
-MPG_DEPENDENCY = " ${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'dunfell', 'gstreamer1.0-plugins-good-mpg123', 'gstreamer1.0-plugins-ugly-mpg123')}"
+GL_DEPENDENCY ?= "gstreamer1.0-plugins-base-opengl"
+GL_DEPENDENCY_morty = "gstreamer1.0-plugins-bad-opengl"
+GL_DEPENDENCY_dunfell = "gstreamer1.0-plugins-base-opengl"
+
+MPG_DEPENDENCY ?= "gstreamer1.0-plugins-good-mpg123"
+MPG_DEPENDENCY_morty = "gstreamer1.0-plugins-ugly-mpg123"
+MPG_DEPENDENCY_dunfell = "gstreamer1.0-plugins-good-mpg123"
 
 # Extra runtime depends
 RDEPENDS_${PN} += "\
