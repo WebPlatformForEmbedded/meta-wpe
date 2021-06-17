@@ -1,6 +1,9 @@
-require westeros.inc
-
 SUMMARY = "This receipe compiles the westeros compositor component"
+DESCRIPTION = "Wayland Compositor: Westeros is a light-weight Wayland compositor library.\
+    It uses the Wayland protocols, and is designed to be compatible with applications built\
+    to use Wayland compositors."
+
+require westeros.inc
 
 SRC_URI_append = " \
     file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \

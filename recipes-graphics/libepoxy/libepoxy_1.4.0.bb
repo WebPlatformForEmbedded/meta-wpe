@@ -1,8 +1,8 @@
 SUMMARY = "OpenGL function pointer management library"
 DESCRIPTION = "Epoxy is a library for handling OpenGL function pointer management \
-It hides the complexity of dlopen(), dlsym(), glXGetProcAddress(), eglGetProcAddress(), etc. \
-from the app developer, with very little knowledge needed on their part. \
-They get to read GL specs and write code using undecorated function names like glCompileShader()"
+    It hides the complexity of dlopen(), dlsym(), glXGetProcAddress(), eglGetProcAddress(), etc. \
+    from the app developer, with very little knowledge needed on their part. \
+    They get to read GL specs and write code using undecorated function names like glCompileShader()"
 HOMEPAGE = "https://github.com/anholt/libepoxy/"
 SECTION = "libs"
 

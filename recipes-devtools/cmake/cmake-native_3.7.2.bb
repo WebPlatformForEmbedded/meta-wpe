@@ -22,15 +22,15 @@ CMAKE_EXTRACONF = "\
 "
 
 do_configure () {
-	${S}/configure --verbose --prefix=${prefix} -- ${CMAKE_EXTRACONF}
+    ${S}/configure --verbose --prefix=${prefix} -- ${CMAKE_EXTRACONF}
 }
 
 do_compile() {
-	oe_runmake
+    oe_runmake
 }
 
 do_install() {
-	oe_runmake 'DESTDIR=${D}' install
+    oe_runmake 'DESTDIR=${D}' install
 }
 
 do_compile[progress] = "percent"
