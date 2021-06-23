@@ -108,7 +108,8 @@ EXTRA_OECMAKE += "\
     -DCMAKE_BUILD_TYPE=Release \
     -DPORT=WPE \
     -G Ninja \
-" 
+    -DPYTHON_EXECUTABLE=${PYTHON_EXECUTABLE} \
+"
 
 EXTRANATIVEPATH += "chrpath-native"
 
