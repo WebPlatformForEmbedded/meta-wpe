@@ -5,6 +5,12 @@
 `meta-wpe` is a meta layer for [OpenEmbedded / Yocto](https://www.yoctoproject.org/) build environments.
 It provides the necessary recipes to build the [WebPlatformforEmbedded](https://wpewebkit.org/) components including the WPE [WebKit](https://webkit.org/) browser.
 
+## Cloning repository
+This repository has git hooks enabled.
+The git pre-commit hook, will automatically start the linting process for the openembedded recipes.
+To install the hooks please run `linter/install-hooks.sh`
+The linter can also be used in standalone mode.
+
 ## Quick Links
 
 * Git repository: <https://github.com/WebPlatformForEmbedded/meta-wpe>
