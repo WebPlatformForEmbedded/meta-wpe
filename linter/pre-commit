@@ -21,5 +21,3 @@ then
 fi
 
 echo "Git pre-commit hook ended."
-
-

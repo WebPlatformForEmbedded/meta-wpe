@@ -41,7 +41,6 @@ lint_in_background () {
     local files_per_lint="${2:-1}"
 
     local filelist_len=$(echo "$filelist" | wc -l | tr -d " " )
-
     local iter=1
     local local_list=""
 
