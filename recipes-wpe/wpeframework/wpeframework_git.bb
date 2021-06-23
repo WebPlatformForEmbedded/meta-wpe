@@ -3,6 +3,7 @@ DESCRIPTION = "A C++ platform abstraction layer for generic functionality."
 
 require include/wpeframework.inc
 require include/wpeframework-common.inc
+require include/wpeframework-deprecated.inc
 
 DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
 DEPENDS_append_libc-musl = " libexecinfo"
@@ -10,18 +11,16 @@ DEPENDS_append_libc-musl = " libexecinfo"
 PROVIDES += "thunder"
 
 PV = "3.0+gitr${SRCPV}"
-SRC_URI_append = " \
-    file://wpeframework-init \
-    file://wpeframework.service.in \
-"
-
 inherit systemd update-rc.d python3native
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "WPE"
 WPEFRAMEWORK_PORT ??= "80"
 
+WPEFRAMEWORK_SYSTEMD_EXTRA_DEPENDS ??= ""
+
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
     webserver_autoresume webkitbrowser_autoresume \
 "
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'debug', '', d)}"
@@ -65,6 +64,13 @@ PACKAGECONFIG[disabletracing] = "-DDISABLE_TRACING=ON,-DDISABLE_TRACING=OFF,"
 PACKAGECONFIG[exceptionhandling] = "-DEXCEPTIONS_ENABLE=ON,-DEXCEPTIONS_ENABLE=OFF,"
 PACKAGECONFIG[exceptioncatching] = "-DEXCEPTION_CATCHING=ON,-DEXCEPTION_CATCHING=OFF,"
 PACKAGECONFIG[warningreporting] = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OFF,"
+
+PACKAGECONFIG[systemd] = "\
+    -DSYSTEMD_SERVICE=ON \
+    -DSYSTEMD_EXTRA_DEPENDS="${WPEFRAMEWORK_SYSTEMD_EXTRA_DEPENDS}" \
+    -DSYSTEMD_PATH="${systemd_unitdir}" \
+    , -DSYSTEMD_SERVICE=OFF, \
+"
 
 # FIXME
 # The WPEFramework also needs limited Plugin info in order to determine what to put in the "resumes" configuration
@@ -121,26 +127,6 @@ EXTRA_OECMAKE += "\
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
     -DPORT=${WPEFRAMEWORK_PORT} \
     -DPYTHON_EXECUTABLE=${PYTHON}"
-
-do_install_append() {
-    if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}
-    then
-        if ${@bb.utils.contains("MACHINE_FEATURES", "platformserver", "true", "false", d)}
-        then
-           extra_after=""
-        elif ${@bb.utils.contains("PREFERRED_PROVIDER_virtual/egl", "broadcom-refsw", "true", "false", d)}
-        then
-           extra_after="nxserver.service"
-        fi
-        extra_after="${extra_after} ${WAYLAND_COMPOSITOR}"
-        install -d ${D}${systemd_unitdir}/system
-        sed -e "s|@EXTRA_AFTER@|${extra_after}|g" < ${WORKDIR}/wpeframework.service.in > ${D}${systemd_unitdir}/system/wpeframework.service
-    else
-        install -d ${D}${sysconfdir}/init.d
-        sed -e "s|WPEFRAMEWORK_PERSISTENT_PATH|${WPEFRAMEWORK_PERSISTENT_PATH}|g" < ${WORKDIR}/wpeframework-init > ${D}${sysconfdir}/init.d/wpeframework
-        chmod +x ${D}${sysconfdir}/init.d/wpeframework
-    fi
-}
 
 SYSTEMD_SERVICE_${PN} = "wpeframework.service"
 
