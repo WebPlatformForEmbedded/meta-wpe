@@ -141,10 +141,10 @@ do
     esac
 done
 
-echo "Starting $0..."
+echo "Starting $0 with PID: $$..."
 
-# Make sure to kill running processes when stopping the script during runtime
-trap 'kill -SIGKILL -$$' SIGINT
+# Make sure to kill all running processes (including backgrounded) on SIGINT
+trap 'kill -SIGKILL -$(ps -o "pgid" $$ | tail -n1)' SIGINT
 
 check_dependencies
 
