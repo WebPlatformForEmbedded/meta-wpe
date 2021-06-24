@@ -22,5 +22,5 @@ PARALLEL_MAKE = ""
 DEPENDS_append = " python3"
 RDEPENDS_${PN} = "perl"
 
-BBCLASSEXTEND_append += " nativesdk"
+BBCLASSEXTEND_append = " nativesdk"
 

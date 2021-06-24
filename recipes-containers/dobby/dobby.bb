@@ -12,17 +12,15 @@ RDEPENDS_${PN} = "crun (>= 0.14.1)"
 
 S = "${WORKDIR}/git"
 
-# Always build the debug version for now
-EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Debug "
+PACKAGECONFIG ??= "debug"
+PACKAGECONFIG_append_arrisxi6 = " arrisxi6"
+PACKAGECONFIG_append_llama = " llama"
+PACKAGECONFIG_append_skyxione = " skyxione"
 
-# Sky XiOne build
-EXTRA_OECMAKE_append_skyxione = "-DLEGACY_COMPONENTS=ON -DRDK_PLATFORM=XI1 "
-
-# Sky Llama build
-EXTRA_OECMAKE_append_llama = "-DLEGACY_COMPONENTS=ON -DRDK_PLATFORM=LLAMA "
-
-# Comcast Xi6 build
-EXTRA_OECMAKE_append_arrisxi6 = "-DLEGACY_COMPONENTS=OFF -DRDK_PLATFORM=XI6 "
+PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,,"
+PACKAGECONFIG[arrisxi6] = "-DLEGACY_COMPONENTS=OFF -DRDK_PLATFORM=XI6,,"
+PACKAGECONFIG[llama] = "-DLEGACY_COMPONENTS=ON -DRDK_PLATFORM=LLAMA,,"
+PACKAGECONFIG[skyxione] = "-DLEGACY_COMPONENTS=ON -DRDK_PLATFORM=XI1,,"
 
 inherit pkgconfig cmake
 
