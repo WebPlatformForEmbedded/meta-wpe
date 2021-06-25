@@ -167,7 +167,7 @@
     "oelint.vars.bbvars.TOPDIR":"",
     "oelint.vars.bugtrackerisurl":"",
     "oelint.vars.dependsappend":"",
-    "oelint.vars.dependsordered":"",
+    "oelint.vars.dependsordered":"info",
     "oelint.vars.descriptionsame":"",
     "oelint.vars.descriptiontoobrief":"",
     "oelint.vars.doublemodify":"",
