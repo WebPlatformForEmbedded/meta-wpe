@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+echo "Git pre-commit hook started."
+
+oelint_triggers="(.bb|.bbappend|.inc)$"
+trigger_oelint=0
+
+while read -r status file;
+do
+    if [[ "$file" =~ $oelint_triggers ]];
+    then
+        trigger_oelint=1
+    fi
+done < <(git diff --cached --name-status)
+
+if [[ $trigger_oelint -eq 1 ]];
+then
+    echo "Triggering the lint"
+    "$(git rev-parse --show-toplevel)/linter/linter.sh"
+    git add "$(git rev-parse --show-toplevel)/linter/linter.out"
+fi
+
+echo "Git pre-commit hook ended."
