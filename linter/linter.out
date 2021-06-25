@@ -1,3 +1,7 @@
+../recipes-containers/dobby/dobby_git.bb:18:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['arrisxi6'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-containers/dobby/dobby_git.bb:19:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['llama'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-containers/dobby/dobby_git.bb:20:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['skyxione'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-containers/dobby/dobby_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-containers/seccomp/libseccomp_2.4.3.bb:10:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
 ../recipes-containers/seccomp/libseccomp_2.4.3.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-containers/seccomp/libseccomp_2.4.3.bb:25:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
@@ -11,7 +15,6 @@
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:20:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['init'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:21:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['initscripts'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:28:warning:oelint.vars.dependsordered:'RDEPENDS_${PN}' entries should be ordered alphabetically
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:9:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGE_ARCH'
 ../recipes-core/packagegroups/packagegroup-wpeframework-plugins-rdk.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpeframework-plugins-rdk.bb:1:error:oelint.var.mandatoryvar.SUMMARY:Variable 'SUMMARY' should be set
@@ -23,24 +26,20 @@
 ../recipes-core/packagegroups/packagegroup-wpewebkit.bb:1:error:oelint.var.mandatoryvar.SUMMARY:Variable 'SUMMARY' should be set
 ../recipes-devtools/cjson/cjson_1.7.13.bb:24:warning:oelint.vars.filessetting.double:${libdir}/cmake is already set by default or in this recipe
 ../recipes-devtools/cmake/cmake-native_3.7.2.bb:4:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
-../recipes-devtools/cmake/cmake-native_3.7.2.bb:4:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-devtools/cmake/cmake_3.7.2.bb:12:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
 ../recipes-devtools/cmake/cmake_3.7.2.bb:36:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-devtools/cmake/cmake_3.7.2.bb:46:warning:oelint.vars.filessetting.hidden:${datadir}/cmake is already covered by FILES_${PN}-dev
 ../recipes-devtools/cmake/cmake_3.7.2.bb:5:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
-../recipes-devtools/cmake/cmake_3.7.2.bb:5:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-devtools/python-jsonref/python-jsonref.inc:11:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-devtools/python-jsonref/python3-jsonref_0.2.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-extended/libcobalt/libcobalt_git.bb:12:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGES'
 ../recipes-extended/libcobalt/libcobalt_git.bb:13:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-extended/libcobalt/libcobalt_git.bb:13:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
-../recipes-extended/libcobalt/libcobalt_git.bb:13:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-extended/libcobalt/libcobalt_git.bb:16:error:oelint.vars.specific:'GCC_PATCHLIST' is set specific to ['8'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-extended/libcobalt/libcobalt_git.bb:17:error:oelint.vars.specific:'GCC_PATCHLIST' is set specific to ['9'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-extended/libcobalt/libcobalt_git.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-extended/libcobalt/libcobalt_git.bb:1:error:oelint.var.mandatoryvar.SUMMARY:Variable 'SUMMARY' should be set
 ../recipes-extended/libcobalt/libcobalt_git.bb:38:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'S'
-../recipes-extended/libcobalt/libcobalt_git.bb:40:warning:oelint.vars.dependsordered:'RDEPENDS_${PN}' entries should be ordered alphabetically
 ../recipes-extended/libcobalt/libcobalt_git.bb:72:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:75:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:77:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
@@ -103,10 +102,8 @@
 ../recipes-graphics/mesa/mesa.inc:294:warning:oelint.var.filesoverride:'FILES_${PN}-dev' should not be overriden
 ../recipes-graphics/mesa/mesa.inc:37:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-graphics/mesa/mesa.inc:37:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'SRC_URI'
-../recipes-graphics/mesa/mesa.inc:37:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-graphics/mesa/mesa.inc:39:error:oelint.var.override:Variable 'PROVIDES' is set by mesa-gl_21.0.0.bb,mesa.inc
 ../recipes-graphics/mesa/mesa.inc:82:warning:oelint.var.order.PACKAGECONFIG:'PACKAGECONFIG' should be placed before 'BBCLASSEXTEND'
-../recipes-graphics/openjpeg/openjpeg_2.3.1.bb:9:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-render-dispmanx.bb
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:16:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -157,25 +154,21 @@
 ../recipes-graphics/westeros/westeros.bb:52:warning:oelint.vars.pathhardcode.libdir:'${libdir}' should be used instead of '/usr/lib'
 ../recipes-graphics/westeros/westeros.bb:67:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-graphics/westeros/westeros.inc:10:warning:oelint.var.order.LIC_FILES_CHKSUM:'LIC_FILES_CHKSUM' should be placed before 'SRCREV'
-../recipes-graphics/westeros/westeros.inc:16:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-graphics/woff2/woff2_1.0.2.bb:11:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-graphics/woff2/woff2_1.0.2.bb:14:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'S'
 ../recipes-graphics/woff2/woff2_1.0.2.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-graphics/woff2/woff2_1.0.2.bb:2:warning:oelint.vars.mispell:'DESCRIPTIOM' is unknown, maybe you mean 'DESCRIPTION'
 ../recipes-multimedia/aamp/aamp_git.bb:25:error:oelint.vars.specific:'AAMP_USE_THUNDER_OCDM_API' is set specific to ['0'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/aamp/aamp_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-multimedia/aamp/aamp_git.bb:8:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-multimedia/aamp/aampabr_git.bb:21:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:21:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:24:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:19:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:22:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:8:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:46:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:52:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:53:warning:oelint.var.filesoverride:'FILES_${PN}-apps' should not be overriden
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:54:warning:oelint.var.filesoverride:'FILES_${PN}-glib' should not be overriden
-../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:10:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:17:error:oelint.vars.specific:'GSTREAMER_OMX_TARGET' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:18:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:20:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
@@ -212,7 +205,6 @@
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:57:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:58:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:59:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:5:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:62:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:63:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:64:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -252,7 +244,6 @@
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:37:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:38:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:40:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:5:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc:17:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc:18:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc:19:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -270,7 +261,6 @@
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:47:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86-64'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:67:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:9:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
-../recipes-multimedia/gstreamer/gstreamer1.0.inc:9:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb:17:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 ../recipes-multimedia/libdash/libdash_3.0.bb:32:warning:oelint.tabs.notabs:Don't use tabs use spaces
 ../recipes-multimedia/libdash/libdash_3.0.bb:55:warning:oelint.var.order.PACKAGES:'PACKAGES' should be placed before 'FILES_${PN}'
@@ -290,7 +280,6 @@
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-wpe/libwpe/libwpe.inc:10:warning:oelint.var.order.inherit:'inherit' should be placed before 'RPROVIDES_${PN}'
 ../recipes-wpe/libwpe/libwpe.inc:5:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
-../recipes-wpe/libwpe/libwpe.inc:5:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/libwpe/libwpe_1.0.0.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/libwpe/libwpe_1.0.0.bb:5:warning:oelint.var.order.LICENSE:'LICENSE' should be placed before 'S'
 ../recipes-wpe/libwpe/libwpe_1.6.0.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
@@ -303,12 +292,10 @@
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:30:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:30:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:7:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:11:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:14:warning:oelint.var.order.PROVIDES:'PROVIDES' should be placed before 'S'
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:17:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:17:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'RPROVIDES_${PN}'
-../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:17:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:39:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:48:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -341,8 +328,8 @@
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_2.5+git.bb
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_4.0+git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_4.0+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
@@ -351,7 +338,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
 ../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
@@ -362,12 +349,10 @@
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:63:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:8:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
-../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:8:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:31:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:32:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:8:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
-../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:8:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:10:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:12:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
@@ -429,7 +414,6 @@
 ../recipes-wpe/wpeframework/wpeframework-rdkservices_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-tools-native_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-tools-native_git.bb:6:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
-../recipes-wpe/wpeframework/wpeframework-tools-native_git.bb:6:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:13:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework_git.bb:145:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
@@ -438,10 +422,8 @@
 ../recipes-wpe/wpeframework/wpeframework_git.bb:17:warning:oelint.var.order.PROVIDES:'PROVIDES' should be placed before 'inherit'
 ../recipes-wpe/wpeframework/wpeframework_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework_git.bb:22:warning:oelint.var.order.PACKAGECONFIG:'PACKAGECONFIG' should be placed before 'RPROVIDES_${PN}'
-../recipes-wpe/wpeframework/wpeframework_git.bb:6:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpewebkit/wpewebkit.inc:10:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-wpe/wpewebkit/wpewebkit.inc:10:error:oelint.vars.listappend:Append to list should end with a blank
-../recipes-wpe/wpewebkit/wpewebkit.inc:10:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/wpewebkit/wpewebkit.inc:117:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc
 ../recipes-wpe/wpewebkit/wpewebkit.inc:123:error:oelint.vars.specific:'ARM_INSTRUCTION_SET' is set specific to ['armv7m'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-wpe/wpewebkit/wpewebkit.inc:141:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -450,7 +432,6 @@
 ../recipes-wpe/wpewebkit/wpewebkit.inc:148:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-wpe/wpewebkit/wpewebkit.inc:151:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-wpe/wpewebkit/wpewebkit.inc:152:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:155:warning:oelint.vars.dependsordered:'RDEPENDS_${PN}' entries should be ordered alphabetically
 ../recipes-wpe/wpewebkit/wpewebkit.inc:195:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
 ../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:'==' is not a proper bbclass name
