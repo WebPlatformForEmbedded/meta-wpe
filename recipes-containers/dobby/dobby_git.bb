@@ -1,5 +1,6 @@
 SUMMARY = "Dobby Container Manager"
 DESCRIPTION = "Dobby “Docker based Thingy” is a tool for managing and running OCI containers using crun"
+HOMEPAGE = "https://github.com/rdkcentral/Dobby"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=c466d4ab8a68655eb1edf0bf8c1a8fb8"
 
