@@ -2,9 +2,6 @@
 ../recipes-containers/dobby/dobby_git.bb:19:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['llama'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-containers/dobby/dobby_git.bb:20:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['skyxione'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-containers/dobby/dobby_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-containers/seccomp/libseccomp_2.4.3.bb:10:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
-../recipes-containers/seccomp/libseccomp_2.4.3.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
-../recipes-containers/seccomp/libseccomp_2.4.3.bb:25:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-core/ctemplate/ctemplate_git.bb:10:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-core/ctemplate/ctemplate_git.bb:14:warning:oelint.var.order.SRCREV:'SRCREV' should be placed before 'FILES_${PN}'
 ../recipes-core/ctemplate/ctemplate_git.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
@@ -327,8 +324,8 @@
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_2.5+git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_2.5+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_4.0+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
