@@ -230,7 +230,7 @@
     "oelint.vars.srcurigittag":"",
     "oelint.vars.srcurioptions":"",
     "oelint.vars.srcurisrcrevtag":"",
-    "oelint.vars.summary80chars":"",
+    "oelint.vars.summary80chars":"info",
     "oelint.vars.summarylinebreaks":"",
     "oelint.vars.valuequoted":""
 }
