@@ -1,9 +1,3 @@
-../recipes-containers/crun/crun_0.14.1.bb:18:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'SRCREV'
-../recipes-containers/crun/crun_0.14.1.bb:18:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
-../recipes-containers/crun/crun_0.14.1.bb:1:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
-../recipes-containers/crun/crun_0.14.1.bb:22:warning:oelint.vars.fileextrapaths:'FILESEXTRAPATHS' shouldn't be used in a bb file
-../recipes-containers/crun/crun_0.14.1.bb:41:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
-../recipes-containers/crun/crun_0.14.1.bb:9:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-containers/dobby/dobby.bb:10:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'SRCREV'
 ../recipes-containers/dobby/dobby.bb:10:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-containers/dobby/dobby.bb:11:warning:oelint.vars.dependsordered:'RDEPENDS_${PN}' entries should be ordered alphabetically
@@ -47,7 +41,6 @@
 ../recipes-devtools/cmake/cmake_3.7.2.bb:5:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
 ../recipes-devtools/cmake/cmake_3.7.2.bb:5:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-devtools/python-jsonref/python-jsonref.inc:11:warning:oelint.spaces.lineend:Line shall not end with a space
-../recipes-devtools/python-jsonref/python-jsonref.inc:1:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
 ../recipes-devtools/python-jsonref/python3-jsonref_0.2.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-extended/libcobalt/libcobalt_git.bb:12:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGES'
 ../recipes-extended/libcobalt/libcobalt_git.bb:13:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
@@ -131,7 +124,6 @@
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:3:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:8:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:8:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'S'
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:12:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simplebuffer.bb
@@ -167,7 +159,6 @@
 ../recipes-graphics/westeros/westeros-soc-drm.bb:20:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-soc-drm.bb
 ../recipes-graphics/westeros/westeros-soc-drm.bb:28:warning:oelint.var.order.inherit:'inherit' should be placed before 'RPROVIDES_${PN}'
 ../recipes-graphics/westeros/westeros-soc-drm.bb:30:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-graphics/westeros/westeros-soc-drm.bb:3:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
 ../recipes-graphics/westeros/westeros.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-graphics/westeros/westeros.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-graphics/westeros/westeros.bb:30:warning:oelint.var.order.S:'S' should be placed before 'PACKAGECONFIG'
@@ -309,7 +300,6 @@
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-wpe/libwpe/libwpe.inc:10:warning:oelint.var.order.inherit:'inherit' should be placed before 'RPROVIDES_${PN}'
-../recipes-wpe/libwpe/libwpe.inc:1:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
 ../recipes-wpe/libwpe/libwpe.inc:5:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-wpe/libwpe/libwpe.inc:5:warning:oelint.vars.dependsordered:'DEPENDS' entries should be ordered alphabetically
 ../recipes-wpe/libwpe/libwpe_1.0.0.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
@@ -370,11 +360,12 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
-../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework.inc:5:warning:oelint.var.order.HOMEPAGE:'HOMEPAGE' should be placed before 'LIC_FILES_CHKSUM'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:17:warning:oelint.file.requireinclude:Use 'require include/compositor.inc' instead of 'include include/compositor.inc'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
@@ -408,7 +399,6 @@
 ../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-plugin-launcher_git.bb:10:warning:oelint.newline.consecutive:Consecutive blank lines should be avoided
 ../recipes-wpe/wpeframework/wpeframework-plugin-launcher_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-wpe/wpeframework/wpeframework-plugin-launcher_git.bb:1:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
 ../recipes-wpe/wpeframework/wpeframework-plugins-rdk_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:19:warning:oelint.file.requireinclude:Use 'require include/bluetooth.inc' instead of 'include include/bluetooth.inc'
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
@@ -473,7 +463,6 @@
 ../recipes-wpe/wpewebkit/wpewebkit.inc:152:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-wpe/wpewebkit/wpewebkit.inc:155:warning:oelint.vars.dependsordered:'RDEPENDS_${PN}' entries should be ordered alphabetically
 ../recipes-wpe/wpewebkit/wpewebkit.inc:195:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
-../recipes-wpe/wpewebkit/wpewebkit.inc:1:warning:oelint.vars.summary80chars:'SUMMARY' should not be longer than 80 characters
 ../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:'==' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:'True)' is not a proper bbclass name
