@@ -33,8 +33,6 @@
 ../recipes-extended/libcobalt/libcobalt_git.bb:85:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:87:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:90:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
-../recipes-graphics/mesa/mesa-demos_8.4.0.bb:42:warning:oelint.var.order.PACKAGECONFIG:'PACKAGECONFIG' should be placed before 'EXTRA_OECONF'
-../recipes-graphics/mesa/mesa-demos_8.4.0.bb:57:warning:oelint.tabs.notabs:Don't use tabs use spaces
 ../recipes-graphics/mesa/mesa-gl_21.0.0.bb:15:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-graphics/mesa/mesa-gl_21.0.0.bb:3:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
 ../recipes-graphics/mesa/mesa.inc:108:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
@@ -302,8 +300,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
 ../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
