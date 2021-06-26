@@ -56,9 +56,6 @@
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:27:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:31:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb:7:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc:10:warning:oelint.var.order.LICENSE:'LICENSE' should be placed before 'SRC_URI'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc:41:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb:3:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:18:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:19:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc:20:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -171,7 +168,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
 ../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
