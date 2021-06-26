@@ -2,8 +2,8 @@
 HOMEPAGE = "https://github.com/rdkcentral"
 SECTION = "wpe"
 
-S = "${WORKDIR}/git"
 PV = "3.0+gitr${SRCPV}"
+S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig
 

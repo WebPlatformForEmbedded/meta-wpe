@@ -15,7 +15,7 @@ WPE_COMPOSITOR_WAYLAND_DEP ??= "westeros"
 
 # Repo details
 WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_PATH ??= ""
-WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY ??="https://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/thundernanoservices/Compositor"
+WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_REPOSITORY ??= "https://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/thundernanoservices/Compositor"
 WPE_COMPOSITOR_WAYLAND_IMPLEMENTATION_VERSION ??= "master"
 
 PACKAGECONFIG[compositor] = "\

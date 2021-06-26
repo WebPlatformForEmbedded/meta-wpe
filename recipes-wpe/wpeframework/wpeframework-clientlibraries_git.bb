@@ -1,21 +1,21 @@
 SUMMARY = "WPEFramework client libraries"
+DESCRIPTION = "Thunder client libraries component"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
-PR = "r0"
 
-inherit python3native
-require include/wpeframework-common.inc
 DEPENDS_append = " wpeframework-tools-native wpeframework-interfaces"
 
+require include/wpeframework-common.inc
+require include/compositor.inc
+
+PR = "r0"
 SRC_URI = "\
     git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master \
     file://0001-cmake-become-more-easy-in-findgbm.patch \
 "
-
 SRCREV = "6438e1583c39199075ca0006e1fee69f5b27a260"
 
-include include/compositor.inc
-
+inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
 
 PACKAGECONFIG ??= "\
@@ -48,7 +48,7 @@ PACKAGECONFIG[virtualinput] = "-DVIRTUALINPUT=ON,-DVIRTUALINPUT=OFF,"
 
 # OCDM
 PACKAGECONFIG[opencdm] = "-DCDMI=ON,-DCDMI=OFF,"
-PACKAGECONFIG[opencdm_gst] = '-DCDMI_ADAPTER_IMPLEMENTATION="gstreamer",,gstreamer1.0'
+PACKAGECONFIG[opencdm_gst] = "-DCDMI_ADAPTER_IMPLEMENTATION=gstreamer,,gstreamer1.0"
 
 EXTRA_OECMAKE += "\
     -DBUILD_SHARED_LIBS=ON \
