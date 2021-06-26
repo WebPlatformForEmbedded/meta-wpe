@@ -34,18 +34,9 @@
 ../recipes-extended/libcobalt/libcobalt_git.bb:87:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:90:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-graphics/mesa/mesa.inc:232:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-render-dispmanx.bb
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:16:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:8:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
-../recipes-graphics/westeros/westeros-render-dispmanx.bb:8:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'S'
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:12:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simplebuffer.bb
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-graphics/westeros/westeros-simplebuffer.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:1:warning:oelint.file.requireinclude:Use 'require westeros.inc' instead of 'include westeros.inc'
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:8:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'S'
 ../recipes-graphics/westeros/westeros-simplebuffer.bb:8:warning:oelint.vars.duplicate:Item 'wayland' was added multiple times to DEPENDS
@@ -53,7 +44,6 @@
 ../recipes-graphics/westeros/westeros-simpleshell.bb:12:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simpleshell.bb
 ../recipes-graphics/westeros/westeros-simpleshell.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-graphics/westeros/westeros-simpleshell.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-graphics/westeros/westeros-simpleshell.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-graphics/westeros/westeros-simpleshell.bb:1:warning:oelint.file.requireinclude:Use 'require westeros.inc' instead of 'include westeros.inc'
 ../recipes-graphics/westeros/westeros-simpleshell.bb:8:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'S'
 ../recipes-graphics/westeros/westeros-simpleshell.bb:8:warning:oelint.vars.duplicate:Item 'wayland' was added multiple times to DEPENDS
@@ -63,7 +53,6 @@
 ../recipes-graphics/westeros/westeros-sink.bb:11:warning:oelint.vars.duplicate:Item 'wayland-native' was added multiple times to DEPENDS
 ../recipes-graphics/westeros/westeros-sink.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-graphics/westeros/westeros-sink.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-graphics/westeros/westeros-sink.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-graphics/westeros/westeros-sink.bb:1:warning:oelint.file.requireinclude:Use 'require westeros.inc' instead of 'include westeros.inc'
 ../recipes-graphics/westeros/westeros-sink.bb:7:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'S'
 ../recipes-graphics/westeros/westeros-soc-drm.bb:10:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
@@ -71,19 +60,16 @@
 ../recipes-graphics/westeros/westeros-soc-drm.bb:18:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-graphics/westeros/westeros-soc-drm.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-graphics/westeros/westeros-soc-drm.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-graphics/westeros/westeros-soc-drm.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-graphics/westeros/westeros-soc-drm.bb:20:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-soc-drm.bb
 ../recipes-graphics/westeros/westeros-soc-drm.bb:28:warning:oelint.var.order.inherit:'inherit' should be placed before 'RPROVIDES_${PN}'
 ../recipes-graphics/westeros/westeros-soc-drm.bb:30:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-graphics/westeros/westeros.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
-../recipes-graphics/westeros/westeros.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
 ../recipes-graphics/westeros/westeros.bb:30:warning:oelint.var.order.S:'S' should be placed before 'PACKAGECONFIG'
 ../recipes-graphics/westeros/westeros.bb:34:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'S'
 ../recipes-graphics/westeros/westeros.bb:42:warning:oelint.var.order.inherit:'inherit' should be placed before 'RDEPENDS_${PN}'
 ../recipes-graphics/westeros/westeros.bb:44:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros.bb
 ../recipes-graphics/westeros/westeros.bb:52:warning:oelint.vars.pathhardcode.libdir:'${libdir}' should be used instead of '/usr/lib'
 ../recipes-graphics/westeros/westeros.bb:67:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-graphics/westeros/westeros.inc:10:warning:oelint.var.order.LIC_FILES_CHKSUM:'LIC_FILES_CHKSUM' should be placed before 'SRCREV'
 ../recipes-graphics/woff2/woff2_1.0.2.bb:11:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-graphics/woff2/woff2_1.0.2.bb:14:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'S'
 ../recipes-graphics/woff2/woff2_1.0.2.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
@@ -255,11 +241,11 @@
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:269:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework.inc,wpeframework-common.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_4.0+git.bb
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_2.5+git.bb,wpeframework-common.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
@@ -267,11 +253,10 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
-../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework.inc:5:warning:oelint.var.order.HOMEPAGE:'HOMEPAGE' should be placed before 'LIC_FILES_CHKSUM'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:17:warning:oelint.file.requireinclude:Use 'require include/compositor.inc' instead of 'include include/compositor.inc'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
