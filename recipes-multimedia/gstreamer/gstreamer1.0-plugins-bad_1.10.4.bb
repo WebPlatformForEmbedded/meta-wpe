@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "\
     file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a \
 "
 
-SRC_URI = "\
+SRC_URI_append = " \
     https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.4.tar.xz \
     file://0001-mssdemux-improved-live-playback-support.patch \
     file://0002-mssdemux-Handle-the-adapter-in-the-subclass-after-bu.patch \

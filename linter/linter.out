@@ -49,55 +49,13 @@
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:19:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:22:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:46:warning:oelint.spaces.lineend:Line shall not end with a space
-../recipes-multimedia/gstreamer/gst-plugins-package.inc:52:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-multimedia/gstreamer/gst-plugins-package.inc:53:warning:oelint.var.filesoverride:'FILES_${PN}-apps' should not be overriden
-../recipes-multimedia/gstreamer/gst-plugins-package.inc:54:warning:oelint.var.filesoverride:'FILES_${PN}-glib' should not be overriden
+../recipes-multimedia/gstreamer/gst-plugins-package.inc:53:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:17:error:oelint.vars.specific:'GSTREAMER_OMX_TARGET' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:18:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:26:error:oelint.vars.specific:'GSTREAMER_OMX_TARGET' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:27:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:31:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:33:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:34:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:35:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:36:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:37:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:38:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:39:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:40:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:41:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:42:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:43:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:44:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:45:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:46:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:47:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:50:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:51:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:52:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:53:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:54:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:55:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:56:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:57:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:58:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:59:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:62:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:63:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:64:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:65:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:66:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:67:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:69:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:70:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:71:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:72:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:73:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:74:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:75:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:93:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc:9:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'inherit'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb:9:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
+../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb:7:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc:10:warning:oelint.var.order.LICENSE:'LICENSE' should be placed before 'SRC_URI'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc:41:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb:3:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
@@ -131,8 +89,6 @@
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc:25:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc:26:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc:28:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc:33:warning:oelint.tabs.notabs:Don't use tabs use spaces
-../recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc:51:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:17:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'inherit'
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:46:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:47:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86-64'], but isn't known from PACKAGES, MACHINE or resources
@@ -204,8 +160,8 @@
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_2.5+git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_2.5+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_4.0+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
@@ -213,6 +169,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
