@@ -1,16 +1,25 @@
-DESCRIPTION = " Cobalt is a lightweight application container \
-(i.e. an application runtime, like a JVM or the Flash Player) \
-that is compatible with a subset of the W3C HTML5 specifications"
-
+SUMMARY = "Lighweigh application container compatible with W3C HTML5 spec"
+DESCRIPTION = "\
+    Cobalt is a lightweight application container \
+    (i.e. an application runtime, like a JVM or the Flash Player) \
+    that is compatible with a subset of the W3C HTML5 specifications \
+"
+HOMEPAGE = "https://github.com/Metrological/Cobalt"
 LICENSE = "BSD-3-Clause & BSD-2-Clause & Apache-2.0 & MIT & ISC & OpenSSL & CC0-1.0 & LGPL-2.0 & LGPL-2.1 & PD & Zlib & MPL-2.0"
 LIC_FILES_CHKSUM = "\
     file://src/LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d \
 "
-PR = "r0"
-PACKAGES = "${PN}"
 
-inherit pythonnative
-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad python-native ninja-native bison-native wpeframework-clientlibraries"
+DEPENDS_append = " \
+    bison-native \
+    gstreamer1.0 \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    ninja-native \
+    python-native \
+    wpeframework-clientlibraries \
+"
 
 GCC_MAJOR_VERSION = "${@oe.utils.trim_version("${GCCVERSION}", 1)}"
 GCC_8_PATCHLIST = "file://0001-changes-for-gcc-8.patch"
@@ -25,21 +34,22 @@ SRC_URI_append = " \
     ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)} \
 "
 SRCREV ??= "06acca6a6d5224bb61bbf6092b4d8d6ba3f5970b"
-
+PR = "r0"
 S = "${WORKDIR}/git"
+
+inherit pythonnative
+
+# FIXME: Check wheter necessary
+PACKAGES = "${PN}"
 
 LD = "${CXX}"
 
 COBALT_ARCH ??= ""
 COBALT_PLATFORM ??= ""
 COBALT_PLATFORM_NAME ??= ""
-
+COBALT_BUILD_TYPE ??= "gold"
 COBALT_DEPENDENCIES ??= ""
 DEPENDS_append = " ${COBALT_DEPENDENCIES}"
-
-RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad wpeframework ${COBALT_DEPENDENCIES}"
-
-COBALT_BUILD_TYPE ??= "gold"
 
 do_configure() {
     export PATH="$PATH:${S}/depot_tools"
@@ -82,18 +92,27 @@ do_install() {
 
 SSTATE_DUPWHITELIST = "/"
 
-COBALT_PACKAGE = " \
+COBALT_PACKAGE = "\
     ${libdir}/libcobalt.so \
     ${datadir}/content/* \
     ${includedir}/* \
 "
-FILES_${PN}     = "${COBALT_PACKAGE}"
-FILES_${PN}-dev = "${COBALT_PACKAGE}"
+FILES_${PN} += "${COBALT_PACKAGE}"
+FILES_${PN}-dev += "${COBALT_PACKAGE}"
+
+RDEPENDS_${PN} += "\
+    ${COBALT_DEPENDENCIES} \
+    gstreamer1.0 \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    wpeframework \
+"
 
 INSANE_SKIP_${PN} = "ldflags"
 INSANE_SKIP_${PN}-dev = "ldflags"
 INSANE_SKIP_${PN} += "dev-deps"
 
-INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
-INHIBIT_PACKAGE_STRIP = '1'
+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+INHIBIT_PACKAGE_STRIP = "1"
 
