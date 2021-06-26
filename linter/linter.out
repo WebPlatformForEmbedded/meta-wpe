@@ -59,11 +59,8 @@
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:46:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0.inc:47:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86-64'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb:11:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
-../recipes-multimedia/libdash/libdash_3.0.bb:32:warning:oelint.tabs.notabs:Don't use tabs use spaces
-../recipes-multimedia/libdash/libdash_3.0.bb:55:warning:oelint.var.order.PACKAGES:'PACKAGES' should be placed before 'FILES_${PN}'
-../recipes-multimedia/libdash/libdash_3.0.bb:57:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-multimedia/libdash/libdash_3.0.bb:6:error:oelint.var.override:Variable 'LICENSE' is set by libdash_3.0.bb
-../recipes-multimedia/libdash/libdash_3.0.bb:7:warning:oelint.var.order.SECTION:'SECTION' should be placed before 'LICENSE'
+../recipes-multimedia/libdash/libdash_3.0.bb:33:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
+../recipes-multimedia/libdash/libdash_3.0.bb:59:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-support/icu/icu.inc:10:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-support/icu/icu.inc:38:warning:oelint.tabs.notabs:Don't use tabs use spaces
 ../recipes-support/icu/icu.inc:48:warning:oelint.tabs.notabs:Don't use tabs use spaces
@@ -124,8 +121,8 @@
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_4.0+git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_2.5+git.bb,wpeframework-common.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_4.0+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
@@ -135,7 +132,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
 ../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
