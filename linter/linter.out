@@ -18,11 +18,9 @@
 ../recipes-core/packagegroups/packagegroup-wpewebkit.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpewebkit.bb:1:error:oelint.var.mandatoryvar.SUMMARY:Variable 'SUMMARY' should be set
 ../recipes-devtools/cjson/cjson_1.7.13.bb:24:warning:oelint.vars.filessetting.double:${libdir}/cmake is already set by default or in this recipe
-../recipes-devtools/cmake/cmake-native_3.7.2.bb:4:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
 ../recipes-devtools/cmake/cmake_3.7.2.bb:12:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
 ../recipes-devtools/cmake/cmake_3.7.2.bb:36:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-devtools/cmake/cmake_3.7.2.bb:46:warning:oelint.vars.filessetting.hidden:${datadir}/cmake is already covered by FILES_${PN}-dev
-../recipes-devtools/cmake/cmake_3.7.2.bb:5:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
 ../recipes-devtools/python-jsonref/python-jsonref.inc:11:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-devtools/python-jsonref/python3-jsonref_0.2.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-extended/libcobalt/libcobalt_git.bb:12:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGES'
@@ -95,7 +93,7 @@
 ../recipes-graphics/mesa/mesa.inc:294:warning:oelint.var.filesoverride:'FILES_${PN}-dev' should not be overriden
 ../recipes-graphics/mesa/mesa.inc:37:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-graphics/mesa/mesa.inc:37:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'SRC_URI'
-../recipes-graphics/mesa/mesa.inc:39:error:oelint.var.override:Variable 'PROVIDES' is set by mesa.inc,mesa-gl_21.0.0.bb
+../recipes-graphics/mesa/mesa.inc:39:error:oelint.var.override:Variable 'PROVIDES' is set by mesa-gl_21.0.0.bb,mesa.inc
 ../recipes-graphics/mesa/mesa.inc:82:warning:oelint.var.order.PACKAGECONFIG:'PACKAGECONFIG' should be placed before 'BBCLASSEXTEND'
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-render-dispmanx.bb
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -318,11 +316,11 @@
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:269:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_2.5+git.bb
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_4.0+git.bb
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_2.5+git.bb,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_4.0+git.bb,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
@@ -334,7 +332,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
-../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework.inc:5:warning:oelint.var.order.HOMEPAGE:'HOMEPAGE' should be placed before 'LIC_FILES_CHKSUM'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:17:warning:oelint.file.requireinclude:Use 'require include/compositor.inc' instead of 'include include/compositor.inc'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set

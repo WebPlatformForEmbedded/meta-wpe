@@ -1,12 +1,12 @@
 require cmake.inc
 
-inherit cmake
-
-DEPENDS_append = " curl expat zlib libarchive xz ncurses bzip2"
+DEPENDS_append = " bzip2 curl expat libarchive ncurses xz zlib"
 
 SRC_URI_append_class-nativesdk = " \
     file://OEToolchainConfig.cmake \
     file://environment.d-cmake.sh"
+
+inherit cmake
 
 # Strip ${prefix} from ${docdir}, set result into docdir_stripped
 python () {
