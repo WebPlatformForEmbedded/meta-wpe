@@ -1,14 +1,16 @@
 SUMMARY = "WPEFramework interfaces"
+DESCRIPTION = "Thunder interfaces component"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
-PR = "r0"
 
-inherit python3native
 require include/wpeframework-common.inc
 DEPENDS_append = " wpeframework-tools-native wpeframework"
 
+PR = "r0"
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
 SRCREV = "1b2cbb8dfa823d29fba254932531c33743f7d358"
+
+inherit python3native
 
 EXTRA_OECMAKE += "\
     -DBUILD_SHARED_LIBS=ON \
