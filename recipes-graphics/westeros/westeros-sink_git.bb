@@ -1,14 +1,14 @@
-include westeros.inc
+require westeros.inc
 
-SUMMARY = "This receipe compiles the westeros compositor gstreamer sink element"
+SUMMARY = "Westeros Compositor - gstreamer sink element"
+DESCRIPTION = "This receipe compiles the westeros compositor gstreamer sink element"
 
-S = "${WORKDIR}/git"
+DEPENDS_append = " westeros westeros-simplebuffer westeros-simpleshell"
 
 SRC_URI_append = " file://0004-Dispatch-custom-queue-instead-flushing-display.patch"
+S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
-
-DEPENDS_append = " wayland-native wayland westeros-simpleshell westeros-simplebuffer westeros"
 
 do_compile_prepend() {
     oe_runmake -C ${S}/protocol
