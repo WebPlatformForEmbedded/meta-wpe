@@ -1,7 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
-PACKAGECONFIG_remove = "gtk"
-
 SRC_URI_append = " \
     file://0001-souphttpsrc-cookie-jar-and-context-query-support.patch \
     file://0002-0007-qtdemux-dont-check-pushbased-edts.patch.patch \
@@ -15,3 +13,5 @@ SRC_URI_append = " \
 "
 
 PACKAGECONFIG[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
+
+PACKAGECONFIG_remove = "gtk"
