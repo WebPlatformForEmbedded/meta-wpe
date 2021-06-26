@@ -72,11 +72,7 @@
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:12:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:1:error:oelint.var.mandatoryvar.HOMEPAGE:Variable 'HOMEPAGE' should be set
-../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:11:warning:oelint.var.order.PV:'PV' should be placed before 'inherit'
-../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:16:warning:oelint.newline.consecutive:Consecutive blank lines should be avoided
-../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:22:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:7:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
+../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:20:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:30:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:30:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -113,11 +109,11 @@
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:269:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_2.5+git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_4.0+git.bb
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
@@ -129,7 +125,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
-../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework.inc:5:warning:oelint.var.order.HOMEPAGE:'HOMEPAGE' should be placed before 'LIC_FILES_CHKSUM'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:17:warning:oelint.file.requireinclude:Use 'require include/compositor.inc' instead of 'include include/compositor.inc'
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
