@@ -33,40 +33,7 @@
 ../recipes-extended/libcobalt/libcobalt_git.bb:85:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:87:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:90:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
-../recipes-graphics/mesa/mesa-gl_21.0.0.bb:15:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa-gl_21.0.0.bb:3:error:oelint.vars.inconspaces:Assignment should be 'VAR += "foo"' not 'VAR += " foo"'
-../recipes-graphics/mesa/mesa.inc:108:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:109:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:117:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:118:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:119:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:119:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:140:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:140:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:141:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:141:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:142:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:142:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:143:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:143:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:144:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:144:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:153:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:154:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:155:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:162:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:168:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:168:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:171:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-graphics/mesa/mesa.inc:171:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-graphics/mesa/mesa.inc:211:warning:oelint.spaces.lineend:Line shall not end with a space
-../recipes-graphics/mesa/mesa.inc:221:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
-../recipes-graphics/mesa/mesa.inc:284:warning:oelint.var.filesoverride:'FILES_${PN}-vdpau-drivers' should not be overriden
-../recipes-graphics/mesa/mesa.inc:294:warning:oelint.var.filesoverride:'FILES_${PN}-dev' should not be overriden
-../recipes-graphics/mesa/mesa.inc:37:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
-../recipes-graphics/mesa/mesa.inc:37:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'SRC_URI'
-../recipes-graphics/mesa/mesa.inc:39:error:oelint.var.override:Variable 'PROVIDES' is set by mesa-gl_21.0.0.bb,mesa.inc
-../recipes-graphics/mesa/mesa.inc:82:warning:oelint.var.order.PACKAGECONFIG:'PACKAGECONFIG' should be placed before 'BBCLASSEXTEND'
+../recipes-graphics/mesa/mesa.inc:232:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-render-dispmanx.bb
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:15:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-graphics/westeros/westeros-render-dispmanx.bb:16:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
@@ -300,6 +267,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'

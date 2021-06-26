@@ -1,6 +1,6 @@
 require mesa.inc
 
-SUMMARY += " (OpenGL only, no EGL/GLES)"
+SUMMARY += "(OpenGL only, no EGL/GLES)"
 
 PROVIDES = "virtual/libgl virtual/mesa"
 
@@ -12,5 +12,5 @@ PACKAGECONFIG ??= "opengl dri ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x1
 PACKAGECONFIG_class-target = "opengl dri ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
 
 # When NOT using X11, we need to make sure we have swrast available.
-DRIDRIVERS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', ',swrast', d)}"
+DRIDRIVERS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', ',swrast', d)}"
 
