@@ -38,10 +38,9 @@
 ../recipes-graphics/westeros/westeros-simplebuffer_git.bb:13:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simplebuffer_git.bb
 ../recipes-graphics/westeros/westeros-simpleshell_git.bb:13:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simpleshell_git.bb
 ../recipes-graphics/westeros/westeros-soc-drm_git.bb:20:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-soc-drm_git.bb
-../recipes-graphics/woff2/woff2_1.0.2.bb:11:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
-../recipes-graphics/woff2/woff2_1.0.2.bb:14:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'S'
-../recipes-graphics/woff2/woff2_1.0.2.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-graphics/woff2/woff2_1.0.2.bb:2:warning:oelint.vars.mispell:'DESCRIPTIOM' is unknown, maybe you mean 'DESCRIPTION'
+../recipes-graphics/westeros/westeros_git.bb:41:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros_git.bb
+../recipes-graphics/westeros/westeros_git.bb:49:warning:oelint.vars.pathhardcode.libdir:'${libdir}' should be used instead of '/usr/lib'
+../recipes-graphics/westeros/westeros_git.bb:67:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/aamp/aamp_git.bb:25:error:oelint.vars.specific:'AAMP_USE_THUNDER_OCDM_API' is set specific to ['0'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/aamp/aamp_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/aamp/aampabr_git.bb:21:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -211,8 +210,8 @@
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-common.inc,wpeframework-ocdm-playready_4.0+git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_2.5+git.bb,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework-ocdm-playready_4.0+git.bb,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:error:oelint.var.override:Variable 'PV' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:6:warning:oelint.var.order.PV:'PV' should be placed before 'S'
 ../recipes-wpe/wpeframework/include/wpeframework-ocdm-playready.inc:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
@@ -222,7 +221,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:13:warning:oelint.var.order.PV:'PV' should be placed before 'SRCREV'
 ../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
