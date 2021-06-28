@@ -1,4 +1,5 @@
 SUMMARY = "WPE WebKit MESA backend"
+DESCRIPTION = "WPE WebKit/Thunder MESA backend"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "BSD-2-Clause"
