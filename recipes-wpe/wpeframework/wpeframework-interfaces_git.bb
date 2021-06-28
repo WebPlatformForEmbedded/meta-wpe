@@ -1,5 +1,7 @@
 SUMMARY = "WPEFramework interfaces"
 DESCRIPTION = "Thunder interfaces component"
+HOMEPAGE = "https://github.com/rdkcentral/ThunderInterfaces"
+SECTION = "wpe"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
 

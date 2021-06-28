@@ -1,4 +1,5 @@
 SUMMARY = "WPE Framework OpenCDMi module for Widevine Nexus SVP"
+HOMEPAGE = "https://code.rdkcentral.com/r/plugins/gitiles/soc/broadcom/components/rdkcentral/OCDM-Widevine-Nexus-SVP"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=feac6454ca1bb4ff09e7bc76d34f57ed"
 

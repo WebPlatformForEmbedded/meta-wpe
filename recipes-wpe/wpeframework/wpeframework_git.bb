@@ -1,4 +1,5 @@
 SUMMARY = "Web Platform for Embedded Framework"
+DESCRIPTION = "A C++ platform abstraction layer for generic functionality."
 
 require include/wpeframework.inc
 require include/wpeframework-common.inc

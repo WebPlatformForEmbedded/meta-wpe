@@ -1,4 +1,5 @@
 SUMMARY = "WPEFramework Plugins from RDKServices"
+HOMEPAGE = "https://github.com/rdkcentral/rdkservices"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 PR = "r1"

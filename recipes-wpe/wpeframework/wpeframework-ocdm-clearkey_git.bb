@@ -1,4 +1,5 @@
 SUMMARY = "WPE Framework OpenCDMi module for clearkey"
+HOMEPAGE = "https://github.com/rdkcentral/OCDM-Clearkey"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9c83fce561d6921e20681566f2550145"
 

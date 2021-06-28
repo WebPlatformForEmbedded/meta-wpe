@@ -1,4 +1,5 @@
 SUMMARY = "WPE Framework OpenCDMi module for widevine"
+HOMEPAGE = "https://github.com/rdkcentral/OCDM-Widevine"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1384d4b11dad572771bc2dad384029a6"
 

@@ -1,4 +1,5 @@
 SUMMARY = "WPE Framework User Interface"
+HOMEPAGE = "https://github.com/rdkcentral/ThunderUI"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=66fe57b27abb01505f399ce4405cfea0"
 

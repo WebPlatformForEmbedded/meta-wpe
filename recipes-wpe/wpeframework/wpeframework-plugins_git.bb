@@ -1,10 +1,12 @@
 SUMMARY = "WPE Framework common plugins"
+HOMEPAGE = "https://github.com/rdkcentral/ThunderNanoServices"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=47b1321b4411e96bb5aeb94521850d43"
 PR = "r1"
 
 require include/wpeframework-plugins.inc
 
+PV = "3.0+gitr${SRCPV}"
 SRC_URI = "\
 git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=master \
     file://index.html \
