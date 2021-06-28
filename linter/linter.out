@@ -4,11 +4,10 @@
 ../recipes-containers/dobby/dobby_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-core/packagegroups/packagegroup-westeros.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-westeros.bb:1:error:oelint.var.mandatoryvar.SUMMARY:Variable 'SUMMARY' should be set
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:19:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['login'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:20:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['init'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:21:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['initscripts'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:9:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGE_ARCH'
+../recipes-core/packagegroups/packagegroup-wpe-boot.bb:20:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['login'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-core/packagegroups/packagegroup-wpe-boot.bb:21:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['init'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-core/packagegroups/packagegroup-wpe-boot.bb:22:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['initscripts'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-core/packagegroups/packagegroup-wpeframework-plugins-rdk.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpeframework-plugins-rdk.bb:1:error:oelint.var.mandatoryvar.SUMMARY:Variable 'SUMMARY' should be set
 ../recipes-core/packagegroups/packagegroup-wpeframework-rdkservices.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
@@ -101,7 +100,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework.inc:5:warning:oelint.var.order.HOMEPAGE:'HOMEPAGE' should be placed before 'LIC_FILES_CHKSUM'
