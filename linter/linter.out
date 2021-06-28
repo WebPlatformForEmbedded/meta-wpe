@@ -59,26 +59,13 @@
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:14:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:20:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:31:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:31:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:72:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/include/firmwarecontrol.inc:11:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/ocdm.inc:15:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/ocdm.inc:16:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/ocdm.inc:17:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/ocdm.inc:18:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/ocdm.inc:22:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-wpe/wpeframework/include/remotecontrol.inc:14:warning:oelint.vars.pathhardcode.nonarch_base_libdir:'${nonarch_base_libdir}' should be used instead of '/lib'
-../recipes-wpe/wpeframework/include/remotecontrol.inc:33:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
 ../recipes-wpe/wpeframework/include/remotecontrol.inc:48:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
-../recipes-wpe/wpeframework/include/streamer.inc:7:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/tracecontrol.inc:7:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpeframework/include/webkitbrowser.inc:201:error:oelint.spaces.linecont:No spaces after line continuation
-../recipes-wpe/wpeframework/include/webkitbrowser.inc:241:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:271:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost

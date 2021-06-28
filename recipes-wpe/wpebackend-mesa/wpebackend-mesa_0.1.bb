@@ -28,4 +28,4 @@ do_install() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-mesa.so"
-INSANE_SKIP ="dev-so"
+INSANE_SKIP = "dev-so"

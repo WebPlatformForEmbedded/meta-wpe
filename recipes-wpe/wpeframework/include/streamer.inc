@@ -4,7 +4,7 @@ WPE_STREAMER_DECODERS ??= "2"
 
 # AAMP variables
 WPE_AAMP_STREAMER_FRONTENDS ??= "0"
-WPE_AAMP_STREAMER_WESTEROSSINK??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'ON', 'OFF', d)}"
+WPE_AAMP_STREAMER_WESTEROSSINK ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'ON', 'OFF', d)}"
 
 # QAM variables, adjust to your own need in your adaptation/local.conf
 WPE_QAM_STREAMER_BROADCAST_STANDARD ??= "DVB"
