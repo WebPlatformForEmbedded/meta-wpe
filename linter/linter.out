@@ -157,11 +157,9 @@
 ../recipes-wpe/wpeframework/wpeframework-rdkservices_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:15:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-wpe/wpeframework/wpeframework_git.bb:147:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
-../recipes-wpe/wpeframework/wpeframework_git.bb:160:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework_git.bb:161:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework_git.bb:19:warning:oelint.var.order.PROVIDES:'PROVIDES' should be placed before 'inherit'
-../recipes-wpe/wpeframework/wpeframework_git.bb:24:warning:oelint.var.order.PACKAGECONFIG:'PACKAGECONFIG' should be placed before 'RPROVIDES_${PN}'
+../recipes-wpe/wpeframework/wpeframework_git.bb:145:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
+../recipes-wpe/wpeframework/wpeframework_git.bb:158:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/wpeframework_git.bb:159:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpewebkit/wpewebkit.inc:10:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-wpe/wpewebkit/wpewebkit.inc:10:error:oelint.vars.listappend:Append to list should end with a blank
 ../recipes-wpe/wpewebkit/wpewebkit.inc:117:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc

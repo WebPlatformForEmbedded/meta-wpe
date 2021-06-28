@@ -5,8 +5,9 @@ require include/wpeframework.inc
 require include/wpeframework-common.inc
 
 DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
-
 DEPENDS_append_libc-musl = " libexecinfo"
+
+PROVIDES += "thunder"
 
 PV = "3.0+gitr${SRCPV}"
 SRC_URI_append = " \
@@ -15,9 +16,6 @@ SRC_URI_append = " \
 "
 
 inherit systemd update-rc.d python3native
-
-PROVIDES += "thunder"
-RPROVIDES_${PN} += "thunder"
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "WPE"
 
@@ -160,3 +158,4 @@ WPEFRAMEWORK_START = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '4
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
 
+RPROVIDES_${PN} += "thunder"
