@@ -19,40 +19,40 @@ SRCREV = "a06fdb2ba34e29035ceb01431f6d720d1e5b5e01"
 
 # More complicated plugins are moved seperate includes
 
-include include/bluetooth.inc
-include include/cobalt.inc
-include include/compositor.inc
-include include/dhcpserver.inc
-include include/dictionary.inc
-include include/dialserver.inc
-include include/displayinfo.inc
-include include/filetransfer.inc
-include include/firmwarecontrol.inc
-include include/inputswitch.inc
-include include/ioconnector.inc
-include include/languageadministrator.inc
-include include/network.inc
-include include/performancemonitor.inc
-include include/playerinfo.inc
-include include/power.inc
-include include/processcontainers.inc
-include include/processmonitor.inc
-include include/remotecontrol.inc
-include include/resourcemonitor.inc
-include include/snapshot.inc
-include include/streamer.inc
-include include/svalbard.inc
-include include/systemcommands.inc
-include include/systemdconnector.inc
-include include/timesync.inc
-include include/volumecontrol.inc
-include include/webproxy.inc
-include include/webserver.inc
-include include/webshell.inc
-include include/wifi.inc
+require include/bluetooth.inc
+require include/cobalt.inc
+require include/compositor.inc
+require include/dhcpserver.inc
+require include/dictionary.inc
+require include/dialserver.inc
+require include/displayinfo.inc
+require include/filetransfer.inc
+require include/firmwarecontrol.inc
+require include/inputswitch.inc
+require include/ioconnector.inc
+require include/languageadministrator.inc
+require include/network.inc
+require include/performancemonitor.inc
+require include/playerinfo.inc
+require include/power.inc
+require include/processcontainers.inc
+require include/processmonitor.inc
+require include/remotecontrol.inc
+require include/resourcemonitor.inc
+require include/snapshot.inc
+require include/streamer.inc
+require include/svalbard.inc
+require include/systemcommands.inc
+require include/systemdconnector.inc
+require include/timesync.inc
+require include/volumecontrol.inc
+require include/webproxy.inc
+require include/webserver.inc
+require include/webshell.inc
+require include/wifi.inc
 
 # Added deprecated plugins for backward compatibility
-include include/plugins_deprecated.inc
+require include/plugins_deprecated.inc
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetoothcontrol', '', d)} \

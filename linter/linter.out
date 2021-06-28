@@ -69,9 +69,8 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -83,38 +82,6 @@
 ../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:15:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:15:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-plugin-launcher_git.bb:13:warning:oelint.newline.consecutive:Consecutive blank lines should be avoided
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:22:warning:oelint.file.requireinclude:Use 'require include/bluetooth.inc' instead of 'include include/bluetooth.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:23:warning:oelint.file.requireinclude:Use 'require include/cobalt.inc' instead of 'include include/cobalt.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:24:warning:oelint.file.requireinclude:Use 'require include/compositor.inc' instead of 'include include/compositor.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:25:warning:oelint.file.requireinclude:Use 'require include/dhcpserver.inc' instead of 'include include/dhcpserver.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:26:warning:oelint.file.requireinclude:Use 'require include/dictionary.inc' instead of 'include include/dictionary.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:27:warning:oelint.file.requireinclude:Use 'require include/dialserver.inc' instead of 'include include/dialserver.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:28:warning:oelint.file.requireinclude:Use 'require include/displayinfo.inc' instead of 'include include/displayinfo.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:29:warning:oelint.file.requireinclude:Use 'require include/filetransfer.inc' instead of 'include include/filetransfer.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:30:warning:oelint.file.requireinclude:Use 'require include/firmwarecontrol.inc' instead of 'include include/firmwarecontrol.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:31:warning:oelint.file.requireinclude:Use 'require include/inputswitch.inc' instead of 'include include/inputswitch.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:32:warning:oelint.file.requireinclude:Use 'require include/ioconnector.inc' instead of 'include include/ioconnector.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:33:warning:oelint.file.requireinclude:Use 'require include/languageadministrator.inc' instead of 'include include/languageadministrator.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:34:warning:oelint.file.requireinclude:Use 'require include/network.inc' instead of 'include include/network.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:35:warning:oelint.file.requireinclude:Use 'require include/performancemonitor.inc' instead of 'include include/performancemonitor.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:36:warning:oelint.file.requireinclude:Use 'require include/playerinfo.inc' instead of 'include include/playerinfo.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:37:warning:oelint.file.requireinclude:Use 'require include/power.inc' instead of 'include include/power.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:38:warning:oelint.file.requireinclude:Use 'require include/processcontainers.inc' instead of 'include include/processcontainers.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:39:warning:oelint.file.requireinclude:Use 'require include/processmonitor.inc' instead of 'include include/processmonitor.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:40:warning:oelint.file.requireinclude:Use 'require include/remotecontrol.inc' instead of 'include include/remotecontrol.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:41:warning:oelint.file.requireinclude:Use 'require include/resourcemonitor.inc' instead of 'include include/resourcemonitor.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:42:warning:oelint.file.requireinclude:Use 'require include/snapshot.inc' instead of 'include include/snapshot.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:43:warning:oelint.file.requireinclude:Use 'require include/streamer.inc' instead of 'include include/streamer.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:44:warning:oelint.file.requireinclude:Use 'require include/svalbard.inc' instead of 'include include/svalbard.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:45:warning:oelint.file.requireinclude:Use 'require include/systemcommands.inc' instead of 'include include/systemcommands.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:46:warning:oelint.file.requireinclude:Use 'require include/systemdconnector.inc' instead of 'include include/systemdconnector.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:47:warning:oelint.file.requireinclude:Use 'require include/timesync.inc' instead of 'include include/timesync.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:48:warning:oelint.file.requireinclude:Use 'require include/volumecontrol.inc' instead of 'include include/volumecontrol.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:49:warning:oelint.file.requireinclude:Use 'require include/webproxy.inc' instead of 'include include/webproxy.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:50:warning:oelint.file.requireinclude:Use 'require include/webserver.inc' instead of 'include include/webserver.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:51:warning:oelint.file.requireinclude:Use 'require include/webshell.inc' instead of 'include include/webshell.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:52:warning:oelint.file.requireinclude:Use 'require include/wifi.inc' instead of 'include include/wifi.inc'
-../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:55:warning:oelint.file.requireinclude:Use 'require include/plugins_deprecated.inc' instead of 'include include/plugins_deprecated.inc'
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:73:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:83:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:87:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
