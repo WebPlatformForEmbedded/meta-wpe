@@ -1,4 +1,5 @@
-SUMMARY = "WPE WebKit port pairs the WebKit engine with OpenGL-ES (OpenGL for Embedded Systems), \
+SUMMARY = "WPE WebKit - port for embedded platforms"
+DESCRIPTION = "WPE WebKit port pairs the WebKit engine with OpenGL-ES (OpenGL for Embedded Systems), \
            allowing embedders to create simple and performant systems based on Web platform technologies. \
            It is designed with hardware acceleration in mind, relying on EGL, and OpenGL ES."
 HOMEPAGE = "https://wpewebkit.org/"
@@ -7,7 +8,7 @@ LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80"
 
 # WPE WebKit Common
-DEPENDS_append = "\
+DEPENDS_append = " \
     libwpe \
     bison-native ccache-native glib-2.0-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
@@ -50,7 +51,7 @@ PACKAGECONFIG[westeros] = "-DUSE_WPEWEBKIT_PLATFORM_WESTEROS=ON,,westeros"
 
 # westeros-sink, override with egl if glimagesink is vsink
 PACKAGECONFIG[westeros-sink] = "-DUSE_HOLE_PUNCH_GSTREAMER=ON -DUSE_WESTEROS_SINK=ON -DUSE_GSTREAMER_HOLEPUNCH=ON,,westeros"
-PACKAGECONFIG[wayland-sink]  = "-DUSE_WAYLAND_SINK=ON,,gstreamer1.0-plugins-bad"
+PACKAGECONFIG[wayland-sink] = "-DUSE_WAYLAND_SINK=ON,,gstreamer1.0-plugins-bad"
 
 # WPE features
 PACKAGECONFIG[2dcanvas] = "-DENABLE_ACCELERATED_2D_CANVAS=ON,-DENABLE_ACCELERATED_2D_CANVAS=OFF,"

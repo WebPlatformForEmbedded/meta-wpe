@@ -92,13 +92,13 @@
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:270:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -160,33 +160,23 @@
 ../recipes-wpe/wpeframework/wpeframework_git.bb:145:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework_git.bb:158:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework_git.bb:159:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:10:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
-../recipes-wpe/wpewebkit/wpewebkit.inc:10:error:oelint.vars.listappend:Append to list should end with a blank
-../recipes-wpe/wpewebkit/wpewebkit.inc:117:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc
-../recipes-wpe/wpewebkit/wpewebkit.inc:123:error:oelint.vars.specific:'ARM_INSTRUCTION_SET' is set specific to ['armv7m'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:141:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:144:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:147:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:148:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:151:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:152:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:195:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
-../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
-../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:'==' is not a proper bbclass name
-../recipes-wpe/wpewebkit/wpewebkit.inc:24:error:oelint.var.improperinherit:'True)' is not a proper bbclass name
-../recipes-wpe/wpewebkit/wpewebkit.inc:38:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:53:warning:oelint.vars.spacesassignment:Suggest spaces around variable assignment. E.g. 'FOO = "BAR"'
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:13:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'SRC_URI'
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:232:warning:oelint.spaces.lineend:Line shall not end with a space
+../recipes-wpe/wpewebkit/wpewebkit.inc:118:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc
+../recipes-wpe/wpewebkit/wpewebkit.inc:124:error:oelint.vars.specific:'ARM_INSTRUCTION_SET' is set specific to ['armv7m'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-wpe/wpewebkit/wpewebkit.inc:142:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpewebkit/wpewebkit.inc:145:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpewebkit/wpewebkit.inc:148:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-wpe/wpewebkit/wpewebkit.inc:149:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-wpe/wpewebkit/wpewebkit.inc:152:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-wpe/wpewebkit/wpewebkit.inc:153:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-wpe/wpewebkit/wpewebkit.inc:196:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
+../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
+../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'==' is not a proper bbclass name
+../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'True)' is not a proper bbclass name
+../recipes-wpe/wpewebkit/wpewebkit.inc:39:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:233:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:30:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:48:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:48:error:oelint.vars.valuequoted:Variable value should be quoted
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:7:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
-../recipes-wpe/wpewebkit/wpewebkit_2.28.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpewebkit/wpewebkit_2.28.bb:8:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
-../recipes-wpe/wpewebkit/wpewebkit_2.30.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpewebkit/wpewebkit_2.30.bb:7:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
-../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:24:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:9:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
