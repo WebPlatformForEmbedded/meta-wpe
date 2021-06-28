@@ -6,6 +6,7 @@ require include/wpeframework-plugins.inc
 
 DEPENDS_append = " broadcom-refsw"
 
+PV = "3.0+gitr${SRCPV}"
 SRC_URI = "git://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/OCDM-Playready-Nexus-SVP.git;protocol=https;branch=master"
 SRCREV = "69cedd51e040c0b592c77de59b4060937099d2f1"
 

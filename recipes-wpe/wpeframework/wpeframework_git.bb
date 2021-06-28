@@ -7,6 +7,7 @@ DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
 
 DEPENDS_append_libc-musl = " libexecinfo"
 
+PV = "3.0+gitr${SRCPV}"
 SRC_URI_append = " \
     file://wpeframework-init \
     file://wpeframework.service.in \
