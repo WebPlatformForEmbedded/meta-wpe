@@ -10,7 +10,7 @@ DEPENDS_append = " playready"
 
 EXTRA_OECMAKE += "-DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH}"
 
-FILES_${PN} = "\
+FILES_${PN} += "\
     ${datadir}/WPEFramework/OCDM/Playready.drm \
     ${WPEFRAMEWORK_PERSISTENT_PATH}OCDM/playready \
 "
