@@ -10,6 +10,5 @@ SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=master"
 SRCREV = "a3415280af850ef9687d6ff33c77dc6d7faf0b5e"
 
 PR = "r0"
-PV = "3.0+git${SRCPV}"
 S = "${WORKDIR}/git"
 
