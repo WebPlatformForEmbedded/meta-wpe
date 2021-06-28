@@ -92,18 +92,16 @@
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:269:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework.inc,wpeframework-common.inc
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:5:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:31:error:oelint.vars.inconspaces:Assignment should be 'VAR_append = " foo"' not 'VAR_append = "foo"'
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
-../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'SECTION' is set by wpeframework.inc,wpeframework-common.inc
-../recipes-wpe/wpeframework/include/wpeframework.inc:5:warning:oelint.var.order.HOMEPAGE:'HOMEPAGE' should be placed before 'LIC_FILES_CHKSUM'
+../recipes-wpe/wpeframework/include/wpeframework.inc:2:error:oelint.var.override:Variable 'HOMEPAGE' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework.inc:3:error:oelint.var.override:Variable 'SECTION' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:63:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:33:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -161,8 +159,6 @@
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:84:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:85:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-rdkservices_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-wpe/wpeframework/wpeframework-tools-native_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
-../recipes-wpe/wpeframework/wpeframework-tools-native_git.bb:6:warning:oelint.var.order.DEPENDS:'DEPENDS' should be placed before 'inherit'
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:14:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:1:error:oelint.var.mandatoryvar.DESCRIPTION:Variable 'DESCRIPTION' should be set
 ../recipes-wpe/wpeframework/wpeframework_git.bb:146:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
