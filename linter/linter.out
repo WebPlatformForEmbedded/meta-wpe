@@ -98,7 +98,8 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -176,6 +177,5 @@
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:233:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:30:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:48:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit_2.30.bb:7:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
 ../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:24:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:9:warning:oelint.var.order.SRC_URI:'SRC_URI' should be placed before 'SRCREV'
