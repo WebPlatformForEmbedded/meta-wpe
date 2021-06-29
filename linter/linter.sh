@@ -18,25 +18,20 @@ create_filelist_git () {
     echo "$files" | while read -r line; do echo "$git_topdir/$line"; done
 }
 
-lint() {
+lint_to_file() {
     local local_list="$1"
-    echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile" &
+
+    if [[ "$FOREGROUND" -eq 1 ]];
+    then
+        echo "Linting $local_list"
+        echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile"
+    else
+        echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile" &
+    fi
+
 }
 
-lint_in_foreground () {
-    local filelist="$1"
-    local filelist_len=$(echo "$filelist" | wc -l | tr -d " " )
-
-    local iter=1
-    for f in $filelist;
-    do
-        echo "Linting [$iter/$filelist_len] $f [oelint-adv $oelint_args $f]"
-        echo "$oelint_args $f" | xargs oelint-adv 2>>"$tmpfile"
-        ((iter++))
-    done
-}
-
-lint_in_background () {
+lint () {
     local filelist="$1"
     local files_per_lint="${2:-1}"
 
@@ -50,7 +45,7 @@ lint_in_background () {
         local_list="$local_list $f"
         if [[ $((iter % files_per_lint)) -eq 0 ]];
         then
-            lint "$local_list"
+            lint_to_file "$local_list"
             local_list=""
         fi
         ((iter++))
@@ -58,7 +53,7 @@ lint_in_background () {
     # make sure to include the rest of the files if any
     if [[ "$local_list" != "" ]];
     then
-        lint "$local_list"
+        lint_to_file "$local_list"
     fi
 
     echo "Waiting for liniting to complete..." 
@@ -80,8 +75,10 @@ prepare_outputfile () {
     mv "$tmpfile" "$outputfile"
 }
 
+enable_color () {
+    oelint_args="$oelint_args --color"
+}
 
-COLOR_OUTPUT=0
 FOREGROUND=0
 FILELIST="git"
 FILES_TO_LINT=""
@@ -111,11 +108,7 @@ do
             exit 1
             ;;
         --color)
-            COLOR_OUTPUT=1
-            if [[ $COLOR_OUTPUT -eq 1 ]];
-            then
-                oelint_args="$oelint_args --color"
-            fi
+            enable_color
             shift
             ;;
         --filelist)
@@ -164,14 +157,7 @@ else
     exit 1;
 fi
 
-if [[ "$FOREGROUND" -eq 1 ]];
-then
-    echo "Linting in foreground."
-    lint_in_foreground "$FILES_TO_LINT"
-else
-    echo "Linting in background."
-    lint_in_background "$FILES_TO_LINT"
-fi
+lint "$FILES_TO_LINT"
 
 echo "Preparing the output..."
 prepare_outputfile
