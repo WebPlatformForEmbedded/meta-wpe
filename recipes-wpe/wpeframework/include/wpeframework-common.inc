@@ -1,9 +1,5 @@
 # Common for thunder and modules which depends thunder
-HOMEPAGE = "https://github.com/rdkcentral"
-SECTION = "wpe"
-
 S = "${WORKDIR}/git"
-PV = "3.0+gitr${SRCPV}"
 
 inherit cmake pkgconfig
 
@@ -15,4 +11,3 @@ LDFLAGS_append = " -fuse-ld=bfd"
 
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH ??= "/home/root/"
-

@@ -1,5 +1,4 @@
 require cmake.inc
-inherit native
 
 DEPENDS_append = " bzip2-replacement-native expat-native xz-native zlib-native curl-native"
 
@@ -7,8 +6,11 @@ SRC_URI_append = " \
     file://cmlibarchive-disable-ext2fs.patch \
 "
 
+inherit native
+
 B = "${WORKDIR}/build"
 do_configure[cleandirs] = "${B}"
+
 PACKAGECONFIG[ncurser] = "-DBUILD_CursesDialog=1,-DBUILD_CursesDialog=0,ncurses-native"
 
 CMAKE_EXTRACONF = "\

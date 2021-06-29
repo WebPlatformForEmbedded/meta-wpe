@@ -18,19 +18,20 @@ ARM_INSTRUCTION_SET_armv4 = "arm"
 ARM_INSTRUCTION_SET_armv5 = "arm"
 
 BASE_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-src.tgz"
-SRC_URI = "${BASE_SRC_URI} \
-           file://icu-pkgdata-large-cmd.patch \
-           file://fix-install-manx.patch \
-           file://0001-Fix-big-endian-build.patch \
-           file://0001-icu-Added-armeb-support.patch \
-           file://0001-dont-build-static-dynamic-twice.patch \
-	   file://0002-workaround-toolchain-bugs.patch \
-	   file://0003-fix-static-linking-with-icu-uc.patch \
-           "
+SRC_URI = "\
+    ${BASE_SRC_URI} \
+    file://icu-pkgdata-large-cmd.patch \
+    file://fix-install-manx.patch \
+    file://0001-Fix-big-endian-build.patch \
+    file://0001-icu-Added-armeb-support.patch \
+    file://0001-dont-build-static-dynamic-twice.patch \
+    file://0002-workaround-toolchain-bugs.patch \
+    file://0003-fix-static-linking-with-icu-uc.patch \
+"
 
-SRC_URI_append_class-target = "\
-           file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
-          "
+SRC_URI_append_class-target = " \
+    file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+"
 SRC_URI[md5sum] = "d1ff436e26cabcb28e6cb383d32d1339"
 SRC_URI[sha256sum] = "53e37466b3d6d6d01ead029e3567d873a43a5d1c668ed2278e253b683136d948"
 

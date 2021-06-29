@@ -1,11 +1,14 @@
-SUMMARY = "Host/Native tooling for the Web Platform for Embedded Framework"
+SUMMARY = "Host/Native tooling for the WPEFramework/Thunder"
+DESCRIPTION = "Host/Native tooling (i.e generators) required to build Thunder Framework"
 
 require include/wpeframework.inc
-inherit cmake pkgconfig native python3native
 
 DEPENDS_append = " python3-native python3-jsonref-native"
 
+PV = "3.0+git${SRCPV}"
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/Tools"
+
+inherit cmake pkgconfig native python3native
 
 FILES_${PN} += "${datadir}/*/Modules/*.cmake"
 

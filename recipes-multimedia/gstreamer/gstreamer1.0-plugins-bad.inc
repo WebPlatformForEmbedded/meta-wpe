@@ -4,11 +4,11 @@ LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
 
 DEPENDS_append = " gstreamer1.0-plugins-base libpng jpeg"
 
-inherit gettext bluetooth
-
 SRC_URI_append = " \
     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
 "
+
+inherit gettext bluetooth
 
 # opengl packageconfig factored out to make it easy for distros
 # and BSP layers to pick either (desktop) opengl, gles2, or no GL
@@ -30,49 +30,49 @@ PACKAGECONFIG ??= " \
 PACKAGECONFIG_append_rpi = " zzrpiextras"
 PACKAGECONFIG[zzrpiextras] = "--enable-gles2 --enable-egl --enable-gl --enable-dispmanx,,virtual/libgles2 virtual/egl"
 
-PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
-PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
-PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
-PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
-PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
-PACKAGECONFIG[dc1394]          = "--enable-dc1394,--disable-dc1394,libdc1394"
-PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
-PACKAGECONFIG[dtls]            = "--enable-dtls,--disable-dtls,openssl"
-PACKAGECONFIG[egl]             = "--enable-egl,--disable-egl,virtual/egl"
-PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
-PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
-PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
-PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
-PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
-PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+PACKAGECONFIG[assrender] = "--enable-assrender,--disable-assrender,libass"
+PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,${BLUEZ}"
+PACKAGECONFIG[bz2] = "--enable-bz2,--disable-bz2,bzip2"
+PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+PACKAGECONFIG[dash] = "--enable-dash,--disable-dash,libxml2"
+PACKAGECONFIG[dc1394] = "--enable-dc1394,--disable-dc1394,libdc1394"
+PACKAGECONFIG[directfb] = "--enable-directfb,--disable-directfb,directfb"
+PACKAGECONFIG[dtls] = "--enable-dtls,--disable-dtls,openssl"
+PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
+PACKAGECONFIG[faac] = "--enable-faac,--disable-faac,faac"
+PACKAGECONFIG[faad] = "--enable-faad,--disable-faad,faad2"
+PACKAGECONFIG[flite] = "--enable-flite,--disable-flite,flite-alsa"
+PACKAGECONFIG[fluidsynth] = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
+PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,virtual/libgles2"
+PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
 # ensure OpenSSL is used for HLS AES description instead of nettle
 # (OpenSSL is a shared dependency with dtls)
-PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl"
-PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
-PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
-PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
-PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
-PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
-PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
-PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
-PACKAGECONFIG[opengl]          = "--enable-opengl,--disable-opengl,virtual/libgl libglu"
-PACKAGECONFIG[openjpeg]        = "--enable-openjpeg,--disable-openjpeg,openjpeg"
+PACKAGECONFIG[hls] = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl"
+PACKAGECONFIG[kms] = "--enable-kms,--disable-kms,libdrm"
+PACKAGECONFIG[libmms] = "--enable-libmms,--disable-libmms,libmms"
+PACKAGECONFIG[libssh2] = "--enable-libssh2,--disable-libssh2,libssh2"
+PACKAGECONFIG[modplug] = "--enable-modplug,--disable-modplug,libmodplug"
+PACKAGECONFIG[neon] = "--enable-neon,--disable-neon,neon"
+PACKAGECONFIG[openal] = "--enable-openal,--disable-openal,openal-soft"
+PACKAGECONFIG[opencv] = "--enable-opencv,--disable-opencv,opencv"
+PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,virtual/libgl libglu"
+PACKAGECONFIG[openjpeg] = "--enable-openjpeg,--disable-openjpeg,openjpeg"
 # the opus encoder/decoder elements are now in the -base package,
 # but the opus parser remains in -bad
-PACKAGECONFIG[opusparse]       = "--enable-opus,--disable-opus,libopus"
-PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdread libdvdnav"
-PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
-PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
-PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
-PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
+PACKAGECONFIG[opusparse] = "--enable-opus,--disable-opus,libopus"
+PACKAGECONFIG[resindvd] = "--enable-resindvd,--disable-resindvd,libdvdread libdvdnav"
+PACKAGECONFIG[rsvg] = "--enable-rsvg,--disable-rsvg,librsvg"
+PACKAGECONFIG[rtmp] = "--enable-rtmp,--disable-rtmp,rtmpdump"
+PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
+PACKAGECONFIG[schroedinger] = "--enable-schro,--disable-schro,schroedinger"
 PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
-PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
-PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
-PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
-PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
-PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
-PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols"
-PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
+PACKAGECONFIG[sndfile] = "--enable-sndfile,--disable-sndfile,libsndfile1"
+PACKAGECONFIG[srtp] = "--enable-srtp,--disable-srtp,libsrtp"
+PACKAGECONFIG[uvch264] = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
+PACKAGECONFIG[voaacenc] = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
+PACKAGECONFIG[voamrwbenc] = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
+PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols"
+PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
 
 # these plugins have not been ported to 1.0 (yet):
 #   apexsink linsys nas timidity sdl xvid wininet
@@ -90,7 +90,7 @@ PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
 # This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
 # in a gstreamer1.0-plugins-bad bbappend).
 
-EXTRA_OECONF += " \
+EXTRA_OECONF += "\
     --enable-decklink \
     --enable-dvb \
     --enable-fbdev \

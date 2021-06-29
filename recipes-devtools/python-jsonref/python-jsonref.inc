@@ -1,4 +1,5 @@
-SUMMARY = "jsonref is a library for automatic dereferencing of JSON Reference objects for Python"
+SUMMARY = "Library for dereferencing of JSON Reference objects for Python"
+DESCRIPTION = "jsonref is a library for automatic dereferencing of JSON Reference objects for Python"
 HOMEPAGE = "https://github.com/gazpachoking/jsonref"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a34264f25338d41744dca1abfe4eb18f"
@@ -9,4 +10,3 @@ SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e
 inherit pypi 
 
 BBCLASSEXTEND = "native nativesdk"
-

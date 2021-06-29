@@ -1,4 +1,5 @@
 SUMMARY = "WPE WebKit MESA backend"
+DESCRIPTION = "WPE WebKit/Thunder MESA backend"
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded"
 SECTION = "wpe"
 LICENSE = "BSD-2-Clause"
@@ -27,4 +28,4 @@ do_install() {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-mesa.so"
-INSANE_SKIP ="dev-so"
+INSANE_SKIP = "dev-so"

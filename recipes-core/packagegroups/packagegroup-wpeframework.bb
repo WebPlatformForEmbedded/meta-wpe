@@ -1,4 +1,5 @@
-DESCRIPTION = "Web Platform for Embedded Framework Packagegroup"
+SUMMARY = "Web Platform for Embedded Framework Packagegroup"
+DESCRIPTION = "Web Platform for Embedded Framework / Thunder Packagegroup"
 LICENSE = "MIT"
 
 inherit packagegroup

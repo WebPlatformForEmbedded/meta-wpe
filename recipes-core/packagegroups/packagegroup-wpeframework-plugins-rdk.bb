@@ -1,3 +1,4 @@
+SUMMARY = "Thunder packagegroup for RDK plugins"
 DESCRIPTION = "Web Platform for Embedded Framework Packagegroup for shared RDK plugins"
 LICENSE = "MIT"
 

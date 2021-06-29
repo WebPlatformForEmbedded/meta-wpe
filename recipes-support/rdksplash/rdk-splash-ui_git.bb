@@ -1,4 +1,6 @@
 SUMMARY = "RDK Reference APP UI"
+DESCRIPTION = "UI Splash for RDK reference APP"
+HOMEPAGE = "https://github.com/rdkcentral/RDKSplashScreen"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4ff33b11769ba14c6093567cd25ff3b2"
 

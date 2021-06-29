@@ -1,6 +1,8 @@
 SUMMARY = "Mesa demo applications"
-DESCRIPTION = "This package includes the demonstration application, such as glxgears. \
-These applications can be used for Mesa validation and benchmarking."
+DESCRIPTION = "\
+    This package includes the demonstration application, such as glxgears. \
+    These applications can be used for Mesa validation and benchmarking. \
+"
 HOMEPAGE = "http://mesa3d.org"
 BUGTRACKER = "https://bugs.freedesktop.org"
 SECTION = "x11"
@@ -31,14 +33,13 @@ REQUIRED_DISTRO_FEATURES = "opengl x11"
 
 PACKAGECONFIG ?= "\
     drm osmesa freetype2 gbm egl gles1 gles2 \
-    x11 glew glu glx \
+    x11 glew glu glx withsystemdatafiles \
 "
 
 # The Wayland code doesn't work with Wayland 1.0, so disable it for now
 #${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)}"
 
-EXTRA_OECONF = "--with-system-data-files"
-
+PACKAGECONFIG[withsystemdatafiles] = "--with-system-data-files,,,"
 PACKAGECONFIG[drm] = "--enable-libdrm,--disable-libdrm,libdrm"
 PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
 PACKAGECONFIG[freetype2] = "--enable-freetype2,--disable-freetype2,freetype"
@@ -55,11 +56,11 @@ PACKAGECONFIG[glu] = "--enable-glu,--disable-glu,virtual/libgl"
 PACKAGECONFIG[glx] = "--enable-glx-demos,--disable-glx-demos"
 
 do_install_append() {
-	# it can be completely empty when all PACKAGECONFIG options are disabled
-	rmdir --ignore-fail-on-non-empty ${D}${bindir}
+    # it can be completely empty when all PACKAGECONFIG options are disabled
+    rmdir --ignore-fail-on-non-empty ${D}${bindir}
 
-	if [ -f ${D}${bindir}/clear ]; then
-        	mv ${D}${bindir}/clear ${D}${bindir}/clear.mesa-demos
-	fi
+    if [ -f ${D}${bindir}/clear ]; then
+        mv ${D}${bindir}/clear ${D}${bindir}/clear.mesa-demos
+    fi
 }
 

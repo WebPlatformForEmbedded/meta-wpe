@@ -1,15 +1,24 @@
 SUMMARY = "This receipe compiles the westeros compositor component"
-DESCRIPTION = "Wayland Compositor: Westeros is a light-weight Wayland compositor library.\
+DESCRIPTION = " Wayland Compositor: Westeros is a light-weight Wayland compositor library.\
     It uses the Wayland protocols, and is designed to be compatible with applications built\
     to use Wayland compositors."
 
 require westeros.inc
+
+DEPENDS_append = " \
+    ${WESTEROS_BACKEND} \
+    westeros-simplebuffer \
+    westeros-simpleshell \
+"
 
 SRC_URI_append = " \
     file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
     file://0002-Add_VCX_flags_support.patch \
     file://0003-Set-default-resolution-to-1080.patch \
 "
+S = "${WORKDIR}/git"
+
+inherit autotools pkgconfig
 
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
@@ -27,19 +36,7 @@ PACKAGECONFIG[xdgv5] = "--enable-xdgv5=yes"
 PACKAGECONFIG[x11] = ",,freeglut"
 PACKAGECONFIG[modules] = "--enable-modules=yes"
 
-S = "${WORKDIR}/git"
-
 WESTEROS_BACKEND ??= "westeros-soc-drm"
-
-DEPENDS_append = " \
-    westeros-simplebuffer \
-    westeros-simpleshell \
-    ${WESTEROS_BACKEND} \
-"
-
-RDEPENDS_${PN} = "xkeyboard-config"
-
-inherit autotools pkgconfig
 
 SECURITY_CFLAGS_remove = "-fpie"
 SECURITY_CFLAGS_remove = "-pie"
@@ -64,5 +61,8 @@ do_install_append () {
 
 FILES_SOLIBSDEV = ""
 FILES_${PN} += "${libdir}/*.so"
+
+RDEPENDS_${PN} = "xkeyboard-config"
+
 INSANE_SKIP_${PN} += "dev-so"
 

@@ -1,11 +1,12 @@
-include westeros.inc
+require westeros.inc
 
-SUMMARY = "This receipe compiles the westeros compositor simple-shelk component"
+SUMMARY = "Westeros Compositor - simple-shell component"
+DESCRIPTION = "This receipe compiles the westeros compositor simple-shell component"
+
+DEPENDS_append = " glib-2.0"
 
 S = "${WORKDIR}/git"
 LICENSE_LOCATION = "${S}/LICENSE"
-
-DEPENDS_append = " wayland wayland-native glib-2.0"
 
 inherit autotools pkgconfig
 

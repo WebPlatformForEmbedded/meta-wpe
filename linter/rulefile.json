@@ -167,7 +167,7 @@
     "oelint.vars.bbvars.TOPDIR":"",
     "oelint.vars.bugtrackerisurl":"",
     "oelint.vars.dependsappend":"",
-    "oelint.vars.dependsordered":"",
+    "oelint.vars.dependsordered":"info",
     "oelint.vars.descriptionsame":"",
     "oelint.vars.descriptiontoobrief":"",
     "oelint.vars.doublemodify":"",
@@ -230,7 +230,7 @@
     "oelint.vars.srcurigittag":"",
     "oelint.vars.srcurioptions":"",
     "oelint.vars.srcurisrcrevtag":"",
-    "oelint.vars.summary80chars":"",
+    "oelint.vars.summary80chars":"info",
     "oelint.vars.summarylinebreaks":"",
     "oelint.vars.valuequoted":""
 }

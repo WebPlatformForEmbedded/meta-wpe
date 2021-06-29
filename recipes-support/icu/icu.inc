@@ -6,7 +6,7 @@ same results on all platforms."
 HOMEPAGE = "http://site.icu-project.org/"
 
 LICENSE = "ICU"
-DEPENDS = "icu-native"
+DEPENDS_append = " icu-native"
 DEPENDS_class-native = ""
 
 CVE_PRODUCT = "international_components_for_unicode"
@@ -36,22 +36,22 @@ ASNEEDED = ""
 CXXFLAGS_append = " -std=c++11"
 
 do_compile_prepend_class-target () {
-	# Make sure certain build host references do not end up being compiled
-	# in the image. This only affects libicutu and icu-dbg
-	sed  \
-	    -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
-	    -e '/^CPPFLAGS.*/ s,--sysroot=${STAGING_DIR_TARGET},,g' \
-	    -i ${B}/tools/toolutil/Makefile
+    # Make sure certain build host references do not end up being compiled
+    # in the image. This only affects libicutu and icu-dbg
+    sed  \
+        -e 's,DU_BUILD=,DU_BUILD_unused=,g' \
+        -e '/^CPPFLAGS.*/ s,--sysroot=${STAGING_DIR_TARGET},,g' \
+        -i ${B}/tools/toolutil/Makefile
 }
 
 PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
 do_install_append_class-native() {
-	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
-	cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
-	cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
-	cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
-	cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
-	cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
+    mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
+    cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
+    cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
+    cp -r ${B}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
+    cp -r ${B}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
+    cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
 }
 
 do_install_append_class-target() {
@@ -61,14 +61,14 @@ do_install_append_class-target() {
         rm -f ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
         icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
     fi
-	
-	# Remove build host references...
-	sed -i  \
-	    -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-	    -e 's|${DEBUG_PREFIX_MAP}||g' \
-	    -e 's:${HOSTTOOLS_DIR}/::g' \
-	    ${D}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
-	    ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
+
+    # Remove build host references...
+    sed -i  \
+        -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+        -e 's|${DEBUG_PREFIX_MAP}||g' \
+        -e 's:${HOSTTOOLS_DIR}/::g' \
+        ${D}/${bindir}/icu-config ${D}/${libdir}/${BPN}/${PV}/Makefile.inc \
+        ${D}/${libdir}/${BPN}/${PV}/pkgdata.inc
 }
 
 PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"

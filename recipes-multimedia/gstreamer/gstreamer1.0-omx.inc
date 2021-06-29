@@ -17,7 +17,8 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
 GSTREAMER_1_0_OMX_TARGET_rpi = "rpi"
 GSTREAMER_1_0_OMX_CORE_NAME_rpi = "${libdir}/libopenmaxil.so"
 
-EXTRA_OECONF_append_rpi  = ' CFLAGS="$CFLAGS -I${STAGING_DIR_TARGET}/usr/include/IL -I${STAGING_DIR_TARGET}/usr/include/interface/vcos/pthreads -I${STAGING_DIR_TARGET}/usr/include/interface/vmcs_host/linux"'
+EXTRA_OECONF_append_rpi = " CFLAGS="$CFLAGS -I${STAGING_DIR_TARGET}/usr/include/IL -I${STAGING_DIR_TARGET}/usr/include/interface/vcos/pthreads -I${STAGING_DIR_TARGET}/usr/include/interface/vmcs_host/linux""
+# FIXME: convert to PACKAGECONFIG
 EXTRA_OECONF_append_rpi = " --disable-examples"
 
 # -------------
@@ -40,10 +41,10 @@ python __anonymous () {
 }
 
 set_omx_core_name() {
-	sed -i -e "s;^core-name=.*;core-name=${GSTREAMER_1_0_OMX_CORE_NAME};" "${D}${sysconfdir}/xdg/gstomx.conf"
+    sed -i -e "s;^core-name=.*;core-name=${GSTREAMER_1_0_OMX_CORE_NAME};" "${D}${sysconfdir}/xdg/gstomx.conf"
 }
 
-do_install[postfuncs] += " set_omx_core_name "
+do_install[postfuncs] += "set_omx_core_name"
 
 FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
 FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la"

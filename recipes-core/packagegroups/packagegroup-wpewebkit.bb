@@ -1,3 +1,4 @@
+SUMMARY = "Thunder packagegroup for WPEWebKit"
 DESCRIPTION = "Web Platform for Embedded WebKit Packagegroup"
 LICENSE = "MIT"
 
