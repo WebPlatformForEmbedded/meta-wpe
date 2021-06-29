@@ -3,6 +3,7 @@
 ../recipes-containers/dobby/dobby_git.bb:20:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['skyxione'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-containers/dobby/dobby_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-core/packagegroups/packagegroup-westeros.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
+../recipes-core/packagegroups/packagegroup-wpe-boot.bb:10:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGE_ARCH'
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:20:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['login'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:21:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['init'], but isn't known from PACKAGES, MACHINE or resources
@@ -27,10 +28,12 @@
 ../recipes-extended/libcobalt/libcobalt_git.bb:87:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:90:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-graphics/mesa/mesa.inc:232:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
+../recipes-graphics/westeros/westeros-render-dispmanx_git.bb:10:warning:oelint.vars.mispell:'DEBIAN_NOAUTONAME_${PN}' is unknown, maybe you mean 'DEBIAN_NOAUTONAME'
 ../recipes-graphics/westeros/westeros-render-dispmanx_git.bb:15:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-render-dispmanx_git.bb
 ../recipes-graphics/westeros/westeros-simplebuffer_git.bb:13:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simplebuffer_git.bb
 ../recipes-graphics/westeros/westeros-simpleshell_git.bb:13:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simpleshell_git.bb
 ../recipes-graphics/westeros/westeros-soc-drm_git.bb:20:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-soc-drm_git.bb
+../recipes-graphics/westeros/westeros-soc-drm_git.bb:23:warning:oelint.vars.mispell:'DEBIAN_NOAUTONAME_${PN}' is unknown, maybe you mean 'DEBIAN_NOAUTONAME'
 ../recipes-graphics/westeros/westeros_git.bb:41:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros_git.bb
 ../recipes-graphics/westeros/westeros_git.bb:49:warning:oelint.vars.pathhardcode.libdir:'${libdir}' should be used instead of '/usr/lib'
 ../recipes-graphics/westeros/westeros_git.bb:67:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -72,6 +75,7 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
