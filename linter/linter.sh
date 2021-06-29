@@ -18,17 +18,26 @@ create_filelist_git () {
     echo "$files" | while read -r line; do echo "$git_topdir/$line"; done
 }
 
-lint_to_file() {
+create_filelist_diff () {
+    git diff --name-only | grep -E ".bb$|$.bbappend$"
+}
+
+lint_files() {
     local local_list="$1"
 
-    if [[ "$FOREGROUND" -eq 1 ]];
+    if [[ "$TO_STDOUT" -eq 1 ]];
     then
         echo "Linting $local_list"
-        echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile"
+        echo "$oelint_args $local_list" | xargs oelint-adv
     else
-        echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile" &
+        if [[ "$FOREGROUND" -eq 1 ]];
+        then
+            echo "Linting $local_list"
+            echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile"
+        else
+            echo "$oelint_args $local_list" | xargs oelint-adv 2>>"$tmpfile" &
+        fi
     fi
-
 }
 
 lint () {
@@ -45,7 +54,7 @@ lint () {
         local_list="$local_list $f"
         if [[ $((iter % files_per_lint)) -eq 0 ]];
         then
-            lint_to_file "$local_list"
+            lint_files "$local_list"
             local_list=""
         fi
         ((iter++))
@@ -53,7 +62,7 @@ lint () {
     # make sure to include the rest of the files if any
     if [[ "$local_list" != "" ]];
     then
-        lint_to_file "$local_list"
+        lint_files "$local_list"
     fi
 
     echo "Waiting for liniting to complete..." 
@@ -80,6 +89,7 @@ enable_color () {
 }
 
 FOREGROUND=0
+TO_STDOUT=0
 FILELIST="git"
 FILES_TO_LINT=""
 
@@ -90,13 +100,16 @@ oelint_args="--rulefile $(dirname $0)/rulefile.json --quiet --noinfo"
 git_topdir=$(git rev-parse --show-toplevel)
 
 usage () {
-    echo "$0 [--color] [--allfiles]"
+    echo "$0 [--help] [--color] [--filelist type] [--foreground] [--stdout]"
     echo -e "\t" "--help" "\t" "show help message"
     echo -e "\t" "--color" "\t" "enable color output"
     echo -e "\t" "--filelist type [filename]" "\t" "filelist type to use:"
     echo -e "\t\t" "git - git indexex files"
-    echo -e "\t\t" "all - all files matching pattern"
+    echo -e "\t\t" "all - all relevant"
+    echo -e "\t\t" "diff - git diff of unstaged files"
     echo -e "\t\t" "single - single file mode"
+    echo -e "\t" "--foreground" "\t" "Use linter in foreground (lint file by file)"
+    echo -e "\t" "--stdout" "\t" "Print results to stdout"
 }
 
 while [[ "$#" -ge 1 ]];
@@ -125,6 +138,10 @@ do
             FOREGROUND=1
             shift
             ;;
+        --stdout)
+            TO_STDOUT=1
+            shift
+            ;;
         *)
             echo "Unknown paramter $1"
             usage
@@ -149,9 +166,17 @@ elif [[ "$FILELIST" == "all" ]];
 then
     echo "Using 'all' as filelist..."
     FILES_TO_LINT=$(create_filelist_all)
+elif [[ "$FILELIST" == "diff" ]];
+then
+    echo "Using 'diff' as filelist..."
+    FILES_TO_LINT=$(create_filelist_diff)
+    TO_STDOUT=1
+    enable_color
 elif [[ "$FILELIST" == "single" ]];
 then
     echo "Using '$FILES_TO_LINT' as filelist..."
+    TO_STDOUT=1
+    enable_color
 else
     echo "Unknown filelist type!"
     exit 1;
@@ -159,8 +184,11 @@ fi
 
 lint "$FILES_TO_LINT"
 
-echo "Preparing the output..."
-prepare_outputfile
+if [[ "$TO_STDOUT" -eq 0 ]];
+then
+    echo "Preparing the output..."
+    prepare_outputfile
+fi
 
 # remove the trap
 trap - SIGINT
