@@ -4,7 +4,8 @@ DEFAULT_PREFERENCE = "-1"
 
 PV = "20170728+git${SRCPV}"
 PR = "r2"
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=wpe-20170728"
+RECIPE_BRANCH ?= "wpe-20170728"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;protocol=git;branch=${RECIPE_BRANCH}"
 SRC_URI_append = " \
     file://0001-Fix-build-with-musl.patch \
     file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
