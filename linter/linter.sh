@@ -19,7 +19,8 @@ create_filelist_git () {
 }
 
 create_filelist_diff () {
-    git diff --name-only | grep -E ".bb$|$.bbappend$"
+    local files=$(git diff --name-only | grep -E ".bb$|$.bbappend$")
+    echo "$files" | while read -r line; do echo "$git_topdir/$line"; done
 }
 
 lint_files() {
