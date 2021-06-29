@@ -5,9 +5,9 @@ SUMMARY = "Minimal boot requirements for WPE"
 DESCRIPTION = "The minimal set of packages required to boot the system for WPE"
 LICENSE = "MIT"
 
-inherit packagegroup
-
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+inherit packagegroup
 
 #
 # Set by the machine configuration with packages essential for device bootup
