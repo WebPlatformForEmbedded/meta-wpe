@@ -96,7 +96,7 @@ FILES_TO_LINT=""
 
 tmpfile="$(dirname $0)/linter.out.tmp"
 outputfile="$(dirname $0)/linter.out"
-oelint_args="--rulefile $(dirname $0)/rulefile.json --quiet --noinfo"
+oelint_args="--rulefile $(dirname $0)/rulefile.json --quiet --noinfo --constantfile $(dirname $0)/constantfile.json"
 
 git_topdir=$(git rev-parse --show-toplevel)
 
