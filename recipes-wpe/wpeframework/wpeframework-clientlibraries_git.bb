@@ -10,11 +10,12 @@ require include/wpeframework-common.inc
 require include/compositor.inc
 
 PR = "r0"
+RECIPE_BRANCH ?= "master"
 SRC_URI = "\
-    git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=master \
+    git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH} \
     file://0001-cmake-become-more-easy-in-findgbm.patch \
 "
-SRCREV = "6438e1583c39199075ca0006e1fee69f5b27a260"
+SRCREV ?= "6438e1583c39199075ca0006e1fee69f5b27a260"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"

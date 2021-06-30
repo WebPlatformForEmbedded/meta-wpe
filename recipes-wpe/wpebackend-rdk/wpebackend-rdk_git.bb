@@ -8,9 +8,10 @@ LIC_FILES_CHKSUM = "file://src/wayland/display.h;;beginline=5;endline=24;md5=b1c
 DEPENDS_append = " libwpe glib-2.0"
 PROVIDES += "virtual/wpebackend"
 
+RECIPE_BRANCH ?= "master"
 PV = "git${SRCPV}"
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=git;branch=master"
-SRCREV = "196f75360b8643b119d8d96208d914998e5d4fc9"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-rdk.git;protocol=git;branch=${RECIPE_BRANCH}"
+SRCREV ?= "196f75360b8643b119d8d96208d914998e5d4fc9"
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig

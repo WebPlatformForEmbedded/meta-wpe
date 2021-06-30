@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
 
 DEPENDS_append = " wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
 
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git"
-SRCREV = "3f9f87d5f42c27a22273d67db072bd7f2cba6135"
-
+RECIPE_BRANCH ?= "master"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git;branch=${RECIPE_BRANCH}"
+SRCREV ?= "3f9f87d5f42c27a22273d67db072bd7f2cba6135"
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig

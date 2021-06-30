@@ -60,38 +60,37 @@
 ../recipes-support/icu/icu.inc:10:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
 ../recipes-support/icu/icu.inc:48:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-support/rdksplash/rdk-splash-ui_git.bb:14:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:20:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpebackend-fdo/wpebackend-fdo_git.bb:21:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpebackend-mesa/wpebackend-mesa_0.1.bb:31:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:72:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpebackend-rdk/wpebackend-rdk_git.bb:73:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/remotecontrol.inc:14:warning:oelint.vars.pathhardcode.nonarch_base_libdir:'${nonarch_base_libdir}' should be used instead of '/lib'
 ../recipes-wpe/wpeframework/include/remotecontrol.inc:48:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:246:error:oelint.spaces.linecont:No spaces after line continuation
-../recipes-wpe/wpeframework/include/webkitbrowser.inc:271:warning:oelint.spaces.lineend:Line shall not end with a space
+../recipes-wpe/wpeframework/include/webkitbrowser.inc:272:warning:oelint.spaces.lineend:Line shall not end with a space
+../recipes-wpe/wpeframework/include/webkitbrowser.inc:273:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
-../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'S' is set by wpeframework.inc,wpeframework-common.inc
+../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
 ../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
-../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:64:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:35:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:66:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:36:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:12:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:15:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus_git.bb:15:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:15:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:15:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-plugin-launcher_git.bb:13:warning:oelint.newline.consecutive:Consecutive blank lines should be avoided
+../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:37:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:73:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:83:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:87:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:88:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework-ui_git.bb:16:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
+../recipes-wpe/wpeframework/wpeframework-ui_git.bb:17:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpeframework/wpeframework_git.bb:145:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework_git.bb:158:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework_git.bb:159:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -108,7 +107,8 @@
 ../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'==' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'True)' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:39:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:233:warning:oelint.spaces.lineend:Line shall not end with a space
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:30:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:48:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:23:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
+../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:234:warning:oelint.spaces.lineend:Line shall not end with a space
+../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:31:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
+../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:49:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:24:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
+xargs: oelint-adv: terminated with signal 9; aborting

@@ -9,8 +9,9 @@ require include/wpeframework-common.inc
 DEPENDS_append = " wpeframework-tools-native wpeframework"
 
 PR = "r0"
-SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=master"
-SRCREV = "1b2cbb8dfa823d29fba254932531c33743f7d358"
+RECIPE_BRANCH ?= "master"
+SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=${RECIPE_BRANCH}"
+SRCREV ?= "1b2cbb8dfa823d29fba254932531c33743f7d358"
 
 inherit python3native
 
