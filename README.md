@@ -16,8 +16,12 @@ The linter can also be used in standalone mode.
 * Git repository: <https://github.com/WebPlatformForEmbedded/meta-wpe>
 * Issues management: <https://github.com/WebPlatformForEmbedded/meta-wpe/issues>
 * Documentation: <https://github.com/WebPlatformForEmbedded/meta-wpe/wiki>
-
 ## Quick Start
+Quick start intructions can be found at <https://github.com/WebPlatformForEmbedded/manifests-metrological-raspberrypi>
+
+The other possibility is to just add the `meta-wpe` layer to your own setup.
+
+## Old quick Start
 
 1. `git clone git@github.com:YoeDistro/yoe-distro.git` and `cd yoe-distro`
 2. `. raspberrypi3-envsetup.sh` (OR any other machine with `. ./\<machine\>-envsetup.sh`)
