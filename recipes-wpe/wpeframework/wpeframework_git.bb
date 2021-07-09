@@ -18,6 +18,7 @@ SRC_URI_append = " \
 inherit systemd update-rc.d python3native
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "WPE"
+WPEFRAMEWORK_PORT ??= "80"
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
@@ -116,7 +117,9 @@ EXTRA_OECMAKE += "\
     -DBUILD_REFERENCE=${SRCREV} \
     -DTREE_REFERENCE=${WPE_LAYER_REV} \
     -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
+    ${@oe.utils.conditional('WPEFRAMEWORK_VOLATILE_PATH', '', '', '-DVOLATILE_PATH="${WPEFRAMEWORK_VOLATILE_PATH}"', d)} \
     -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
+    -DPORT=${WPEFRAMEWORK_PORT} \
     -DPYTHON_EXECUTABLE=${PYTHON}"
 
 do_install_append() {
