@@ -65,13 +65,12 @@ PACKAGECONFIG[fullscreenapi] = "-DENABLE_FULLSCREEN_API=ON,-DENABLE_FULLSCREEN_A
 PACKAGECONFIG[fusion] = "-DUSE_FUSION_API_GSTREAMER=ON,-DUSE_FUSION_API_GSTREAMER=OFF,"
 PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,"
 PACKAGECONFIG[geolocation] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
-PACKAGECONFIG[gst_gl] = "-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF,gstreamer1.0-plugins-base"
+PACKAGECONFIG[gst_gl] = "-DUSE_GSTREAMER_GL=ON,-DUSE_GSTREAMER_GL=OFF,gstreamer1.0-plugins-base,${GL_DEPENDENCY}"
 PACKAGECONFIG[indexeddb] = "-DENABLE_INDEXED_DATABASE=ON,-DENABLE_INDEXED_DATABASE=OFF,"
 PACKAGECONFIG[logs] = "-DENABLE_LOGS=ON,-DENABLE_LOGS=OFF,"
 PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good,${RDEPS_MEDIASOURCE}"
 PACKAGECONFIG[mediastatistics] = "-DENABLE_MEDIA_STATISTICS=ON,-DENABLE_MEDIA_STATISTICS=OFF,"
 PACKAGECONFIG[minibrowser] = "-DENABLE_MINIBROWSER=ON,-DENABLE_MINIBROWSER=OFF,"
-PACKAGECONFIG[mediasource] = "-DENABLE_MEDIA_SOURCE=ON,-DENABLE_MEDIA_SOURCE=OFF,gstreamer1.0 gstreamer1.0-plugins-good"
 PACKAGECONFIG[nativeaudio] = "-DENABLE_NATIVE_AUDIO=ON,-DENABLE_NATIVE_AUDIO=OFF,"
 PACKAGECONFIG[nativevideo] = "-DENABLE_NATIVE_VIDEO=ON,-DENABLE_NATIVE_VIDEO=OFF,"
 PACKAGECONFIG[notifications] = "-DENABLE_NOTIFICATIONS=ON,-DENABLE_NOTIFICATIONS=OFF,"
@@ -155,43 +154,49 @@ MPG_DEPENDENCY_dunfell = "gstreamer1.0-plugins-good-mpg123"
 # Extra runtime depends
 RDEPENDS_${PN} += "\
     virtual/wpebackend \
-    ${@bb.utils.contains('PACKAGECONFIG', 'mediasource', 'gstreamer1.0-plugins-good-isomp4', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'webaudio', 'gstreamer1.0-plugins-good-wavparse', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'gst_gl', '${GL_DEPENDENCY}', '', d)} \
-    ${@bb.utils.contains('PACKAGECONFIG', 'video', 'gstreamer1.0-plugins-base-app \
-                                                    gstreamer1.0-plugins-base-playback \
-                                                    gstreamer1.0-plugins-base-audioconvert \
-                                                    gstreamer1.0-plugins-base-audioresample \
-                                                    gstreamer1.0-plugins-base-gio \
-                                                    gstreamer1.0-plugins-base-opus \
-                                                    gstreamer1.0-plugins-base-videoconvert \
-                                                    gstreamer1.0-plugins-base-videoscale \
-                                                    gstreamer1.0-plugins-base-volume \
-                                                    gstreamer1.0-plugins-base-typefindfunctions \
-                                                    gstreamer1.0-plugins-good-audiofx \
-                                                    gstreamer1.0-plugins-good-audioparsers \
-                                                    gstreamer1.0-plugins-good-autodetect \
-                                                    gstreamer1.0-plugins-good-avi \
-                                                    gstreamer1.0-plugins-good-deinterlace \
-                                                    gstreamer1.0-plugins-good-interleave \
-                                                    gstreamer1.0-plugins-good-matroska \
-                                                    ${MPG_DEPENDENCY} \
-                                                    gstreamer1.0-plugins-bad-dashdemux \
-                                                    gstreamer1.0-plugins-bad-hls \
-                                                    gstreamer1.0-plugins-bad-mpegtsdemux \
-                                                    gstreamer1.0-plugins-bad-opusparse \
-                                                    gstreamer1.0-plugins-bad-smoothstreaming \
-                                                    gstreamer1.0-plugins-bad-videoparsersbad \
-                                                    ', '', d)} \
 "
 
 # The RDEPS_EXTRA plugins are all required for certain media playback use cases,
 # but have not yet been classified as being specific dependencies for video,
 # webaudio or mediasource. Until that classification is done, add them all to
 # each of the three groups...
-RDEPS_MEDIASOURCE += "${RDEPS_EXTRA}"
-RDEPS_VIDEO += "${RDEPS_EXTRA}"
-RDEPS_WEBAUDIO += "${RDEPS_EXTRA}"
+RDEPS_MEDIASOURCE ?= " \
+    gstreamer1.0-plugins-good-isomp4 \
+    ${RDEPS_EXTRA} \
+"
+
+RDEPS_VIDEO ?= " \
+    gstreamer1.0-plugins-base-app \
+    gstreamer1.0-plugins-base-playback \
+    gstreamer1.0-plugins-base-audioconvert \
+    gstreamer1.0-plugins-base-audioresample \
+    gstreamer1.0-plugins-base-gio \
+    gstreamer1.0-plugins-base-opus \
+    gstreamer1.0-plugins-base-videoconvert \
+    gstreamer1.0-plugins-base-videoscale \
+    gstreamer1.0-plugins-base-volume \
+    gstreamer1.0-plugins-base-typefindfunctions \
+    gstreamer1.0-plugins-good-audiofx \
+    gstreamer1.0-plugins-good-audioparsers \
+    gstreamer1.0-plugins-good-autodetect \
+    gstreamer1.0-plugins-good-avi \
+    gstreamer1.0-plugins-good-deinterlace \
+    gstreamer1.0-plugins-good-interleave \
+    gstreamer1.0-plugins-good-matroska \
+    ${MPG_DEPENDENCY} \
+    gstreamer1.0-plugins-bad-dashdemux \
+    gstreamer1.0-plugins-bad-hls \
+    gstreamer1.0-plugins-bad-mpegtsdemux \
+    gstreamer1.0-plugins-bad-opusparse \
+    gstreamer1.0-plugins-bad-smoothstreaming \
+    gstreamer1.0-plugins-bad-videoparsersbad \
+    ${RDEPS_EXTRA} \
+"
+
+RDEPS_WEBAUDIO ?= " \
+    gstreamer1.0-plugins-good-wavparse \
+    ${RDEPS_EXTRA} \
+"
 
 RDEPENDS_${PN} += "\
     virtual/libwpe \
