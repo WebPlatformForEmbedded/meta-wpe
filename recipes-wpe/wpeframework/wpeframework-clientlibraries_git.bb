@@ -10,6 +10,7 @@ require include/wpeframework-common.inc
 require include/compositor.inc
 
 PR = "r0"
+PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "\
     git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH} \
