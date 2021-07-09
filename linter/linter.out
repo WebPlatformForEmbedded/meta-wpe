@@ -1,16 +1,10 @@
-../recipes-containers/dobby/dobby_git.bb:18:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['arrisxi6'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-containers/dobby/dobby_git.bb:19:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['llama'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-containers/dobby/dobby_git.bb:20:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['skyxione'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-containers/dobby/dobby_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-core/packagegroups/packagegroup-westeros.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:10:warning:oelint.var.order.inherit:'inherit' should be placed before 'PACKAGE_ARCH'
 ../recipes-core/packagegroups/packagegroup-wpe-boot.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:20:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['login'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:21:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['init'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-core/packagegroups/packagegroup-wpe-boot.bb:22:error:oelint.vars.specific:'VIRTUAL-RUNTIME' is set specific to ['initscripts'], but isn't known from PACKAGES, MACHINE or resources
+../recipes-core/packagegroups/packagegroup-wpeframework.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpeframework-plugins-rdk.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpeframework-rdkservices.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
-../recipes-core/packagegroups/packagegroup-wpeframework.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-core/packagegroups/packagegroup-wpewebkit.bb:1:error:oelint.file.underscores:Filename should contain at least one '_'  in the end
 ../recipes-devtools/cjson/cjson_1.7.13.bb:24:warning:oelint.vars.filessetting.double:${libdir}/cmake is already set by default or in this recipe
 ../recipes-devtools/cmake/cmake_3.7.2.bb:12:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
@@ -28,33 +22,29 @@
 ../recipes-extended/libcobalt/libcobalt_git.bb:87:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-extended/libcobalt/libcobalt_git.bb:90:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-graphics/mesa/mesa.inc:232:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
-../recipes-graphics/westeros/westeros-render-dispmanx_git.bb:10:warning:oelint.vars.mispell:'DEBIAN_NOAUTONAME_${PN}' is unknown, maybe you mean 'DEBIAN_NOAUTONAME'
+../recipes-graphics/westeros/westeros_git.bb:41:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros_git.bb
+../recipes-graphics/westeros/westeros_git.bb:49:warning:oelint.vars.pathhardcode.libdir:'${libdir}' should be used instead of '/usr/lib'
+../recipes-graphics/westeros/westeros_git.bb:67:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-graphics/westeros/westeros-render-dispmanx_git.bb:15:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-render-dispmanx_git.bb
 ../recipes-graphics/westeros/westeros-simplebuffer_git.bb:13:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simplebuffer_git.bb
 ../recipes-graphics/westeros/westeros-simpleshell_git.bb:13:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-simpleshell_git.bb
 ../recipes-graphics/westeros/westeros-soc-drm_git.bb:20:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros-soc-drm_git.bb
-../recipes-graphics/westeros/westeros-soc-drm_git.bb:23:warning:oelint.vars.mispell:'DEBIAN_NOAUTONAME_${PN}' is unknown, maybe you mean 'DEBIAN_NOAUTONAME'
-../recipes-graphics/westeros/westeros_git.bb:41:error:oelint.var.override:Variable 'SECURITY_CFLAGS' is set by westeros_git.bb
-../recipes-graphics/westeros/westeros_git.bb:49:warning:oelint.vars.pathhardcode.libdir:'${libdir}' should be used instead of '/usr/lib'
-../recipes-graphics/westeros/westeros_git.bb:67:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-multimedia/aamp/aampabr_git.bb:21:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/aamp/aamp_git.bb:25:error:oelint.vars.specific:'AAMP_USE_THUNDER_OCDM_API' is set specific to ['0'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/aamp/aamp_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-multimedia/aamp/aampabr_git.bb:21:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:21:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:24:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:19:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:22:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:46:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:53:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb:11:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:17:error:oelint.vars.specific:'GSTREAMER_OMX_TARGET' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:18:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:26:error:oelint.vars.specific:'GSTREAMER_OMX_TARGET' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:27:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:31:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
 ../recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.10.4.bb:7:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
-../recipes-multimedia/gstreamer/gstreamer1.0.inc:46:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-multimedia/gstreamer/gstreamer1.0.inc:47:error:oelint.vars.specific:'RRECOMMENDS_${PN}' is set specific to ['qemux86-64'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb:11:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 ../recipes-multimedia/libdash/libdash_3.0.bb:33:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
 ../recipes-multimedia/libdash/libdash_3.0.bb:59:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-support/icu/icu.inc:10:error:oelint.vars.dependsappend:DEPENDS should only be appended, not overwritten
@@ -70,45 +60,38 @@
 ../recipes-wpe/wpeframework/include/webkitbrowser.inc:273:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpeframework/include/webserver.inc:5:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/include/wpeframework-common.inc:2:error:oelint.var.override:Variable 'S' is set by wpeframework-common.inc,wpeframework.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins-rdk.inc,wpeframework-plugins.inc
+../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:42:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:45:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins-rdk.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins.inc,wpeframework-plugins_git.bb
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:6:error:oelint.var.override:Variable 'FILES_SOLIBSDEV' is set by wpeframework-plugins_git.bb,wpeframework-plugins.inc
-../recipes-wpe/wpeframework/include/wpeframework-plugins.inc:7:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:66:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/wpeframework_git.bb:148:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
+../recipes-wpe/wpeframework/wpeframework_git.bb:161:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpeframework/wpeframework_git.bb:162:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:36:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:37:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:73:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:83:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:87:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:88:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-ui_git.bb:17:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
-../recipes-wpe/wpeframework/wpeframework_git.bb:145:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
-../recipes-wpe/wpeframework/wpeframework_git.bb:158:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework_git.bb:159:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:118:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc
-../recipes-wpe/wpewebkit/wpewebkit.inc:124:error:oelint.vars.specific:'ARM_INSTRUCTION_SET' is set specific to ['armv7m'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:142:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:145:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:148:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:149:error:oelint.vars.specific:'GL_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:152:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['morty'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:153:error:oelint.vars.specific:'MPG_DEPENDENCY' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit.inc:196:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
-../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
-../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'==' is not a proper bbclass name
-../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'True)' is not a proper bbclass name
-../recipes-wpe/wpewebkit/wpewebkit.inc:39:error:oelint.vars.specific:'PACKAGECONFIG' is set specific to ['dunfell'], but isn't known from PACKAGES, MACHINE or resources
-../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:234:warning:oelint.spaces.lineend:Line shall not end with a space
+../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:24:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
+../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:239:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:31:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
 ../recipes-wpe/wpewebkit/wpewebkit_2.22.bb:49:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit_20170728.bb:24:error:oelint.task.nocopy:'cp' shall not be used in do_install. Use 'install'
-xargs: oelint-adv: terminated with signal 9; aborting
+../recipes-wpe/wpewebkit/wpewebkit.inc:117:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc
+../recipes-wpe/wpewebkit/wpewebkit.inc:141:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpewebkit/wpewebkit.inc:144:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
+../recipes-wpe/wpewebkit/wpewebkit.inc:201:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
+../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'==' is not a proper bbclass name
+../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
+../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'True)' is not a proper bbclass name
