@@ -291,3 +291,5 @@ PACKAGECONFIG[webkitbrowser] = "\
     ,-DPLUGIN_WEBKITBROWSER=OFF,wpewebkit \
 "
 
+PACKAGECONFIG[webkitbrowser_disable_dfg] = "-DPLUGIN_WEBKITBROWSER_ENABLE_DFG=OFF,,,"
+
