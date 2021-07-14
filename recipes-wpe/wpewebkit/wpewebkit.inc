@@ -22,7 +22,9 @@ CCACHE_DISABLE[unexport] = "1"
 S = "${WORKDIR}/git"
 
 inherit cmake pkgconfig perlnative
-inherit ${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'morty', 'pythonnative', 'python3native')}
+# FIXME: check whether python version is dependant on yocto version or webkit version
+inherit ${@oe.utils.ifelse(d.getVar('DISTRO_CODENAME', True) == 'dunfell', 'python3native', 'pythonnative')}
+
 inherit ${@'cmake_qt5' if 'qt5-layer' in d.getVar('BBFILE_COLLECTIONS', True).split() else ''}
 
 WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros westeros-sink', 'egl', d)}"
