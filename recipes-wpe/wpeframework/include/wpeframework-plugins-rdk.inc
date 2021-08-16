@@ -11,6 +11,7 @@ require ocdm.inc
 require packager.inc
 require securityagent.inc
 require tracecontrol.inc
+require warningreportingcontrol.inc
 require webkitbrowser.inc
 
 PACKAGECONFIG ??= "\
