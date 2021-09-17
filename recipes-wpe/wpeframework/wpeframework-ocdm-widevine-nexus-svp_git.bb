@@ -13,5 +13,8 @@ RECIPE_BRANCH ?= "master"
 SRC_URI = "git://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=https;branch=${RECIPE_BRANCH}"
 SRCREV ?= "fa60a8b37af4da396a8ba108dc4f9f85b6eaf10e"
 
+WPE_OPENCDMI_WIDEVINE_CENC_VERSION ??= "15"
+PACKAGECONFIG[opencdmi_widevine_cenc_version] = "-DCENC_VERSION=${WPE_OPENCDMI_WIDEVINE_CENC_VERSION}"
+
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
 
