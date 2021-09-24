@@ -6,7 +6,8 @@ require include/wpeframework-plugins.inc
 
 DEPENDS += " broadcom-refsw protobuf"
 
-SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=https;branch=master"
+
 # Revision hash of R1 release
 SRCREV = "9d9abe25db1b20e421c3b17f45f4c62a8d86d44a"
 
