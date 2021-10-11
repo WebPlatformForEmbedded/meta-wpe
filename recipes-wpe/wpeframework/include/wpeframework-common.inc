@@ -5,7 +5,6 @@ inherit cmake pkgconfig
 
 TOOLCHAIN = "gcc"
 EXTRA_OECMAKE += "-DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
-OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "BOTH"
 
 # Force BFD (to avoid gold)
 LDFLAGS_append = " -fuse-ld=bfd"
@@ -13,3 +12,4 @@ LDFLAGS_append = " -fuse-ld=bfd"
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH ??= "/home/root/"
 WPEFRAMEWORK_VOLATILE_PATH ??= ""
+DEPENDS += "git-replacement-native"
