@@ -12,3 +12,4 @@ LDFLAGS_append = " -fuse-ld=bfd"
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH ??= "/home/root/"
 WPEFRAMEWORK_VOLATILE_PATH ??= ""
+DEPENDS += "git-replacement-native"
