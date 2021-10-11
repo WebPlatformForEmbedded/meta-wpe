@@ -5,6 +5,7 @@ inherit cmake pkgconfig
 
 TOOLCHAIN = "gcc"
 EXTRA_OECMAKE += "-DCMAKE_SYSROOT=${STAGING_DIR_HOST}"
+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "BOTH"
 
 # Force BFD (to avoid gold)
 LDFLAGS_append = " -fuse-ld=bfd"
