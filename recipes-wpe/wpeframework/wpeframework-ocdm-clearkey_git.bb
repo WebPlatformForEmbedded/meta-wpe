@@ -8,7 +8,7 @@ require include/wpeframework-plugins.inc
 
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Clearkey.git;protocol=https;branch=${RECIPE_BRANCH}"
-SRCREV ?= "1524b947f5c28100326415a2ac1d02f3974acdc8"
+SRCREV ?= "216f15eea89adc777ceed2b702eeccb9ee02d1ee"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
 

@@ -33,7 +33,7 @@ SRC_URI_append = " \
     ${@bb.utils.contains('GCC_MAJOR_VERSION', '8', '${GCC_8_PATCHLIST}', '', d)} \
     ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)} \
 "
-SRCREV ??= "06acca6a6d5224bb61bbf6092b4d8d6ba3f5970b"
+SRCREV ??= "2a5904e00679b00c62cb9966b6f199a5be4983ed"
 PR = "r0"
 S = "${WORKDIR}/git"
 
@@ -56,6 +56,7 @@ do_configure() {
     export COBALT_EXECUTABLE_TYPE="shared_library"
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
     export COBALT_HAS_PROVISION="${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 1, 0, d)}"
+    export COBALT_HAS_WAYLANDSINK="${@bb.utils.contains('DISTRO_FEATURES', 'weston', 1, 0, d)}"
 
     export COBALT_STAGING_DIR="${STAGING_DIR_HOST}/"
     export COBALT_TOOLCHAIN_PREFIX="${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}"
