@@ -1,16 +1,23 @@
-SUMMARY = " Gstreamer plugin to support basic cenc decryptions"
-DESCRIPTION = "Gstreamer plugin to satisfy all your basic cenc decryption need. \
-    i.e Decryption of content with a single and multiple encrypted streams "
+SUMMARY = " Gstreamer plugin for decryption of common encryption data."
+DESCRIPTION = "Gstreamer plugin that leverages the OpenCDM for decryption \
+    of common encryption assets."
 HOMEPAGE = "https://github.com/WebPlatformForEmbedded/gstcencdecryptor"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b5b0a376d65d47d649918a3b70e90857"
 
-DEPENDS_append = " wpeframework-clientlibraries gstreamer1.0 gstreamer1.0-plugins-base"
+DEPENDS = " \
+    gstreamer1.0 \
+    gstreamer1.0-plugins-base \
+    wpeframework \
+    wpeframework-plugins-rdk \
+    wpeframework-clientlibraries \
+    curl \
+"
 
 PV = "0.1.gitr${SRCPV}"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/gstcencdecryptor.git;protocol=git;branch=master"
-SRCREV = "2e37ac383694e067bfef3c7f128b0dd9dac0dfdd"
+SRCREV = "dad6b3e32783f8c127eddf824813d8e9725f579f"
 
 S = "${WORKDIR}/git"
 
