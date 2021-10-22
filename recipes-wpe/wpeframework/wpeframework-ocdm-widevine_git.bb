@@ -9,9 +9,9 @@ require include/wpeframework-plugins.inc
 DEPENDS_append = " widevine"
 
 PV = "3.0+gitr${SRCPV}"
-RECIPE_BRANCH ?= "development/widevine-15.3.0"
+RECIPE_BRANCH ?= "master"
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=${RECIPE_BRANCH}"
-SRCREV ?= "70b3acf9af4fa74631d1eb071596534b02bae206"
+SRCREV ?= "c03425345a2ca92f13d4592b9e6e1e04ef342429"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
 

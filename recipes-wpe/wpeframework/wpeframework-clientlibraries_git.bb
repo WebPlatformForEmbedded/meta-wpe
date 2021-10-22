@@ -2,7 +2,7 @@ SUMMARY = "WPEFramework client libraries"
 DESCRIPTION = "Thunder client libraries component"
 HOMEPAGE = "https://github.com/rdkcentral/ThunderClientLibraries"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=847677038847363222ffb66cfa6406c2"
 
 DEPENDS_append = " wpeframework-tools-native wpeframework-interfaces"
 
@@ -16,7 +16,7 @@ SRC_URI = "\
     git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH} \
     file://0001-cmake-become-more-easy-in-findgbm.patch \
 "
-SRCREV ?= "6438e1583c39199075ca0006e1fee69f5b27a260"
+SRCREV ?= "8da285476b346c7fbd0b506abedd75197fe0409c"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
