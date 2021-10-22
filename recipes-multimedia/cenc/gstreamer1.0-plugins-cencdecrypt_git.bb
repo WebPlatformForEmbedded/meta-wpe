@@ -9,7 +9,6 @@ DEPENDS = " \
     gstreamer1.0 \
     gstreamer1.0-plugins-base \
     wpeframework \
-    wpeframework-plugins-rdk \
     wpeframework-clientlibraries \
     curl \
 "
