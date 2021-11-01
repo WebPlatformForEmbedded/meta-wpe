@@ -1,11 +1,10 @@
 # This deprecated config file is added to keep configs which are required backward compatibility
 
 # Keeping the init scripts from build system for backward compatibility
-USE_INIT_SCRIPT_FROM_BUILDSYSTEM ??= "y"
+USE_INIT_SCRIPT_FROM_BUILDSYSTEM ??= "${@bb.utils.contains('PACKAGECONFIG', 'initscriptsupport', 'n', 'y', d)}"
 INIT_SCRIPT_FILE ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://wpeframework.service.in', 'file://wpeframework-init', d)}"
 
 SRC_URI_append = " ${@bb.utils.contains('USE_INIT_SCRIPT_FROM_BUILDSYSTEM', 'y', '${INIT_SCRIPT_FILE}', '', d)}"
-PACKAGECONFIG_remove = "${@bb.utils.contains('USE_INIT_SCRIPT_FROM_BUILDSYSTEM', 'y', 'systemd', '', d)}"
 
 do_install_append() {
     if ${@bb.utils.contains("USE_INIT_SCRIPT_FROM_BUILDSYSTEM", "y", "true", "false", d)}
