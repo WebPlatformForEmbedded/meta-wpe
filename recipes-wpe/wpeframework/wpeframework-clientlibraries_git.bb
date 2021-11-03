@@ -2,7 +2,7 @@ SUMMARY = "WPEFramework client libraries"
 DESCRIPTION = "Thunder client libraries component"
 HOMEPAGE = "https://github.com/rdkcentral/ThunderClientLibraries"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f1dffbfd5c2eb52e0302eb6296cc3711"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=847677038847363222ffb66cfa6406c2"
 
 DEPENDS_append = " wpeframework-tools-native wpeframework-interfaces"
 
