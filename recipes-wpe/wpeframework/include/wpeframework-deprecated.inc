@@ -1,5 +1,13 @@
 # This deprecated config file is added to keep configs which are required backward compatibility
 
+PACKAGECONFIG_append = "\
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
+"
+
+PACKAGECONFIG[bluetooth] = "-DBLUETOOTH=ON -DBLUETOOTH_SUPPORT=ON, -DBLUETOOTH=OFF,bluez5"
+PACKAGECONFIG[broadcast] = "-DBROADCAST=ON,-DBROADCAST=OFF,"
+PACKAGECONFIG[broadcastsiparse] = "-DBROADCAST_SI_PARSING=ON,-DBROADCAST_SI_PARSING=OFF,"
+
 # Keeping the init scripts from build system for backward compatibility
 USE_INIT_SCRIPT_FROM_BUILDSYSTEM ??= "${@bb.utils.contains('PACKAGECONFIG', 'initscriptsupport', 'n', 'y', d)}"
 INIT_SCRIPT_FILE ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://wpeframework.service.in', 'file://wpeframework-init', d)}"
