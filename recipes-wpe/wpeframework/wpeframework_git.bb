@@ -22,7 +22,7 @@ WPEFRAMEWORK_INITSCRIPT_SYSTEM_ROOT_PATH ??= "home/root"
 WPEFRAMEWORK_INITSCRIPT_SYSTEMD_SERVICE ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}"
 
 PACKAGECONFIG ??= "\
-    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth_flag', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth_support', '', d)} \
     initscriptsupport \
     webserver_autoresume webkitbrowser_autoresume \
 "
@@ -40,7 +40,7 @@ PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
 PACKAGECONFIG[release] = "-DBUILD_TYPE=Release,,"
 PACKAGECONFIG[production] = "-DBUILD_TYPE=Production,,"
 
-PACKAGECONFIG[bluetooth_flag] = "-DBLUETOOTH_SUPPORT=ON,-DBLUETOOTH_SUPPORT=OFF,"
+PACKAGECONFIG[bluetooth_support] = "-DBLUETOOTH_SUPPORT=ON,-DBLUETOOTH_SUPPORT=OFF,"
 PACKAGECONFIG[processcontainers] = "-DPROCESSCONTAINERS=ON,-DPROCESSCONTAINERS=OFF,libcgroup collectd cgroup-lite, cgroup-lite"
 PACKAGECONFIG[processcontainers_awc] = "-DPROCESSCONTAINERS_AWC=ON,-DPROCESSCONTAINERS_AWC=OFF,"
 PACKAGECONFIG[processcontainers_clib] = "-DPROCESSCONTAINERS_CLIB=ON,-DPROCESSCONTAINERS_CLIB=OFF,"
