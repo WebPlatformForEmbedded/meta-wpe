@@ -12,11 +12,8 @@ require include/compositor.inc
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
-SRC_URI = "\
-    git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH} \
-    file://0001-cmake-become-more-easy-in-findgbm.patch \
-"
-SRCREV ?= "8da285476b346c7fbd0b506abedd75197fe0409c"
+SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH}"
+SRCREV ?= "79ba921fa40066a22f8299c3ea1408ab292f73b5"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
