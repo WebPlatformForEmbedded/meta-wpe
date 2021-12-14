@@ -22,18 +22,12 @@ DEPENDS_append = " \
 "
 
 GCC_MAJOR_VERSION = "${@oe.utils.trim_version("${GCCVERSION}", 1)}"
-GCC_8_PATCHLIST = "file://0001-changes-for-gcc-8.patch"
-GCC_9_PATCHLIST = "\
-    ${GCC_8_PATCHLIST} \
-    file://0002-changes-for-gcc-9.patch \
-"
+GCC_9_PATCHLIST = "file://0001-changes-for-gcc-9.patch"
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=master"
-SRC_URI_append = " \
-    ${@bb.utils.contains('GCC_MAJOR_VERSION', '8', '${GCC_8_PATCHLIST}', '', d)} \
-    ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)} \
-"
-SRCREV ??= "2a5904e00679b00c62cb9966b6f199a5be4983ed"
+SRC_URI_append = " ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)}"
+
+SRCREV ??= "e5c4fd2aec74ead45dac6c7f57527b9dd8e94267"
 PR = "r0"
 S = "${WORKDIR}/git"
 
