@@ -12,6 +12,7 @@ SRC_URI = "\
 "
 SRCREV ?= "57bbecb9421d206f40a3beb45b9d800288a39b1d"
 
+PACKAGECONFIG_append = " webaudio"
 PACKAGECONFIG_append = " webcrypto"
 
 do_compile() {
