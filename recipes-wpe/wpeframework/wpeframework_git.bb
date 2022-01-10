@@ -33,6 +33,8 @@ PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releas
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'releasesymbols', '', d)}"
 
 # CMAKE Build Type
+# DISTRO_FEATURES should be set to propagate build type across all necesary components
+# like, DISTRO_FEATURES_append = "thunder_release"
 PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,,"
 PACKAGECONFIG[debugoptimized] = "-DCMAKE_BUILD_TYPE=DebugOptimized,,"
 PACKAGECONFIG[releasesymbols] = "-DCMAKE_BUILD_TYPE=RelWithDebInfo,,"
