@@ -2,18 +2,18 @@
 
 PACKAGECONFIG_append = "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'thunderdebug', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debugoptimized', 'thunderdebugoptimized', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_production', 'thunderproduction', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'thunderrelease', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'thunderreleasesymbols', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'deprecatedbuildtype_thunder_debug', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debugoptimized', 'deprecatedbuildtype_thunder_debugoptimized', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'deprecatedbuildtype_thunder_releasesymbols', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'deprecatedbuildtype_thunder_release', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_production', 'deprecatedbuildtype_thunder_production', '', d)} \
 "
 
-PACKAGECONFIG[thudnerdebug] = "-DBUILD_TYPE=Debug,,"
-PACKAGECONFIG[thunderdebugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
-PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
-PACKAGECONFIG[thunderrelease] = "-DBUILD_TYPE=Release,,"
-PACKAGECONFIG[thunderproduction] = "-DBUILD_TYPE=Production,,"
+PACKAGECONFIG[deprecatedbuildtype_thunder_debug] = "-DBUILD_TYPE=Debug,,"
+PACKAGECONFIG[deprecatedbuildtype_thunder_debugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
+PACKAGECONFIG[deprecatedbuildtype_thunder_releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
+PACKAGECONFIG[deprecatedbuildtype_thunder_release] = "-DBUILD_TYPE=Release,,"
+PACKAGECONFIG[deprecatedbuildtype_thunder_production] = "-DBUILD_TYPE=Production,,"
 
 PACKAGECONFIG[bluetooth] = "-DBLUETOOTH=ON -DBLUETOOTH_SUPPORT=ON, -DBLUETOOTH=OFF,bluez5"
 PACKAGECONFIG[broadcast] = "-DBROADCAST=ON,-DBROADCAST=OFF,"
