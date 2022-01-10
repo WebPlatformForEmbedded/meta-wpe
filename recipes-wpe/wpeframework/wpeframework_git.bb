@@ -32,7 +32,7 @@ PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_produc
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'release', '', d)}"
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'releasesymbols', '', d)}"
 
-# Buildtype
+# CMAKE Build Type
 # Maybe we need to couple this to a Yocto feature
 PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,,"
 PACKAGECONFIG[debugoptimized] = "-DCMAKE_BUILD_TYPE=DebugOptimized,,"
