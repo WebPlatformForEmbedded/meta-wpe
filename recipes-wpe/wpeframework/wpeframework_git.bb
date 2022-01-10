@@ -32,13 +32,14 @@ PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_produc
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'release', '', d)}"
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'releasesymbols', '', d)}"
 
-# Buildtype
-# Maybe we need to couple this to a Yocto feature
-PACKAGECONFIG[debug] = "-DBUILD_TYPE=Debug,,"
-PACKAGECONFIG[debugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
-PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
-PACKAGECONFIG[release] = "-DBUILD_TYPE=Release,,"
-PACKAGECONFIG[production] = "-DBUILD_TYPE=Production,,"
+# CMAKE Build Type
+# DISTRO_FEATURES should be set to propagate build type across all necesary components
+# like, DISTRO_FEATURES_append = "thunder_release"
+PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,,"
+PACKAGECONFIG[debugoptimized] = "-DCMAKE_BUILD_TYPE=DebugOptimized,,"
+PACKAGECONFIG[releasesymbols] = "-DCMAKE_BUILD_TYPE=RelWithDebInfo,,"
+PACKAGECONFIG[release] = "-DCMAKE_BUILD_TYPE=Release,,"
+PACKAGECONFIG[production] = "-DCMAKE_BUILD_TYPE=MinSizeRel,,"
 
 PACKAGECONFIG[bluetooth_support] = "-DBLUETOOTH_SUPPORT=ON,-DBLUETOOTH_SUPPORT=OFF,"
 PACKAGECONFIG[processcontainers] = "-DPROCESSCONTAINERS=ON,-DPROCESSCONTAINERS=OFF,libcgroup collectd cgroup-lite, cgroup-lite"

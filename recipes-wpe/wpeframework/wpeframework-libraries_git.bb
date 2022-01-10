@@ -12,7 +12,7 @@ PV = "3.0+gitr${SRCPV}"
 PR = "r1"
 RECIPE_BRANCH ?= "main"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "0e0d04168e85ab749e358b902ea45077067b1833"
+SRCREV ?= "82497384c740a63b6fda3a448a0c209cee9a5f69"
 
 #inherit python3native
 
@@ -20,19 +20,6 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'broadcast', 'broadcast', '', d)} \
 "
-
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'debug', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debugoptimized', 'debugoptimized', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_production', 'production', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'release', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'releasesymbols', '', d)}"
-
-# Buildtype
-PACKAGECONFIG[debug] = "-DBUILD_TYPE=Debug,,"
-PACKAGECONFIG[debugoptimized] = "-DBUILD_TYPE=DebugOptimized,,"
-PACKAGECONFIG[releasesymbols] = "-DBUILD_TYPE=ReleaseSymbols,,"
-PACKAGECONFIG[release] = "-DBUILD_TYPE=Release,,"
-PACKAGECONFIG[production] = "-DBUILD_TYPE=Production,,"
 
 PACKAGECONFIG[bluetooth] = "-DBLUETOOTH=ON,-DBLUETOOTH=OFF,bluez5"
 PACKAGECONFIG[broadcast] = "-DBROADCAST=ON,-DBROADCAST=OFF,"

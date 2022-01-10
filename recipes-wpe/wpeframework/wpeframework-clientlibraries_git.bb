@@ -13,7 +13,7 @@ PR = "r0"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH}"
-SRCREV ?= "79ba921fa40066a22f8299c3ea1408ab292f73b5"
+SRCREV ?= "c95095057f2c45b382c13f77b2a25e50c868284c"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
