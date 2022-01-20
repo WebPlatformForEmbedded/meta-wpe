@@ -8,7 +8,7 @@ RECIPE_BRANCH ?= "master"
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
 SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=${RECIPE_BRANCH}"
-SRCREV ?= "5280f6abb4eed5acd21e447e1a697b54f561689b"
+SRCREV ?= "f4cbb06097c69067453f6986cfdb377649c43d13"
 PR = "r0"
 S = "${WORKDIR}/git"
 
