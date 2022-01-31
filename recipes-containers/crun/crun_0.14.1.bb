@@ -10,7 +10,7 @@ DEPENDS_append = " libcap libseccomp libtool yajl"
 PV = "0.13.1"
 
 SRC_URI = "\
-    gitsm://github.com/containers/crun \
+    git://github.com/containers/crun;branch=main;protocol=https \
     file://0001-Preparing-for-library-build.patch \
     file://0002-Fix-cpuacct-not-beeing-created.patch \
 "

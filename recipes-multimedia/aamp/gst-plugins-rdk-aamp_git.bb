@@ -8,7 +8,7 @@ DEPENDS_append = " aamp gstreamer1.0 gstreamer1.0-plugins-base wpeframework-clie
 
 PV = "0.1.gitr${SRCPV}"
 
-SRC_URI = "git://github.com/rdkcmf/rdk-gst-plugins-rdk-aamp.git;protocol=git;branch=stable2"
+SRC_URI = "git://github.com/rdkcmf/rdk-gst-plugins-rdk-aamp.git;protocol=https;branch=stable2"
 SRCREV = "c9d03d4df04e0a09a0b8cd45c122c6add12b0501"
 
 S = "${WORKDIR}/git"

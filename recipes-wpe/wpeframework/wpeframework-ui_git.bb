@@ -8,7 +8,7 @@ require include/wpeframework-plugins.inc
 
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
-SRC_URI = "git://github.com/rdkcentral/ThunderUI.git;branch=${RECIPE_BRANCH}"
+SRC_URI = "git://github.com/rdkcentral/ThunderUI.git;branch=${RECIPE_BRANCH};protocol=https"
 SRCREV ?= "2684b88451267f8d61ab87687e9d76df9e53c552"
 
 do_configure[noexec] = "1"

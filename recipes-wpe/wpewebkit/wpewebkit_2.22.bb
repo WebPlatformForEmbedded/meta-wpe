@@ -6,7 +6,7 @@ PV = "2.22+git${SRCPV}"
 PR = "r0"
 RECIPE_BRANCH ?= "wpe-2.22"
 SRC_URI = "\
-    git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=${RECIPE_BRANCH} \
+    git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=${RECIPE_BRANCH};protocol=https \
     file://0001-WPEWebkit-compile-fix.patch \
     file://0001-Fix-for-missing-heap-vm-main.patch \
 "

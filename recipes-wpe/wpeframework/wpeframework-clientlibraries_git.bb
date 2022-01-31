@@ -12,7 +12,7 @@ require include/compositor.inc
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
-SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH}"
+SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;branch=${RECIPE_BRANCH};protocol=https"
 SRCREV ?= "c95095057f2c45b382c13f77b2a25e50c868284c"
 
 inherit python3native

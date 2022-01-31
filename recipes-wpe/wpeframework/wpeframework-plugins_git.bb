@@ -10,7 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 PR = "r1"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "\
-    git://github.com/rdkcentral/ThunderNanoServices.git;protocol=git;branch=${RECIPE_BRANCH} \
+    git://github.com/rdkcentral/ThunderNanoServices.git;protocol=https;branch=${RECIPE_BRANCH} \
     file://index.html \
     file://osmc-devinput-remote.json \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
