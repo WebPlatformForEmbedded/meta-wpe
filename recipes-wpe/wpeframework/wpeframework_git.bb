@@ -15,7 +15,7 @@ inherit systemd update-rc.d python3native
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "WPE"
 WPEFRAMEWORK_PORT ??= "80"
-
+WPEFRAMEWORK_ETHERNETCARD_NAME ??= "eth0"
 
 WPEFRAMEWORK_INITSCRIPT_SYSTEMD_EXTRA_DEPENDS ??= ""
 WPEFRAMEWORK_INITSCRIPT_SYSTEM_ROOT_PATH ??= "home/root"
@@ -24,6 +24,7 @@ WPEFRAMEWORK_INITSCRIPT_SYSTEMD_SERVICE ??= "${@bb.utils.contains('DISTRO_FEATUR
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth_support', '', d)} \
     initscriptsupport \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'securesocket', '', d)} \
     webserver_autoresume webkitbrowser_autoresume \
 "
 PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'debug', '', d)}"
@@ -102,7 +103,7 @@ WPEFRAMEWORK_EXTERN_EVENTS ??= "\
     ${@bb.utils.contains('PACKAGECONFIG', 'webserver', 'WebSource', '', d)} \
     ${@bb.utils.contains('PACKAGECONFIG', 'securityagent', 'Security', '', d)} \
     ${WPEFRAMEWORK_DIST_EVENTS} \
-    Location Internet \
+    Location Internet Identifier \
 "
 
 def getlayerrevision(d):
@@ -122,13 +123,14 @@ EXTRA_OECMAKE += "\
     -DEXTERN_EVENTS="${WPEFRAMEWORK_EXTERN_EVENTS}" \
     -DBUILD_SHARED_LIBS=ON \
     -DRPC=ON \
-    -DBUILD_REFERENCE=${SRCREV} \
-    -DTREE_REFERENCE=${WPE_LAYER_REV} \
-    -DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH} \
+    -DBUILD_REFERENCE="${SRCREV}" \
+    -DTREE_REFERENCE="${WPE_LAYER_REV}" \
+    -DPERSISTENT_PATH="${WPEFRAMEWORK_PERSISTENT_PATH}" \
     ${@oe.utils.conditional('WPEFRAMEWORK_VOLATILE_PATH', '', '', '-DVOLATILE_PATH="${WPEFRAMEWORK_VOLATILE_PATH}"', d)} \
-    -DSYSTEM_PREFIX=${WPEFRAMEWORK_SYSTEM_PREFIX} \
-    -DPORT=${WPEFRAMEWORK_PORT} \
-    -DPYTHON_EXECUTABLE=${PYTHON}"
+    -DSYSTEM_PREFIX="${WPEFRAMEWORK_SYSTEM_PREFIX}" \
+    -DPORT="${WPEFRAMEWORK_PORT}" \
+    -DETHERNETCARD_NAME="${WPEFRAMEWORK_ETHERNETCARD_NAME}" \
+    -DPYTHON_EXECUTABLE="${PYTHON}""
 
 SYSTEMD_SERVICE_${PN} = "wpeframework.service"
 

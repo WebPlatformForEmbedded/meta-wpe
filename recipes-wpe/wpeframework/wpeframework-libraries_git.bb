@@ -12,7 +12,7 @@ PV = "3.0+gitr${SRCPV}"
 PR = "r1"
 RECIPE_BRANCH ?= "main"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "82497384c740a63b6fda3a448a0c209cee9a5f69"
+SRCREV ?= "4e7b5030991e34e59481569f4a1441f1b3759c3b"
 
 #inherit python3native
 
