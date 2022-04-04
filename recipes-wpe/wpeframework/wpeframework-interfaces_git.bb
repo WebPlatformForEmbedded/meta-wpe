@@ -11,8 +11,10 @@ DEPENDS_append = " wpeframework-tools-native wpeframework"
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
-SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "200cbfe3158964a7a35b0411901a9dc87252a871"
+
+SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
+SRCREV ?= "bf5de3c2cf64b5abc6e04928b2480349972c409b"
+
 
 inherit python3native
 

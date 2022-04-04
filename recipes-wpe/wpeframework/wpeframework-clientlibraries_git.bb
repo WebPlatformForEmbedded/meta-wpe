@@ -12,8 +12,10 @@ require include/compositor.inc
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
-SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "c95095057f2c45b382c13f77b2a25e50c868284c"
+
+SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
+SRCREV ?= "504fb4cde12d05d5342b0c74279ccbdb455cc4e6"
+
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
@@ -32,6 +34,8 @@ PACKAGECONFIG[cryptography] = "\
     -DINCLUDE_SOFTWARE_CRYPTOGRAPHY_LIBRARY="${WPE_INCLUDE_SOFTWARE_CRYPTOGRAPHY_LIBRARY}" \
     ,-DCRYPTOGRAPHY=OFF, \
 "
+
+PACKAGECONFIG[bluetoothaudiosink] = "-DBLUETOOTHAUDIOSINK=ON,-DBLUETOOTHAUDIOSINK=OFF,bluez5"
 PACKAGECONFIG[cryptography_thunder] = "-DCRYPTOGRAPHY_IMPLEMENTATION="Thunder",,"
 PACKAGECONFIG[cryptography_openssl] = "-DCRYPTOGRAPHY_IMPLEMENTATION="OpenSSL",,"
 PACKAGECONFIG[cryptography_test] = "-DBUILD_CRYPTOGRAPHY_TESTS=ON,,"
