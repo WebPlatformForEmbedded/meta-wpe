@@ -13,7 +13,7 @@ DEPENDS_append = " \
 PV = "1.0+git${SRCPV}"
 SRC_URI = "${WESTEROS_URI}"
 SRCREV = "${WESTEROS_SRCREV}"
-WESTEROS_URI ??= "git://github.com/rdkcmf/westeros"
+WESTEROS_URI ??= "git://github.com/rdkcmf/westeros;protocol=https"
 WESTEROS_SRCREV ??= "fbd296bd25c7c9b122519569bcb5eb71ebebde14"
 
 export SCANNER_TOOL = "wayland-scanner"

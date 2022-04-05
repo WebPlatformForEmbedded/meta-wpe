@@ -8,5 +8,5 @@ require include/wpeframework-plugins.inc
 
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
-SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEPluginLauncher.git;branch=${RECIPE_BRANCH}"
+SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEPluginLauncher.git;branch=${RECIPE_BRANCH};protocol=https"
 SRCREV ?= "2f425ac9d08aa84927f88ee8f3576e9006b8783b"

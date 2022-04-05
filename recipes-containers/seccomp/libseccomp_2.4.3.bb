@@ -7,7 +7,7 @@ SECTION = "security"
 LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357ceb8e7c37f989f"
 
-SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.4"
+SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.4;protocol=https"
 SRCREV = "1dde9d94e0848e12da20602ca38032b91d521427"
 
 S = "${WORKDIR}/git"

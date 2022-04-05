@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c466d4ab8a68655eb1edf0bf8c1a8fb8"
 
 DEPENDS_append = " boost ctemplate dbus jsoncpp libnl python3 systemd yajl"
 
-SRC_URI = "git://github.com/rdkcentral/Dobby"
+SRC_URI = "git://github.com/rdkcentral/Dobby;protocol=https"
 
 #2020-12-14
 SRCREV = "2db374a248e1e011a13d7ba643901f7da6972710"

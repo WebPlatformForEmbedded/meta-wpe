@@ -13,7 +13,7 @@ DEPENDS_append = " \
 PV = "0.1.gitr${SRCPV}"
 
 SRC_URI = "\
-    git://github.com/rdkcmf/rdk-aamp.git;protocol=git;branch=stable2 \
+    git://github.com/rdkcmf/rdk-aamp.git;protocol=https;branch=stable2 \
     file://0001-rdk-aamp-disable-getsourceid-chech-temporarily-to-sendsyncevent.patch \
 "
 SRCREV = "24a4dfa609c7c6b3c18ee595bde0874c9a5ca7c9"
