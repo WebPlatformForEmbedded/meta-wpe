@@ -85,7 +85,7 @@ do_install() {
     cp -prf "${S}/src/starboard/"*.h "${D}/${includedir}/starboard/"
 }
 
-SSTATE_DUPWHITELIST = "/"
+SSTATE_ALLOW_OVERLAP_FILES = "/"
 
 COBALT_PACKAGE = "\
     ${libdir}/libcobalt.so \
