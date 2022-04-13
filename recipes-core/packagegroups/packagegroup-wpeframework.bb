@@ -8,7 +8,7 @@ PACKAGES = "\
     packagegroup-wpeframework \
 "
 
-RDEPENDS_packagegroup-wpeframework = "\
+RDEPENDS:packagegroup-wpeframework = "\
     wpeframework \
     wpeframework-interfaces \
     wpeframework-clientlibraries \

@@ -10,7 +10,7 @@ SECTION = "x11/base"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
 
-DEPENDS_append = " libpthread-stubs"
+DEPENDS:append = " libpthread-stubs"
 PROVIDES = "drm"
 
 SRC_URI = "\
@@ -42,27 +42,27 @@ PACKAGECONFIG[cairo-tests] = "-Dcairo-tests=true,-Dcairo-tests=false"
 PACKAGECONFIG[udev] = "-Dudev=true,-Dudev=false,udev"
 PACKAGECONFIG[manpages] = "-Dman-pages=true,-Dman-pages=false,libxslt-native xmlto-native python3-docutils-native"
 
-ALLOW_EMPTY_${PN}-drivers = "1"
+ALLOW_EMPTY:${PN}-drivers = "1"
 PACKAGES =+ "\
     ${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
     ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno ${PN}-amdgpu \
     ${PN}-etnaviv"
 
-RRECOMMENDS_${PN}-drivers = "\
+RRECOMMENDS:${PN}-drivers = "\
     ${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
     ${PN}-exynos ${PN}-freedreno ${PN}-amdgpu \
     ${PN}-etnaviv"
 
-FILES_${PN}-tests += "${bindir}/*"
-FILES_${PN}-radeon += "${libdir}/libdrm_radeon.so.*"
-FILES_${PN}-nouveau += "${libdir}/libdrm_nouveau.so.*"
-FILES_${PN}-omap += "${libdir}/libdrm_omap.so.*"
-FILES_${PN}-intel += "${libdir}/libdrm_intel.so.*"
-FILES_${PN}-exynos += "${libdir}/libdrm_exynos.so.*"
-FILES_${PN}-kms += "${libdir}/libkms*.so.*"
-FILES_${PN}-freedreno += "${libdir}/libdrm_freedreno.so.*"
-FILES_${PN}-amdgpu += "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
-FILES_${PN}-etnaviv += "${libdir}/libdrm_etnaviv.so.*"
+FILES:${PN}-tests += "${bindir}/*"
+FILES:${PN}-radeon += "${libdir}/libdrm_radeon.so.*"
+FILES:${PN}-nouveau += "${libdir}/libdrm_nouveau.so.*"
+FILES:${PN}-omap += "${libdir}/libdrm_omap.so.*"
+FILES:${PN}-intel += "${libdir}/libdrm_intel.so.*"
+FILES:${PN}-exynos += "${libdir}/libdrm_exynos.so.*"
+FILES:${PN}-kms += "${libdir}/libkms*.so.*"
+FILES:${PN}-freedreno += "${libdir}/libdrm_freedreno.so.*"
+FILES:${PN}-amdgpu += "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
+FILES:${PN}-etnaviv += "${libdir}/libdrm_etnaviv.so.*"
 
 BBCLASSEXTEND = "native nativesdk"
 

@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/containers/crun"
 LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-DEPENDS_append = " libcap libseccomp libtool yajl"
+DEPENDS:append = " libcap libseccomp libtool yajl"
 PV = "0.13.1"
 
 SRC_URI = "\
@@ -20,14 +20,14 @@ S = "${WORKDIR}/git"
 
 inherit autotools-brokensep pkgconfig python3native
 
-do_configure_prepend () {
+do_configure:prepend () {
     cd ${S}
     ./autogen.sh
 }
 
 # Force bitbake to ensure libocispec has been compiled before compiling crun
 # Fix random build failure due to race condition in Jenkins
-do_compile_prepend() {
+do_compile:prepend() {
     cd ${S}/libocispec
     oe_runmake
     cd ${S}
@@ -35,6 +35,6 @@ do_compile_prepend() {
 
 # Don't need systemd integration, so disable it to remove dependency on libsystemd
 EXTRA_OECONF = "--disable-systemd"
-EXTRA_OECONF_append = " --enable-shared"
+EXTRA_OECONF:append = " --enable-shared"
 PARALLEL_MAKE = ""
 

@@ -71,7 +71,7 @@ EXTRA_OECMAKE += "\
     -DBUILD_SHARED_LIBS=ON \
 "
 
-do_install_append() {
+do_install:append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "webserver", "true", "false", d)}
     then
       install -d ${D}/var/www
@@ -81,10 +81,10 @@ do_install_append() {
 }
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/* /var/www/index.html"
-FILES_${PN} += "${includedir}/WPEFramework/*"
-FILES_${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/* /var/www/index.html"
+FILES:${PN} += "${includedir}/WPEFramework/*"
+FILES:${PN}-dev += "${libdir}/cmake/*"
 
-INSANE_SKIP_${PN} += "libdir staticdev dev-so"
-INSANE_SKIP_${PN}-dbg += "libdir"
+INSANE_SKIP:${PN} += "libdir staticdev dev-so"
+INSANE_SKIP:${PN}-dbg += "libdir"
 

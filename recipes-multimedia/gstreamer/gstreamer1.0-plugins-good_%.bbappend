@@ -1,2 +1,2 @@
-PACKAGECONFIG_append = " matroska mpg123"
+PACKAGECONFIG:append = " matroska mpg123"
 

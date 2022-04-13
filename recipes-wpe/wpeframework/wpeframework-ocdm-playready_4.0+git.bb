@@ -7,4 +7,4 @@ SRCREV ?= "bf1d4afd0873ff5e38be303a1176d1a4ab3850a3"
 
 TARGET_CFLAGS += "-fpermissive"
 
-RDEPENDS_${PN}_append = " playready"
+RDEPENDS:${PN}:append = " playready"

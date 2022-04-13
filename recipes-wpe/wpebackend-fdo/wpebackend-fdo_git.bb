@@ -5,7 +5,7 @@ SECTION = "wpe"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=1f62cef2e3645e3e74eb05fd389d7a66"
 
-DEPENDS_append = " glib-2.0 libwpe libxkbcommon virtual/libgl wayland"
+DEPENDS:append = " glib-2.0 libwpe libxkbcommon virtual/libgl wayland"
 
 RECIPE_BRANCH ?= "master"
 PV = "1.0.0+git${SRCPV}"
@@ -16,6 +16,6 @@ S = "${WORKDIR}/git"
 inherit cmake
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/libWPEBackend-fdo-0.1.so"
+FILES:${PN} += "${libdir}/libWPEBackend-fdo-0.1.so"
 
-INSANE_SKIP_${PN} = "dev-so"
+INSANE_SKIP:${PN} = "dev-so"

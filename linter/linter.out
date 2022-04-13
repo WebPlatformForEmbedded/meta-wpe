@@ -9,7 +9,7 @@
 ../recipes-devtools/cjson/cjson_1.7.13.bb:24:warning:oelint.vars.filessetting.double:${libdir}/cmake is already set by default or in this recipe
 ../recipes-devtools/cmake/cmake_3.7.2.bb:12:warning:oelint.task.noanonpython:Avoid anonymous python functions as they expensive and come with all sorts of side effects
 ../recipes-devtools/cmake/cmake_3.7.2.bb:36:error:oelint.task.nomkdir:'mkdir' shall not be used in do_install. Use 'install'
-../recipes-devtools/cmake/cmake_3.7.2.bb:46:warning:oelint.vars.filessetting.hidden:${datadir}/cmake is already covered by FILES_${PN}-dev
+../recipes-devtools/cmake/cmake_3.7.2.bb:46:warning:oelint.vars.filessetting.hidden:${datadir}/cmake is already covered by FILES:${PN}-dev
 ../recipes-devtools/python-jsonref/python-jsonref.inc:12:warning:oelint.spaces.lineend:Line shall not end with a space
 ../recipes-extended/libcobalt/libcobalt_git.bb:112:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-extended/libcobalt/libcobalt_git.bb:113:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -32,12 +32,12 @@
 ../recipes-multimedia/aamp/aampabr_git.bb:21:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/aamp/aamp_git.bb:25:error:oelint.vars.specific:'AAMP_USE_THUNDER_OCDM_API' is set specific to ['0'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/aamp/aamp_git.bb:39:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:21:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:21:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
 ../recipes-multimedia/aamp/gst-plugins-rdk-aamp_git.bb:24:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:19:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:19:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
 ../recipes-multimedia/cenc/gstreamer1.0-plugins-cencdecrypt_git.bb:22:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-multimedia/gstreamer/gst-plugins-package.inc:46:warning:oelint.spaces.lineend:Line shall not end with a space
-../recipes-multimedia/gstreamer/gst-plugins-package.inc:53:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-multimedia/gstreamer/gst-plugins-package.inc:53:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
 ../recipes-multimedia/gstreamer/gstreamer1.0_1.10.4.bb:11:warning:oelint.vars.srcurifile:First item of SRC_URI should not be a file:// fetcher, if multiple fetcher are used
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:17:error:oelint.vars.specific:'GSTREAMER_OMX_TARGET' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
 ../recipes-multimedia/gstreamer/gstreamer1.0-omx.inc:18:error:oelint.vars.specific:'GSTREAMER_OMX_CORE_NAME' is set specific to ['1'], but isn't known from PACKAGES, MACHINE or resources
@@ -69,16 +69,16 @@
 ../recipes-wpe/wpeframework/include/wpeframework-plugins-rdk.inc:46:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:65:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-clientlibraries_git.bb:66:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework_git.bb:148:warning:oelint.var.filesoverride:'FILES_${PN}-initscript' should not be overriden
+../recipes-wpe/wpeframework/wpeframework_git.bb:148:warning:oelint.var.filesoverride:'FILES:${PN}-initscript' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework_git.bb:161:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework_git.bb:162:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:36:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpeframework/wpeframework-interfaces_git.bb:37:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:13:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
-../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES_${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-clearkey_git.bb:13:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus_git.bb:16:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-playready-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-widevine_git.bb:16:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
+../recipes-wpe/wpeframework/wpeframework-ocdm-widevine-nexus-svp_git.bb:16:warning:oelint.var.filesoverride:'FILES:${PN}' should not be overriden
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:73:warning:oelint.vars.pathhardcode.localstatedir:'${localstatedir}' should be used instead of '/var'
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:83:warning:oelint.vars.filessetting.double:${libdir}/wpeframework/plugins/*.so is already set by default or in this recipe
 ../recipes-wpe/wpeframework/wpeframework-plugins_git.bb:87:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
@@ -91,7 +91,7 @@
 ../recipes-wpe/wpewebkit/wpewebkit.inc:117:error:oelint.var.override:Variable 'FULL_OPTIMIZATION' is set by wpewebkit.inc
 ../recipes-wpe/wpewebkit/wpewebkit.inc:141:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
 ../recipes-wpe/wpewebkit/wpewebkit.inc:144:error:oelint.vars.insaneskip:INSANE_SKIP should be avoided at any cost
-../recipes-wpe/wpewebkit/wpewebkit.inc:201:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS_${PN}
+../recipes-wpe/wpewebkit/wpewebkit.inc:201:warning:oelint.vars.duplicate:Item 'virtual/wpebackend' was added multiple times to RDEPENDS:${PN}
 ../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'==' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:''morty' is not a proper bbclass name
 ../recipes-wpe/wpewebkit/wpewebkit.inc:25:error:oelint.var.improperinherit:'True)' is not a proper bbclass name

@@ -1,8 +1,8 @@
 require cmake.inc
 
-DEPENDS_append = " bzip2 curl expat libarchive ncurses xz zlib"
+DEPENDS:append = " bzip2 curl expat libarchive ncurses xz zlib"
 
-SRC_URI_append_class-nativesdk = " \
+SRC_URI:append:class-nativesdk = " \
     file://OEToolchainConfig.cmake \
     file://environment.d-cmake.sh"
 
@@ -33,7 +33,7 @@ EXTRA_OECMAKE = "\
     -DKWSYS_LFS_WORKS=1 \
 "
 
-do_install_append_class-nativesdk() {
+do_install:append:class-nativesdk() {
     mkdir -p ${D}${datadir}/cmake
     install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
 
@@ -41,10 +41,10 @@ do_install_append_class-nativesdk() {
     install -m 644 ${WORKDIR}/environment.d-cmake.sh ${D}${SDKPATHNATIVE}/environment-setup.d/cmake.sh
 }
 
-FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}"
+FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}"
 
-FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
-FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
+FILES:${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
+FILES:${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
 
 BBCLASSEXTEND = "nativesdk"
 

@@ -5,8 +5,8 @@ require include/wpeframework.inc
 require include/wpeframework-common.inc
 require include/wpeframework-deprecated.inc
 
-DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
-DEPENDS_append_libc-musl = " libexecinfo"
+DEPENDS:append = " zlib virtual/egl wpeframework-tools-native"
+DEPENDS:append:libc-musl = " libexecinfo"
 
 PROVIDES += "thunder"
 
@@ -27,15 +27,15 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'securesocket', '', d)} \
     webserver_autoresume webkitbrowser_autoresume \
 "
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'debug', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debugoptimized', 'debugoptimized', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_production', 'production', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'release', '', d)}"
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'releasesymbols', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'debug', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debugoptimized', 'debugoptimized', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_production', 'production', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_release', 'release', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_releasesymbols', 'releasesymbols', '', d)}"
 
 # CMAKE Build Type
 # DISTRO_FEATURES should be set to propagate build type across all necesary components
-# like, DISTRO_FEATURES_append = "thunder_release"
+# like, DISTRO_FEATURES:append = "thunder_release"
 PACKAGECONFIG[debug] = "-DCMAKE_BUILD_TYPE=Debug,,"
 PACKAGECONFIG[debugoptimized] = "-DCMAKE_BUILD_TYPE=DebugOptimized,,"
 PACKAGECONFIG[releasesymbols] = "-DCMAKE_BUILD_TYPE=RelWithDebInfo,,"
@@ -132,23 +132,23 @@ EXTRA_OECMAKE += "\
     -DETHERNETCARD_NAME="${WPEFRAMEWORK_ETHERNETCARD_NAME}" \
     -DPYTHON_EXECUTABLE="${PYTHON}""
 
-SYSTEMD_SERVICE_${PN} = "wpeframework.service"
+SYSTEMD_SERVICE:${PN} = "wpeframework.service"
 
 PACKAGES =+ "${PN}-initscript"
-FILES_${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
+FILES:${PN}-initscript = "${sysconfdir}/init.d/wpeframework"
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
-FILES_${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
+FILES:${PN}-dev += "${libdir}/cmake/*"
 
 INITSCRIPT_PACKAGES = "${PN}-initscript"
-INITSCRIPT_NAME_${PN}-initscript = "wpeframework"
-INITSCRIPT_PARAMS_${PN}-initscript = "defaults ${WPEFRAMEWORK_START} 24"
-RRECOMMENDS_${PN} = "${PN}-initscript"
+INITSCRIPT_NAME:${PN}-initscript = "wpeframework"
+INITSCRIPT_PARAMS:${PN}-initscript = "defaults ${WPEFRAMEWORK_START} 24"
+RRECOMMENDS:${PN} = "${PN}-initscript"
 
 # If WPE Framework is enabled as distro feature, start earlier. Assuming packagegroup-wpe-boot is used and we're in control for the network
 WPEFRAMEWORK_START = "${@bb.utils.contains('DISTRO_FEATURES', 'wpeframework', '40', '80', d)}"
 
-INSANE_SKIP_${PN} += "dev-so"
-INSANE_SKIP_${PN}-dbg += "dev-so"
+INSANE_SKIP:${PN} += "dev-so"
+INSANE_SKIP:${PN}-dbg += "dev-so"
 
-RPROVIDES_${PN} += "thunder"
+RPROVIDES:${PN} += "thunder"

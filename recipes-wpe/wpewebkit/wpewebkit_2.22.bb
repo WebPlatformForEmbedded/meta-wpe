@@ -1,6 +1,6 @@
 require wpewebkit.inc
 
-DEPENDS_append = " libgcrypt"
+DEPENDS:append = " libgcrypt"
 
 PV = "2.22+git${SRCPV}"
 PR = "r0"
@@ -12,7 +12,7 @@ SRC_URI = "\
 "
 SRCREV ?= "57bbecb9421d206f40a3beb45b9d800288a39b1d"
 
-PACKAGECONFIG_append = " webcrypto"
+PACKAGECONFIG:append = " webcrypto"
 
 do_compile() {
     ${STAGING_BINDIR_NATIVE}/ninja ${PARALLEL_MAKE} -C ${B} all
@@ -46,8 +46,8 @@ do_install() {
     chrpath --delete ${D}${bindir}/WPEWebDriver
 }
 
-INSANE_SKIP_${PN}-dev = "dev-elf"
-FILES_${PN}-web-inspector-plugin += "${libdir}/wpe-webkit-0.1/libWPEWebInspectorResources.so"
+INSANE_SKIP:${PN}-dev = "dev-elf"
+FILES:${PN}-web-inspector-plugin += "${libdir}/wpe-webkit-0.1/libWPEWebInspectorResources.so"
 
-RCONFLICTS_${PN} = "libwpe (< 1.0)"
+RCONFLICTS:${PN} = "libwpe (< 1.0)"
 

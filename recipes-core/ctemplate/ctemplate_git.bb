@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/OlafvdSpek/ctemplate"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://COPYING;md5=762732742c73dc6c7fbe8632f06c059a"
 
-DEPENDS_append = " python3"
+DEPENDS:append = " python3"
 
 SRC_URI = "\
     git://github.com/OlafvdSpek/ctemplate.git;protocol=https \
@@ -19,8 +19,8 @@ inherit autotools pkgconfig
 
 PARALLEL_MAKE = ""
 
-FILES_${PN} += "${libdir}/*.so"
-RDEPENDS_${PN} = "perl"
+FILES:${PN} += "${libdir}/*.so"
+RDEPENDS:${PN} = "perl"
 
-BBCLASSEXTEND_append = " nativesdk"
+BBCLASSEXTEND:append = " nativesdk"
 

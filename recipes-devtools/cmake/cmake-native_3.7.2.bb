@@ -1,8 +1,8 @@
 require cmake.inc
 
-DEPENDS_append = " bzip2-replacement-native expat-native xz-native zlib-native curl-native"
+DEPENDS:append = " bzip2-replacement-native expat-native xz-native zlib-native curl-native"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://cmlibarchive-disable-ext2fs.patch \
 "
 

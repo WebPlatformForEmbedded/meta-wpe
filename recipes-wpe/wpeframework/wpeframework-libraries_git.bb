@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=85bcfede74b96d9a58c6ea5d4b607e58"
 
 require include/wpeframework-common.inc
 
-DEPENDS_append = " wpeframework"
+DEPENDS:append = " wpeframework"
 
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"
@@ -31,8 +31,8 @@ EXTRA_OECMAKE += "\
 "
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
-FILES_${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
+FILES:${PN}-dev += "${libdir}/cmake/*"
 
-INSANE_SKIP_${PN} += "dev-so"
-INSANE_SKIP_${PN}-dbg += "dev-so"
+INSANE_SKIP:${PN} += "dev-so"
+INSANE_SKIP:${PN}-dbg += "dev-so"

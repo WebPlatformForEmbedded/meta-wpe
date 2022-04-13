@@ -1,4 +1,4 @@
-do_configure_append () {
+do_configure:append () {
     if "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'thunder_debug', 'thunder_debugoptimized' ], 'true', 'false', d)}"
     then
         if grep -q '\bCONFIG_DEBUG_FILE\b' wpa_supplicant/.config; then

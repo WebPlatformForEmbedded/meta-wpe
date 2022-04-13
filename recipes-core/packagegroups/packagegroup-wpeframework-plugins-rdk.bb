@@ -6,5 +6,5 @@ inherit packagegroup
 
 PACKAGES = "packagegroup-wpeframework-plugins-rdk"
 
-RDEPENDS_packagegroup-wpeframework-plugins-rdk = "wpeframework-plugins-rdk"
+RDEPENDS:packagegroup-wpeframework-plugins-rdk = "wpeframework-plugins-rdk"
 

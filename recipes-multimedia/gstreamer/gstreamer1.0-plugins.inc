@@ -5,7 +5,7 @@ HOMEPAGE = "http://gstreamer.freedesktop.org/"
 BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
 SECTION = "multimedia"
 
-DEPENDS_append = " gstreamer1.0 glib-2.0-native"
+DEPENDS:append = " gstreamer1.0 glib-2.0-native"
 
 inherit autotools pkgconfig upstream-version-is-even gobject-introspection gtk-doc
 

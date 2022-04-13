@@ -5,7 +5,7 @@ SECTION = "wpe"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6ae4db0d4b812334e1539cd5aa6e2f46"
 
-DEPENDS_append = " wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
+DEPENDS:append = " wpewebkit glib-2.0 libxkbcommon wayland virtual/libgl"
 
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEBackend-mesa.git;branch=${RECIPE_BRANCH};protocol=https"
@@ -27,5 +27,5 @@ do_install() {
 }
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-mesa.so"
+FILES:${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-mesa.so"
 INSANE_SKIP = "dev-so"

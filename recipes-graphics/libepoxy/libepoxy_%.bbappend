@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append_dunfell = " file://0001-Make-graphic-libs-configurable.patch"
+SRC_URI:append_dunfell = " file://0001-Make-graphic-libs-configurable.patch"
 
 GLX_LIB_NAME    ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/libgl',    'broadcom-refsw', 'libv3ddriver.so', '/usr/lib/libGL.so.1', d)}"
 EGL_LIB_NAME    ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/egl',      'broadcom-refsw', 'libv3ddriver.so', '/usr/lib/libEGL.so.1', d)}"

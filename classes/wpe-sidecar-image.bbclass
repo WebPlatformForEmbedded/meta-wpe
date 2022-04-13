@@ -8,7 +8,7 @@
 #           to specify which libraries / binaries you'd like to be installed 
 #           the target package.
 #       
-#           WPE_SIDECAR_FILENAMES_TO_COPY_append = " \
+#           WPE_SIDECAR_FILENAMES_TO_COPY:append = " \
 #               WPEFramework \
 #               WPEProcess \
 #            "

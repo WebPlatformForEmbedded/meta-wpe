@@ -11,5 +11,5 @@ SRC_URI = "\
 "
 SRCREV ?= "c59af439218a6354b5a79ab0ee2d661f25d55c19"
 
-RCONFLICTS_${PN} = "libwpe (< 1.4) wpebackend-fdo (< 1.4)"
+RCONFLICTS:${PN} = "libwpe (< 1.4) wpebackend-fdo (< 1.4)"
 

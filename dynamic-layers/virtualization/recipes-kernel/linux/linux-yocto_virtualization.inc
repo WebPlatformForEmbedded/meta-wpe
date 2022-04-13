@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/linux-yocto:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/linux-yocto:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://xt-checksum.scc \
     file://ebtables.scc \
     file://vswitch.scc \
@@ -8,6 +8,6 @@ SRC_URI_append = " \
     file://docker.scc \
 "
 
-KERNEL_FEATURES_append = " "
+KERNEL_FEATURES:append = " "
 KERNEL_MODULE_AUTOLOAD += "nf_conntrack_ipv6 openvswitch"
 

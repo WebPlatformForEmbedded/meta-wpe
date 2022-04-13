@@ -15,8 +15,8 @@ S = "${WORKDIR}/git"
 inherit cmake
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
-FILES_${PN} += "${libdir}/lib*.so"
+FILES:${PN} += "${libdir}/lib*.so"
 
 # Fixme, something is pointing to a non-symlink and that pulls in -dev packages
-INSANE_SKIP_${PN} = "dev-deps"
+INSANE_SKIP:${PN} = "dev-deps"
 

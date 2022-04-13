@@ -48,12 +48,12 @@ PACKAGECONFIG[remote-gp] = "\
     ,-DPLUGIN_REMOTECONTROL_RFCE=OFF,${WPE_REMOTECONTROL_RF4CE_DEPENDENCY} \
 "
 
-do_install_append() {
+do_install:append() {
     if ${@bb.utils.contains("PACKAGECONFIG", "remote-devinput", "true", "false", d)}
     then
       cp -av --no-preserve=ownership ${WORKDIR}/osmc-devinput-remote.json ${D}${datadir}/WPEFramework/RemoteControl/devinput-remote.json
     fi
 }
 
-FILES_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'remote-devinput', '${datadir}/WPEFramework/RemoteControl/devinput-remote.json', '', d)}"
+FILES:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'remote-devinput', '${datadir}/WPEFramework/RemoteControl/devinput-remote.json', '', d)}"
 

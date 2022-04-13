@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.openjpeg.org"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=c648878b4840d7babaade1303e7f108c"
 
-DEPENDS_append = " libpng tiff lcms zlib"
+DEPENDS:append = " libpng tiff lcms zlib"
 
 SRC_URI = "\
     git://github.com/uclouvain/openjpeg.git;protocol=https \
@@ -22,4 +22,4 @@ inherit cmake
 # for multilib
 EXTRA_OECMAKE += "-DOPENJPEG_INSTALL_LIB_DIR=${@d.getVar('baselib', True).replace('/', '')}"
 
-FILES_${PN} += "${libdir}/openjpeg*"
+FILES:${PN} += "${libdir}/openjpeg*"

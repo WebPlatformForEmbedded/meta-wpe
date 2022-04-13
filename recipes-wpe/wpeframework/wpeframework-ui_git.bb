@@ -23,5 +23,5 @@ do_install() {
     cp -r ${S}/dist/* ${D}${datadir}/WPEFramework/Controller/UI
 }
 
-FILES_${PN} += "${datadir}/WPEFramework/Controller/UI/*"
+FILES:${PN} += "${datadir}/WPEFramework/Controller/UI/*"
 

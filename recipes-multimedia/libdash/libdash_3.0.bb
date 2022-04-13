@@ -11,7 +11,7 @@ SECTION = "libs"
 LICENSE = "CLOSED"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-DEPENDS_append = " curl libxml2 zlib"
+DEPENDS:append = " curl libxml2 zlib"
 
 PV = "3.0.gitr${SRCPV}"
 
@@ -30,7 +30,7 @@ S = "${WORKDIR}/git/libdash"
 
 inherit cmake pkgconfig
 
-do_install_append() {
+do_install:append() {
     install -d ${D}${libdir}/pkgconfig
     install -m 0644 ${WORKDIR}/libdash.pc ${D}${libdir}/pkgconfig
 
@@ -52,8 +52,8 @@ do_install_append() {
 
 PACKAGES = "${PN} ${PN}-dbg"
 
-FILES_${PN} += "${libdir}/libdash.so"
-FILES_${PN}-dbg += "${includedir}/*"
-FILES_${PN}-dbg += "${libdir}/pkgconfig/*"
+FILES:${PN} += "${libdir}/libdash.so"
+FILES:${PN}-dbg += "${includedir}/*"
+FILES:${PN}-dbg += "${libdir}/pkgconfig/*"
 
-INSANE_SKIP_${PN} = "dev-deps"
+INSANE_SKIP:${PN} = "dev-deps"

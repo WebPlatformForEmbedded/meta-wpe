@@ -21,5 +21,5 @@ EXTRA_OECMAKE += "\
 "
 
 BBCLASSEXTEND = "native nativesdk"
-FILES_${PN}-dev += "${libdir}/cmake"
+FILES:${PN}-dev += "${libdir}/cmake"
 

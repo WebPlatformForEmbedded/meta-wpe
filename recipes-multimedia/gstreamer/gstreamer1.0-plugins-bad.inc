@@ -2,9 +2,9 @@ require gstreamer1.0-plugins.inc
 
 LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
 
-DEPENDS_append = " gstreamer1.0-plugins-base libpng jpeg"
+DEPENDS:append = " gstreamer1.0-plugins-base libpng jpeg"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
 "
 
@@ -27,7 +27,7 @@ PACKAGECONFIG ??= " \
     hls libmms faad \
 "
 
-PACKAGECONFIG_append_rpi = " zzrpiextras"
+PACKAGECONFIG:append_rpi = " zzrpiextras"
 PACKAGECONFIG[zzrpiextras] = "--enable-gles2 --enable-egl --enable-gl --enable-dispmanx,,virtual/libgles2 virtual/egl"
 
 PACKAGECONFIG[assrender] = "--enable-assrender,--disable-assrender,libass"
@@ -156,10 +156,10 @@ EXTRA_OECONF += "\
 
 export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
 
-ARM_INSTRUCTION_SET_armv4 = "arm"
-ARM_INSTRUCTION_SET_armv5 = "arm"
+ARM_INSTRUCTION_SET:armv4 = "arm"
+ARM_INSTRUCTION_SET:armv5 = "arm"
 
-FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
-FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
-FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
-FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+FILES:${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
+FILES:${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
+FILES:${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
+FILES:${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"

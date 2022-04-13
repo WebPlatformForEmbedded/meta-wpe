@@ -5,7 +5,7 @@ BUGTRACKER = "https://github.com/WebPlatformForEmbedded/WPEBackend-rdk/issues"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://src/wayland/display.h;;beginline=5;endline=24;md5=b1c8cb6b0857048a21b33611f01c575a"
 
-DEPENDS_append = " libwpe glib-2.0"
+DEPENDS:append = " libwpe glib-2.0"
 PROVIDES += "virtual/wpebackend"
 
 RECIPE_BRANCH ?= "master"
@@ -69,9 +69,9 @@ do_install() {
 
 FILES_SOLIBSDEV = ""
 
-FILES_${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-rdk.so"
+FILES:${PN} += "${libdir}/libWPEBackend-default.so ${libdir}/libWPEBackend-rdk.so"
 INSANE_SKIP = "dev-so"
 
 # FIXME RDEPENDS on PACKAGECONFIG is not behaving as it should
-RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'xkeyboard-config', '', d)}"
-RPROVIDES_${PN} += "virtual/wpebackend"
+RDEPENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'wpeframework', 'xkeyboard-config', '', d)}"
+RPROVIDES:${PN} += "virtual/wpebackend"

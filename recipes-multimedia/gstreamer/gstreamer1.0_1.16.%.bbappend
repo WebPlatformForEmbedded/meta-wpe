@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-typefind-min-1k.patch \
     file://0002-Small-robustness-fixes.patch \
 "

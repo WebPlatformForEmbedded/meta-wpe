@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-souphttpsrc-cookie-jar-and-context-query-support.patch \
     file://0002-0007-qtdemux-dont-check-pushbased-edts.patch.patch \
     file://0003-matroskademux-Start-stream-time-at-zero.patch \
@@ -14,4 +14,4 @@ SRC_URI_append = " \
 
 PACKAGECONFIG[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
 
-PACKAGECONFIG_remove = "gtk"
+PACKAGECONFIG:remove = "gtk"

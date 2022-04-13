@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/rdkcentral/ThunderClientLibraries"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=847677038847363222ffb66cfa6406c2"
 
-DEPENDS_append = " wpeframework-tools-native wpeframework-interfaces"
+DEPENDS:append = " wpeframework-tools-native wpeframework-interfaces"
 
 require include/wpeframework-common.inc
 require include/compositor.inc
@@ -26,7 +26,7 @@ PACKAGECONFIG ??= "\
     virtualinput \
 "
 
-PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'compositor', 'compositorclient', '', d)}"
 WPE_INCLUDE_SOFTWARE_CRYPTOGRAPHY_LIBRARY ??= "OFF"
 PACKAGECONFIG[cryptography] = "\
     -DCRYPTOGRAPHY=ON \
@@ -60,11 +60,11 @@ EXTRA_OECMAKE += "\
 "
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
-FILES_${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN} += "${libdir}/*.so ${datadir}/WPEFramework/* ${PKG_CONFIG_DIR}/*.pc"
+FILES:${PN}-dev += "${libdir}/cmake/*"
 
-INSANE_SKIP_${PN} += "dev-so"
-INSANE_SKIP_${PN}-dbg += "dev-so"
+INSANE_SKIP:${PN} += "dev-so"
+INSANE_SKIP:${PN}-dbg += "dev-so"
 
 # Avoid settings ADNEEDED in LDFLAGS as this can cause the libcompositor.so to drop linking to libEGL/libGLES
 # which might not be needed at first glance but will cause problems higher up in the change, there for lets drop -Wl,--as-needed

@@ -29,7 +29,7 @@ PACKAGECONFIG ??= "\
 "
 # FIXME: these config has to be selected based on system config requirement.
 # For the time being these are hardcoded
-PACKAGECONFIG_append = " \
+PACKAGECONFIG:append = " \
     monitor_cobalt monitor_webkit_ux \
     webkitbrowser_apps webkitbrowser_ux \
 "
@@ -40,9 +40,9 @@ EXTRA_OECMAKE += "\
 "
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/*"
-FILES_${PN}-dev += "${libdir}/cmake/*"
+FILES:${PN} += "${libdir}/wpeframework/plugins/*.so ${libdir}/*.so ${datadir}/WPEFramework/*"
+FILES:${PN}-dev += "${libdir}/cmake/*"
 
-INSANE_SKIP_${PN} += "libdir staticdev dev-so"
-INSANE_SKIP_${PN}-dbg += "libdir"
+INSANE_SKIP:${PN} += "libdir staticdev dev-so"
+INSANE_SKIP:${PN}-dbg += "libdir"
 

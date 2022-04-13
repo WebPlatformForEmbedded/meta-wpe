@@ -14,8 +14,8 @@ ICU_PV = "${@icu_download_version(d)}"
 ICU_FOLDER = "${@icu_download_folder(d)}"
 
 # http://errors.yoctoproject.org/Errors/Details/20486/
-ARM_INSTRUCTION_SET_armv4 = "arm"
-ARM_INSTRUCTION_SET_armv5 = "arm"
+ARM_INSTRUCTION_SET:armv4 = "arm"
+ARM_INSTRUCTION_SET:armv5 = "arm"
 
 BASE_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-src.tgz"
 SRC_URI = "\
@@ -29,7 +29,7 @@ SRC_URI = "\
     file://0003-fix-static-linking-with-icu-uc.patch \
 "
 
-SRC_URI_append_class-target = " \
+SRC_URI:append:class-target = " \
     file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
 "
 SRC_URI[md5sum] = "d1ff436e26cabcb28e6cb383d32d1339"

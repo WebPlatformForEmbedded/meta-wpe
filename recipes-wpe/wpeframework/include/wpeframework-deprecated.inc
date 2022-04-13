@@ -1,6 +1,6 @@
 # This deprecated config file is added to keep configs which are required backward compatibility
 
-PACKAGECONFIG_append = "\
+PACKAGECONFIG:append = "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debug', 'deprecatedbuildtype_thunder_debug', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'thunder_debugoptimized', 'deprecatedbuildtype_thunder_debugoptimized', '', d)} \
@@ -23,9 +23,9 @@ PACKAGECONFIG[broadcastsiparse] = "-DBROADCAST_SI_PARSING=ON,-DBROADCAST_SI_PARS
 USE_INIT_SCRIPT_FROM_BUILDSYSTEM ??= "${@bb.utils.contains('PACKAGECONFIG', 'initscriptsupport', 'n', 'y', d)}"
 INIT_SCRIPT_FILE ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://wpeframework.service.in', 'file://wpeframework-init', d)}"
 
-SRC_URI_append = " ${@bb.utils.contains('USE_INIT_SCRIPT_FROM_BUILDSYSTEM', 'y', '${INIT_SCRIPT_FILE}', '', d)}"
+SRC_URI:append = " ${@bb.utils.contains('USE_INIT_SCRIPT_FROM_BUILDSYSTEM', 'y', '${INIT_SCRIPT_FILE}', '', d)}"
 
-do_install_append() {
+do_install:append() {
     if ${@bb.utils.contains("USE_INIT_SCRIPT_FROM_BUILDSYSTEM", "y", "true", "false", d)}
     then
         if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}

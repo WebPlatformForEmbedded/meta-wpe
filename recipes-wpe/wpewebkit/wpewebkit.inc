@@ -8,7 +8,7 @@ LICENSE = "BSD & LGPLv2+"
 LIC_FILES_CHKSUM = "file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80"
 
 # WPE WebKit Common
-DEPENDS_append = " \
+DEPENDS:append = " \
     libwpe \
     bison-native ccache-native glib-2.0-native gperf-native libxml2-native ninja-native ruby-native chrpath-replacement-native \
     cairo fontconfig freetype glib-2.0 gnutls harfbuzz icu jpeg pcre sqlite3 zlib \
@@ -29,7 +29,7 @@ inherit ${@'cmake_qt5' if 'qt5-layer' in d.getVar('BBFILE_COLLECTIONS', True).sp
 
 WPE_PLATFORM ?= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'westeros westeros-sink', 'egl', d)}"
 WPE_PLATFORM ?= "${@bb.utils.contains('virtual/egl', 'broadcom-refsw', 'nexus', 'egl', d)}"
-WPE_PLATFORM_x86 ?= "intelce"
+WPE_PLATFORM:x86 ?= "intelce"
 WPE_PLATFORM ?= "egl"
 
 PACKAGECONFIG ?= "\
@@ -38,7 +38,7 @@ PACKAGECONFIG ?= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '' ,d)} \
     ${WPE_PLATFORM} \
 "
-PACKAGECONFIG_append_dunfell = " woff2"
+PACKAGECONFIG:append_dunfell = " woff2"
 
 # Mesa only offscreen target support for Westeros backend
 # FIXME Needs to be moved to mesa backend
@@ -117,34 +117,34 @@ EXTRA_OECMAKE += "\
 EXTRANATIVEPATH += "chrpath-native"
 
 # don't build debug
-FULL_OPTIMIZATION_remove = "-g"
-FULL_OPTIMIZATION_append = " -DNDEBUG"
+FULL_OPTIMIZATION:remove = "-g"
+FULL_OPTIMIZATION:append = " -DNDEBUG"
 
 # JSC JIT on ARMv7 is better supported with Thumb2 instruction set.
-ARM_INSTRUCTION_SET_armv7a = "thumb"
-ARM_INSTRUCTION_SET_armv7r = "thumb"
-ARM_INSTRUCTION_SET_armv7m = "thumb"
-ARM_INSTRUCTION_SET_armv7ve = "thumb"
+ARM_INSTRUCTION_SET:armv7a = "thumb"
+ARM_INSTRUCTION_SET:armv7r = "thumb"
+ARM_INSTRUCTION_SET:armv7m = "thumb"
+ARM_INSTRUCTION_SET:armv7ve = "thumb"
 
 # If SSE code compiles, assume it runs successfully (it can't actually run
 # because of cross compiling)
-EXTRA_OECMAKE_append_x86 = " -DHAVE_SSE2_EXTENSIONS_EXITCODE=0"
+EXTRA_OECMAKE:append:x86 = " -DHAVE_SSE2_EXTENSIONS_EXITCODE=0"
 # mips/gold does not yet implement
 # error: .gnu.hash is incompatible with the MIPS ABI
-EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
 
-LDFLAGS_append_riscv64 = " -pthread"
+LDFLAGS:append:riscv64 = " -pthread"
 
-FULL_OPTIMIZATION_remove = "-g"
+FULL_OPTIMIZATION:remove = "-g"
 
 LEAD_SONAME = "libWPEWebKit.so"
 PACKAGES =+ "${PN}-web-inspector-plugin ${PN}-qtwpe-qml-plugin"
-FILES_${PN} += "${libdir}/wpe-webkit*/injected-bundle/libWPEInjectedBundle.so"
-FILES_${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so ${libdir}/wpe-webkit-*/libWPEWebInspectorResources.so"
-INSANE_SKIP_${PN}-web-inspector-plugin = "dev-so"
+FILES:${PN} += "${libdir}/wpe-webkit*/injected-bundle/libWPEInjectedBundle.so"
+FILES:${PN}-web-inspector-plugin += "${libdir}/libWPEWebInspectorResources.so ${libdir}/wpe-webkit-*/libWPEWebInspectorResources.so"
+INSANE_SKIP:${PN}-web-inspector-plugin = "dev-so"
 
-FILES_${PN}-qtwpe-qml-plugin += "${libdir}/qt5/qml/org/wpewebkit/qtwpe/*"
-INSANE_SKIP_${PN}-qtwpe-qml-plugin = "dev-so"
+FILES:${PN}-qtwpe-qml-plugin += "${libdir}/qt5/qml/org/wpewebkit/qtwpe/*"
+INSANE_SKIP:${PN}-qtwpe-qml-plugin = "dev-so"
 
 GL_DEPENDENCY ?= "gstreamer1.0-plugins-base-opengl"
 GL_DEPENDENCY_morty = "gstreamer1.0-plugins-bad-opengl"
@@ -155,7 +155,7 @@ MPG_DEPENDENCY_morty = "gstreamer1.0-plugins-ugly-mpg123"
 MPG_DEPENDENCY_dunfell = "gstreamer1.0-plugins-good-mpg123"
 
 # Extra runtime depends
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     virtual/wpebackend \
 "
 
@@ -201,13 +201,13 @@ RDEPS_WEBAUDIO ?= " \
     ${RDEPS_EXTRA} \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     virtual/libwpe \
     virtual/wpebackend \
 "
 
 # Extra runtime recommends
-RRECOMMENDS_${PN} += "\
+RRECOMMENDS:${PN} += "\
     ca-certificates \
     shared-mime-info \
     ttf-bitstream-vera \

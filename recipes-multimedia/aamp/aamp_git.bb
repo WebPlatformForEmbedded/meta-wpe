@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=175792518e4ac015ab6696d16c4f607e"
 
 # extra DEPENDS
-DEPENDS_append = " \
+DEPENDS:append = " \
     curl libdash libxml2 cjson aampabr wpeframework \
     gstreamer1.0 gstreamer1.0-plugins-base glib-2.0 util-linux wpeframework-clientlibraries \
 "
@@ -32,9 +32,9 @@ PACKAGECONFIG[opencdm] = "\
 "
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
-FILES_${PN} += "${libdir}/lib*.so"
-FILES_${PN} += "${libdir}/aamp/lib*.so"
+FILES:${PN} += "${libdir}/lib*.so"
+FILES:${PN} += "${libdir}/aamp/lib*.so"
 
 # Fixme, something is pointing to a non-symlink and that pulls in -dev packages
-INSANE_SKIP_${PN} = "dev-deps"
+INSANE_SKIP:${PN} = "dev-deps"
 

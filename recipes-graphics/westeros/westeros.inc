@@ -3,7 +3,7 @@ LICENSE = "Apache-2.0"
 LICENSE_LOCATION ??= "${S}/LICENSE"
 LIC_FILES_CHKSUM = "file://${LICENSE_LOCATION};md5=77cf8957a4ffe1f1ae0d474a3d95a3ed"
 
-DEPENDS_append = " \
+DEPENDS:append = " \
     gstreamer1.0 \
     libxkbcommon \
     wayland \

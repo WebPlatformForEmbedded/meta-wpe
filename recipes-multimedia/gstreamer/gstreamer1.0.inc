@@ -6,9 +6,9 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
 SECTION = "multimedia"
 LICENSE = "LGPLv2+"
 
-DEPENDS_append = " glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
+DEPENDS:append = " glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
 "
 
@@ -39,12 +39,12 @@ CACHED_CONFIGUREVARS += "ac_cv_header_sys_poll_h=no"
 
 PACKAGES += "${PN}-bash-completion"
 
-FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
-FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
-FILES_${PN}-bash-completion += "${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
+FILES:${PN} += "${libdir}/gstreamer-1.0/*.so"
+FILES:${PN}-dev += "${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
+FILES:${PN}-bash-completion += "${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
 
-RRECOMMENDS_${PN}_qemux86 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
-RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+RRECOMMENDS:${PN}:qemux86 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+RRECOMMENDS:${PN}:qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
 
 delete_pkg_m4_file() {
         # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
@@ -66,6 +66,6 @@ patch_gtk_doc_makefiles() {
 
 do_configure[prefuncs] += "delete_pkg_m4_file patch_gtk_doc_makefiles"
 
-do_compile_prepend() {
+do_compile:prepend() {
         export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs:${B}/libs/gst/base/.libs"
 }

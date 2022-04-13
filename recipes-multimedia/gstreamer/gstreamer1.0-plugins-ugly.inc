@@ -3,7 +3,7 @@ require gstreamer1.0-plugins.inc
 LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
 LICENSE_FLAGS = "commercial"
 
-DEPENDS_append = " gstreamer1.0-plugins-base libid3tag"
+DEPENDS:append = " gstreamer1.0-plugins-base libid3tag"
 
 inherit gettext
 
@@ -12,7 +12,7 @@ PACKAGECONFIG ??= " \
     a52dec lame mpg123 mpeg2dec \
 "
 
-PACKAGECONFIG_remove = "a52dec lame mad mpeg2dec"
+PACKAGECONFIG:remove = "a52dec lame mad mpeg2dec"
 
 PACKAGECONFIG[a52dec] = "--enable-a52dec,--disable-a52dec,liba52"
 PACKAGECONFIG[amrnb] = "--enable-amrnb,--disable-amrnb,opencore-amr"
@@ -30,5 +30,5 @@ EXTRA_OECONF += "\
     --disable-twolame \
 "
 
-FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
-FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
+FILES:${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
+FILES:${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"

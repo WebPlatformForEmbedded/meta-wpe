@@ -26,7 +26,7 @@ SYSVINIT_SCRIPTS = "modutils-initscripts \
                     ${VIRTUAL-RUNTIME_initscripts} \
                    "
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     base-files \
     base-passwd \
     ${VIRTUAL-RUNTIME_base-utils} \
@@ -39,6 +39,6 @@ RDEPENDS_${PN} = "\
     ${VIRTUAL-RUNTIME_update-alternatives} \
     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
 
-RRECOMMENDS_${PN} = "\
+RRECOMMENDS:${PN} = "\
     ${MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS}"
 

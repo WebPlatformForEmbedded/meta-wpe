@@ -22,8 +22,8 @@ S = "${WORKDIR}/git"
 
 inherit cmake
 
-FILES_${PN} = "${libdir}/gstreamer-1.0/libgstcencdecrypt.so"
+FILES:${PN} = "${libdir}/gstreamer-1.0/libgstcencdecrypt.so"
 
 # Fixme, something is pointing to a non-symlink and that pulls in -dev packages
-INSANE_SKIP_${PN} = "dev-deps"
+INSANE_SKIP:${PN} = "dev-deps"
 

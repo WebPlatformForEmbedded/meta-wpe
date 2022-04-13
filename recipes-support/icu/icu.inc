@@ -6,8 +6,8 @@ same results on all platforms."
 HOMEPAGE = "http://site.icu-project.org/"
 
 LICENSE = "ICU"
-DEPENDS_append = " icu-native"
-DEPENDS_class-native = ""
+DEPENDS:append = " icu-native"
+DEPENDS:class-native = ""
 
 CVE_PRODUCT = "international_components_for_unicode"
 
@@ -25,17 +25,17 @@ inherit autotools pkgconfig binconfig
 # cross-compiling. Taken the situation that different builds may share a common sstate-cache
 # into consideration, the native build directory needs to be staged.
 EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
-EXTRA_OECONF_class-native = ""
-EXTRA_OECONF_class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+EXTRA_OECONF:class-native = ""
+EXTRA_OECONF:class-nativesdk = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
 
-EXTRA_OECONF_append_class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
-TARGET_CXXFLAGS_append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
+EXTRA_OECONF:append:class-target = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' --with-data-packaging=archive', '', d)}"
+TARGET_CXXFLAGS:append = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'be', ' -DICU_DATA_DIR=\\""${datadir}/${BPN}/${PV}\\""', '', d)}"
 
 ASNEEDED = ""
 
-CXXFLAGS_append = " -std=c++11"
+CXXFLAGS:append = " -std=c++11"
 
-do_compile_prepend_class-target () {
+do_compile:prepend:class-target () {
     # Make sure certain build host references do not end up being compiled
     # in the image. This only affects libicutu and icu-dbg
     sed  \
@@ -45,7 +45,7 @@ do_compile_prepend_class-target () {
 }
 
 PREPROCESS_RELOCATE_DIRS = "${datadir}/${BPN}/${PV}"
-do_install_append_class-native() {
+do_install:append:class-native() {
     mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
     cp -r ${B}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
     cp -r ${B}/config/icucross.inc ${D}/${STAGING_ICU_DIR_NATIVE}/config
@@ -54,7 +54,7 @@ do_install_append_class-native() {
     cp -r ${B}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
 }
 
-do_install_append_class-target() {
+do_install:append:class-target() {
     # The native pkgdata can not generate the correct data file.
     # Use icupkg to re-generate it.
     if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
@@ -73,13 +73,13 @@ do_install_append_class-target() {
 
 PACKAGES =+ "libicudata libicuuc libicui18n libicutu libicuio"
 
-FILES_${PN}-dev += "${libdir}/${BPN}/"
+FILES:${PN}-dev += "${libdir}/${BPN}/"
 
-FILES_libicudata = "${libdir}/libicudata.so.*"
-FILES_libicuuc = "${libdir}/libicuuc.so.*"
-FILES_libicui18n = "${libdir}/libicui18n.so.*"
-FILES_libicutu = "${libdir}/libicutu.so.*"
-FILES_libicuio = "${libdir}/libicuio.so.*"
+FILES:libicudata = "${libdir}/libicudata.so.*"
+FILES:libicuuc = "${libdir}/libicuuc.so.*"
+FILES:libicui18n = "${libdir}/libicui18n.so.*"
+FILES:libicutu = "${libdir}/libicutu.so.*"
+FILES:libicuio = "${libdir}/libicuio.so.*"
 
 BBCLASSEXTEND = "native nativesdk"
 

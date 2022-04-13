@@ -1,2 +1,2 @@
-DEPENDS_remove = "ne10"
+DEPENDS:remove = "ne10"
 

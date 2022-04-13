@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "\
     file://src/libtess/tess.c;endline=29;md5=6b79c570f644363b356456e7d44471d9 \
 "
 
-DEPENDS_append = " virtual/libgl"
+DEPENDS:append = " virtual/libgl"
 
 # Epoch as this used to be part of mesa
 PE = "2"
@@ -28,5 +28,5 @@ inherit autotools pkgconfig features_check
 REQUIRED_DISTRO_FEATURES = "x11 opengl"
 
 # Remove the mesa-glu dependency in mesa-glu-dev, as mesa-glu is empty
-RDEPENDS_${PN}-dev = ""
+RDEPENDS:${PN}-dev = ""
 

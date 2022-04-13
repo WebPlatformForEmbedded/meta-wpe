@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "\
     file://src/LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d \
 "
 
-DEPENDS_append = " \
+DEPENDS:append = " \
     bison-native \
     gstreamer1.0 \
     gstreamer1.0-plugins-bad \
@@ -25,7 +25,7 @@ GCC_MAJOR_VERSION = "${@oe.utils.trim_version("${GCCVERSION}", 1)}"
 GCC_9_PATCHLIST = "file://0001-changes-for-gcc-9.patch"
 
 SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=master"
-SRC_URI_append = " ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)}"
+SRC_URI:append = " ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)}"
 
 SRCREV ??= "e5c4fd2aec74ead45dac6c7f57527b9dd8e94267"
 PR = "r0"
@@ -43,7 +43,7 @@ COBALT_PLATFORM ??= ""
 COBALT_PLATFORM_NAME ??= ""
 COBALT_BUILD_TYPE ??= "gold"
 COBALT_DEPENDENCIES ??= ""
-DEPENDS_append = " ${COBALT_DEPENDENCIES}"
+DEPENDS:append = " ${COBALT_DEPENDENCIES}"
 
 do_configure() {
     export PATH="$PATH:${S}/depot_tools"
@@ -92,10 +92,10 @@ COBALT_PACKAGE = "\
     ${datadir}/content/* \
     ${includedir}/* \
 "
-FILES_${PN} += "${COBALT_PACKAGE}"
-FILES_${PN}-dev += "${COBALT_PACKAGE}"
+FILES:${PN} += "${COBALT_PACKAGE}"
+FILES:${PN}-dev += "${COBALT_PACKAGE}"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${COBALT_DEPENDENCIES} \
     gstreamer1.0 \
     gstreamer1.0-plugins-bad \
@@ -104,9 +104,9 @@ RDEPENDS_${PN} += "\
     wpeframework \
 "
 
-INSANE_SKIP_${PN} = "ldflags"
-INSANE_SKIP_${PN}-dev = "ldflags"
-INSANE_SKIP_${PN} += "dev-deps"
+INSANE_SKIP:${PN} = "ldflags"
+INSANE_SKIP:${PN}-dev = "ldflags"
+INSANE_SKIP:${PN} += "dev-deps"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 INHIBIT_PACKAGE_STRIP = "1"

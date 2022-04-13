@@ -5,13 +5,13 @@ DESCRIPTION = " Wayland Compositor: Westeros is a light-weight Wayland composito
 
 require westeros.inc
 
-DEPENDS_append = " \
+DEPENDS:append = " \
     ${WESTEROS_BACKEND} \
     westeros-simplebuffer \
     westeros-simpleshell \
 "
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-Use-intptr_t-to-avoid-precision-errors-on-aarch64.patch \
     file://0002-Add_VCX_flags_support.patch \
     file://0003-Set-default-resolution-to-1080.patch \
@@ -22,9 +22,9 @@ inherit autotools pkgconfig
 
 PACKAGECONFIG ??= "incapp inctest increndergl incsbprotocol xdgv5"
 
-PACKAGECONFIG_append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains("DISTRO_FEATURES", "x11", " x11", "", d)}"
 # as far as only drm resolution module is available so, enabled only for DRM
-PACKAGECONFIG_append = " ${@bb.utils.contains('WESTEROS_BACKEND', 'westeros-soc-drm', 'modules', '', d)}"
+PACKAGECONFIG:append = " ${@bb.utils.contains('WESTEROS_BACKEND', 'westeros-soc-drm', 'modules', '', d)}"
 
 PACKAGECONFIG[incapp] = "--enable-app=yes"
 PACKAGECONFIG[inctest] = "--enable-test=yes"
@@ -38,10 +38,10 @@ PACKAGECONFIG[modules] = "--enable-modules=yes"
 
 WESTEROS_BACKEND ??= "westeros-soc-drm"
 
-SECURITY_CFLAGS_remove = "-fpie"
-SECURITY_CFLAGS_remove = "-pie"
+SECURITY_CFLAGS:remove = "-fpie"
+SECURITY_CFLAGS:remove = "-pie"
 
-do_compile_prepend() {
+do_compile:prepend() {
    export SCANNER_TOOL=${STAGING_BINDIR_NATIVE}/wayland-scanner
    oe_runmake -C ${S}/protocol
 }
@@ -49,7 +49,7 @@ do_compile_prepend() {
 def is_drm_enabled(d):
     return bb.utils.contains('WESTEROS_BACKEND', 'westeros-soc-drm', '1', '0', d)
 
-do_install_append () {
+do_install:append () {
    install -D -m 0644 ${S}/systemd/westeros-env ${D}${sysconfdir}/default/westeros-env
    install -D -m 0755 ${S}/systemd/westeros-init ${D}${bindir}/westeros-init
    if [ -f ${D}${bindir}/westeros-init -a ${@is_drm_enabled(d)} -eq 1 ]; then
@@ -60,9 +60,9 @@ do_install_append () {
 }
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so"
+FILES:${PN} += "${libdir}/*.so"
 
-RDEPENDS_${PN} = "xkeyboard-config"
+RDEPENDS:${PN} = "xkeyboard-config"
 
-INSANE_SKIP_${PN} += "dev-so"
+INSANE_SKIP:${PN} += "dev-so"
 

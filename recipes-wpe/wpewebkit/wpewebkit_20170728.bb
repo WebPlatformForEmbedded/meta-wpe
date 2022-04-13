@@ -6,7 +6,7 @@ PV = "20170728+git${SRCPV}"
 PR = "r2"
 RECIPE_BRANCH ?= "wpe-20170728"
 SRC_URI = "git://github.com/WebPlatformForEmbedded/WPEWebKit.git;branch=${RECIPE_BRANCH};protocol=https"
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-Fix-build-with-musl.patch \
     file://0002-Define-MESA_EGL_NO_X11_HEADERS-when-not-using-GLX.patch \
 "

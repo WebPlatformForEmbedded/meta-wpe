@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=feac6454ca1bb4ff09e7bc76d34f57ed"
 
 require include/wpeframework-plugins.inc
 
-DEPENDS_append = " broadcom-refsw"
+DEPENDS:append = " broadcom-refsw"
 
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
@@ -16,5 +16,5 @@ SRCREV ?= "fa60a8b37af4da396a8ba108dc4f9f85b6eaf10e"
 WPE_OPENCDMI_WIDEVINE_CENC_VERSION ??= "15"
 PACKAGECONFIG[opencdmi_widevine_cenc_version] = "-DCENC_VERSION=${WPE_OPENCDMI_WIDEVINE_CENC_VERSION}"
 
-FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
+FILES:${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
 

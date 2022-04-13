@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=66fe57b27abb01505f399ce4405cfea0"
 
 require wpeframework-plugins.inc
 
-DEPENDS_append = " playready"
+DEPENDS:append = " playready"
 
 EXTRA_OECMAKE += "-DPERSISTENT_PATH=${WPEFRAMEWORK_PERSISTENT_PATH}"
 
-FILES_${PN} += "\
+FILES:${PN} += "\
     ${datadir}/WPEFramework/OCDM/Playready.drm \
     ${WPEFRAMEWORK_PERSISTENT_PATH}OCDM/playready \
 "
