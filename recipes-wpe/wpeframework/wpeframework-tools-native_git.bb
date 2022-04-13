@@ -8,7 +8,7 @@ DEPENDS:append = " python3-native python3-jsonref-native"
 PV = "3.0+git${SRCPV}"
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/Tools"
 
-inherit cmake pkgconfig native python3native
+inherit cmake pkgconfig python3native native
 
 FILES:${PN} += "${datadir}/*/Modules/*.cmake"
 
