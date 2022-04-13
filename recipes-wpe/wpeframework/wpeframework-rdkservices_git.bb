@@ -8,7 +8,7 @@ PR = "r1"
 PV = "3.0+git${SRCPV}"
 # Note has to be tested once the latest thunder changes synced with rdkcentral/rdkservices repo
 RECIPE_BRANCH ?= "main"
-SRC_URI = "git://git@github.com/rdkcentral/rdkservices.git;protocol=ssh;branch=${RECIPE_BRANCH}"
+SRC_URI = "git://git@github.com/rdkcentral/rdkservices.git;protocol=ssh;branch=${RECIPE_BRANCH};protocol=https"
 SRCREV ?= "8acdb5d4c8e85e5b04c2a519dd4f4eefcc546fe3"
 
 require include/wpeframework-plugins-rdk.inc

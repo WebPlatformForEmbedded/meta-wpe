@@ -11,7 +11,7 @@ DEPENDS:append = " wpeframework"
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"
 RECIPE_BRANCH ?= "main"
-SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
+SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH};protocol=https"
 SRCREV ?= "4e7b5030991e34e59481569f4a1441f1b3759c3b"
 
 #inherit python3native
