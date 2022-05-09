@@ -5,6 +5,7 @@ require wpeframework-plugins.inc
 require deviceidentification.inc
 require deviceinfo.inc
 require locationsync.inc
+require messagecontrol.inc
 require messenger.inc
 require monitor.inc
 require ocdm.inc

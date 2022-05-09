@@ -8,6 +8,6 @@ PR = "r1"
 PV = "3.0+git${SRCPV}"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "707fa53bcf6f1c684ee7b217cce54c47f910a51c"
+SRCREV ?= "65eb1c658391580447c7c93b890cfee772e058bf"
 
 require include/wpeframework-plugins-rdk.inc
