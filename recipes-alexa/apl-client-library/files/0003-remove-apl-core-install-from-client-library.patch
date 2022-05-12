@@ -1,0 +1,12 @@
+diff --git a/APLClient/src/CMakeLists.txt b/APLClient/src/CMakeLists.txt
+index c2c5806..f8e4261 100644
+--- a/APLClient/src/CMakeLists.txt
++++ b/APLClient/src/CMakeLists.txt
+@@ -72,7 +72,5 @@ endif()
+ 
+ if (CMAKE_INSTALL_PREFIX)
+     install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/" DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
+-    install(DIRECTORY "${APLCORE_INCLUDE_DIR}/" DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
+-    install(DIRECTORY "${APLCORE_BUILD_INCLUDE_DIR}/" DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
+     install(TARGETS APLClient DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+ endif()
