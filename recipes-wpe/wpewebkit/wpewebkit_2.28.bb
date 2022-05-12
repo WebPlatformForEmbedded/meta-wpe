@@ -9,7 +9,7 @@ SRC_URI = "\
     file://0001-Fix-for-missing-heap-vm-main.patch \
     file://0001-page-remove-constness-to-Orientation-and-Motion-cont.patch \
 "
-SRCREV ?= "c59af439218a6354b5a79ab0ee2d661f25d55c19"
+SRCREV ?= "b2e6a99cdbd58952a56a45c70490704fb5c7cd45"
 
 RCONFLICTS_${PN} = "libwpe (< 1.4) wpebackend-fdo (< 1.4)"
 

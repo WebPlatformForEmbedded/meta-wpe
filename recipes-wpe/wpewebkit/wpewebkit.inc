@@ -172,6 +172,7 @@ RDEPS_VIDEO ?= " \
     gstreamer1.0-plugins-base-app \
     gstreamer1.0-plugins-base-playback \
     gstreamer1.0-plugins-base-audioconvert \
+    gstreamer1.0-plugins-base-audiomixer \
     gstreamer1.0-plugins-base-audioresample \
     gstreamer1.0-plugins-base-gio \
     gstreamer1.0-plugins-base-opus \
