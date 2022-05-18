@@ -1,9 +1,4 @@
-#
-#   Copyright (c) 2019 Amazon.com, Inc.
-#   Copyright (c) 2019 Luxoft Sweden AB
-#
-#   SPDX-License-Identifier: Apache-2.0
-#
+#  Copyright (C) 2022 Metrological
 
 SUMMARY = "An SDK for commercial device makers to integrate Alexa directly into connected products."
 HOMEPAGE = "https://developer.amazon.com/en-IN/docs/alexa/avs-device-sdk"
@@ -11,14 +6,12 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d92e60ee98664c54f68aa515a6169708"
 
 FILESEXTRAPATHS_prepend:= "${THISDIR}/files:"
-DEPENDS = "curl nghttp2 sqlite3 openssl rapidjson"
+DEPENDS_append = " curl nghttp2 sqlite3 openssl rapidjson"
 
-SRC_URI = "git://github.com/alexa/avs-device-sdk.git;protocol=https;nobranch=1"
+RECIPE_BRANCH ?= "master"
+SRC_URI = "git://github.com/alexa/avs-device-sdk.git;protocol=https;branch=${RECIPE_BRANCH}"
 SRCREV ?= "v${PV}"
 S = "${WORKDIR}/git"
-
-# Skip checksum verification
-BB_STRICT_CHECKSUM = "0"
 
 # Default extra variables
 AAC_SENSITIVE_LOGS ??= "OFF"
@@ -37,32 +30,18 @@ PACKAGECONFIG[gstreamer] = "\
 "
 
 # Portaudio for microphone input
-PORTAUDIO_CMAKE_OPTIONS = "\
+PACKAGECONFIG[portaudio] = "\
     -DPORTAUDIO=ON \
     -DPORTAUDIO_LIB_PATH=${STAGING_DIR_HOST}${libdir}/libportaudio.so \
     -DPORTAUDIO_INCLUDE_DIR=${STAGING_DIR_HOST}${includedir} \
+    ,portaudio-v19,portaudio-v19 \
 "
-PACKAGECONFIG[portaudio] = "${PORTAUDIO_CMAKE_OPTIONS},,portaudio-v19,portaudio-v19"
-
-# WakeWord: Amazon
-KWD_CMAKE_OPTIONS = "\
-    -DAMAZON_KEY_WORD_DETECTOR=ON \
-    -DAMAZON_KEY_WORD_DETECTOR_LIB_PATH="${STAGING_DIR_HOST}${libdir}/libpryon_lite.so" \
-    -DAMAZON_KEY_WORD_DETECTOR_INCLUDE_DIR="${STAGING_DIR_HOST}${includedir}" \
-    -DTARGET_KWD_LIB=pryon_lite \
-"
-PACKAGECONFIG[kwd] = "${KWD_CMAKE_OPTIONS},,alexa-pryon-kwd,"
-
-# WakeWord: Sensory
-SENSORY_CMAKE_OPTIONS = "\
-    -DSENSORY_KEY_WORD_DETECTOR=ON \
-    -DSENSORY_KEY_WORD_DETECTOR_LIB_PATH="${STAGING_DIR_HOST}${libdir}/libsnsr.a" \
-    -DSENSORY_KEY_WORD_DETECTOR_INCLUDE_DIR="${STAGING_DIR_HOST}${includedir}" \
-"
-PACKAGECONFIG[sensory] = "${SENSORY_CMAKE_OPTIONS},,truly-handsfree"
 
 # Opus encoding (v1.11 or later)
 PACKAGECONFIG[opus] = "-DOPUS=ON,,libopus"
+
+
+PACKAGECONFIG ??= " gstreamer portaudio"
 
 EXTRA_OECMAKE += "\
    -DCMAKE_SKIP_RPATH=TRUE \
@@ -72,9 +51,8 @@ EXTRA_OECMAKE += "\
    -DUSE_DEFAULT_RAPIDJSON=OFF \
 "
 
-FILES:${PN} = "${libdir} ${libdir}/*.so"
-FILES:${PN}-dev = "${includedir}"
+FILES_${PN}  = "${libdir}"
+FILES_${PN}-dev = "${includedir}"
 
-TARGET_CXXFLAGS+= "-Wno-deprecated-copy"
-ASNEEDED = ""
+CXXFLAGS_append = " -Wno-deprecated-copy"
 

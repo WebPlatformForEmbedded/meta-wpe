@@ -1,3 +1,5 @@
+#  Copyright (C) 2022 Metrological
+
 SUMMARY = "APL Client Library"
 DESCRIPTION = "Recipe to build APL Client Library"
 LICENSE = "Apache-2.0"
@@ -7,15 +9,16 @@ FILESEXTRAPATHS_prepend:= "${THISDIR}/files:"
 
 OECMAKE_GENERATOR = "Unix Makefiles"
 
-SRC_URI = "git://github.com/alexa/apl-client-library.git;protocol=https;nobranch=1"
+RECIPE_BRANCH ?= "main"
+SRC_URI = "git://github.com/alexa/apl-client-library.git;protocol=https;branch=${RECIPE_BRANCH}"
 SRCREV ?= "v${PV}"
 S = "${WORKDIR}/git"
 
 inherit pkgconfig cmake
 
-DEPENDS = "alsa-utils apl-core-library asio websocketpp"
+DEPENDS_append = " alsa-lib apl-core-library asio websocketpp"
 
-EXTRA_OECMAKE = " \
+EXTRA_OECMAKE += "\
     -DSANDBOX=ON \
     -DAPL_CORE=ON \
     -DAPLCORE_INCLUDE_DIR="${STAGING_DIR_HOST}${includedir}/apl" \
@@ -30,8 +33,6 @@ EXTRA_OECMAKE = " \
     -DUSE_SYSTEM_RAPIDJSON=ON \
 "
 
-FILES_${PN} = "${libdir} ${libdir}*.so ${datadir}"
-FILES_${PN}-dev = "${libdir} ${includedir}"
+FILES_${PN} = "${libdir} ${datadir}"
+INSANE_SKIP_${PN}-dev += "ldflags dev-elf"
 
-INSANE_SKIP_${PN} = "ldflags"
-INSANE_SKIP_${PN}-dev = "ldflags dev-elf"

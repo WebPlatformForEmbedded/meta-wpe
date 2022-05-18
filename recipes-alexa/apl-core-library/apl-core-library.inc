@@ -1,3 +1,5 @@
+#  Copyright (C) 2022 Metrological
+
 SUMMARY = "APL Core Library"
 DESCRIPTION = "Recipe to build APL Core"
 LICENSE = "Apache-2.0"
@@ -7,7 +9,8 @@ FILESEXTRAPATHS_prepend:= "${THISDIR}/files:"
 
 OECMAKE_GENERATOR = "Unix Makefiles"
 
-SRC_URI = "git://github.com/alexa/apl-core-library.git;protocol=https;nobranch=1"
+RECIPE_BRANCH ?= "master"
+SRC_URI = "git://github.com/alexa/apl-core-library.git;protocol=https;branch=${RECIPE_BRANCH}"
 SRCREV ?= "v${PV}"
 S = "${WORKDIR}/git"
 
@@ -16,9 +19,9 @@ LDFLAGS += "-pthread"
 
 inherit pkgconfig cmake
 
-DEPENDS =  "rapidjson"
+DEPENDS_append = " rapidjson"
 
-EXTRA_OECMAKE = " \
+EXTRA_OECMAKE += "\
      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
      -DENABLE_PIC=ON \
      -DUSE_SYSTEM_RAPIDJSON=ON \

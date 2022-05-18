@@ -1,3 +1,5 @@
+# Note: This nodejs recipe is taken from the repository:
+# https://github.com/ainguraXmarquiegui/yocto_nodejs/tree/master/recipes-devtools/nodejs."
 DESCRIPTION = "nodeJS Evented I/O for V8 JavaScript"
 HOMEPAGE = "http://nodejs.org"
 LICENSE = "MIT & BSD & Artistic-2.0"
