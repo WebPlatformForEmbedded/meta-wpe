@@ -1,0 +1,13 @@
+diff --git a/modules/GUI/CMakeLists.txt b/modules/GUI/CMakeLists.txt
+index feadbf3..03ddfc7 100644
+--- a/modules/GUI/CMakeLists.txt
++++ b/modules/GUI/CMakeLists.txt
+@@ -23,7 +23,7 @@ endif()
+ 
+ set(JS_GUICLIENT_INSTALL_PATH "" CACHE STRING "The install path")
+ add_custom_target(GUIClient ALL
+-        COMMAND "npm" "install"
++        COMMAND "npm" "install" "--prefix" "${CMAKE_CURRENT_SOURCE_DIR}/js"
+         COMMAND "npm" "install" "${APL_CLIENT_JS_PATH}"
+         COMMAND "npm" "install" "${RTCSC_JS_PATH_VALUE}"
+         COMMAND "npm" "run" "build" "--"
