@@ -1,5 +1,3 @@
-#  Copyright (C) 2022 Metrological
-
 SUMMARY = "APL Core Library"
 DESCRIPTION = "Recipe to build APL Core"
 LICENSE = "Apache-2.0"

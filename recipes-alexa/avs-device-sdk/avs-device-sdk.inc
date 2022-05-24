@@ -1,5 +1,3 @@
-#  Copyright (C) 2022 Metrological
-
 SUMMARY = "An SDK for commercial device makers to integrate Alexa directly into connected products."
 HOMEPAGE = "https://developer.amazon.com/en-IN/docs/alexa/avs-device-sdk"
 LICENSE = "Apache-2.0"

@@ -1,5 +1,3 @@
-#  Copyright (C) 2022 Metrological
-
 SUMMARY = "The Alexa Smart Screen SDK extends the AVS Device SDK to support development for screen-based Alexa Built-in products. This SDK enables device makers to build screen-based products that complement Alexa voice responses with rich visual experiences."
 HOMEPAGE = "https://developer.amazon.com/en-IN/alexa/devices/alexa-built-in/development-resources/smart-screen-sdk"
 LICENSE = "Apache-2.0"

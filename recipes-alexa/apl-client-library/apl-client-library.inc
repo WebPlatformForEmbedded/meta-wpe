@@ -1,5 +1,3 @@
-#  Copyright (C) 2022 Metrological
-
 SUMMARY = "APL Client Library"
 DESCRIPTION = "Recipe to build APL Client Library"
 LICENSE = "Apache-2.0"
