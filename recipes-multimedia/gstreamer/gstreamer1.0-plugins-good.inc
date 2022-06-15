@@ -10,8 +10,9 @@ PACKAGECONFIG ??= " \
     ${GSTREAMER_ORC} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-    cairo flac gdk-pixbuf gudev jpeg id3demux icydemux libpng matroska soup speex taglib udp v4l2 \
+    cairo flac gdk-pixbuf gudev jpeg id3demux icydemux libpng matroska soup speex taglib udp \
 "
+PACKAGECONFIG_append = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', 'v4l2', '', d)}"
 
 X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
 

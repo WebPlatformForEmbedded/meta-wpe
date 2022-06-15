@@ -10,7 +10,7 @@ SRC_URI = "\
     file://0001-WPEWebkit-compile-fix.patch \
     file://0001-Fix-for-missing-heap-vm-main.patch \
 "
-SRCREV ?= "57bbecb9421d206f40a3beb45b9d800288a39b1d"
+SRCREV ?= "c2bbe41520037aa883e6cab9fc40524f6e2e4cd0"
 
 PACKAGECONFIG_append = " webcrypto"
 
