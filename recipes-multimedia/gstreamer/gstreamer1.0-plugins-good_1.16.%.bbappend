@@ -13,11 +13,11 @@ SRC_URI_append = " \
     file://0010-qtdemux-No-need-for-new-application-x-cbcs-caps.patch \
 "
 APPLY_WPE_2.28_BUILD ??= "false"
-WPE_2.28_PATCHES = " \
+WPEWEBKIT_2.28_PATCHES = " \
     file://0001-Revert-Manual-revert-of-bfd0e022-qtdemux-rework-segm.patch \
     file://0002-Revert-0007-qtdemux-dont-check-pushbased-edts.patch.patch \
 "
-SRC_URI_append = " ${@bb.utils.contains("APPLY_WPE_2.28_PATCHES", "true", "${WPE_2.28_PATCHES}", "", d)}"
+SRC_URI_append = " ${@bb.utils.contains("PREFERRED_VERSION_wpewebkit", "2.28%", "${WPEWEBKIT_2.28_PATCHES}", "", d)}"
 PACKAGECONFIG[matroska] = "-Dmatroska=enabled,-Dmatroska=disabled,"
 
 PACKAGECONFIG_remove = "gtk"

@@ -1,3 +1,6 @@
+# Note: This glib2 recipe is taken from poky master branch (git://git.yoctoproject.org/poky), since dunfell or morty has older version than required.
+# This recipe has to be removed once the poky branches updated with required versions.
+
 SUMMARY = "GLib networking extensions"
 DESCRIPTION = "glib-networking contains the implementations of certain GLib networking features that cannot be implemented directly in GLib itself because of their dependencies."
 HOMEPAGE = "https://gitlab.gnome.org/GNOME/glib-networking/"
