@@ -5,7 +5,7 @@ require include/wpeframework.inc
 require include/wpeframework-common.inc
 require include/wpeframework-deprecated.inc
 
-DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
+DEPENDS_append = " zlib virtual/egl wpeframework-tools-native icu udev"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PROVIDES += "thunder"
