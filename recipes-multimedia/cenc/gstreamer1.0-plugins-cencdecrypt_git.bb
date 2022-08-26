@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b5b0a376d65d47d649918a3b70e90857"
 DEPENDS = " \
     gstreamer1.0 \
     gstreamer1.0-plugins-base \
+    wpeframework-tools-native \
     wpeframework \
     wpeframework-clientlibraries \
     curl \

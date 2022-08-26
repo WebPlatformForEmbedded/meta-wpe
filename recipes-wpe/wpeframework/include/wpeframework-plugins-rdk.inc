@@ -4,12 +4,14 @@ require wpeframework-plugins.inc
 # Plugins configs are moved to seperate includes
 require deviceidentification.inc
 require deviceinfo.inc
+require displayinfo.inc
 require locationsync.inc
 require messagecontrol.inc
 require messenger.inc
 require monitor.inc
 require ocdm.inc
 require packager.inc
+require playerinfo.inc
 require securityagent.inc
 require tracecontrol.inc
 require warningreportingcontrol.inc
