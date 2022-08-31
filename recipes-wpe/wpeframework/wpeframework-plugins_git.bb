@@ -39,6 +39,7 @@ require include/processmonitor.inc
 require include/remotecontrol.inc
 require include/resourcemonitor.inc
 require include/snapshot.inc
+require include/spark.inc
 require include/streamer.inc
 require include/svalbard.inc
 require include/switchboard.inc
