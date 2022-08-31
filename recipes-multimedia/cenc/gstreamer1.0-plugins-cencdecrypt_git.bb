@@ -17,7 +17,7 @@ DEPENDS = " \
 PV = "0.1.gitr${SRCPV}"
 
 SRC_URI = "git://github.com/WebPlatformForEmbedded/gstcencdecryptor.git;protocol=https;branch=master"
-SRCREV = "dad6b3e32783f8c127eddf824813d8e9725f579f"
+SRCREV = "0b11ffa67bdd8fdf9234a996a309860ec7744329"
 
 S = "${WORKDIR}/git"
 
