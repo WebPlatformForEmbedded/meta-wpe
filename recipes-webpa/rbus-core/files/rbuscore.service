@@ -1,0 +1,13 @@
+[Unit]
+Description=RBus Core Service
+After=rbus.service
+Before=wpeframework.service
+
+[Service]
+ExecStart=/etc/init.d/rbuscore start
+ExecStop=/etc/init.d/rbuscore stop
+ExecReload=/etc/init.d/rbuscore reload
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

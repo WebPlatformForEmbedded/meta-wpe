@@ -1,0 +1,13 @@
+[Unit]
+Description=CCSP CR Service
+Before=wpeframework.service
+After=rbuscore.service
+
+[Service]
+ExecStart=/etc/init.d/ccspcr start
+ExecStop=/etc/init.d/ccspcr stop
+ExecReload=/etc/init.d/ccspcr reload
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

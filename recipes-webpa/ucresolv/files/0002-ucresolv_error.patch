@@ -1,0 +1,20 @@
+diff --git a/src/res_send.c b/src/res_send.c
+index 8fa6caa..fa34a73 100644
+--- a/src/res_send.c
++++ b/src/res_send.c
+@@ -953,7 +953,7 @@ reopen (res_state statp, int *terrno, int ns)
+ 	ucresolv_debug("UCLIBC reopen\n");
+ 	if (EXT(statp).nssocks[ns] == -1) {
+ 		struct sockaddr *nsap = get_nsaddr (statp, ns);
+-		socklen_t slen;
++		socklen_t slen=0;
+ 
+ 		/* only try IPv6 if IPv6 NS and if not failed before */
+ 		if (nsap->sa_family == AF_INET6 && !statp->ipv6_unavail) {
+diff --git a/include/bits/string2.h b/include/bits/string2.h
+index e4c4c70..e998cdc 100644
+--- a/include/bits/string2.h
++++ b/include/bits/string2.h
+@@ -1 +1 @@
+-#include <string/bits/string2.h>
++//#include <string/bits/string2.h>

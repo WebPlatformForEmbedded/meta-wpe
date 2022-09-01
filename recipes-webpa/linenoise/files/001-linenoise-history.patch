@@ -1,0 +1,42 @@
+From 97d2850af13c339369093b78abe5265845d78220 Thu Mar 12 15:51:45 2020 +0100
+From: Thomas Lea <thomas_lea@comcast.com>
+Date: Mon, 21 Sep 2020 08:56:02 -0500
+Subject: [PATCH] Added history print
+Source: COMCAST
+License: BSD-2-Clause
+Upstream-Status: Pending
+Signed-off-by: Thomas Lea <thomas_lea@comcast.com>
+---
+Index: git/linenoise.c
+===================================================================
+--- git.orig/linenoise.c
++++ git/linenoise.c
+@@ -1152,6 +1152,16 @@ int linenoiseHistoryAdd(const char *line
+     return 1;
+ }
+ 
++int linenoiseHistoryPrint(void)
++{
++    int i = 0;
++    for (i = 0; i < history_len; i++)
++    {
++        printf("%s\n", history[i]);
++    }
++    return 0;
++}
++
+ /* Set the maximum length for the history. This function can be called even
+  * if there is already some history, the function will make sure to retain
+  * just the latest 'len' elements if the new history length value is smaller
+Index: git/linenoise.h
+===================================================================
+--- git.orig/linenoise.h
++++ git/linenoise.h
+@@ -62,6 +62,7 @@ int linenoiseHistoryAdd(const char *line
+ int linenoiseHistorySetMaxLen(int len);
+ int linenoiseHistorySave(const char *filename);
+ int linenoiseHistoryLoad(const char *filename);
++int linenoiseHistoryPrint(void);
+ void linenoiseClearScreen(void);
+ void linenoiseSetMultiLine(int ml);
+ void linenoisePrintKeyCodes(void);

@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=/usr
+libdir=/lib
+includedir=/usr/include
+
+Name: nopoll
+Description: nopoll package config
+Version: 0.2.7
+Requires:
+Libs: -L${libdir} -lnopoll
+Cflags: -I${includedir}
