@@ -4,17 +4,17 @@ HOMEPAGE = "https://github.com/rdkcentral/ThunderClientLibraries"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=847677038847363222ffb66cfa6406c2"
 
-DEPENDS_append = " wpeframework-tools-native wpeframework-interfaces"
+DEPENDS_append = " wpeframework-interfaces"
 
 require include/wpeframework-common.inc
 require include/compositor.inc
 
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
-RECIPE_BRANCH ?= "master"
+RECIPE_BRANCH ?= "R4"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "4703e48744f00fdc84f7234a01ec5691b9160670"
+SRCREV ?= "3e849be41c8fd1a0db282d01259ecd222b993a60"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"
