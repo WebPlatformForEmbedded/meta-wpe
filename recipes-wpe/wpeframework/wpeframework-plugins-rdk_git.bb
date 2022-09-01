@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=39fb5e7bc6aded7b6d2a5f5aa553425f"
 
 PR = "r1"
 PV = "3.0+git${SRCPV}"
-RECIPE_BRANCH ?= "master"
+RECIPE_BRANCH ?= "R3"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderNanoServicesRDK.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "65eb1c658391580447c7c93b890cfee772e058bf"
+SRCREV ?= "c7720a2d81af2597f1e09bf3f35ec959728ac314"
 require include/wpeframework-plugins-rdk.inc
 
 ASNEEDED = ""

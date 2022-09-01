@@ -6,14 +6,14 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=2f6c18f99faffa0e5d4ff478705c53f8"
 
 require include/wpeframework-common.inc
-DEPENDS_append = " wpeframework-tools-native wpeframework"
+DEPENDS_append = " wpeframework"
 
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
-RECIPE_BRANCH ?= "master"
+RECIPE_BRANCH ?= "R3"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "ca6f90c62ebfd6dafba7a018eb1e0bd06d418262"
+SRCREV ?= "877d3c77712ab69d5c4375a7166dc75808a9ebb2"
 
 inherit python3native
 
