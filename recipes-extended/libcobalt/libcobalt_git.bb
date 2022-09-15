@@ -24,10 +24,10 @@ DEPENDS_append = " \
 GCC_MAJOR_VERSION = "${@oe.utils.trim_version("${GCCVERSION}", 1)}"
 GCC_9_PATCHLIST = "file://0001-changes-for-gcc-9.patch"
 
-SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=master"
+SRC_URI = "git://git@github.com/Metrological/Cobalt.git;protocol=https;branch=cobalt-22"
 SRC_URI_append = " ${@bb.utils.contains('GCC_MAJOR_VERSION', '9', '${GCC_9_PATCHLIST}', '', d)}"
 
-SRCREV ??= "e5c4fd2aec74ead45dac6c7f57527b9dd8e94267"
+SRCREV ??= "269877114cb1826013b8ee6c28e71a78b3cdbf1e"
 PR = "r0"
 S = "${WORKDIR}/git"
 
@@ -45,6 +45,14 @@ COBALT_BUILD_TYPE ??= "gold"
 COBALT_DEPENDENCIES ??= ""
 DEPENDS_append = " ${COBALT_DEPENDENCIES}"
 
+def get_cobalt_data_path(d):
+    cobalt_data = d.getVar('WPEFRAMEWORK_DATA_PATH')
+    if not cobalt_data:
+        return "${datadir}/content"
+    else:
+        return "${WPEFRAMEWORK_DATA_PATH}/Cobalt"
+COBALT_DATA = "${@get_cobalt_data_path(d)}"
+
 do_configure() {
     export PATH="$PATH:${S}/depot_tools"
     export COBALT_EXECUTABLE_TYPE="shared_library"
@@ -54,6 +62,7 @@ do_configure() {
 
     export COBALT_STAGING_DIR="${STAGING_DIR_HOST}/"
     export COBALT_TOOLCHAIN_PREFIX="${STAGING_DIR_NATIVE}${bindir}/${TARGET_SYS}/${TARGET_PREFIX}"
+    export COBALT_DATA_PATH="${COBALT_DATA}/data"
 
     export COBALT_INSTALL_DIR="${D}"
     "${S}/src/cobalt/build/gyp_cobalt" -C "${COBALT_BUILD_TYPE}" "${COBALT_PLATFORM_NAME}"
@@ -73,8 +82,8 @@ do_install() {
     install -d "${D}${libdir}"
     install -m 0755 "${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/lib/libcobalt.so" "${D}${libdir}"
 
-    install -d "${D}${datadir}/content"
-    cp -arv --no-preserve=ownership "${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/content" "${D}${datadir}/"
+    install -d "${D}${COBALT_DATA}"
+    cp -arv --no-preserve=ownership "${S}/src/out/${COBALT_PLATFORM_NAME}_${COBALT_BUILD_TYPE}/content/data" "${D}${COBALT_DATA}"
 
     install -d "${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}"
     cp -prf "${S}/src/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/"*.h "${D}/${includedir}/third_party/starboard/wpe/${COBALT_PLATFORM}/${COBALT_ARCH}/"
@@ -89,7 +98,7 @@ SSTATE_DUPWHITELIST = "/"
 
 COBALT_PACKAGE = "\
     ${libdir}/libcobalt.so \
-    ${datadir}/content/* \
+    ${COBALT_DATA}/* \
     ${includedir}/* \
 "
 FILES_${PN} += "${COBALT_PACKAGE}"

@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=85bcfede74b96d9a58c6ea5d4b607e58"
 
 require include/wpeframework-common.inc
 
-DEPENDS_append = " wpeframework"
+DEPENDS_append = " wpeframework-tools-native wpeframework"
 
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"

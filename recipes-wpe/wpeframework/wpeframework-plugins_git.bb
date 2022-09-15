@@ -15,7 +15,7 @@ SRC_URI = "\
     file://osmc-devinput-remote.json \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
-SRCREV ?= "7c1947cfb769d0fac2efc0fb07b152171c901ac1"
+SRCREV ?= "1dabd4d526827b6be56b4e94d07341a9087e8a5a"
 
 # More complicated plugins are moved seperate includes
 
@@ -64,6 +64,7 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
     cobalt dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
+    webpa webpa_generic webpa_generic_deviceinfo webpa_ccsp\
 "
 
 EXTRA_OECMAKE += "\
