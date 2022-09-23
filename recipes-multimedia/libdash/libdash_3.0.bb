@@ -22,6 +22,10 @@ SRC_URI = "\
     file://0002-libdash-starttime-uint64.patch \
     file://0003-libdash-presentationTimeOffset-uint64.patch \
     file://0004-Support-of-EventStream.patch \
+    file://0005-DELIA-39460-libdash-memleak.patch \
+    file://0006-RDK-32003-LLD-Support.patch \
+    file://0007-DELIA-51645-Event-Stream-RawAttributes-Support.patch \
+    file://0008-DELIA-53263-Use-Label-TAG.patch \
 "
 
 SRCREV = "f5b5d991af5fe5f285e8040c997b755d3d456b0d"
