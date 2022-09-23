@@ -8,8 +8,9 @@ DEPENDS_append = " cjson"
 
 PV = "0.1.gitr${SRCPV}"
 
-SRC_URI = "git://github.com/rdkcmf/rdk-aampmetrics.git;branch=stable2;protocol=https"
-SRCREV = "c6b9de63f2a8755db59ee300c02c6c89e392dad5"
+RECIPE_BRANCH ?= "stable2"
+SRC_URI = "git://github.com/rdkcmf/rdk-aampmetrics.git;branch=${RECIPE_BRANCH};protocol=https"
+SRCREV ?= "c6b9de63f2a8755db59ee300c02c6c89e392dad5"
 
 S = "${WORKDIR}/git"
 

@@ -7,8 +7,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=175792518e4ac015ab6696d16c4f607e"
 
 PV = "0.1.gitr${SRCPV}"
 
-SRC_URI = "git://github.com/rdkcmf/rdk-aampabr.git;branch=stable2;protocol=https"
-SRCREV = "94628fea94ea26527c53a03c6245623017c6cfe9"
+RECIPE_BRANCH ?= "stable2"
+SRC_URI = "git://github.com/rdkcmf/rdk-aampabr.git;branch=${RECIPE_BRANCH};protocol=https"
+SRCREV ?= "94628fea94ea26527c53a03c6245623017c6cfe9"
 
 S = "${WORKDIR}/git"
 

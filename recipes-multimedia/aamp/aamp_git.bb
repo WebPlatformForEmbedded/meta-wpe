@@ -12,12 +12,13 @@ DEPENDS_append = " \
 
 PV = "0.1.gitr${SRCPV}"
 
+RECIPE_BRANCH ?= "stable2"
 SRC_URI = "\
-    git://github.com/rdkcmf/rdk-aamp.git;protocol=https;branch=stable2 \
+    git://github.com/rdkcmf/rdk-aamp.git;protocol=https;branch=${RECIPE_BRANCH} \
     file://0001-rdk-aamp-disable-getsourceid-chech-temporarily-to-sendsyncevent.patch \
     file://0002-rdk-amp-align-ocdm-drm-adapter-interface.patch \
 "
-SRCREV = "a72fea4afc3bb8e81fab9f3e6e3604e3ab6f7930"
+SRCREV ?= "a72fea4afc3bb8e81fab9f3e6e3604e3ab6f7930"
 
 S = "${WORKDIR}/git"
 

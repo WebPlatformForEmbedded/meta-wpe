@@ -8,11 +8,12 @@ DEPENDS_append = " aamp gstreamer1.0 gstreamer1.0-plugins-base wpeframework-clie
 
 PV = "0.1.gitr${SRCPV}"
 
+RECIPE_BRANCH ?= "stable2"
 SRC_URI = "\
-   git://github.com/rdkcmf/rdk-gst-plugins-rdk-aamp.git;protocol=https;branch=stable2 \
+   git://github.com/rdkcmf/rdk-gst-plugins-rdk-aamp.git;protocol=https;branch=${RECIPE_BRANCH} \
    file://0001_aamp_gst_ocdm_adapter.patch \
 "
-SRCREV = "8a0d9ef607ea254aff4b897137fd1f743db74c29"
+SRCREV ?= "8a0d9ef607ea254aff4b897137fd1f743db74c29"
 
 S = "${WORKDIR}/git"
 
