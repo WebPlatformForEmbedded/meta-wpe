@@ -5,7 +5,7 @@ require include/wpeframework.inc
 require include/wpeframework-common.inc
 require include/wpeframework-deprecated.inc
 
-DEPENDS_append = " zlib virtual/egl wpeframework-tools-native"
+DEPENDS_append = " zlib virtual/egl"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PROVIDES += "thunder"
@@ -20,6 +20,7 @@ WPEFRAMEWORK_ETHERNETCARD_NAME ??= "eth0"
 WPEFRAMEWORK_SOFT_KILL_CHECK_WAIT_TIME ??= "10"
 WPEFRAMEWORK_HARD_KILL_CHECK_WAIT_TIME ??= "4"
 
+WPEFRAMEWORK_TRACING_LEVEL ??= "0"
 WPEFRAMEWORK_INITSCRIPT_SYSTEMD_EXTRA_DEPENDS ??= ""
 WPEFRAMEWORK_INITSCRIPT_SYSTEM_ROOT_PATH ??= "home/root"
 WPEFRAMEWORK_INITSCRIPT_SYSTEMD_SERVICE ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}"
@@ -70,6 +71,13 @@ PACKAGECONFIG[disabletracing] = "-DDISABLE_TRACING=ON,-DDISABLE_TRACING=OFF,"
 PACKAGECONFIG[exceptionhandling] = "-DEXCEPTIONS_ENABLE=ON,-DEXCEPTIONS_ENABLE=OFF,"
 PACKAGECONFIG[exceptioncatching] = "-DEXCEPTION_CATCHING=ON,-DEXCEPTION_CATCHING=OFF,"
 PACKAGECONFIG[warningreporting] = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OFF,"
+
+PACKAGECONFIG[messaging] = " \
+    -DTRACING=OFF \
+    -DMESSAGING=ON \
+    , -DTRACING=ON -DENABLED_TRACING_LEVEL=${WPEFRAMEWORK_TRACING_LEVEL} \
+    -DMESSAGING=OFF, \
+"
 PACKAGECONFIG[initscriptsupport] = " \
     -DENABLE_INITSCRIPT_SUPPORT=ON \
     -DSYSTEMD_SERVICE="${WPEFRAMEWORK_INITSCRIPT_SYSTEMD_SERVICE}" \

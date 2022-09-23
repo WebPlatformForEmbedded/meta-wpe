@@ -12,9 +12,8 @@ PV = "3.0+gitr${SRCPV}"
 PR = "r1"
 RECIPE_BRANCH ?= "main"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "02021c90130953a2638aad69b1d851cf5050bee8"
+SRCREV ?= "4408be5a034d4903baa9d20dd926a516566609b2"
 
-#inherit python3native
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \

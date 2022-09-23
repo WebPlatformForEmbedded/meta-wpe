@@ -15,7 +15,7 @@ SRC_URI = "\
     file://osmc-devinput-remote.json \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
-SRCREV ?= "ac99272ac39f28c339ebfef3d501a54daefa2095"
+SRCREV ?= "7c1947cfb769d0fac2efc0fb07b152171c901ac1"
 
 # More complicated plugins are moved seperate includes
 
@@ -26,7 +26,6 @@ require include/compositor.inc
 require include/dhcpserver.inc
 require include/dictionary.inc
 require include/dialserver.inc
-require include/displayinfo.inc
 require include/filetransfer.inc
 require include/firmwarecontrol.inc
 require include/inputswitch.inc
@@ -34,7 +33,6 @@ require include/ioconnector.inc
 require include/languageadministrator.inc
 require include/network.inc
 require include/performancemonitor.inc
-require include/playerinfo.inc
 require include/power.inc
 require include/processcontainers.inc
 require include/processmonitor.inc
