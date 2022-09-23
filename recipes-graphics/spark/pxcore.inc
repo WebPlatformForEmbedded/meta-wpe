@@ -8,8 +8,9 @@ DEPENDS_append = " openssl"
 
 PV = "1.7.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/pxscene/pxCore;protocol=git;branch=master"
-SRCREV = "51333037650ecee44191492b541106efa573cc35"
+RECIPE_BRANCH ?= "master"
+SRC_URI = "git://github.com/pxscene/pxCore;protocol=git;branch=${RECIPE_BRANCH}"
+SRCREV ?= "51333037650ecee44191492b541106efa573cc35"
 
 S = "${WORKDIR}/git"
 

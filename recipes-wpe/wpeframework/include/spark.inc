@@ -1,7 +1,4 @@
-# Provides configuration for the Cobalt Plugin
-#WPE_SPARK_PLATFORM ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', ' -DPLATFORM_WAYLAND_EGL=ON', '', d)}"
-#WPE_SPARK_PLATFORM_remove = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DPLATFORM_WAYLAND_EGL=ON', '', d)}"
-#WPE_SPARK_PLATFORM_append = "${@bb.utils.contains('DISTRO_FEATURES', 'compositor', ' -DPLATFORM_WPEFRAMEWORK=ON', '', d)}"
+# Provides configuration for the Spark Plugin
 
 def platformselector(d):
     wayland = bb.utils.contains('DISTRO_FEATURES', 'wayland', True, False, d)

@@ -1,6 +1,5 @@
 include pxcore.inc
 
-#DEPENDS += " python-native"
 DEPENDS += " qemu-native "
 
 COMPATIBLE_MACHINE_armv4 = "(!.*armv4).*"
@@ -134,4 +133,4 @@ FILES_${PN}-dbg += "${libdir}/.debug/*.so"
 
 INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-tools = "file-rdeps"
-#INSANE_SKIP_${PN}-dev = "file-rdeps"
+
