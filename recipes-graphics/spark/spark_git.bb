@@ -1,7 +1,7 @@
 include pxcore.inc
 
 DEPENDS_append = " \
-    curl freetype util-linux libpng pxcore-libnode giflib sqlite3 \
+    curl freetype util-linux libpng pxcore-libnode giflib sqlite3 libjpeg-turbo \
     wpeframework-tools-native wpeframework wpeframework-clientlibraries \
 "
 
@@ -20,14 +20,14 @@ inherit cmake pkgconfig
 
 PACKAGECONFIG ?= " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland westeros', 'wpeframework', d)} \
-    turbojpeg \
+    disableturbojpeg \
 "
 
 PACKAGECONFIG[rtremote] = "-DBUILD_RTCORE_LIBS=ON -DBUILD_RTCORE_STATIC_LIB=OFF,,,rtcore rtremote"
 PACKAGECONFIG[wayland] = "-DBUILD_WITH_WAYLAND=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,wayland"
 PACKAGECONFIG[westeros] = "-DBUILD_WITH_WESTEROS=ON -DPXCORE_WAYLAND_EGL=ON -DBUILD_PXSCENE_WAYLAND_EGL=ON,,westeros"
 PACKAGECONFIG[wpeframework] = "-DBUILD_WITH_WPEFRAMEWORK=ON -DPXCORE_WPEFRAMEWORK=ON,,wpeframework"
-PACKAGECONFIG[turbojpeg] = "-DDISABLE_TURBO_JPEG=ON,,libjpeg-turbo"
+PACKAGECONFIG[disableturbojpeg] = "-DDISABLE_TURBO_JPEG=ON,,"
 PACKAGECONFIG[pxwaylandsharedlib] = "-DBUILD_PXWAYLAND_SHARED_LIB=ON,-DBUILD_PXWAYLAND_SHARED_LIB=OFF,"
 PACKAGECONFIG[pxwaylandstaticlib] = "-DBUILD_PXWAYLAND_STATIC_LIB=ON,-DBUILD_PXWAYLAND_STATIC_LIB=OFF,"
 
