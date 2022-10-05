@@ -301,3 +301,11 @@ PACKAGECONFIG[webkitbrowser] = "\
 
 PACKAGECONFIG[webkitbrowser_disable_dfg] = "-DPLUGIN_WEBKITBROWSER_ENABLE_DFG=OFF,,,"
 
+PACKAGECONFIG[webkitbrowser_aamp] = \
+                                "-DPLUGIN_WEBKITBROWSER_AAMP=ON \
+                                 -DPLUGIN_WEBKITBROWSER_AAMP_JSBINDINGS=ON \
+                                 ,-DPLUGIN_WEBKITBROWSER_AAMP=OFF \
+                                 -DPLUGIN_WEBKITBROWSER_AAMP_JSBINDINGS=OFF,"
+
+DEPENDS_append = "${@bb.utils.contains('PACKAGECONFIG','webkitbrowser_aamp',' aamp','',d)}"
+
