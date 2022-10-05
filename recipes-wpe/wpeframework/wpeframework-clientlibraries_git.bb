@@ -6,7 +6,7 @@ PR = "r0"
 require include/wpeframework.inc
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=R2"
-SRCREV = "d3e3d6c2be6516dd6b4ccfc04b129f8725b59baa"
+SRCREV = "4ada422b37e6d83d28847e72d18553935889256f"
 
 # ----------------------------------------------------------------------------
 
