@@ -1,0 +1,24 @@
+diff --git a/AampEventManager.cpp b/AampEventManager.cpp
+index fea9673a..2ec52bb7 100644
+--- a/AampEventManager.cpp
++++ b/AampEventManager.cpp
+@@ -296,9 +296,8 @@ void AampEventManager::SendEvent(const AAMPEventPtr &eventData, AAMPEventMode ev
+ 
+ 	if((mPlayerState != eSTATE_RELEASED) && (mEventListeners[AAMP_EVENT_ALL_EVENTS] || mEventListeners[eventType]))
+ 	{
+-		guint sId = GetSourceID();
+ 		// if caller is asking for Sync Event , ensure it has proper source Id, else it has to go async event
+-		if(eventMode==AAMP_EVENT_SYNC_MODE &&  sId != 0)
++		if(eventMode==AAMP_EVENT_SYNC_MODE)
+ 		{
+ 			SendEventSync(eventData);
+ 		}
+@@ -309,7 +308,7 @@ void AampEventManager::SendEvent(const AAMPEventPtr &eventData, AAMPEventMode ev
+ 		else
+ 		{
+ 			//For other events if asyncTune eneabled or calle from non-UI thread , then send the event as Async
+-			if (mAsyncTuneEnabled || sId == 0)
++			if (mAsyncTuneEnabled)
+ 			{
+ 				SendEventAsync(eventData);
+ 			}
