@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=175792518e4ac015ab6696d16c4f607e"
 # extra DEPENDS
 DEPENDS_append = " \
     curl libdash libxml2 cjson aampabr aampmetrics wpeframework \
-    gstreamer1.0 gstreamer1.0-plugins-base glib-2.0 util-linux wpeframework-clientlibraries wpewebkit \
+    gstreamer1.0 gstreamer1.0-plugins-base glib-2.0 util-linux wpeframework-clientlibraries \
 "
 
 PV = "0.1.gitr${SRCPV}"
@@ -31,7 +31,6 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready', 'playready', '', d)} \
 "
 PACKAGECONFIG[opencdm] = "\
-    -DCMAKE_WPEWEBKIT_JSBINDINGS=ON \
     -DCMAKE_CDM_DRM=ON \
     -DCMAKE_USE_OPENCDM=ON \
     -DENABLE_SESSION_STATS=ON \
@@ -41,6 +40,7 @@ PACKAGECONFIG[opencdm] = "\
     ,, \
 "
 PACKAGECONFIG[playready] = "-DCMAKE_USE_PLAYREADY=ON,-DCMAKE_USE_PLAYREADY=OFF"
+PACKAGECONFIG[jsbindings] = "-DCMAKE_WPEWEBKIT_JSBINDINGS=ON,-DCMAKE_WPEWEBKIT_JSBINDINGS=OFF,wpewebkit"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
 FILES_${PN} += "${libdir}"
