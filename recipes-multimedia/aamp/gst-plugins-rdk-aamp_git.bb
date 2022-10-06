@@ -21,7 +21,7 @@ inherit cmake
 PACKAGECONFIG ??= " ${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 'opencdm', '', d)}"
 PACKAGECONFIG[opencdm] = "-DCMAKE_DASH_DRM=ON -DCMAKE_CDM_DRM=ON -DCMAKE_USE_OPENCDM_ADAPTER=ON,,"
 
-FILES_${PN} = "${libdir}"
+FILES_${PN} += "${libdir}"
 
 # Fixme, something is pointing to a non-symlink and that pulls in -dev packages
 INSANE_SKIP_${PN} = "dev-deps"
