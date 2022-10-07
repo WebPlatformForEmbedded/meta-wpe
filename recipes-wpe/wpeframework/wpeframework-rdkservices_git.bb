@@ -55,10 +55,6 @@ PACKAGECONFIG[messenger]      = "-DPLUGIN_MESSENGER=ON,-DPLUGIN_MESSENGER=OFF,"
 PACKAGECONFIG[tracing]        = "-DPLUGIN_TRACECONTROL=ON,-DPLUGIN_TRACECONTROL=OFF,"
 PACKAGECONFIG[securityagent]  = "-DPLUGIN_SECURITYAGENT=ON,-DPLUGIN_SECURITYAGENT=OFF,"
 PACKAGECONFIG[packager]       = "-DPLUGIN_PACKAGER=ON, -DPLUGIN_PACKAGER=OFF,,opkg"
-PACKAGECONFIG[aamp]           = "-DPLUGIN_WEBKITBROWSER_AAMP=ON \
-                                 -DPLUGIN_WEBKITBROWSER_AAMP_JSBINDINGS=ON \
-                                 ,-DPLUGIN_WEBKITBROWSER_AAMP=OFF \
-                                 -DPLUGIN_WEBKITBROWSER_AAMP_JSBINDINGS=OFF,aamp"
 
 # ----------------------------------------------------------------------------
 
