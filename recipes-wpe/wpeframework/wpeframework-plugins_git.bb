@@ -15,7 +15,7 @@ SRC_URI = "\
     file://osmc-devinput-remote.json \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
-SRCREV ?= "7c1947cfb769d0fac2efc0fb07b152171c901ac1"
+SRCREV ?= "1dabd4d526827b6be56b4e94d07341a9087e8a5a"
 
 # More complicated plugins are moved seperate includes
 
