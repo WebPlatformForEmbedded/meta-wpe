@@ -12,7 +12,7 @@ PV = "3.0+gitr${SRCPV}"
 PR = "r1"
 RECIPE_BRANCH ?= "main"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "4408be5a034d4903baa9d20dd926a516566609b2"
+SRCREV ?= "66ab621dd7abaf6412cdf2b8041805537c759260"
 
 
 PACKAGECONFIG ??= "\
