@@ -10,8 +10,7 @@ PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderUI.git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "ae6d061a6a08d97ad3ad8821c422b4f45aeeced1"
-
+SRCREV ?= "80c2bc4835e8cc0a8825b5f0d53d588ee8db59a0"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"

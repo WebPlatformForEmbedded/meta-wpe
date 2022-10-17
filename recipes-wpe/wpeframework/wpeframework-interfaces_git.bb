@@ -13,7 +13,7 @@ PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderInterfaces.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "12576da753070e9f486b4ffa1a0339126f3ec36f"
+SRCREV ?= "0c4d5f9e7c0f160eb14ea69515bd6fc53d09bef6"
 
 inherit python3native
 

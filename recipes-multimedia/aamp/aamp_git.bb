@@ -17,6 +17,7 @@ SRC_URI = "\
     git://github.com/rdkcmf/rdk-aamp.git;protocol=https;branch=${RECIPE_BRANCH} \
     file://0001-rdk-aamp-disable-getsourceid-chech-temporarily-to-sendsyncevent.patch \
     file://0002-rdk-amp-align-ocdm-drm-adapter-interface.patch \
+    file://0003-Fix-finding-JavaScriptCore-includ-path.patch \
 "
 SRCREV ?= "a72fea4afc3bb8e81fab9f3e6e3604e3ab6f7930"
 
@@ -30,6 +31,8 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready', 'playready', '', d)} \
 "
 PACKAGECONFIG[opencdm] = "\
+    -DCMAKE_CDM_DRM=ON \
+    -DCMAKE_USE_OPENCDM=ON \
     -DENABLE_SESSION_STATS=ON \
     -DCMAKE_DASH_DRM=ON \
     -DCMAKE_USE_OPENCDM_ADAPTER=ON \
@@ -37,10 +40,11 @@ PACKAGECONFIG[opencdm] = "\
     ,, \
 "
 PACKAGECONFIG[playready] = "-DCMAKE_USE_PLAYREADY=ON,-DCMAKE_USE_PLAYREADY=OFF"
+PACKAGECONFIG[jsbindings] = "-DCMAKE_WPEWEBKIT_JSBINDINGS=ON,-DCMAKE_WPEWEBKIT_JSBINDINGS=OFF,wpewebkit"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
-FILES_${PN} += "${libdir}/lib*.so"
-FILES_${PN} += "${libdir}/aamp/lib*.so"
+FILES_${PN} += "${libdir}"
+FILES_${PN} += "${libdir}"
 
 # Fixme, something is pointing to a non-symlink and that pulls in -dev packages
 INSANE_SKIP_${PN} = "dev-deps"
