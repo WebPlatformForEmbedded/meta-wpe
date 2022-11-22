@@ -15,18 +15,20 @@ index 45145b6..8bfaed4 100644
 +    endif()
 +endif()
 diff --git a/modules/GUI/CMakeLists.txt b/modules/GUI/CMakeLists.txt
-index 4094546..feadbf3 100644
+index 4094546..04df087 100644
 --- a/modules/GUI/CMakeLists.txt
 +++ b/modules/GUI/CMakeLists.txt
-@@ -21,12 +21,13 @@ else()
+@@ -21,12 +21,14 @@ else()
      set(RTCSC_JS_PATH_VALUE "${CMAKE_CURRENT_SOURCE_DIR}/js/src/lib/liveView/RTCSC_Adapter_Stub")
  endif()
  
 +set(JS_GUICLIENT_INSTALL_PATH "" CACHE STRING "The install path")
  add_custom_target(GUIClient ALL
-         COMMAND "npm" "install"
+-        COMMAND "npm" "install"
++        COMMAND "npm" "install" "--prefix" "${CMAKE_CURRENT_SOURCE_DIR}/js"
          COMMAND "npm" "install" "${APL_CLIENT_JS_PATH}"
          COMMAND "npm" "install" "${RTCSC_JS_PATH_VALUE}"
++        COMMAND "npm" "config" "set" "prefix"
          COMMAND "npm" "run" "build" "--"
 -            "--output-path" "${CMAKE_CURRENT_BINARY_DIR}"
 +            "--output-path" "${JS_GUICLIENT_INSTALL_PATH}"
