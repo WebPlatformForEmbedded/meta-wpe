@@ -29,7 +29,7 @@ WPEFRAMEWORK_INITSCRIPT_SYSTEMD_SERVICE ??= "${@bb.utils.contains('DISTRO_FEATUR
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth_support', '', d)} \
-    1hidenonexternalsymbols initscriptsupport \
+    hidenonexternalsymbols initscriptsupport \
     ${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 'securesocket', '', d)} \
     webserver_autoresume webkitbrowser_autoresume \
 "
