@@ -4,14 +4,16 @@ DESCRIPTION = "A C++ platform abstraction layer for generic functionality."
 require include/wpeframework.inc
 require include/wpeframework-common.inc
 require include/wpeframework-deprecated.inc
+require ${@oe.utils.conditional('WPEFRAMEWORK_GROUP', '', '', 'include/usergroup/wpeframework.inc', d)}
 
 DEPENDS_append = " zlib virtual/egl"
 DEPENDS_append_libc-musl = " libexecinfo"
 
 PROVIDES += "thunder"
 
+SRC_URI_append = "file://20-video-device-udev.rules.in"
 PV = "3.0+gitr${SRCPV}"
-inherit systemd update-rc.d python3native
+inherit python3native systemd update-rc.d
 
 WPEFRAMEWORK_SYSTEM_PREFIX ??= "WPE"
 WPEFRAMEWORK_PORT ??= "80"
@@ -72,13 +74,13 @@ PACKAGECONFIG[exceptionhandling] = "-DEXCEPTIONS_ENABLE=ON,-DEXCEPTIONS_ENABLE=O
 PACKAGECONFIG[exceptioncatching] = "-DEXCEPTION_CATCHING=ON,-DEXCEPTION_CATCHING=OFF,"
 PACKAGECONFIG[warningreporting] = "-DWARNING_REPORTING=ON,-DWARNING_REPORTING=OFF,"
 
-PACKAGECONFIG[messaging] = " \
+PACKAGECONFIG[messaging] = "\
     -DTRACING=OFF \
     -DMESSAGING=ON \
     , -DTRACING=ON -DENABLED_TRACING_LEVEL=${WPEFRAMEWORK_TRACING_LEVEL} \
     -DMESSAGING=OFF, \
 "
-PACKAGECONFIG[initscriptsupport] = " \
+PACKAGECONFIG[initscriptsupport] = "\
     -DENABLE_INITSCRIPT_SUPPORT=ON \
     -DSYSTEMD_SERVICE="${WPEFRAMEWORK_INITSCRIPT_SYSTEMD_SERVICE}" \
     -DSYSTEM_ROOT_PATH="${WPEFRAMEWORK_INITSCRIPT_SYSTEM_ROOT_PATH}" \
@@ -139,13 +141,22 @@ EXTRA_OECMAKE += "\
     -DTREE_REFERENCE="${WPE_LAYER_REV}" \
     -DPERSISTENT_PATH="${WPEFRAMEWORK_PERSISTENT_PATH}" \
     ${@oe.utils.conditional('WPEFRAMEWORK_VOLATILE_PATH', '', '', '-DVOLATILE_PATH="${WPEFRAMEWORK_VOLATILE_PATH}"', d)} \
+    ${@oe.utils.conditional('WPEFRAMEWORK_DATA_PATH', '', '', '-DDATA_PATH="${WPEFRAMEWORK_DATA_PATH}"', d)} \
     -DSYSTEM_PREFIX="${WPEFRAMEWORK_SYSTEM_PREFIX}" \
     -DPORT="${WPEFRAMEWORK_PORT}" \
     -DETHERNETCARD_NAME="${WPEFRAMEWORK_ETHERNETCARD_NAME}" \
     -DIDLE_TIME="${WPEFRAMEWORK_IDLE_TIME}" \
     -DSOFT_KILL_CHECK_WAIT_TIME="${WPEFRAMEWORK_SOFT_KILL_CHECK_WAIT_TIME}" \
     -DHARD_KILL_CHECK_WAIT_TIME="${WPEFRAMEWORK_HARD_KILL_CHECK_WAIT_TIME}" \
+    ${@oe.utils.conditional('WPEFRAMEWORK_GROUP', '', '', '-DGROUP="${WPEFRAMEWORK_GROUP}"', d)} \
     -DPYTHON_EXECUTABLE="${PYTHON}""
+
+do_install_append() {
+    install -d ${D}${nonarch_base_libdir}/udev/rules.d
+    install -m 0644  ${S}/../20-video-device-udev.rules.in ${D}${nonarch_base_libdir}/udev/rules.d/20-video-device-udev.rules
+    sed -i -e "s|@SUBSYSTEM@|${WPEFRAMEWORK_PLATFORM_VIDEO_SUBSYSTEM}|g" ${D}${nonarch_base_libdir}/udev/rules.d/20-video-device-udev.rules
+    sed -i -e "s|@GROUP@|${WPEFRAMEWORK_PLATFORM_VIDEO_DEVICE_GROUP}|g" ${D}${nonarch_base_libdir}/udev/rules.d/20-video-device-udev.rules
+}
 
 SYSTEMD_SERVICE_${PN} = "wpeframework.service"
 
@@ -167,3 +178,4 @@ INSANE_SKIP_${PN} += "dev-so"
 INSANE_SKIP_${PN}-dbg += "dev-so"
 
 RPROVIDES_${PN} += "thunder"
+

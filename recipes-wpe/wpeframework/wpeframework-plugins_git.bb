@@ -64,6 +64,7 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
     cobalt dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
+    webpa webpa_generic webpa_generic_deviceinfo webpa_ccsp\
 "
 
 EXTRA_OECMAKE += "\
