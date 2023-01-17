@@ -1,0 +1,28 @@
+commit 475722c8f47ee9bacc278f5cfe8f9fb863995e95 (HEAD -> development/data-path-support)
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Sat Mar 11 08:07:45 2023 -0800
+
+    COBALT_DATA_PATH config support
+
+diff --git a/third_party/starboard/wpe/shared/platform_configuration/BUILD.gn b/third_party/starboard/wpe/shared/platform_configuration/BUILD.gn
+index e78cf6df0d..01e29c1182 100644
+--- a/third_party/starboard/wpe/shared/platform_configuration/BUILD.gn
++++ b/third_party/starboard/wpe/shared/platform_configuration/BUILD.gn
+@@ -18,6 +18,7 @@ declare_args() {
+   has_ocdm = getenv("COBALT_HAS_OCDM")
+   has_provision = getenv("COBALT_HAS_PROVISION")
+   has_waylandsink = getenv("COBALT_HAS_WAYLANDSINK")
++  cobalt_data_path = getenv("COBALT_DATA_PATH")
+ }
+ 
+ pkg_config("pkg_libs") {
+@@ -70,4 +71,9 @@ config("platform_configuration") {
+       "-lgstwayland-1.0"
+     ]
+   }
++  if (cobalt_data_path != "") {
++    cflags += [
++      "-DCOBALT_DATA_PATH=\"${cobalt_data_path}\"",
++    ]
++  }
+ }

@@ -1,0 +1,42 @@
+commit 1be345f27f4e2f6e92e01fabf3341ece21997a9a
+Author: HaseenaSainul <h.sainul@metrological.com>
+Date:   Fri Mar 10 20:27:25 2023 -0800
+
+    CMake TOOLS SYSROOT Path settings
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 286b5a9e..24e5d52d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -47,6 +47,11 @@ list(APPEND CMAKE_MODULE_PATH
+     "${CMAKE_SOURCE_DIR}/cmake/modules"
+     "${CMAKE_SYSROOT}${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/Modules")
+ 
++if (TOOLS_SYSROOT)
++    list(APPEND CMAKE_MODULE_PATH
++        "${TOOLS_SYSROOT}${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/Modules")
++endif()
++
+ include(platform)
+ include(CmakeHelperFunctions)
+ 
+diff --git a/cmake/project.cmake.in b/cmake/project.cmake.in
+index 38c11007..96902651 100644
+--- a/cmake/project.cmake.in
++++ b/cmake/project.cmake.in
+@@ -120,6 +120,15 @@ endif()
+ set(MODULE_BASE_DIR "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL "" FORCE)
+ list(APPEND CMAKE_MODULE_PATH "${MODULE_BASE_DIR}/common" "${CMAKE_SYSROOT}@CMAKE_INSTALL_PREFIX@/include/${NAMESPACE}/Modules")
+ 
++if(NOT DEFINED TOOLS_SYSROOT)
++    set(TOOLS_SYSROOT @TOOLS_SYSROOT@)
++endif()
++
++if(TOOLS_SYSROOT)
++    list(APPEND CMAKE_MODULE_PATH
++        "${TOOLS_SYSROOT}/@CMAKE_INSTALL_PREFIX@/include/${NAMESPACE}/Modules")
++endif()
++
+ list(REMOVE_DUPLICATES CMAKE_MODULE_PATH)
+ list(SORT CMAKE_MODULE_PATH)
+ 

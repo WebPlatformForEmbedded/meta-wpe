@@ -8,14 +8,14 @@ require include/wpeframework-plugins.inc
 
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"
-RECIPE_BRANCH ?= "master"
+RECIPE_BRANCH ?= "R4"
 SRC_URI = "\
     git://github.com/rdkcentral/ThunderNanoServices.git;protocol=https;branch=${RECIPE_BRANCH} \
     file://index.html \
     file://osmc-devinput-remote.json \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
-SRCREV ?= "1dabd4d526827b6be56b4e94d07341a9087e8a5a"
+SRCREV ?= "ae46f4dce2da6adf359b1529779067b20e183cca"
 
 # More complicated plugins are moved seperate includes
 
@@ -64,6 +64,7 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'network wifi', '', d)} \
     ${@bb.utils.contains('STREAMER_DISTRO_PACKAGE_AVAILABLE', 'True', 'streamer', '', d)} \
     cobalt dhcpserver dictionary ioconnector remote remote-devinput systemcommands timesync webserver \
+    webpa webpa_generic webpa_generic_deviceinfo webpa_ccsp\
 "
 
 EXTRA_OECMAKE += "\

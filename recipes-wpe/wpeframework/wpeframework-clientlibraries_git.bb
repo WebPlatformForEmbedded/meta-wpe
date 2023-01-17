@@ -11,10 +11,10 @@ require include/compositor.inc
 
 PR = "r0"
 PV = "3.0+gitr${SRCPV}"
-RECIPE_BRANCH ?= "master"
+RECIPE_BRANCH ?= "R4"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "e1e80f007010e2bbfcc2fc2685c5e0f1b94633c1"
+SRCREV ?= "09689520670fcb3d34ba4703e6f823b87e64fa43"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"

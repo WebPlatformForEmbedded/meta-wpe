@@ -6,13 +6,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=85bcfede74b96d9a58c6ea5d4b607e58"
 
 require include/wpeframework-common.inc
 
-DEPENDS_append = " wpeframework"
+DEPENDS_append = " wpeframework-tools-native wpeframework"
 
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"
-RECIPE_BRANCH ?= "main"
+RECIPE_BRANCH ?= "R4"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "66ab621dd7abaf6412cdf2b8041805537c759260"
+SRCREV ?= "72c559ddc31fdc75c256cec9d7014a84ccfffc3f"
 
 
 PACKAGECONFIG ??= "\
