@@ -14,7 +14,6 @@ RECIPE_BRANCH ?= "R4"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
 SRCREV ?= "72c559ddc31fdc75c256cec9d7014a84ccfffc3f"
 
-
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'broadcast', 'broadcast', '', d)} \
