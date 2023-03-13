@@ -1,5 +1,5 @@
 # Common for WPE Framework plugins
-require wpeframework-common.inc
+require wpeframework.inc
 
 DEPENDS_append = " wpeframework-tools-native wpeframework wpeframework-interfaces wpeframework-clientlibraries"
 

@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=847677038847363222ffb66cfa6406c2"
 
 DEPENDS_append = " wpeframework-interfaces"
 
-require include/wpeframework-common.inc
+require include/wpeframework.inc
 require include/compositor.inc
 
 PR = "r0"
@@ -14,7 +14,7 @@ PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 
 SRC_URI = "git://github.com/rdkcentral/ThunderClientLibraries.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "e1e80f007010e2bbfcc2fc2685c5e0f1b94633c1"
+SRCREV ?= "5aca10c50eb7f82fb05fe7d62b0e4756cf0f631d"
 
 inherit python3native
 WPE_CDMI_ADAPTER_IMPL ??= "${@bb.utils.contains('DISTRO_FEATURES', 'nexus_svp', 'opencdmi_brcm_svp', 'opencdm_gst', d)}"

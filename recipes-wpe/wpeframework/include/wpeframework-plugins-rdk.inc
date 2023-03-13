@@ -28,7 +28,7 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg', 'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine', 'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
-    deviceidentification deviceinfo locationsync monitor monitor_webkit tracing webkitbrowser \
+    deviceidentification deviceinfo locationsync monitor monitor_webkit messagecontrol webkitbrowser \
 "
 # FIXME: these config has to be selected based on system config requirement.
 # For the time being these are hardcoded
