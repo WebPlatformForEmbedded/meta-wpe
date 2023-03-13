@@ -13,7 +13,6 @@ LDFLAGS_append = " -fuse-ld=bfd"
 # Yocto root is under /home/root
 WPEFRAMEWORK_PERSISTENT_PATH ??= "/home/root/"
 WPEFRAMEWORK_VOLATILE_PATH ??= ""
-
 WPEFRAMEWORK_DATA_PATH ??= ""
 
 WPEFRAMEWORK_GROUP ??= ""
@@ -23,3 +22,4 @@ WPEFRAMEWORK_PLATFORM_VIDEO_SUBSYSTEM ??= ""
 WPEFRAMEWORK_PLATFORM_VIDEO_DEVICE_GROUP ??= "video"
 
 DEPENDS += "git-replacement-native wpeframework-tools-native"
+
