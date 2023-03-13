@@ -1,6 +1,6 @@
 # Provides configuration for the TimeSync Plugin
 WPE_TIMESYNC_AUTOSTART ??= "true"
-WPE_TIMESYNC_DEFFERED ??= "OFF"
+WPE_TIMESYNC_DEFFERED ??= "false"
 
 PACKAGECONFIG[timesync] = "\
     -DPLUGIN_TIMESYNC=ON \

@@ -8,7 +8,8 @@ RECIPE_BRANCH ?= "R4"
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
 SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "ba5edf6ade6689f41cac569acc4d2e0c513066c7"
+SRCREV ?= "0d6aa9664f780053818d1bbd211cdcf69ec2e9aa"
+
 PR = "r0"
 S = "${WORKDIR}/git"
 

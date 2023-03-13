@@ -21,7 +21,7 @@ index e090a10..2d4b625 100644
 +    [want_provision="$enableval"], [want_provision="no"])
 +
 +if test "x$want_provision" = "xyes"; then
-+  PKG_CHECK_MODULES(PROVISION, [provisionproxy])
++  PKG_CHECK_MODULES(PROVISION, [WPEFrameworkProvisionProxy])
 +  AC_DEFINE(HAVE_PROVISION, 1, [Define if you want provision support])
 +fi
 +AM_CONDITIONAL(HAVE_PROVISION, test "x$want_provision" = "xyes")

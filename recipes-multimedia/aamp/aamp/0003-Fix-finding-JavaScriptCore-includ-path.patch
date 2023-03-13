@@ -1,0 +1,33 @@
+From 1e5ea197f46073d9c643cf828adebde87e410ec7 Mon Sep 17 00:00:00 2001
+From: Lukasz Iwan <l.iwan@metrological.com>
+Date: Mon, 19 Sep 2022 10:56:08 +0200
+Subject: [PATCH] Fix finding JavaScriptCore includ path
+
+In our environment, JavaScriptCore, needed by AAMP for JS Bindings is located
+under /usr/include/wpe-0.1/WPE directory. AAMP in configuration step does not
+scan /usr/include recursively and expects this directory to be present there.
+This patch add subdirectories to scan in the /usr/include so the JavaScriptCore
+is properly found and added to include paths.
+---
+ CMakeLists.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4769b7fa..75cfe0f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -53,8 +53,9 @@ if(CMAKE_QT5WEBKIT_JSBINDINGS)
+ 	include_directories(${STAGING_INCDIR}/webkit-apis/ForwardingHeaders)
+ elseif(CMAKE_WPEWEBKIT_JSBINDINGS)
+ 	message("CMAKE_QT5WEBKIT_JSBINDINGS not set, CMAKE_WPEWEBKIT_JSBINDINGS is set, Finding JavaScriptCore")
+-	find_path (STAGING_INCDIR JavaScriptCore)
+-	include_directories(${STAGING_INCDIR}/JavaScriptCore)
++	find_path (STAGING_INCDIR JavaScriptCore PATH_SUFFIXES wpe-0.1/WPE wpe-webkit-deprecated-0.1/WPE)
++   include_directories(${STAGING_INCDIR})
++   unset(STAGING_INCDIR CACHE)
+ else()
+ 	message("CMAKE_QT5WEBKIT_JSBINDINGS not set, CMAKE_WPEWEBKIT_JSBINDINGS not set")
+ endif()
+-- 
+2.35.1
+

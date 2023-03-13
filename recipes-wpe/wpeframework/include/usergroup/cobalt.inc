@@ -1,0 +1,9 @@
+inherit useradd
+
+USERADD_PACKAGES = "${PN}"
+GROUPADD_PARAM_${PN} = "-r ${WPE_COBALT_GROUP}"
+
+USERADD_PARAM_${PN} = "--system --no-create-home --shell /bin/false"
+USERADD_PARAM_${PN} += "-g ${WPE_COBALT_GROUP}"
+USERADD_PARAM_${PN} += "-G ${WPEFRAMEWORK_PLATFORM_VIDEO_DEVICE_GROUP},${WPEFRAMEWORK_GROUP}${@oe.utils.conditional('WPEFRAMEWORK_OCDM_GROUP', '', '', ',${WPEFRAMEWORK_OCDM_GROUP}', d)}"
+USERADD_PARAM_${PN} += "${WPE_COBALT_USER}"

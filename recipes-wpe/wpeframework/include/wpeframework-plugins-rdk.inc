@@ -4,12 +4,14 @@ require wpeframework-plugins.inc
 # Plugins configs are moved to seperate includes
 require deviceidentification.inc
 require deviceinfo.inc
+require displayinfo.inc
 require locationsync.inc
 require messagecontrol.inc
 require messenger.inc
 require monitor.inc
 require ocdm.inc
 require packager.inc
+require playerinfo.inc
 require securityagent.inc
 require tracecontrol.inc
 require warningreportingcontrol.inc
@@ -26,11 +28,11 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'playready_vg', 'opencdmi_vgrdm', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'widevine', 'opencdmi_wv', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
-    deviceidentification deviceinfo locationsync monitor monitor_webkit tracing webkitbrowser \
+    deviceidentification deviceinfo locationsync monitor monitor_webkit messagecontrol webkitbrowser \
 "
 # FIXME: these config has to be selected based on system config requirement.
 # For the time being these are hardcoded
-PACKAGECONFIG_append = " \
+PACKAGECONFIG_append = "\
     monitor_cobalt monitor_webkit_ux \
     webkitbrowser_apps webkitbrowser_ux \
 "
