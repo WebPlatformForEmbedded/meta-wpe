@@ -10,7 +10,7 @@ SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
 SRC_URI = "git://github.com/rdkcentral/ThunderTools.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
 SRCREV ?= "13a2c71dec3cfab814a41b6a86dd8ea09ee17698"
-PR = "r0"
+PR = "r1"
 S = "${WORKDIR}/git"
 
 DEPENDS_append = " python3-native python3-jsonref-native"

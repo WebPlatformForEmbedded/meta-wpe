@@ -17,6 +17,8 @@ require tracecontrol.inc
 require warningreportingcontrol.inc
 require webkitbrowser.inc
 
+WPE_MESSAGE_LOGGING ??= "true"
+
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'clearkey', 'opencdmi_ck', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'netflix', 'monitor_netflix', '', d)} \
@@ -30,6 +32,9 @@ PACKAGECONFIG ??= "\
     ${@bb.utils.contains('DISTRO_FEATURES', 'security', 'securityagent', '', d)} \
     deviceidentification deviceinfo locationsync monitor monitor_webkit messagecontrol webkitbrowser \
 "
+
+PACKAGECONFIG_append = "${@bb.utils.contains('WPE_MESSAGE_LOGGING', 'true', 'messagecontrol', 'tracing', d)}"
+
 # FIXME: these config has to be selected based on system config requirement.
 # For the time being these are hardcoded
 PACKAGECONFIG_append = "\

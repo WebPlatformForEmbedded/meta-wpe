@@ -6,11 +6,11 @@ SECTION = "wpe"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=85bcfede74b96d9a58c6ea5d4b607e58"
 
-RECIPE_BRANCH ?= "development/cmake-tools-path-settings"
+RECIPE_BRANCH ?= "master"
 SRC_URI[md5sum] = "42b518b9ccd6852d1d709749bc96cb70"
 SRC_URI[sha256sum] = "f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"
 SRC_URI = "git://github.com/rdkcentral/Thunder.git;protocol=git;branch=${RECIPE_BRANCH};protocol=https"
-SRCREV ?= "985839f450b279a6a36110014c6f3986ef5cff89"
+SRCREV ?= "3f4331e10124cb1544b4e866d433249b286e9d1c"
 PR = "r0"
 S = "${WORKDIR}/git"
 
