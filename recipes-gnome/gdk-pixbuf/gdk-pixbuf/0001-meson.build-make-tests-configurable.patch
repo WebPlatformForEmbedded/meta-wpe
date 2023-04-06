@@ -1,0 +1,30 @@
+diff --git a/meson.build b/meson.build
+index 1cadf2c0c..ce7cb0125 100644
+--- a/meson.build
++++ b/meson.build
+@@ -416,7 +416,9 @@ endif
+ # i18n
+ subdir('po')
+ 
+-subdir('tests')
++if get_option('tests')
++  subdir('tests')
++endif
+ subdir('thumbnailer')
+ 
+ # Documentation
+diff --git a/meson_options.txt b/meson_options.txt
+index a7c33a869..8c024b15f 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -42,6 +42,10 @@ option('native_windows_loaders',
+        description: 'Use Windows system components to handle BMP, EMF, GIF, ICO, JPEG, TIFF and WMF images, overriding jpeg and tiff.  To build this into gdk-pixbuf, pass in windows" with the other loaders to build in or use "all" with the builtin_loaders option',
+        type: 'boolean',
+        value: false)
++option('tests',
++       description: 'Build the test suite',
++       type: 'boolean',
++       value: false)
+ option('installed_tests',
+        description: 'Install the test suite',
+        type: 'boolean',
