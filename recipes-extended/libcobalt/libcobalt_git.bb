@@ -58,7 +58,7 @@ def get_cobalt_data_path(d):
         return "${WPEFRAMEWORK_DATA_PATH}/Cobalt"
 COBALT_DATA = "${@get_cobalt_data_path(d)}"
 
-do_compile() {
+do_configure() {
     export COBALT_EXECUTABLE_TYPE="shared_library"
     export COBALT_HAS_OCDM="${@bb.utils.contains('DISTRO_FEATURES', 'opencdm', 1, 0, d)}"
     export COBALT_HAS_PROVISION="${@bb.utils.contains('DISTRO_FEATURES', 'provisioning', 1, 0, d)}"
@@ -72,16 +72,18 @@ do_compile() {
     export COBALT_DATA_PATH="${COBALT_DATA}/data"
 
     cd "${S}" && "${STAGING_BINDIR_NATIVE}"/gn gen out/wpe --script-executable=python3 --args='target_platform="${COBALT_PLATFORM}" build_type="${COBALT_BUILD_TYPE}" target_cpu="arm" is_clang=false sb_install_content_subdir="${COBALT_DATA}/data" is_video_overlay=${COBALT_VIDEO_OVERLAY}'
-    "${STAGING_BINDIR_NATIVE}/ninja" -C "${S}"/out/wpe cobalt_install
+}
+do_compile() {
+    "${STAGING_BINDIR_NATIVE}/ninja" -C "${S}/out/wpe" cobalt_install
 }
 
 do_install() {
     install -d "${D}${libdir}"
     install -m 0755 "${S}/out/wpe/install/lib/libcobalt.so" "${D}${libdir}"
-    install -d "${D}${includedir}"/starboard
-    cp -prf "${S}"/starboard/*.h "${D}${includedir}"/starboard/
-    install -d "${D}${includedir}"/third_party/starboard/wpe/shared
-    cp -prf "${S}"/third_party/starboard/wpe/shared/*.h "${D}/${includedir}"/third_party/starboard/wpe/shared/
+    install -d "${D}${includedir}/starboard"
+    cp -prf "${S}/starboard/"*.h "${D}${includedir}/starboard/"
+    install -d "${D}${includedir}/third_party/starboard/wpe/shared"
+    cp -prf "${S}/third_party/starboard/wpe/shared/"*.h "${D}/${includedir}/third_party/starboard/wpe/shared/"
 
     install -d "${D}${COBALT_DATA}"
     cp -arv --no-preserve=ownership "${S}/out/wpe/install/${COBALT_DATA}/data" "${D}${COBALT_DATA}"
