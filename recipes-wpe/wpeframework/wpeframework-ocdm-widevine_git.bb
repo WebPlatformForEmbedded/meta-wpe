@@ -11,7 +11,7 @@ DEPENDS_append = " widevine"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://git@github.com/rdkcentral/OCDM-Widevine.git;protocol=https;branch=${RECIPE_BRANCH}"
-SRCREV ?= "8182af4a00a8a0f53f9e75afa470f084a26d1823"
+SRCREV ?= "375d6242c328e44d6dc42f6f423bb601a15d8276"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
 

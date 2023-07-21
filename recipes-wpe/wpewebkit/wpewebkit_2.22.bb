@@ -10,7 +10,7 @@ SRC_URI = "\
     file://0001-WPEWebkit-compile-fix.patch \
     file://0001-Fix-for-missing-heap-vm-main.patch \
 "
-SRCREV ?= "c2bbe41520037aa883e6cab9fc40524f6e2e4cd0"
+SRCREV ?= "4a3f5e45a87edf439e9d1dfe919e2137972d1bfe"
 
 PACKAGECONFIG_append = " webcrypto"
 
@@ -29,7 +29,8 @@ do_install() {
 
     install -d ${D}${libdir}
     cp -av --no-preserve=ownership ${B}/lib/libWPE* ${D}${libdir}/
-    install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/
+    install -d ${D}${libdir}/wpe-webkit-0.1
+    install -m 0755 ${B}/lib/libWPEWebInspectorResources.so ${D}${libdir}/wpe-webkit-0.1
     # Hack: Remove the RPATH embedded in libWPEWebKit.so
     chrpath --delete ${D}${libdir}/libWPE*
 

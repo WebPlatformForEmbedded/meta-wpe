@@ -1,10 +1,19 @@
-ROOTFS_POSTPROCESS_COMMAND_append = " update_thunder_data_path_permissions;"
-update_thunder_data_path_permissions () {
+ROOTFS_POSTPROCESS_COMMAND_append = " update_thunder_path_permissions;"
+update_thunder_path_permissions () {
     if [ "${WPEFRAMEWORK_GROUP}" != "" ] && [ "${WPEFRAMEWORK_SUPER_USER_GROUP}" != "" ]; then
         if [ -d "${IMAGE_ROOTFS}/${WPEFRAMEWORK_DATA_PATH}" ]; then
             chmod 0550 "${IMAGE_ROOTFS}/${WPEFRAMEWORK_DATA_PATH}"
             chown "${WPEFRAMEWORK_SUPER_USER_GROUP}:${WPEFRAMEWORK_GROUP}" "${IMAGE_ROOTFS}/${WPEFRAMEWORK_DATA_PATH}"
         fi
+	if [ -d "${IMAGE_ROOTFS}/${WPEFRAMEWORK_PERSISTENT_PATH}" ]; then
+            chmod 0755 "${IMAGE_ROOTFS}/${WPEFRAMEWORK_PERSISTENT_PATH}"
+            chown "${WPEFRAMEWORK_SUPER_USER_GROUP}:${WPEFRAMEWORK_GROUP}" "${IMAGE_ROOTFS}/${WPEFRAMEWORK_PERSISTENT_PATH}"
+        fi
+	if [ -d "${IMAGE_ROOTFS}/${WPEFRAMEWORK_PERSISTENT_PATH}/WPEFramework" ]; then
+            chmod 0770 "${IMAGE_ROOTFS}/${WPEFRAMEWORK_PERSISTENT_PATH}/WPEFramework"
+            chown "${WPEFRAMEWORK_SUPER_USER_GROUP}:${WPEFRAMEWORK_SUPER_USER_GROUP}" "${IMAGE_ROOTFS}/${WPEFRAMEWORK_PERSISTENT_PATH}/WPEFramework"
+        fi
+
     fi
 }
 

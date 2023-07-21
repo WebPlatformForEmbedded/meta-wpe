@@ -23,6 +23,7 @@ WPE_COBALT_SCOPE ??= ""
 WPE_COBALT_SECRET ??= ""
 WPE_COBALT_PLAYBACKRATES ??= ""
 WPE_COBALT_WEBINSPECTOR_ADDRESS ??= "0.0.0.0:9222"
+WPE_COBALT_STARBOARD_CONFIGURATION_INCLUDE ??= "third_party/starboard/wpe/shared/configuration_public.h"
 
 require ${@oe.utils.conditional('WPE_COBALT_USER', '', '', 'usergroup/cobalt.inc', d)}
 
