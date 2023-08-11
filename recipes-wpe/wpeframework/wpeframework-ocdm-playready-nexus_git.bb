@@ -11,7 +11,7 @@ DEPENDS_append = " broadcom-refsw"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/OCDM-Playready-Nexus.git;protocol=https;branch=${RECIPE_BRANCH}"
-SRCREV ?= "cdb2e784a03b2d01c03a12d008bf1d9e034f7b62"
+SRCREV ?= "9b5edbd1bdb756dc0f8aec1ff224c403d456cad5"
 
 FILES_${PN} = "${datadir}/WPEFramework/OCDM/*.drm"
 

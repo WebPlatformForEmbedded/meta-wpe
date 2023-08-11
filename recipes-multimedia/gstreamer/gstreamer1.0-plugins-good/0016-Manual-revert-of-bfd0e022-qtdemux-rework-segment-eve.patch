@@ -1,7 +1,7 @@
-From e0d65818e8254e441b9652b525ae18d6d08f5542 Mon Sep 17 00:00:00 2001
+From 3389dcb2296d80aa219206f7e0ecd3eb745841fe Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
 Date: Wed, 19 Jun 2019 15:51:22 +0000
-Subject: [PATCH 6/6] Manual revert of bfd0e022 qtdemux: rework segment event
+Subject: [PATCH 16/16] Manual revert of bfd0e022 qtdemux: rework segment event
  pushing
 
 That commit broke WebKit AppendPipeline processing for out-of-order appends,
@@ -17,10 +17,10 @@ patch.
  2 files changed, 61 insertions(+), 24 deletions(-)
 
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index afbcfcb17..e69c195e1 100644
+index 0c7972cca..58eff6160 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
-@@ -2152,6 +2152,9 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+@@ -2161,6 +2161,9 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
      qtdemux->element_index = NULL;
  #endif
      qtdemux->major_brand = 0;
@@ -30,7 +30,7 @@ index afbcfcb17..e69c195e1 100644
      qtdemux->upstream_format_is_time = FALSE;
      qtdemux->upstream_seekable = FALSE;
      qtdemux->upstream_size = 0;
-@@ -2174,7 +2177,6 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+@@ -2182,7 +2185,6 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
    qtdemux->offset = 0;
    gst_adapter_clear (qtdemux->adapter);
    gst_segment_init (&qtdemux->segment, GST_FORMAT_TIME);
@@ -38,7 +38,7 @@ index afbcfcb17..e69c195e1 100644
  
    if (hard) {
      qtdemux->segment_seqnum = GST_SEQNUM_INVALID;
-@@ -2216,6 +2218,12 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+@@ -2226,6 +2228,12 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
        stream->time_position = 0;
        stream->accumulated_base = 0;
      }
@@ -51,7 +51,7 @@ index afbcfcb17..e69c195e1 100644
    }
  }
  
-@@ -2310,7 +2318,12 @@ gst_qtdemux_handle_sink_event (GstPad * sinkpad, GstObject * parent,
+@@ -2328,7 +2336,12 @@ gst_qtdemux_handle_sink_event (GstPad * sinkpad, GstObject * parent,
        GST_DEBUG_OBJECT (demux, "received newsegment %" GST_SEGMENT_FORMAT,
            &segment);
  
@@ -64,7 +64,7 @@ index afbcfcb17..e69c195e1 100644
          demux->upstream_format_is_time = TRUE;
          demux->segment_seqnum = gst_event_get_seqnum (event);
        } else {
-@@ -2387,8 +2400,16 @@ gst_qtdemux_handle_sink_event (GstPad * sinkpad, GstObject * parent,
+@@ -2405,8 +2418,16 @@ gst_qtdemux_handle_sink_event (GstPad * sinkpad, GstObject * parent,
  
        /* map segment to internal qt segments and push on each stream */
        if (QTDEMUX_N_STREAMS (demux)) {
@@ -83,7 +83,7 @@ index afbcfcb17..e69c195e1 100644
        }
  
        /* clear leftover in current segment, if any */
-@@ -4319,12 +4340,6 @@ qtdemux_parse_moof (GstQTDemux * qtdemux, const guint8 * buffer, guint length,
+@@ -4678,12 +4699,6 @@ qtdemux_parse_moof (GstQTDemux * qtdemux, const guint8 * buffer, guint length,
        QtDemuxStream *stream = QTDEMUX_NTH_STREAM (qtdemux, i);
        stream->time_position = min_dts;
      }
@@ -96,7 +96,7 @@ index afbcfcb17..e69c195e1 100644
    }
  
    qtdemux->first_moof_already_parsed = TRUE;
-@@ -6847,7 +6862,7 @@ gst_qtdemux_drop_data (GstQTDemux * demux, gint bytes)
+@@ -7219,7 +7234,7 @@ gst_qtdemux_drop_data (GstQTDemux * demux, gint bytes)
  static void
  gst_qtdemux_check_send_pending_segment (GstQTDemux * demux)
  {
@@ -105,7 +105,7 @@ index afbcfcb17..e69c195e1 100644
      gint i;
  
      if (!demux->upstream_format_is_time) {
-@@ -6860,8 +6875,6 @@ gst_qtdemux_check_send_pending_segment (GstQTDemux * demux)
+@@ -7232,8 +7247,6 @@ gst_qtdemux_check_send_pending_segment (GstQTDemux * demux)
        gst_qtdemux_push_event (demux, segment_event);
      }
  
@@ -114,7 +114,7 @@ index afbcfcb17..e69c195e1 100644
      /* clear to send tags on all streams */
      for (i = 0; i < QTDEMUX_N_STREAMS (demux); i++) {
        QtDemuxStream *stream = QTDEMUX_NTH_STREAM (demux, i);
-@@ -7161,6 +7174,15 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
+@@ -7533,6 +7546,15 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
                if (demux->moov_node)
                  g_node_destroy (demux->moov_node);
                demux->moov_node = NULL;
@@ -130,7 +130,7 @@ index afbcfcb17..e69c195e1 100644
              }
  
              demux->last_moov_offset = demux->offset;
-@@ -7179,7 +7201,8 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
+@@ -7551,7 +7573,8 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
  
              demux->got_moov = TRUE;
  
@@ -140,13 +140,13 @@ index afbcfcb17..e69c195e1 100644
  
              if (demux->moov_node_compressed) {
                g_node_destroy (demux->moov_node_compressed);
-@@ -7262,15 +7285,20 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
+@@ -7634,15 +7657,20 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
                ret = GST_FLOW_ERROR;
                goto done;
              }
 -
              /* in MSS we need to expose the pads after the first moof as we won't get a moov */
-             if (demux->mss_mode && !demux->exposed) {
+             if (demux->variant == VARIANT_MSS_FRAGMENTED && !demux->exposed) {
 +              if (!demux->pending_newsegment) {
 +                GST_DEBUG_OBJECT (demux, "new pending_newsegment");
 +                demux->pending_newsegment =
@@ -164,7 +164,7 @@ index afbcfcb17..e69c195e1 100644
            } else {
              GST_DEBUG_OBJECT (demux, "Discarding [moof]");
            }
-@@ -12876,6 +12904,14 @@ qtdemux_update_streams (GstQTDemux * qtdemux)
+@@ -13453,6 +13481,14 @@ qtdemux_update_streams (GstQTDemux * qtdemux)
        stream->stream_tags = NULL;
        if (!gst_qtdemux_add_stream (qtdemux, stream, list))
          return FALSE;
@@ -179,7 +179,7 @@ index afbcfcb17..e69c195e1 100644
      }
    }
  
-@@ -12900,7 +12936,6 @@ qtdemux_expose_streams (GstQTDemux * qtdemux)
+@@ -13477,7 +13513,6 @@ qtdemux_expose_streams (GstQTDemux * qtdemux)
      }
  
      g_ptr_array_set_size (qtdemux->old_streams, 0);
@@ -187,7 +187,7 @@ index afbcfcb17..e69c195e1 100644
  
      return GST_FLOW_OK;
    }
-@@ -12919,6 +12954,13 @@ qtdemux_expose_streams (GstQTDemux * qtdemux)
+@@ -13496,6 +13531,13 @@ qtdemux_expose_streams (GstQTDemux * qtdemux)
        if (!gst_qtdemux_add_stream (qtdemux, stream, list))
          return GST_FLOW_ERROR;
  
@@ -201,7 +201,7 @@ index afbcfcb17..e69c195e1 100644
      }
    }
  
-@@ -12962,8 +13004,6 @@ qtdemux_expose_streams (GstQTDemux * qtdemux)
+@@ -13539,8 +13581,6 @@ qtdemux_expose_streams (GstQTDemux * qtdemux)
    g_ptr_array_foreach (qtdemux->active_streams,
        (GFunc) qtdemux_do_allocation, qtdemux);
  
@@ -211,10 +211,10 @@ index afbcfcb17..e69c195e1 100644
    return GST_FLOW_OK;
  }
 diff --git a/gst/isomp4/qtdemux.h b/gst/isomp4/qtdemux.h
-index 83a050a43..ccee2ee2b 100644
+index 600553421..afe5ab283 100644
 --- a/gst/isomp4/qtdemux.h
 +++ b/gst/isomp4/qtdemux.h
-@@ -118,11 +118,8 @@ struct _GstQTDemux {
+@@ -131,11 +131,8 @@ struct _GstQTDemux {
    /* configured playback region */
    GstSegment segment;
  
@@ -229,5 +229,5 @@ index 83a050a43..ccee2ee2b 100644
    guint32 segment_seqnum;
  
 -- 
-2.17.1
+2.34.1
 

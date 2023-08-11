@@ -11,7 +11,7 @@ DEPENDS_append = " broadcom-refsw"
 PV = "3.0+gitr${SRCPV}"
 RECIPE_BRANCH ?= "master"
 SRC_URI = "git://code.rdkcentral.com/r/soc/broadcom/components/rdkcentral/OCDM-Widevine-Nexus-SVP.git;protocol=https;branch=${RECIPE_BRANCH}"
-SRCREV ?= "fa60a8b37af4da396a8ba108dc4f9f85b6eaf10e"
+SRCREV ?= "26b44b78c3caa5a400dc7b41dd6a421cc94dbad8"
 
 WPE_OPENCDMI_WIDEVINE_CENC_VERSION ??= "15"
 PACKAGECONFIG[opencdmi_widevine_cenc_version] = "-DCENC_VERSION=${WPE_OPENCDMI_WIDEVINE_CENC_VERSION}"

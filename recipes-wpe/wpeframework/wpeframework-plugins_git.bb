@@ -2,20 +2,20 @@ SUMMARY = "WPE Framework common plugins"
 DESCRIPTION = "Common plugins for Thunder framework"
 HOMEPAGE = "https://github.com/rdkcentral/ThunderNanoServices"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=47b1321b4411e96bb5aeb94521850d43"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=5af0d167017273075d866c98a6159659"
 
 require include/wpeframework-plugins.inc
 
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"
-RECIPE_BRANCH ?= "master"
+RECIPE_BRANCH ?= "R4"
 SRC_URI = "\
     git://github.com/rdkcentral/ThunderNanoServices.git;protocol=https;branch=${RECIPE_BRANCH} \
     file://index.html \
     file://osmc-devinput-remote.json \
     file://0001-westeros-preload-libwesteros_gl.so.0.0.0.patch \
 "
-SRCREV ?= "d313de5cd939a62ab5fdd7f6ee24689e792cf60e"
+SRCREV ?= "ca390d7255b2c176ea1647f7a7c67fc17633bb19"
 
 # More complicated plugins are moved seperate includes
 

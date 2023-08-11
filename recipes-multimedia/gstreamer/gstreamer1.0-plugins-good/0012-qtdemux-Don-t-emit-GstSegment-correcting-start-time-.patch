@@ -1,0 +1,176 @@
+From 73badfbf68c49f69f2cfe8c3609de80882769743 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
+Date: Thu, 23 Mar 2023 18:02:13 +0100
+Subject: [PATCH 12/16] qtdemux: Don't emit GstSegment correcting start time
+ when in MSE mode
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When using qtdemux in a pipeline that should only work as a pure demuxer (not
+for actual playback), qtdemux shouldn't emit new GstSegments to correct
+the start time (jump to the future) to ensure that the user experiences no
+playback delay. By doing so, it's generating the wrong segments when an append
+of data from the past happens. When that happens, downstream elements such as
+parsers (eg: aacparse) may clip those buffers laying before the GstSegment and
+create problems on the GStreamer client app (eg: WebKit).
+
+Getting buffers clipped out because of the wrong GstSegments started becoming
+a problen when this commit was introduced:
+
+ab6e49e9 audioparsers: add back segment clipping to parsers that have lost it
+
+This clipping makes test DASH shaka 35 from MVT tests[1] to fail in
+WebKitGTK/WPE (at least) and can potentially cause a number of other problems
+in the WebKit Media Source Extensions (MSE) code.
+
+Note that this new behaviour of not emitting new GstSegments only makes sense
+when qtdemux is being used as a pure demuxer and not as part of a regular
+pipeline. This is why the variant field has been added. When equal to
+VARIANT_MSE_BYTESTREAM, it will make qtdemux behave differently in push mode,
+taking decisions that meet the expectations for an MSE-like processing mode.
+This kind of tweaks have been done in the past for MSS streams, for instance.
+That code has been refactored to use VARIANT_MSS_FRAGMENTED now, instead of
+its own dedicated boolean flag.
+
+Co-authored by: Alicia Boya García <ntrrgc@gmail.com>
+
+...who suggested to use "variant: mse-bytestream" in the caps to identify that
+mode, as proposed in her unmerged patch:
+
+gst-plugins-good#467
+
+[1] https://github.com/rdkcentral/mvt
+
+Part-of: <!3867>
+---
+ gst/isomp4/qtdemux.c | 22 +++++++++++++---------
+ gst/isomp4/qtdemux.h | 18 ++++++++++++++----
+ 2 files changed, 27 insertions(+), 13 deletions(-)
+
+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
+index 72bdd0654..0f9803aaa 100644
+--- a/gst/isomp4/qtdemux.c
++++ b/gst/isomp4/qtdemux.c
+@@ -2036,12 +2036,16 @@ gst_qtdemux_setcaps (GstQTDemux * demux, GstCaps * caps)
+   structure = gst_caps_get_structure (caps, 0);
+   variant = gst_structure_get_string (structure, "variant");
+ 
++  if (variant && strcmp (variant, "mse-bytestream") == 0) {
++    demux->variant = VARIANT_MSE_BYTESTREAM;
++  }
++
+   if (variant && strcmp (variant, "mss-fragmented") == 0) {
+     QtDemuxStream *stream;
+     const GValue *value;
+ 
+     demux->fragmented = TRUE;
+-    demux->mss_mode = TRUE;
++    demux->variant = VARIANT_MSS_FRAGMENTED;
+ 
+     if (QTDEMUX_N_STREAMS (demux) > 1) {
+       /* can't do this, we can only renegotiate for another mss format */
+@@ -2102,8 +2106,6 @@ gst_qtdemux_setcaps (GstQTDemux * demux, GstCaps * caps)
+       }
+     }
+     gst_caps_replace (&demux->media_caps, (GstCaps *) mediacaps);
+-  } else {
+-    demux->mss_mode = FALSE;
+   }
+ 
+   return TRUE;
+@@ -2190,7 +2192,7 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+     qtdemux->n_sub_streams = 0;
+     qtdemux->exposed = FALSE;
+     qtdemux->fragmented = FALSE;
+-    qtdemux->mss_mode = FALSE;
++    qtdemux->variant = VARIANT_NONE;
+     gst_caps_replace (&qtdemux->media_caps, NULL);
+     qtdemux->timescale = 0;
+     qtdemux->got_moov = FALSE;
+@@ -2209,7 +2211,7 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+       g_free (qtdemux->preferred_protection_system_id);
+       qtdemux->preferred_protection_system_id = NULL;
+     }
+-  } else if (qtdemux->mss_mode) {
++  } else if (qtdemux->variant == VARIANT_MSS_FRAGMENTED) {
+     gst_flow_combiner_reset (qtdemux->flowcombiner);
+     g_ptr_array_foreach (qtdemux->active_streams,
+         (GFunc) gst_qtdemux_stream_clear, NULL);
+@@ -3695,7 +3697,7 @@ qtdemux_find_stream (GstQTDemux * qtdemux, guint32 id)
+     if (stream->track_id == id)
+       return stream;
+   }
+-  if (qtdemux->mss_mode) {
++  if (qtdemux->variant == VARIANT_MSS_FRAGMENTED) {
+     /* mss should have only 1 stream anyway */
+     return QTDEMUX_NTH_STREAM (qtdemux, 0);
+   }
+@@ -3760,7 +3762,7 @@ qtdemux_parse_tfhd (GstQTDemux * qtdemux, GstByteReader * tfhd,
+     (*stream)->stsd_sample_description_id = sample_description_index - 1;
+   }
+ 
+-  if (qtdemux->mss_mode) {
++  if (qtdemux->variant == VARIANT_MSS_FRAGMENTED) {
+     /* mss has no stsd entry */
+     (*stream)->stsd_sample_description_id = 0;
+   }
+@@ -4649,7 +4651,9 @@ qtdemux_parse_moof (GstQTDemux * qtdemux, const guint8 * buffer, guint length,
+     pssh_node = qtdemux_tree_get_sibling_by_type (pssh_node, FOURCC_pssh);
+   }
+ 
+-  if (!qtdemux->upstream_format_is_time && !qtdemux->first_moof_already_parsed
++  if (!qtdemux->upstream_format_is_time
++      && qtdemux->variant != VARIANT_MSE_BYTESTREAM
++      && !qtdemux->first_moof_already_parsed
+       && !qtdemux->received_seek && GST_CLOCK_TIME_IS_VALID (min_dts)
+       && min_dts != 0) {
+     /* Unless the user has explictly requested another seek, perform an
+@@ -7629,7 +7633,7 @@ gst_qtdemux_process_adapter (GstQTDemux * demux, gboolean force)
+             }
+ 
+             /* in MSS we need to expose the pads after the first moof as we won't get a moov */
+-            if (demux->mss_mode && !demux->exposed) {
++            if (demux->variant == VARIANT_MSS_FRAGMENTED && !demux->exposed) {
+               QTDEMUX_EXPOSE_LOCK (demux);
+               qtdemux_expose_streams (demux);
+               QTDEMUX_EXPOSE_UNLOCK (demux);
+diff --git a/gst/isomp4/qtdemux.h b/gst/isomp4/qtdemux.h
+index 83a050a43..600553421 100644
+--- a/gst/isomp4/qtdemux.h
++++ b/gst/isomp4/qtdemux.h
+@@ -57,6 +57,19 @@ enum QtDemuxState
+   QTDEMUX_STATE_BUFFER_MDAT     /* Buffering the mdat atom */
+ };
+ 
++typedef enum {
++  /* Regular behaviour */
++  VARIANT_NONE,
++
++  /* We're working with a MediaSource Extensions ISO BMFF Bytestream. */
++  VARIANT_MSE_BYTESTREAM,
++
++  /* We're working with a smoothstreaming fragment.
++   * Mss doesn't have 'moov' or any information about the streams format,
++   * requiring qtdemux to expose and create the streams */
++  VARIANT_MSS_FRAGMENTED,
++} Variant;
++
+ struct _GstQTDemux {
+   GstElement element;
+ 
+@@ -126,10 +139,7 @@ struct _GstQTDemux {
+ 
+   guint32 segment_seqnum;
+ 
+-  /* flag to indicate that we're working with a smoothstreaming fragment
+-   * Mss doesn't have 'moov' or any information about the streams format,
+-   * requiring qtdemux to expose and create the streams */
+-  gboolean mss_mode;
++  Variant variant;
+ 
+   /* Set to TRUE if the incoming stream is either a MSS stream or
+    * a Fragmented MP4 (containing the [mvex] atom in the header) */
+-- 
+2.34.1
+

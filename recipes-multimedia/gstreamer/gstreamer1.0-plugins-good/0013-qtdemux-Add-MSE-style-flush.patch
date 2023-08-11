@@ -1,0 +1,53 @@
+From 06c51157cc39ab0937cd21bc0d9d31965e38c6a9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Alicia=20Boya=20Garc=C3=ADa?= <aboya@igalia.com>
+Date: Thu, 23 Mar 2023 18:07:06 +0100
+Subject: [PATCH 13/16] qtdemux: Add MSE-style flush
+
+The abort() method of SourceBuffer in Media Source Extensions is
+expected to flush the demuxer and discard the current fragment,
+if any. The configuration of tracks, if any, should be preserved.
+
+qtdemux has different behavior for flush events depending on the
+context.
+
+This patch activates the intended behaviour only for streams of the
+VARIANT_MSE_BYTESTREAM type, conformant to the ISO BMFF Bytestream
+specification[1]. This flush behaviour is the same as the one
+already in use for adaptivedemux sources.
+
+[1] https://www.w3.org/TR/mse-byte-stream-format-isobmff/
+
+https://bugzilla.gnome.org/show_bug.cgi?id=795424
+
+Part-of: <!4101>
+---
+ gst/isomp4/qtdemux.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
+index 0f9803aaa..2200049f5 100644
+--- a/gst/isomp4/qtdemux.c
++++ b/gst/isomp4/qtdemux.c
+@@ -2119,7 +2119,8 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+   GST_DEBUG_OBJECT (qtdemux, "Resetting demux");
+   gst_pad_stop_task (qtdemux->sinkpad);
+ 
+-  if (hard || qtdemux->upstream_format_is_time) {
++  if (hard || qtdemux->upstream_format_is_time
++      || qtdemux->variant == VARIANT_MSE_BYTESTREAM) {
+     qtdemux->state = QTDEMUX_STATE_INITIAL;
+     qtdemux->neededbytes = 16;
+     qtdemux->todrop = 0;
+@@ -2211,7 +2212,8 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+       g_free (qtdemux->preferred_protection_system_id);
+       qtdemux->preferred_protection_system_id = NULL;
+     }
+-  } else if (qtdemux->variant == VARIANT_MSS_FRAGMENTED) {
++  } else if (qtdemux->variant == VARIANT_MSS_FRAGMENTED
++      || qtdemux->variant == VARIANT_MSE_BYTESTREAM) {
+     gst_flow_combiner_reset (qtdemux->flowcombiner);
+     g_ptr_array_foreach (qtdemux->active_streams,
+         (GFunc) gst_qtdemux_stream_clear, NULL);
+-- 
+2.34.1
+

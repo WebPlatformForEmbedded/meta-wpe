@@ -1,7 +1,7 @@
-From cc1df8a7b51bb6d6b859f2cc22710d7bbdb0b9da Mon Sep 17 00:00:00 2001
+From aab183a8f4255bb09cc579163942139bff885626 Mon Sep 17 00:00:00 2001
 From: Xabier Rodriguez Calvar <calvaris@igalia.com>
 Date: Thu, 4 Feb 2021 11:44:53 +0100
-Subject: [PATCH 9/9] qtdemux: added support for cbcs encryption scheme
+Subject: [PATCH 08/16] qtdemux: added support for cbcs encryption scheme
 
 Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/865>
 ---
@@ -22,10 +22,10 @@ index 17d31b217..c40391398 100644
  G_END_DECLS
  
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index 1437fd46e..47bd6fe83 100644
+index 446c53e08..effc505a5 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
-@@ -2721,7 +2721,8 @@ gst_qtdemux_stream_clear (QtDemuxStream * stream)
+@@ -2700,7 +2700,8 @@ gst_qtdemux_stream_clear (QtDemuxStream * stream)
    stream->sent_eos = FALSE;
    stream->protected = FALSE;
    if (stream->protection_scheme_info) {
@@ -35,7 +35,7 @@ index 1437fd46e..47bd6fe83 100644
        QtDemuxCencSampleSetInfo *info =
            (QtDemuxCencSampleSetInfo *) stream->protection_scheme_info;
        if (info->default_properties)
-@@ -2876,22 +2877,43 @@ qtdemux_handle_xmp_taglist (GstQTDemux * qtdemux, GstTagList * taglist,
+@@ -2855,22 +2856,43 @@ qtdemux_handle_xmp_taglist (GstQTDemux * qtdemux, GstTagList * taglist,
  }
  
  static void
@@ -84,7 +84,7 @@ index 1437fd46e..47bd6fe83 100644
  }
  
  static gboolean
-@@ -2923,8 +2945,8 @@ qtdemux_update_default_piff_encryption_settings (GstQTDemux * qtdemux,
+@@ -2902,8 +2924,8 @@ qtdemux_update_default_piff_encryption_settings (GstQTDemux * qtdemux,
    if (!gst_byte_reader_get_data (br, 16, &kid))
      return FALSE;
  
@@ -95,7 +95,7 @@ index 1437fd46e..47bd6fe83 100644
    gst_structure_set (info->default_properties, "piff_algorithm_id",
        G_TYPE_UINT, algorithm_id, NULL);
    return TRUE;
-@@ -3948,9 +3970,10 @@ qtdemux_gst_structure_free (GstStructure * gststructure)
+@@ -3927,9 +3949,10 @@ qtdemux_gst_structure_free (GstStructure * gststructure)
    }
  }
  
@@ -109,7 +109,7 @@ index 1437fd46e..47bd6fe83 100644
  static gboolean
  qtdemux_parse_cenc_aux_info (GstQTDemux * qtdemux, QtDemuxStream * stream,
      GstByteReader * br, guint8 * info_sizes, guint32 sample_count)
-@@ -4008,6 +4031,7 @@ qtdemux_parse_cenc_aux_info (GstQTDemux * qtdemux, QtDemuxStream * stream,
+@@ -3987,6 +4010,7 @@ qtdemux_parse_cenc_aux_info (GstQTDemux * qtdemux, QtDemuxStream * stream,
      guint8 *data;
      guint iv_size;
      GstBuffer *buf;
@@ -117,7 +117,7 @@ index 1437fd46e..47bd6fe83 100644
  
      properties = qtdemux_get_cenc_sample_properties (qtdemux, stream, i);
      if (properties == NULL) {
-@@ -4019,14 +4043,29 @@ qtdemux_parse_cenc_aux_info (GstQTDemux * qtdemux, QtDemuxStream * stream,
+@@ -3998,14 +4022,29 @@ qtdemux_parse_cenc_aux_info (GstQTDemux * qtdemux, QtDemuxStream * stream,
        gst_structure_free (properties);
        return FALSE;
      }
@@ -151,7 +151,7 @@ index 1437fd46e..47bd6fe83 100644
      size = info_sizes[i];
      if (size > iv_size) {
        if (!gst_byte_reader_get_uint16_be (br, &n_subsamples)
-@@ -4209,7 +4248,8 @@ qtdemux_parse_moof (GstQTDemux * qtdemux, const guint8 * buffer, guint length,
+@@ -4188,7 +4227,8 @@ qtdemux_parse_moof (GstQTDemux * qtdemux, const guint8 * buffer, guint length,
        }
        if (base_offset > -1 && base_offset > qtdemux->moof_offset)
          offset += (guint64) (base_offset - qtdemux->moof_offset);
@@ -161,7 +161,7 @@ index 1437fd46e..47bd6fe83 100644
          GstByteReader br;
          if (offset > length) {
            GST_DEBUG_OBJECT (qtdemux, "cenc auxiliary info stored out of moof");
-@@ -5898,7 +5938,8 @@ gst_qtdemux_push_buffer (GstQTDemux * qtdemux, QtDemuxStream * stream,
+@@ -5883,7 +5923,8 @@ gst_qtdemux_push_buffer (GstQTDemux * qtdemux, QtDemuxStream * stream,
        GST_TIME_ARGS (GST_BUFFER_PTS (buf)),
        GST_TIME_ARGS (GST_BUFFER_DURATION (buf)), GST_PAD_NAME (stream->pad));
  
@@ -171,7 +171,7 @@ index 1437fd46e..47bd6fe83 100644
      GstStructure *crypto_info;
      QtDemuxCencSampleSetInfo *info =
          (QtDemuxCencSampleSetInfo *) stream->protection_scheme_info;
-@@ -5912,8 +5953,19 @@ gst_qtdemux_push_buffer (GstQTDemux * qtdemux, QtDemuxStream * stream,
+@@ -5897,8 +5938,19 @@ gst_qtdemux_push_buffer (GstQTDemux * qtdemux, QtDemuxStream * stream,
      }
  
      if (info->crypto_info == NULL) {
@@ -193,7 +193,7 @@ index 1437fd46e..47bd6fe83 100644
      } else {
        /* The end of the crypto_info array matches our n_samples position,
         * so count backward from there */
-@@ -6285,7 +6337,8 @@ gst_qtdemux_do_fragmented_seek (GstQTDemux * qtdemux)
+@@ -6270,7 +6322,8 @@ gst_qtdemux_do_fragmented_seek (GstQTDemux * qtdemux)
  
      if (stream->protection_scheme_info) {
        /* Clear out any old cenc crypto info entries as we'll move to a new moof */
@@ -203,7 +203,7 @@ index 1437fd46e..47bd6fe83 100644
          QtDemuxCencSampleSetInfo *info =
              (QtDemuxCencSampleSetInfo *) stream->protection_scheme_info;
          if (info->crypto_info) {
-@@ -8484,7 +8537,8 @@ gst_qtdemux_configure_protected_caps (GstQTDemux * qtdemux,
+@@ -8456,7 +8509,8 @@ gst_qtdemux_configure_protected_caps (GstQTDemux * qtdemux,
    g_return_val_if_fail (gst_caps_get_size (CUR_STREAM (stream)->caps) == 1,
        FALSE);
  
@@ -213,7 +213,7 @@ index 1437fd46e..47bd6fe83 100644
      GST_ERROR_OBJECT (qtdemux,
          "unsupported protection scheme: %" GST_FOURCC_FORMAT,
          GST_FOURCC_ARGS (stream->protection_scheme_type));
-@@ -8492,10 +8546,13 @@ gst_qtdemux_configure_protected_caps (GstQTDemux * qtdemux,
+@@ -8464,10 +8518,13 @@ gst_qtdemux_configure_protected_caps (GstQTDemux * qtdemux,
    }
  
    s = gst_caps_get_structure (CUR_STREAM (stream)->caps, 0);
@@ -229,7 +229,7 @@ index 1437fd46e..47bd6fe83 100644
    }
  
    if (qtdemux->protection_system_ids == NULL) {
-@@ -10355,7 +10412,8 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
+@@ -10327,7 +10384,8 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
  
    sinf = qtdemux_tree_get_child_by_type (container, FOURCC_sinf);
    if (G_UNLIKELY (!sinf)) {
@@ -239,7 +239,7 @@ index 1437fd46e..47bd6fe83 100644
        GST_ERROR_OBJECT (qtdemux, "sinf box does not contain schi box, which is "
            "mandatory for Common Encryption");
        return FALSE;
-@@ -10394,7 +10452,8 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
+@@ -10366,7 +10424,8 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
      return FALSE;
    }
    if (stream->protection_scheme_type != FOURCC_cenc &&
@@ -249,7 +249,7 @@ index 1437fd46e..47bd6fe83 100644
      GST_ERROR_OBJECT (qtdemux,
          "Invalid protection_scheme_type: %" GST_FOURCC_FORMAT,
          GST_FOURCC_ARGS (stream->protection_scheme_type));
-@@ -10407,10 +10466,15 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
+@@ -10379,10 +10438,15 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
  
    info = (QtDemuxCencSampleSetInfo *) stream->protection_scheme_info;
  
@@ -267,7 +267,7 @@ index 1437fd46e..47bd6fe83 100644
  
      tenc = qtdemux_tree_get_child_by_type (schi, FOURCC_tenc);
      if (!tenc) {
-@@ -10419,11 +10483,27 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
+@@ -10391,11 +10455,27 @@ qtdemux_parse_protection_scheme_info (GstQTDemux * qtdemux,
        return FALSE;
      }
      tenc_data = (const guint8 *) tenc->data + 12;
@@ -299,5 +299,5 @@ index 1437fd46e..47bd6fe83 100644
      GstByteReader br;
      static const guint8 piff_track_encryption_uuid[] = {
 -- 
-2.29.2
+2.34.1
 

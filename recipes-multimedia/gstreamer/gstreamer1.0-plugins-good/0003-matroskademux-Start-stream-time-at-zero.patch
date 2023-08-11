@@ -1,7 +1,7 @@
-From 28ab9277034e234feec3d2b4de014d042855cab4 Mon Sep 17 00:00:00 2001
+From b1250003cbddab928178da1c664885658e42108c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Alicia=20Boya=20Garc=C3=ADa?= <aboya@igalia.com>
 Date: Wed, 22 Nov 2017 19:25:45 +0100
-Subject: [PATCH 3/6] matroskademux: Start stream time at zero
+Subject: [PATCH 03/16] matroskademux: Start stream time at zero
 
 ---
  gst/matroska/matroska-demux.c | 4 ++--
@@ -24,5 +24,5 @@ index b2cd9b5d4..ae9f3b786 100644
        GST_DEBUG_OBJECT (demux,
            "generated segment starting at %" GST_TIME_FORMAT ": %"
 -- 
-2.17.1
+2.34.1
 

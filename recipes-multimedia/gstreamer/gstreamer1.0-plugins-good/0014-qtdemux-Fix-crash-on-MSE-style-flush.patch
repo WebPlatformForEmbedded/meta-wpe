@@ -1,0 +1,38 @@
+From 440199f6d40e7cecb1a1c3a5dabacf2d3e40dea7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Enrique=20Oca=C3=B1a=20Gonz=C3=A1lez?= <eocanha@igalia.com>
+Date: Thu, 23 Mar 2023 18:09:54 +0100
+Subject: [PATCH 14/16] qtdemux: Fix crash on MSE-style flush
+
+The flowcombiner and active_streams shouldn't be cleared in the
+mse-bytestream variant, only in the mss-fragmented one. Otherwise the
+soft reset leaves qtdemux in a state where it still believes that it has
+streams, but they've been cleared. In that case, a null pointer
+dereference happens and the app crashes.
+
+Part-of: <!4199>
+---
+ gst/isomp4/qtdemux.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
+index 2200049f5..73d4da76e 100644
+--- a/gst/isomp4/qtdemux.c
++++ b/gst/isomp4/qtdemux.c
+@@ -2212,11 +2212,12 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+       g_free (qtdemux->preferred_protection_system_id);
+       qtdemux->preferred_protection_system_id = NULL;
+     }
+-  } else if (qtdemux->variant == VARIANT_MSS_FRAGMENTED
+-      || qtdemux->variant == VARIANT_MSE_BYTESTREAM) {
++  } else if (qtdemux->variant == VARIANT_MSS_FRAGMENTED) {
+     gst_flow_combiner_reset (qtdemux->flowcombiner);
+     g_ptr_array_foreach (qtdemux->active_streams,
+         (GFunc) gst_qtdemux_stream_clear, NULL);
++  } else if (qtdemux->variant == VARIANT_MSE_BYTESTREAM) {
++    /* Do nothing */
+   } else {
+     gst_flow_combiner_reset (qtdemux->flowcombiner);
+     for (i = 0; i < QTDEMUX_N_STREAMS (qtdemux); i++) {
+-- 
+2.34.1
+
