@@ -51,11 +51,11 @@ COBALT_DEPENDENCIES ??= ""
 DEPENDS_append = " ${COBALT_DEPENDENCIES}"
 
 def get_cobalt_data_path(d):
-    cobalt_data = d.getVar('WPEFRAMEWORK_DATA_PATH')
+    cobalt_data = d.getVar('WPEFRAMEWORK_INSTALL_PATH')
     if not cobalt_data:
         return "${datadir}/content"
     else:
-        return "${WPEFRAMEWORK_DATA_PATH}/Cobalt"
+        return "${WPEFRAMEWORK_INSTALL_PATH}/Cobalt"
 COBALT_DATA = "${@get_cobalt_data_path(d)}"
 
 do_configure() {
