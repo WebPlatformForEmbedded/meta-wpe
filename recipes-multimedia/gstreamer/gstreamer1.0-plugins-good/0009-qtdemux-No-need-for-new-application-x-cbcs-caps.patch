@@ -1,7 +1,7 @@
-From d5e65505935e27e9737cf6dfa6dc2bc3bbbe3e47 Mon Sep 17 00:00:00 2001
+From 7c92b72d96d609b932e989102abb465eb6bf9903 Mon Sep 17 00:00:00 2001
 From: Yacine Bandou <yacine.bandou@softathome.com>
 Date: Mon, 21 Jun 2021 13:47:50 +0200
-Subject: [PATCH] qtdemux: No need for new "application/x-cbcs" caps
+Subject: [PATCH 09/16] qtdemux: No need for new "application/x-cbcs" caps
 
 Instead of using the new "application/x-cbcs" caps, we are just adding
 a new structure field "ciphe-mode", to indicate which encryption scheme
@@ -23,10 +23,10 @@ Part-of: <https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requ
  1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index 47bd6fe83..910cd0d95 100644
+index effc505a5..b200aae29 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
-@@ -2883,15 +2883,12 @@ qtdemux_update_default_sample_cenc_settings (GstQTDemux * qtdemux,
+@@ -2862,15 +2862,12 @@ qtdemux_update_default_sample_cenc_settings (GstQTDemux * qtdemux,
      guint crypt_byte_block, guint skip_byte_block, guint8 constant_iv_size,
      const guint8 * constant_iv)
  {
@@ -43,7 +43,7 @@ index 47bd6fe83..910cd0d95 100644
        "iv_size", G_TYPE_UINT, iv_size,
        "encrypted", G_TYPE_BOOLEAN, (is_encrypted == 1),
        "kid", GST_TYPE_BUFFER, kid_buf, NULL);
-@@ -2913,6 +2910,11 @@ qtdemux_update_default_sample_cenc_settings (GstQTDemux * qtdemux,
+@@ -2892,6 +2889,11 @@ qtdemux_update_default_sample_cenc_settings (GstQTDemux * qtdemux,
            NULL);
        gst_buffer_unref (constant_iv_buf);
      }
@@ -55,7 +55,7 @@ index 47bd6fe83..910cd0d95 100644
    }
  }
  
-@@ -3971,7 +3973,7 @@ qtdemux_gst_structure_free (GstStructure * gststructure)
+@@ -3950,7 +3952,7 @@ qtdemux_gst_structure_free (GstStructure * gststructure)
  }
  
  /* Parses auxiliary information relating to samples protected using
@@ -64,7 +64,7 @@ index 47bd6fe83..910cd0d95 100644
   * is defined in ISO/IEC 23001-7. Returns TRUE if successful; FALSE
   * otherwise. */
  static gboolean
-@@ -8546,13 +8548,13 @@ gst_qtdemux_configure_protected_caps (GstQTDemux * qtdemux,
+@@ -8518,13 +8520,13 @@ gst_qtdemux_configure_protected_caps (GstQTDemux * qtdemux,
    }
  
    s = gst_caps_get_structure (CUR_STREAM (stream)->caps, 0);
@@ -84,5 +84,5 @@ index 47bd6fe83..910cd0d95 100644
  
    if (qtdemux->protection_system_ids == NULL) {
 -- 
-2.30.2
+2.34.1
 

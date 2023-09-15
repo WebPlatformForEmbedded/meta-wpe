@@ -14,8 +14,10 @@ require packager.inc
 require playerinfo.inc
 require securityagent.inc
 require tracecontrol.inc
-require warningreportingcontrol.inc
 require webkitbrowser.inc
+
+# Added deprecated plugins for backward compatibility
+require plugins_rdk_deprecated.inc
 
 WPE_MESSAGE_LOGGING ??= "true"
 

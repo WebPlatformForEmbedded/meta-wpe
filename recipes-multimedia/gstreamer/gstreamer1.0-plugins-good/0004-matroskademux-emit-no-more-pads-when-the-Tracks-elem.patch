@@ -1,8 +1,8 @@
-From d1a349779448f7a80185aeba847a3e38e894c5c6 Mon Sep 17 00:00:00 2001
+From bae49dc74e76ee03e55ed6189200cac384ba1283 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Alicia=20Boya=20Garc=C3=ADa?= <ntrrgc@gmail.com>
 Date: Thu, 14 Dec 2017 18:57:56 +0100
-Subject: [PATCH 4/6] matroskademux: emit no-more-pads when the Tracks element
- is completely read
+Subject: [PATCH 04/16] matroskademux: emit no-more-pads when the Tracks
+ element is completely read
 
 ---
  gst/matroska/matroska-demux.c | 189 +++++++++++++++++++++++-----------
@@ -223,5 +223,5 @@ index ae9f3b786..c54520d1a 100644
            demux->cluster_offset = demux->common.offset;
            demux->cluster_prevsize = 0;
 -- 
-2.17.1
+2.34.1
 

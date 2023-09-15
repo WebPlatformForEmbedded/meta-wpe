@@ -10,10 +10,9 @@ DEPENDS_append = " wpeframework-tools-native wpeframework"
 
 PV = "3.0+gitr${SRCPV}"
 PR = "r1"
-RECIPE_BRANCH ?= "main"
+RECIPE_BRANCH ?= "R4"
 SRC_URI = "git://git@github.com:/WebPlatformForEmbedded/ThunderLibraries.git;protocol=ssh;branch=${RECIPE_BRANCH}"
-SRCREV ?= "9bdc7170cfac97ff6e5d9f874d6dc6be0c3009f0"
-
+SRCREV ?= "b9d52f41575966f5f74173b08bf68ad1db07e5ad"
 
 PACKAGECONFIG ??= "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'bluetooth', 'bluetooth', '', d)} \

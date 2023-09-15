@@ -1,0 +1,105 @@
+From 686961cd8d4c6d793e085c61ed8175b0eca9a4c9 Mon Sep 17 00:00:00 2001
+From: Xabier Rodriguez Calvar <calvaris@igalia.com>
+Date: Fri, 9 Dec 2022 11:35:25 +0100
+Subject: [PATCH 10/16] qtdemux: Clear protection events when we get new ones
+
+If we keep the old events they can be end up being passed to the app, that could
+discard the protection information because it has been seen before.
+
+Drive by improvement: use g_queue_clear_full instead of foreach+clear for
+protection events.
+
+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3547>
+---
+ gst/isomp4/qtdemux.c | 33 ++++++++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
+
+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
+index b200aae29..98776ea1a 100644
+--- a/gst/isomp4/qtdemux.c
++++ b/gst/isomp4/qtdemux.c
+@@ -615,6 +615,8 @@ static void gst_qtdemux_append_protection_system_id (GstQTDemux * qtdemux,
+     const gchar * id);
+ static void qtdemux_gst_structure_free (GstStructure * gststructure);
+ static void gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard);
++static void qtdemux_clear_protection_events_on_all_streams (GstQTDemux *
++    qtdemux);
+ 
+ static void
+ gst_qtdemux_class_init (GstQTDemuxClass * klass)
+@@ -694,9 +696,8 @@ gst_qtdemux_dispose (GObject * object)
+   }
+   gst_tag_list_unref (qtdemux->tag_list);
+   gst_flow_combiner_free (qtdemux->flowcombiner);
+-  g_queue_foreach (&qtdemux->protection_event_queue, (GFunc) gst_event_unref,
+-      NULL);
+-  g_queue_clear (&qtdemux->protection_event_queue);
++  g_queue_clear_full (&qtdemux->protection_event_queue,
++      (GDestroyNotify) gst_event_unref);
+ 
+   g_free (qtdemux->cenc_aux_info_sizes);
+   qtdemux->cenc_aux_info_sizes = NULL;
+@@ -2164,9 +2165,8 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+     qtdemux->have_group_id = FALSE;
+     qtdemux->group_id = G_MAXUINT;
+ 
+-    g_queue_foreach (&qtdemux->protection_event_queue, (GFunc) gst_event_unref,
+-        NULL);
+-    g_queue_clear (&qtdemux->protection_event_queue);
++    g_queue_clear_full (&qtdemux->protection_event_queue,
++        (GDestroyNotify) gst_event_unref);
+ 
+     qtdemux->received_seek = FALSE;
+     qtdemux->first_moof_already_parsed = FALSE;
+@@ -2219,6 +2219,14 @@ gst_qtdemux_reset (GstQTDemux * qtdemux, gboolean hard)
+   }
+ }
+ 
++static void
++qtdemux_clear_protection_events_on_all_streams (GstQTDemux *qtdemux) {
++  for (unsigned i = 0; i < QTDEMUX_N_STREAMS (qtdemux); i++) {
++    QtDemuxStream *stream = QTDEMUX_NTH_STREAM (qtdemux, i);
++    g_queue_clear_full (&stream->protection_scheme_event_queue,
++        (GDestroyNotify) gst_event_unref);
++  }
++}
+ 
+ /* Maps the @segment to the qt edts internal segments and pushes
+  * the correspnding segment event.
+@@ -2714,9 +2722,8 @@ gst_qtdemux_stream_clear (QtDemuxStream * stream)
+   }
+   stream->protection_scheme_type = 0;
+   stream->protection_scheme_version = 0;
+-  g_queue_foreach (&stream->protection_scheme_event_queue,
+-      (GFunc) gst_event_unref, NULL);
+-  g_queue_clear (&stream->protection_scheme_event_queue);
++  g_queue_clear_full (&stream->protection_scheme_event_queue,
++      (GDestroyNotify) gst_event_unref);
+   if (stream->default_kid)
+     gst_buffer_unref (stream->default_kid);
+   gst_qtdemux_stream_flush_segments_data (stream);
+@@ -4333,6 +4340,10 @@ qtdemux_parse_moof (GstQTDemux * qtdemux, const guint8 * buffer, guint length,
+ 
+   /* parse any protection system info */
+   pssh_node = qtdemux_tree_get_child_by_type (moof_node, FOURCC_pssh);
++  if (pssh_node) {
++    /* Unref old protection events if we are going to receive new ones. */
++    qtdemux_clear_protection_events_on_all_streams (qtdemux);
++  }
+   while (pssh_node) {
+     GST_LOG_OBJECT (qtdemux, "Parsing pssh box.");
+     qtdemux_parse_pssh (qtdemux, pssh_node);
+@@ -14511,6 +14522,10 @@ qtdemux_parse_tree (GstQTDemux * qtdemux)
+ 
+   /* parse any protection system info */
+   pssh = qtdemux_tree_get_child_by_type (qtdemux->moov_node, FOURCC_pssh);
++  if (pssh) {
++    /* Unref old protection events if we are going to receive new ones. */
++    qtdemux_clear_protection_events_on_all_streams (qtdemux);
++  }
+   while (pssh) {
+     GST_LOG_OBJECT (qtdemux, "Parsing pssh box.");
+     qtdemux_parse_pssh (qtdemux, pssh);
+-- 
+2.34.1
+

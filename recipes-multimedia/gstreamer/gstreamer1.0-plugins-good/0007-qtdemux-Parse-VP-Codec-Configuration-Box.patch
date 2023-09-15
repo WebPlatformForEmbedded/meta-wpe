@@ -1,7 +1,7 @@
-From 78aa27db1f341b867255d2b784b17672652d55ac Mon Sep 17 00:00:00 2001
+From 7a65566c7df64297da543d8b0efe69e8f477773d Mon Sep 17 00:00:00 2001
 From: Seungha Yang <seungha.yang@navercorp.com>
 Date: Wed, 19 Feb 2020 20:27:54 +0900
-Subject: [PATCH 8/9] qtdemux: Parse VP Codec Configuration Box
+Subject: [PATCH 07/16] qtdemux: Parse VP Codec Configuration Box
 
 The VP Codec Configuration Box (vpcC) contains vp9 profile and
 colorimetry information. Especially the profile information might
@@ -24,10 +24,10 @@ index 6c425e6f9..17d31b217 100644
  #define FOURCC_wave     GST_MAKE_FOURCC('w','a','v','e')
  #define FOURCC_wide     GST_MAKE_FOURCC('w','i','d','e')
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index d3c2c62a1..1437fd46e 100644
+index 7680f1ef7..446c53e08 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
-@@ -11707,6 +11707,156 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
+@@ -11679,6 +11679,156 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
  
              break;
            }
@@ -185,5 +185,5 @@ index d3c2c62a1..1437fd46e 100644
              break;
          }
 -- 
-2.29.2
+2.34.1
 
