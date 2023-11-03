@@ -1,0 +1,337 @@
+"nanomsg" is a trademark of Martin Sustrik
+
+Date: Apr 07 16:11:19 2017
+
+From: 288253c94d1c6d63d14db90cb362d23db3710720 Apr 11 01:51:30 2017
+
+Subject: [PATCH] WEBPA-1980 : Nanomsg size reduction to bring parodus to Cisco
+
+	Created new nanomsg patch to reduce libnanomsg.so size and to fit parodus on cisco image.
+
+Source: COMCAST
+
+Upstream-Status: Pending
+
+Signed-off-by: Sadhyama Vengilat <Sadhyama_Vengilat2@cable.comcast.com>
+
+---
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 308268f5..4b5b1086 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -95,14 +95,15 @@ else ()
+ endif()
+ 
+ # User-defined options.
++# Commenting out few code to reduce libnanomsg size for yocto environment.
+ 
+ option (NN_STATIC_LIB "Build static library instead of shared library." OFF)
+ option (NN_ENABLE_DOC "Enable building documentation." ON)
+ option (NN_ENABLE_COVERAGE "Enable coverage reporting." OFF)
+ option (NN_ENABLE_GETADDRINFO_A "Enable/disable use of getaddrinfo_a in place of getaddrinfo." ON)
+-option (NN_TESTS "Build and run nanomsg tests" ON)
+-option (NN_TOOLS "Build nanomsg tools" ON)
+-option (NN_ENABLE_NANOCAT "Enable building nanocat utility." ${NN_TOOLS})
++option (NN_TESTS "Build and run nanomsg tests" OFF)
++option (NN_TOOLS "Build nanomsg tools" OFF)
++#option (NN_ENABLE_NANOCAT "Enable building nanocat utility." ${NN_TOOLS})
+ set (NN_MAX_SOCKETS 512 CACHE STRING "max number of nanomsg sockets that can be created")
+ 
+ #  Platform checks.
+@@ -471,16 +472,16 @@ endif ()
+ install (TARGETS LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ install (TARGETS ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ install (FILES src/nn.h DESTINATION include/nanomsg)
+-install (FILES src/inproc.h DESTINATION include/nanomsg)
+-install (FILES src/ipc.h DESTINATION include/nanomsg)
++#install (FILES src/inproc.h DESTINATION include/nanomsg)
++#install (FILES src/ipc.h DESTINATION include/nanomsg)
+ install (FILES src/tcp.h DESTINATION include/nanomsg)
+-install (FILES src/ws.h DESTINATION include/nanomsg)
+-install (FILES src/pair.h DESTINATION include/nanomsg)
+-install (FILES src/pubsub.h DESTINATION include/nanomsg)
++#install (FILES src/ws.h DESTINATION include/nanomsg)
++#install (FILES src/pair.h DESTINATION include/nanomsg)
++#install (FILES src/pubsub.h DESTINATION include/nanomsg)
+ install (FILES src/reqrep.h DESTINATION include/nanomsg)
+ install (FILES src/pipeline.h DESTINATION include/nanomsg)
+-install (FILES src/survey.h DESTINATION include/nanomsg)
+-install (FILES src/bus.h DESTINATION include/nanomsg)
++#install (FILES src/survey.h DESTINATION include/nanomsg)
++#install (FILES src/bus.h DESTINATION include/nanomsg)
+ 
+ if (NN_ENABLE_NANOCAT)
+     install (TARGETS nanocat RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 96b1b6be..887542e8 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -23,18 +23,20 @@
+ #   IN THE SOFTWARE.
+ #
+ 
++# /* Commenting out few code to reduce libnanomsg size for yocto environment. */
++  
+ set (NN_SOURCES
+     nn.h
+-    inproc.h
+-    ipc.h
++#   inproc.h
++#   ipc.h
+     tcp.h
+-    ws.h
+-    pair.h
+-    pubsub.h
++#   ws.h
++#   pair.h
++#   pubsub.h
+     reqrep.h
+     pipeline.h
+-    survey.h
+-    bus.h
++#   survey.h
++#   bus.h
+ 
+     core/ep.h
+     core/ep.c
+@@ -127,9 +129,9 @@ set (NN_SOURCES
+     protocols/utils/priolist.h
+     protocols/utils/priolist.c
+ 
+-    protocols/bus/bus.c
+-    protocols/bus/xbus.h
+-    protocols/bus/xbus.c
++#   protocols/bus/bus.c
++#   protocols/bus/xbus.h
++#   protocols/bus/xbus.c
+ 
+     protocols/pipeline/push.c
+     protocols/pipeline/pull.c
+@@ -138,18 +140,18 @@ set (NN_SOURCES
+     protocols/pipeline/xpush.h
+     protocols/pipeline/xpush.c
+ 
+-    protocols/pair/pair.c
+-    protocols/pair/xpair.h
+-    protocols/pair/xpair.c
++#   protocols/pair/pair.c
++#   protocols/pair/xpair.h
++#   protocols/pair/xpair.c
+ 
+-    protocols/pubsub/pub.c
+-    protocols/pubsub/sub.c
+-    protocols/pubsub/trie.h
+-    protocols/pubsub/trie.c
+-    protocols/pubsub/xpub.h
+-    protocols/pubsub/xpub.c
+-    protocols/pubsub/xsub.h
+-    protocols/pubsub/xsub.c
++#   protocols/pubsub/pub.c
++#   protocols/pubsub/sub.c
++#   protocols/pubsub/trie.h
++#   protocols/pubsub/trie.c
++#   protocols/pubsub/xpub.h
++#   protocols/pubsub/xpub.c
++#   protocols/pubsub/xsub.h
++#   protocols/pubsub/xsub.c
+ 
+     protocols/reqrep/req.h
+     protocols/reqrep/req.c
+@@ -162,12 +164,12 @@ set (NN_SOURCES
+     protocols/reqrep/xreq.h
+     protocols/reqrep/xreq.c
+ 
+-    protocols/survey/respondent.c
+-    protocols/survey/surveyor.c
+-    protocols/survey/xrespondent.h
+-    protocols/survey/xrespondent.c
+-    protocols/survey/xsurveyor.h
+-    protocols/survey/xsurveyor.c
++#   protocols/survey/respondent.c
++#   protocols/survey/surveyor.c
++#   protocols/survey/xrespondent.h
++#   protocols/survey/xrespondent.c
++#   protocols/survey/xsurveyor.h
++#   protocols/survey/xsurveyor.c
+ 
+     transports/utils/backoff.h
+     transports/utils/backoff.c
+@@ -188,27 +190,27 @@ set (NN_SOURCES
+     transports/utils/base64.h
+     transports/utils/base64.c
+ 
+-    transports/inproc/binproc.h
+-    transports/inproc/binproc.c
+-    transports/inproc/cinproc.h
+-    transports/inproc/cinproc.c
+-    transports/inproc/inproc.c
+-    transports/inproc/ins.h
+-    transports/inproc/ins.c
+-    transports/inproc/msgqueue.h
+-    transports/inproc/msgqueue.c
+-    transports/inproc/sinproc.h
+-    transports/inproc/sinproc.c
++#   transports/inproc/binproc.h
++#   transports/inproc/binproc.c
++#   transports/inproc/cinproc.h
++#   transports/inproc/cinproc.c
++#   transports/inproc/inproc.c
++#   transports/inproc/ins.h
++#   transports/inproc/ins.c
++#   transports/inproc/msgqueue.h
++#   transports/inproc/msgqueue.c
++#   transports/inproc/sinproc.h
++#   transports/inproc/sinproc.c
+ 
+-    transports/ipc/aipc.h
+-    transports/ipc/aipc.c
+-    transports/ipc/bipc.h
+-    transports/ipc/bipc.c
+-    transports/ipc/cipc.h
+-    transports/ipc/cipc.c
+-    transports/ipc/ipc.c
+-    transports/ipc/sipc.h
+-    transports/ipc/sipc.c
++#   transports/ipc/aipc.h
++#   transports/ipc/aipc.c
++#   transports/ipc/bipc.h
++#   transports/ipc/bipc.c
++#   transports/ipc/cipc.h
++#   transports/ipc/cipc.c
++#   transports/ipc/ipc.c
++#   transports/ipc/sipc.h
++#   transports/ipc/sipc.c
+ 
+     transports/tcp/atcp.h
+     transports/tcp/atcp.c
+@@ -220,19 +222,19 @@ set (NN_SOURCES
+     transports/tcp/stcp.c
+     transports/tcp/tcp.c
+ 
+-    transports/ws/aws.h
+-    transports/ws/aws.c
+-    transports/ws/bws.h
+-    transports/ws/bws.c
+-    transports/ws/cws.h
+-    transports/ws/cws.c
+-    transports/ws/sws.h
+-    transports/ws/sws.c
+-    transports/ws/ws.c
+-    transports/ws/ws_handshake.h
+-    transports/ws/ws_handshake.c
+-    transports/ws/sha1.h
+-    transports/ws/sha1.c
++#   transports/ws/aws.h
++#   transports/ws/aws.c
++#   transports/ws/bws.h
++#   transports/ws/bws.c
++#   transports/ws/cws.h
++#   transports/ws/cws.c
++#   transports/ws/sws.h
++#   transports/ws/sws.c
++#   transports/ws/ws.c
++#   transports/ws/ws_handshake.h
++#   transports/ws/ws_handshake.c
++#   transports/ws/sha1.h
++#   transports/ws/sha1.c
+ )
+ 
+ if (WIN32)
+diff --git a/src/core/global.c b/src/core/global.c
+index 6fbf0032..5d683811 100644
+--- a/src/core/global.c
++++ b/src/core/global.c
+@@ -45,7 +45,9 @@
+ #include "../utils/msg.h"
+ #include "../utils/attr.h"
+ 
+-#include "../pubsub.h"
++/* Commenting out few code to reduce libnanomsg size for yocto environment. */
++
++//#include "../pubsub.h"
+ #include "../pipeline.h"
+ 
+ #include <stddef.h>
+@@ -81,12 +83,13 @@ CT_ASSERT (NN_MAX_SOCKETS <= 0x10000);
+ 
+ /*  We could put these in an external header file, but there really is
+     need to.  We are the only thing that needs them. */
+-extern struct nn_socktype nn_pair_socktype;
++
++/*extern struct nn_socktype nn_pair_socktype;
+ extern struct nn_socktype nn_xpair_socktype;
+ extern struct nn_socktype nn_pub_socktype;
+ extern struct nn_socktype nn_sub_socktype;
+ extern struct nn_socktype nn_xpub_socktype;
+-extern struct nn_socktype nn_xsub_socktype;
++extern struct nn_socktype nn_xsub_socktype;*/
+ extern struct nn_socktype nn_rep_socktype;
+ extern struct nn_socktype nn_req_socktype;
+ extern struct nn_socktype nn_xrep_socktype;
+@@ -95,21 +98,24 @@ extern struct nn_socktype nn_push_socktype;
+ extern struct nn_socktype nn_xpush_socktype;
+ extern struct nn_socktype nn_pull_socktype;
+ extern struct nn_socktype nn_xpull_socktype;
+-extern struct nn_socktype nn_respondent_socktype;
++
++/*extern struct nn_socktype nn_respondent_socktype;
+ extern struct nn_socktype nn_surveyor_socktype;
+ extern struct nn_socktype nn_xrespondent_socktype;
+ extern struct nn_socktype nn_xsurveyor_socktype;
+ extern struct nn_socktype nn_bus_socktype;
+-extern struct nn_socktype nn_xbus_socktype;
++extern struct nn_socktype nn_xbus_socktype;*/
+ 
+ /*  Array of known socket types. */
+ const struct nn_socktype *nn_socktypes[] = {
++/*
+     &nn_pair_socktype,
+     &nn_xpair_socktype,
+     &nn_pub_socktype,
+     &nn_sub_socktype,
+     &nn_xpub_socktype,
+     &nn_xsub_socktype,
++*/ 
+     &nn_rep_socktype,
+     &nn_req_socktype,
+     &nn_xrep_socktype,
+@@ -118,28 +124,38 @@ const struct nn_socktype *nn_socktypes[] = {
+     &nn_xpush_socktype,
+     &nn_pull_socktype,
+     &nn_xpull_socktype,
++/*
+     &nn_respondent_socktype,
+     &nn_surveyor_socktype,
+     &nn_xrespondent_socktype,
+     &nn_xsurveyor_socktype,
+     &nn_bus_socktype,
+     &nn_xbus_socktype,
++*/ 
+     NULL,
+ };
+ 
+ /* As with protocols, we could have these in a header file, but we are the
+    only consumer, so just declare them inline. */
+ 
++/*
+ extern struct nn_transport nn_inproc;
+ extern struct nn_transport nn_ipc;
++*/
+ extern struct nn_transport nn_tcp;
++/*
+ extern struct nn_transport nn_ws;
++*/
+ 
+ const struct nn_transport *nn_transports[] = {
++/*
+     &nn_inproc,
+     &nn_ipc,
++*/ 
+     &nn_tcp,
++/*
+     &nn_ws,
++*/ 
+     NULL,
+ };
+ 

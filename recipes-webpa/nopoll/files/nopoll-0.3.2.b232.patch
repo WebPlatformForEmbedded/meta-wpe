@@ -1,0 +1,2666 @@
+Date: Mon, 21 Mar 2016 16:59:46
+
+From: c3db2d05b19323c98ccc546aadb5886f2177f245 Mon Sep 17 00:00:00 2001
+
+Subject: [PATCH] RDK-13925: Integrate WebPA with yocto framework
+
+	Patch for nopoll including changes for ipMgr
+	updated to latest nopoll 0.3.2.b232
+
+Source: COMCAST
+
+License: LGPL-2.1-or-later
+
+Upstream-Status: Pending
+
+Signed-off-by: tsilveria <Thomson_Silvera@cable.comcast.com>
+Signed-off-by: chter <Chris_Buchter@cable.comcast.com>
+
+---
+ src/Makefile.am                  |  12 +-
+ src/nopoll.h                     |   1 +
+ src/nopoll_conn.c                | 483 ++++++++++++++++++++++++++++++++-------
+ src/nopoll_conn.h                |  26 ++-
+ src/nopoll_conn_opts.c           |  20 ++
+ src/nopoll_conn_opts.h           |   2 +
+ src/nopoll_ctx.c                 |  17 +-
+ src/nopoll_ctx.h                 |   4 +
+ src/nopoll_decl.h                |  15 +-
+ src/nopoll_hostcheck.c           | 124 ++++++++++
+ src/nopoll_hostcheck.h           |  27 +++
+ src/nopoll_hostname_validation.c | 151 ++++++++++++
+ src/nopoll_hostname_validation.h |  57 +++++
+ src/nopoll_inet_pton.c           | 207 +++++++++++++++++
+ src/nopoll_inet_pton.h           |  29 +++
+ src/nopoll_log.c                 |   6 +
+ src/nopoll_loop.c                |  93 +++++++-
+ src/nopoll_loop.h                |   2 +
+ src/nopoll_private.h             |  12 +-
+ src/nopoll_strcase.c             |  61 +++++
+ src/nopoll_strcase.h             |  33 +++
+ test/nopoll-regression-client.c  | 278 ++++++++++++++++++----
+ 22 files changed, 1507 insertions(+), 153 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 601744f..32d043e 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -23,7 +23,11 @@ libnopoll_la_SOURCES     = \
+ 	nopoll_io.c \
+ 	nopoll_msg.c \
+ 	nopoll_win32.c \
+-	nopoll_conn_opts.c
++	nopoll_conn_opts.c \
++	nopoll_hostname_validation.c \
++	nopoll_inet_pton.c \
++	nopoll_strcase.c \
++	nopoll_hostcheck.c 
+ 
+ libnopollinclude_HEADERS = \
+ 	nopoll.h \
+@@ -39,7 +43,11 @@ libnopollinclude_HEADERS = \
+ 	nopoll_io.h \
+ 	nopoll_msg.h \
+ 	nopoll_win32.h \
+-	nopoll_conn_opts.h
++	nopoll_conn_opts.h \
++	nopoll_hostname_validation.h \
++	nopoll_inet_pton.h \
++	nopoll_strcase.h \
++	nopoll_hostcheck.h 
+ 
+ libnopoll_la_LDFLAGS = -no-undefined -export-symbols-regex '^(nopoll|__nopoll|_nopoll).*'
+ 
+diff --git a/src/nopoll.h b/src/nopoll.h
+index c483e4b..3ef08da 100644
+--- a/src/nopoll.h
++++ b/src/nopoll.h
+@@ -57,6 +57,7 @@ BEGIN_C_DECLS
+ #include <nopoll_listener.h>
+ #include <nopoll_io.h>
+ #include <nopoll_loop.h>
++#include <nopoll_hostname_validation.h>
+ 
+ /** 
+  * \addtogroup nopoll_module
+diff --git a/src/nopoll_conn.c b/src/nopoll_conn.c
+index 8612bfd..b4c4ba0 100644
+--- a/src/nopoll_conn.c
++++ b/src/nopoll_conn.c
+@@ -48,7 +48,8 @@
+ 
+ #include <nopoll_conn.h>
+ #include <nopoll_private.h>
+-
++#include <nopoll_hostname_validation.h>
++#include <pthread.h>
+ #if defined(NOPOLL_OS_UNIX)
+ # include <netinet/tcp.h>
+ #endif
+@@ -193,6 +194,37 @@ nopoll_bool                 nopoll_conn_set_sock_tcp_nodelay   (NOPOLL_SOCKET so
+ 	return nopoll_true;
+ } /* end */
+ 
++/**
++ * @brief Allows to bind device
++ *
++ * @param socket The socket to be configured.
++ *
++ * @param outbound_interface The bind device name value to be configured
++ *
++ * @return nopoll_true if the operation is completed.
++ */
++nopoll_bool nopoll_conn_set_outbound_interface   (noPollCtx   * ctx, NOPOLL_SOCKET socket,
++								const char * outbound_interface)
++{
++	if(outbound_interface != NULL) {
++		/* local variables */
++		int result = nopoll_false;
++		nopoll_log (ctx, NOPOLL_LEVEL_INFO, "Nopoll, Outbound Interface %s",outbound_interface);
++	
++		result      = setsockopt(socket, SOL_SOCKET, SO_BINDTODEVICE,
++				outbound_interface, strlen(outbound_interface)+1);
++	
++		nopoll_log (ctx, NOPOLL_LEVEL_INFO, " setsockopt result: %d",result);
++		if (result < 0) {
++			nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "Error inside nopoll set socket opt");
++			return nopoll_false;
++		}
++	}
++
++	/* properly configured */
++	return nopoll_true;
++} /* end */
++
+ /** 
+  * @internal Allows to create a plain socket connection against the
+  * host and port provided.
+@@ -207,69 +239,144 @@ nopoll_bool                 nopoll_conn_set_sock_tcp_nodelay   (NOPOLL_SOCKET so
+  */
+ NOPOLL_SOCKET nopoll_conn_sock_connect (noPollCtx   * ctx,
+ 					const char  * host,
+-					const char  * port)
++					const char  * port,
++					const char  * outbound_interface)
+ {
+-	struct hostent     * hostent;
+-	struct sockaddr_in   saddr;
+ 	NOPOLL_SOCKET        session;
+-
+-	/* resolve hosting name */
+-	hostent = gethostbyname (host);
+-	if (hostent == NULL) {
+-		nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "unable to resolve host name %s", host);
+-		return -1;
+-	} /* end if */
+-
+-	/* create the socket and check if it */
+-	session      = socket (AF_INET, SOCK_STREAM, 0);
+-	if (session == NOPOLL_INVALID_SOCKET) {
+-		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "unable to create socket");
++	int retVal;
++	char addrstr[100];
++	void *ptr = NULL;
++	char *localIp = "10.0.0.1";
++	struct addrinfo *result, *rp;
++	struct addrinfo hints = {};
++
++	memset(&hints,0,sizeof(hints));
++	hints.ai_family = AF_UNSPEC;
++	hints.ai_socktype = SOCK_STREAM;
++	hints.ai_protocol = 0;	
++	hints.ai_flags = AI_ADDRCONFIG;
++	/* resolving host name */
++	retVal = getaddrinfo(host, port, &hints, &result);
++	if (retVal != 0){ 
++		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "unable to resolve host name %s, error: %s", host, gai_strerror(retVal));
+ 		return -1;
+-	} /* end if */
+-
+-	/* disable nagle */
+-	nopoll_conn_set_sock_tcp_nodelay (session, nopoll_true);
+-
+-	/* prepare socket configuration to operate using TCP/IP
+-	 * socket */
+-        memset(&saddr, 0, sizeof(saddr));
+-	saddr.sin_addr.s_addr = ((struct in_addr *)(hostent->h_addr))->s_addr;
+-        saddr.sin_family    = AF_INET;
+-        saddr.sin_port      = htons((uint16_t) strtod (port, NULL));
+-
+-	/* set non blocking status */
+-	nopoll_conn_set_sock_block (session, nopoll_false);
+-	
+-	/* do a tcp connect */
+-        if (connect (session, (struct sockaddr *)&saddr, sizeof(saddr)) < 0) {
+-		if(errno != NOPOLL_EINPROGRESS && errno != NOPOLL_EWOULDBLOCK && errno != NOPOLL_ENOTCONN) { 
+-		        shutdown (session, SHUT_RDWR);
+-                        nopoll_close_socket (session);
+-
+-			nopoll_log (ctx, NOPOLL_LEVEL_WARNING, "unable to connect to remote host %s:%s errno=%d",
+-				    host, port, errno);
+-			return -1;
+-		} /* end if */
+-	} /* end if */
+-
+-	/* return socket created */
+-	return session;
++	} 
++	else
++	{
++		for (rp = result; rp != NULL; rp = rp->ai_next) 
++		{
++					nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "rp->ai_family %d ", rp->ai_family);
++					nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "rp->ai_socktype %d",  rp->ai_socktype);
++					nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "rp->ai_protocol %d",  rp->ai_protocol);
++
++					if(rp->ai_family == AF_INET)
++					{
++						ptr = &((struct sockaddr_in *) rp->ai_addr)->sin_addr;
++						inet_ntop (rp->ai_family, ptr, addrstr, 100);
++						nopoll_log (ctx, NOPOLL_LEVEL_INFO, "IPv4 address of %s is %s \n", host, addrstr);
++
++						if (strcmp(localIp,addrstr) == 0)
++						{
++							/* If Host DNS is resolved to 10.0.0.1 which means there is problem and client should not connect to this address */
++							nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "Host Ip resolved to 10.0.0.1");
++							nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "unable to connect to remote host %s:%s as IP resolved to 10.0.0.1", host, port);
++							freeaddrinfo(result);
++							return -1;			
++			
++						}
++					}
++					else if(rp->ai_family == AF_INET6)
++					{
++						ptr = &((struct sockaddr_in6 *) rp->ai_addr)->sin6_addr;
++						inet_ntop (rp->ai_family, ptr, addrstr, 100);
++						nopoll_log (ctx, NOPOLL_LEVEL_INFO, "IPv6 address of %s is %s \n", host, addrstr);
++					}
++
++					session = socket(rp->ai_family, rp->ai_socktype, 0);
++			        if (session == NOPOLL_INVALID_SOCKET)
++			       {
++			       	   nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "unable to create socket");
++				       continue;
++			       }
++			       else
++			       {
++			       	nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "Socket Creation Successful");
++			       }
++			       		       	       
++			       nopoll_conn_set_sock_tcp_nodelay (session, nopoll_true);
++
++				   nopoll_conn_set_outbound_interface(ctx,session, outbound_interface);
++
++				   if (connect(session, rp->ai_addr, rp->ai_addrlen) < 0)
++				   {
++				   		/*Remove if condition check, as we are trying to connect in blocking mode, we should proceed to connection only when connect returns 0 which is success, or else continue with other address returned from getaddrinfo list  */
++				   		nopoll_log (ctx, NOPOLL_LEVEL_WARNING, "unable to connect to remote host %s:%s errno=%d",
++								    host, port, errno);
++				   }
++				   else
++				   {
++				   		nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "Socket Connect successful");
++				   		break;
++				   }
++				   	close(session);
++        }
++       		
++           if (rp == NULL) {               /* No address succeeded */
++               nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "Could not connect. No valid IP resolved, Returning -1");
++               freeaddrinfo(result);
++               return -1;
++            }
++           freeaddrinfo(result);
++           return session;
++	}
+ }
+ 
+ 
++/** 
++ * @internal Function that builds the header string with multiple header
++ * header names and values passed as input.
++ */
++char * getHeaderString(const char *headerNames[], const char *headerValues[], const int headerCount)
++{	
++	int index=0;
++	char *tempString = NULL;
++	char *headerString = NULL;
++	int size = 0;
++	for(index=0; index < headerCount; index++)
++	{
++		size = 	4 + strlen(headerNames[index]) + strlen(headerValues[index]) + 1; /* "\r\n: " + headername + headervalue + '\0' */
++		tempString = (char *)malloc(sizeof(char) * size);
++		sprintf(tempString, "\r\n%s: %s", headerNames[index],headerValues[index]);
++
++		if(headerString)
++		{	
++			headerString = (char *) realloc(headerString, sizeof(char) * (strlen(headerString) + size));
++			headerString = strcat(headerString,tempString);
++		}
++		else
++		{	
++			headerString = (char *) malloc(sizeof(char) * size);
++			strcpy(headerString,tempString);
++		}		
++		free(tempString);
++	}
++	return headerString;
++}
+ 
+ 
+ /** 
+  * @internal Function that builds the client init greetings that will
+  * be send to the server according to registered implementation.
+  */ 
+-char * __nopoll_conn_get_client_init (noPollConn * conn, noPollConnOpts * opts)
++char * __nopoll_conn_get_client_init (noPollConn * conn,noPollConnOpts * opts, const char   * headerNames[], const char   * headerValues[], const int headerCount)
+ {
+ 	/* build sec-websocket-key */
+ 	char key[50];
+ 	int  key_size = 50;
+ 	char nonce[17];
++	char *request;
+ 
++	char *headerString = NULL;	
+ 	/* get the nonce */
+ 	if (! nopoll_nonce (nonce, 16)) {
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "Failed to get nonce, unable to produce Sec-WebSocket-Key.");
+@@ -287,9 +394,15 @@ char * __nopoll_conn_get_client_init (noPollConn * conn, noPollConnOpts * opts)
+ 	/* create accept and store */
+ 	conn->handshake = nopoll_new (noPollHandShake, 1);
+ 	conn->handshake->expected_accept = nopoll_strdup (key);
+-
+-	/* send initial handshake                                                                                                                        |cookie |prot  | */
+-	return nopoll_strdup_printf ("GET %s HTTP/1.1\r\nHost: %s\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: %s\r\nOrigin: %s\r\n%s%s%s%s%s%s%s%sSec-WebSocket-Version: %d\r\n\r\n", 
++	
++	if(headerNames != NULL && headerValues != NULL && headerCount > 0)
++	{
++		headerString = getHeaderString(headerNames, headerValues, headerCount);
++	}
++	
++	/* send initial handshake */
++	
++	request = nopoll_strdup_printf ("GET %s HTTP/1.1\r\nHost: %s\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: %s\r\nOrigin: %s\r\n%s%s%s%s%s%s%s%sSec-WebSocket-Version: %d%s\r\n\r\n", 
+ 				     conn->get_url, conn->host_name, 
+ 				     /* sec-websocket-key */
+ 				     key,
+@@ -305,7 +418,15 @@ char * __nopoll_conn_get_client_init (noPollConn * conn, noPollConnOpts * opts)
+ 				     conn->protocols ? ": " : "",
+ 				     conn->protocols ? conn->protocols : "",
+ 				     conn->protocols ? "\r\n" : "",
+-				     conn->ctx->protocol_version);
++				     conn->ctx->protocol_version, (headerString != NULL) ? headerString : "");
++
++	if(headerString != NULL)
++	{	
++		free(headerString);
++		headerString = NULL;
++	}
++
++	return request;
+ }
+ 
+ 
+@@ -438,10 +559,17 @@ int nopoll_conn_tls_send (noPollConn * conn, char * buffer, int buffer_size)
+ 	int         res;
+ 	nopoll_bool needs_retry;
+ 	int         tries = 0;
+-
++	int ret = 0;
++	static pthread_mutex_t mut = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
++        
++	ret = pthread_mutex_lock (&mut);
++	if(ret != 0)
++	{
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "mutex failed to lock ( ret = %d) ( errno = %d)",ret, errno);
++	}
+ 	/* call to read content */
+ 	while (tries < 50) {
+-	        res = SSL_write (conn->ssl, buffer, buffer_size);
++		res = SSL_write (conn->ssl, buffer, buffer_size);
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "SSL: sent %d bytes (requested: %d)..", res, buffer_size); 
+ 
+ 		/* call to handle error */
+@@ -449,12 +577,17 @@ int nopoll_conn_tls_send (noPollConn * conn, char * buffer, int buffer_size)
+ 		/* nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "   SSL: after processing error, sent %d bytes (requested: %d)..",  res, buffer_size); */
+ 
+ 		if (! needs_retry)
+-		        break;
++			break;
+ 
+ 		/* next operation */
+ 		nopoll_sleep (tries * 10000);
+ 		tries++;
+ 	}
++	ret = pthread_mutex_unlock (&mut);
++	if(ret != 0)
++	{
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "mutex failed to unlock ( ret = %d) ( errno = %d)",ret, errno);
++	}
+ 	return res;
+ }
+ 
+@@ -478,6 +611,9 @@ SSL_CTX * __nopoll_conn_get_ssl_context (noPollCtx * ctx, noPollConn * conn, noP
+ 		/* printf ("**** REPORTING TLSv1.1 ****\n"); */
+ 		return SSL_CTX_new (is_client ? TLSv1_1_client_method () : TLSv1_1_server_method ()); 
+ #endif
++	case NOPOLL_METHOD_TLSV1_2:
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "**** REPORTING TLSv1.2 ****\n");
++		return SSL_CTX_new (is_client ? TLSv1_2_client_method () : TLSv1_2_server_method ());	
+ 	case NOPOLL_METHOD_SSLV3:
+ 		/* printf ("**** REPORTING SSLv3 ****\n"); */
+ 		return SSL_CTX_new (is_client ? SSLv3_client_method () : SSLv3_server_method ()); 
+@@ -533,12 +669,14 @@ nopoll_bool __nopoll_conn_set_ssl_client_options (noPollCtx * ctx, noPollConn *
+ 		} /* end if */
+ 		
+ 	} /* end if */
+-
+-	/* enable default verification paths */
+-	if (SSL_CTX_set_default_verify_paths (conn->ssl_ctx) != 1) {
+-		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "Unable to configure default verification paths, SSL_CTX_set_default_verify_paths () failed");
+-		return nopoll_false;
+-	} /* end if */
++	else /* enable default verification paths only when load verify paths are not available */
++	{
++		/* enable default verification paths */
++		if (SSL_CTX_set_default_verify_paths (conn->ssl_ctx) != 1) {
++			nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "Unable to configure default verification paths, SSL_CTX_set_default_verify_paths () failed");
++			return nopoll_false;
++		} /* end if */
++	}
+ 
+ 	if (options && options->chain_certificate) {
+ 		nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "Setting chain certificate: %s", options->chain_certificate);
+@@ -574,7 +712,7 @@ nopoll_bool __nopoll_conn_set_ssl_client_options (noPollCtx * ctx, noPollConn *
+ 
+ 	/* if no option and it is not disabled */
+ 	if (options == NULL || ! options->disable_ssl_verify) {
+-		nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "Enabling certificate peer verification");
++		nopoll_log (ctx, NOPOLL_LEVEL_INFO, "Enabling certificate peer verification");
+ 		/** really, really ugly hack to let
+ 		 * __nopoll_conn_ssl_verify_callback to be able to get
+ 		 * access to the context required to drop some logs */
+@@ -598,7 +736,11 @@ noPollConn * __nopoll_conn_new_common (noPollCtx       * ctx,
+ 				       const char      * host_name,
+ 				       const char      * get_url, 
+ 				       const char      * protocols,
+-				       const char      * origin)
++				       const char      * origin,
++				       const char      * outbound_interface,
++                       const char   * headerNames[],
++				       const char   * headerValues[],
++				       const int headerCount)
+ {
+ 	noPollConn     * conn;
+ 	NOPOLL_SOCKET    session;
+@@ -620,11 +762,12 @@ noPollConn * __nopoll_conn_new_common (noPollCtx       * ctx,
+ 		host_port = "80";
+ 
+ 	/* create socket connection in a non block manner */
+-	session = nopoll_conn_sock_connect (ctx, host_ip, host_port);
++	session = nopoll_conn_sock_connect (ctx, host_ip, host_port, outbound_interface);
++	
+ 	if (session == NOPOLL_INVALID_SOCKET) {
+ 		/* release connection options */
+ 		__nopoll_conn_opts_release_if_needed (options);
+-		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "Failed to connect to remote host %s:%s", host_ip, host_port);
++		nopoll_log (ctx, NOPOLL_LEVEL_DEBUG, "Failed to connect to remote host %s:%s", host_ip, host_port);
+ 		return NULL;
+ 	} /* end if */
+ 
+@@ -691,7 +834,7 @@ noPollConn * __nopoll_conn_new_common (noPollCtx       * ctx,
+ 
+ 
+ 	/* get client init payload */
+-	content = __nopoll_conn_get_client_init (conn, options);
++	content = __nopoll_conn_get_client_init (conn, options,headerNames, headerValues, headerCount);
+ 
+ 	if (content == NULL) {
+ 		nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "Failed to build client init message, unable to connect");
+@@ -807,6 +950,28 @@ noPollConn * __nopoll_conn_new_common (noPollCtx       * ctx,
+ 
+ 			return conn;
+ 		}
++		
++		/* Check for opts to verify hostname validation during conn handshake */  
++		if (options == NULL ||  options->host_verify) 
++		{
++		    HostnameValidationResult status = Error;
++		    /* hostname should be validated without http/https, so pass conn->host_name */
++		    status = nopoll_validate_hostname(conn->host_name,server_cert);
++		    if( status == MatchFound )
++		    {
++		        nopoll_log (ctx, NOPOLL_LEVEL_INFO, "Hostname validation SUCCESS, done as part of client \n");  
++		    }
++		    else
++		    {
++		        nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL,"Hostname validation FAILED with errno %d \n",status);
++		        /* release connection options */
++			    nopoll_free (content);
++			    nopoll_conn_shutdown (conn);
++			    __nopoll_conn_opts_release_if_needed (options);
++                X509_free (server_cert);
++			    return NULL;
++		    }
++		}
+ 		X509_free (server_cert);
+ 
+ 		/* call to check post ssl checks after SSL finalization */
+@@ -905,12 +1070,16 @@ noPollConn * nopoll_conn_new (noPollCtx  * ctx,
+ 			      const char * host_name,
+ 			      const char * get_url, 
+ 			      const char * protocols,
+-			      const char * origin)
++			      const char * origin,
++			      const char * outbound_interface,
++		          const char * headerNames[],
++			      const char * headerValues[],
++			      const int headerCount)
+ {
+ 	/* call common implementation */
+ 	return __nopoll_conn_new_common (ctx, NULL, nopoll_false, 
+ 					 host_ip, host_port, host_name, 
+-					 get_url, protocols, origin);
++					 get_url, protocols, origin, outbound_interface, headerNames, headerValues, headerCount);
+ }
+ 
+ /** 
+@@ -961,12 +1130,16 @@ noPollConn * nopoll_conn_new_opts (noPollCtx       * ctx,
+ 				   const char      * host_name,
+ 				   const char      * get_url, 
+ 				   const char      * protocols,
+-				   const char      * origin)
++				   const char      * origin,
++				   const char      * outbound_interface,
++                   const char * headerNames[],
++			       const char * headerValues[],
++				   const int headerCount)
+ {
+ 	/* call common implementation */
+ 	return __nopoll_conn_new_common (ctx, opts, nopoll_false, 
+ 					 host_ip, host_port, host_name, 
+-					 get_url, protocols, origin);
++					 get_url, protocols, origin, outbound_interface, headerNames, headerValues, headerCount);
+ }
+ 
+ nopoll_bool __nopoll_tls_was_init = nopoll_false;
+@@ -1021,7 +1194,11 @@ noPollConn * nopoll_conn_tls_new (noPollCtx  * ctx,
+ 				  const char * host_name,
+ 				  const char * get_url, 
+ 				  const char * protocols,
+-				  const char * origin)
++				  const char * origin,
++				  const char * outbound_interface,
++                  const char * headerNames[],
++			      const char * headerValues[],
++				  const int headerCount)
+ {
+ 	/* init ssl ciphers and engines */
+ 	if (! __nopoll_tls_was_init) {
+@@ -1032,7 +1209,7 @@ noPollConn * nopoll_conn_tls_new (noPollCtx  * ctx,
+ 	/* call common implementation */
+ 	return __nopoll_conn_new_common (ctx, options, nopoll_true, 
+ 					 host_ip, host_port, host_name, 
+-					 get_url, protocols, origin);
++					 get_url, protocols, origin, outbound_interface, headerNames, headerValues, headerCount);
+ }
+ 
+ /** 
+@@ -1128,7 +1305,9 @@ nopoll_bool    nopoll_conn_is_ready (noPollConn * conn)
+ 		return nopoll_false;
+ 	if (conn->session == NOPOLL_INVALID_SOCKET)
+ 		return nopoll_false;
+-	if (! conn->handshake_ok) {
++
++	/* conn->handshake->received_307 will always be false other than http redirect */
++	if (! conn->handshake_ok && !conn->handshake->received_307) {
+ 		/* acquire here handshake mutex */
+ 		nopoll_mutex_lock (conn->ref_mutex);
+ 
+@@ -1138,6 +1317,11 @@ nopoll_bool    nopoll_conn_is_ready (noPollConn * conn)
+ 		/* release here handshake mutex */
+ 		nopoll_mutex_unlock (conn->ref_mutex);
+ 	}
++	
++	if(conn->handshake->received_307)
++	{
++		return nopoll_true; /* in case of http redirection, conn->handshake_ok will never be true as the response buffer from the server will never have "Sec-Websocket-Accept". Consequently, we have to return true to break the loop inside nopoll_conn_wait_until_connection_ready() */
++	}
+ 	return conn->handshake_ok;
+ }
+ 
+@@ -1202,6 +1386,22 @@ int           nopoll_conn_get_id (noPollConn * conn)
+ 	return conn->id;
+ }
+ 
++/**
++ * @brief Allows to get the get_url from the connection
++ *
++ * @param conn The websocket connection where the operation takes place.
++ *
++ * @return The get_url provided be the client
++ *
++ */
++const char * nopoll_conn_get_requested_url (noPollConn * conn)
++{
++    if (conn->get_url == NULL)
++        return "/";
++    else
++        return conn->get_url;
++}
++
+ /** 
+  * @brief Allows to get the noPollCtx context object associated to the
+  * connection (or where the connection is working).
+@@ -1440,6 +1640,13 @@ void          nopoll_conn_shutdown (noPollConn * conn)
+ 	if (conn->session != NOPOLL_INVALID_SOCKET && conn->on_close)
+ 	        conn->on_close (conn->ctx, conn, conn->on_close_data);
+ 
++	if(conn->on_close_data != NULL)
++        {
++	        nopoll_log(conn->ctx, NOPOLL_LEVEL_DEBUG,"freeing conn->on_close_data from shutdown...\n");
++	        nopoll_free(conn->on_close_data);
++	        conn->on_close_data = NULL;
++        }
++
+ 	/* shutdown connection here */
+ 	if (conn->session != NOPOLL_INVALID_SOCKET) {
+ 	        shutdown (conn->session, SHUT_RDWR);
+@@ -1819,6 +2026,32 @@ void __nopoll_pack_content (char * buffer, int start, int bytes)
+ 	return;
+ }
+ 
++/**
++ * @internal Function to delay
++ * @note delay goes up by factor of .125 each time
++ * @note up to 1 sec max
++*/ 
++static void __nopoll_receive_delay (long *wait_usecs)
++{
++	long rem;
++	long t = *wait_usecs;
++
++	nopoll_sleep (t);
++
++	if (t == 1000000) {
++		return;
++	}
++
++	rem = t >> 3;
++	t += rem;
++	if (t > 1000000) {
++		t = 1000000;
++	}
++
++	*wait_usecs = t;
++}
++
++    
+ /** 
+  * @internal Function used to read bytes from the wire. 
+  *
+@@ -1828,6 +2061,7 @@ void __nopoll_pack_content (char * buffer, int start, int bytes)
+ int         __nopoll_conn_receive  (noPollConn * conn, char  * buffer, int  maxlen)
+ {
+ 	int         nread;
++	long				wait_usecs = 500;
+ 
+ 	if (conn->pending_buf_bytes > 0) {
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "Calling with bytes we can reuse (%d), requested: %d",
+@@ -1864,14 +2098,21 @@ int         __nopoll_conn_receive  (noPollConn * conn, char  * buffer, int  maxl
+ #if defined(NOPOLL_OS_UNIX)
+ 	errno = 0;
+ #endif
+-	if ((nread = conn->receive (conn, buffer, maxlen)) == NOPOLL_SOCKET_ERROR) {
+-		/* nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, " returning errno=%d (%s)", errno, strerror (errno)); */
+-		if (errno == NOPOLL_EAGAIN) 
+-			return 0;
+-		if (errno == NOPOLL_EWOULDBLOCK) 
++	/* if ((nread = conn->receive (conn, buffer, maxlen)) == NOPOLL_SOCKET_ERROR) { */
++	if ((nread = conn->receive (conn, buffer, maxlen)) < 0) {
++                nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, " conn receive nread=%d, errno=%d (%s)", nread,errno, strerror (errno));
++		if (errno == NOPOLL_EAGAIN) {
++			__nopoll_receive_delay (&wait_usecs);
++			goto keep_reading;
++			/* return 0; */
++		}
++		if (errno == NOPOLL_EWOULDBLOCK) {
+ 			return 0;
+-		if (errno == NOPOLL_EINTR) 
++		}
++		if (errno == NOPOLL_EINTR) {
++			__nopoll_receive_delay (&wait_usecs);
+ 			goto keep_reading;
++		}
+ 		
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "unable to readn=%d, error code was: %d (%s) (shutting down connection)", maxlen, errno, strerror (errno));
+ 		nopoll_conn_shutdown (conn);
+@@ -1881,6 +2122,12 @@ int         __nopoll_conn_receive  (noPollConn * conn, char  * buffer, int  maxl
+ 	/* nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, " returning bytes read = %d", nread); */
+ 	if (nread == 0) {
+ 		/* check for blocking operations */
++		if (errno == NOPOLL_EAGAIN) {
++			__nopoll_receive_delay (&wait_usecs);
++			goto keep_reading;
++			/* return 0; */
++		}
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "conn receive zero bytes, errno=%d (%s)", errno, strerror (errno));
+ 		if (errno == NOPOLL_EAGAIN || errno == NOPOLL_EWOULDBLOCK) {
+ 			nopoll_log (conn->ctx, NOPOLL_LEVEL_WARNING, "unable to read from conn-id=%d (%s:%s), connection is not ready (errno: %d : %s)",
+ 				    conn->id, conn->host, conn->port, errno, strerror (errno));
+@@ -1890,12 +2137,15 @@ int         __nopoll_conn_receive  (noPollConn * conn, char  * buffer, int  maxl
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "received connection close while reading from conn id %d (errno=%d : %s) (%d, %d, %d), shutting down connection..", 
+ 			    conn->id, errno, strerror (errno),
+ 			    NOPOLL_EAGAIN, NOPOLL_EWOULDBLOCK, NOPOLL_EINTR);
++		conn->on_close_data = nopoll_strdup ("SSL_Socket_Close:received connection close while reading from conn: shutting down connection");
+ 		nopoll_conn_shutdown (conn);
+ 	} /* end if */
+ 
+ 	/* ensure we don't access outside the array */
+-	if (nread < 0) 
++	if (nread < 0) {
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_CRITICAL, "** nread < 0 (%d)", nread);
+ 		nread = 0;
++	}
+ 
+ 	buffer[nread] = 0;
+ 	return nread;
+@@ -2350,6 +2600,13 @@ int nopoll_conn_complete_handshake_client (noPollCtx * ctx, noPollConn * conn, c
+ 			iterator++;
+ 		if (! nopoll_ncmp (buffer + iterator, "101", 3)) {
+ 			nopoll_log (ctx, NOPOLL_LEVEL_CRITICAL, "websocket server denied connection with: %s", buffer + iterator);
++			if(nopoll_ncmp (buffer + iterator, "307", 3)|| nopoll_ncmp (buffer + iterator, "302", 3) || nopoll_ncmp (buffer + iterator, "303", 3) )
++			{
++				nopoll_log (ctx, NOPOLL_LEVEL_INFO, "Received HTTP 30x response from server");
++                /* Mark 307 flag as true */
++                conn->handshake->received_307 = nopoll_true;
++				return 1; /* continue to read next lines for redirect Location */
++			}
+ 			return 0; /* do not continue */
+ 		} /* end if */
+ 
+@@ -2387,7 +2644,14 @@ int nopoll_conn_complete_handshake_client (noPollCtx * ctx, noPollConn * conn, c
+ 	} else if (strcasecmp (header, "Connection") == 0) {
+ 		conn->handshake->connection_upgrade = 1;
+ 		nopoll_free (value);
+-	} else {
++	} else if (strcasecmp (header, "Location") == 0) {
++		if(conn->handshake->received_307)
++		{
++			conn->handshake->redirectURL = value;
++			nopoll_log (ctx, NOPOLL_LEVEL_INFO, "nopoll_conn_complete_handshake_client: conn->handshake->redirectURL: %s",conn->handshake->redirectURL);
++		}
++	}
++	else {
+ 		/* release value, no body claimed it */
+ 		nopoll_free (value);
+ 	} /* end if */
+@@ -2606,7 +2870,7 @@ noPollMsg   * nopoll_conn_get_msg (noPollConn * conn)
+ 	if (conn->previous_msg) {
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_WARNING, "Reading bytes (previously read %d) from a previous unfinished frame (pending: %d) over conn-id=%d",
+ 			    conn->previous_msg->payload_size, conn->previous_msg->remain_bytes, conn->id);
+-		
++	
+ 		/* build next message holder to continue with this content */
+ 		if (conn->previous_msg->payload_size > 0) {
+ 			msg = nopoll_msg_new ();
+@@ -2702,7 +2966,7 @@ noPollMsg   * nopoll_conn_get_msg (noPollConn * conn)
+ 		memcpy (conn->pending_buf + conn->pending_buf_bytes, buffer, bytes);
+ 		conn->pending_buf_bytes += bytes;
+ 		
+-		nopoll_log (conn->ctx, NOPOLL_LEVEL_WARNING, 
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, 
+ 			    "Expected to receive complete websocket frame header but found only %d bytes over conn-id=%d, saving to reuse later",
+ 			    bytes, conn->id);
+ 		return NULL;
+@@ -2810,7 +3074,7 @@ noPollMsg   * nopoll_conn_get_msg (noPollConn * conn)
+ 			/* nothing more to add here, close frame
+ 			   without content received, so we have no
+ 			   reason to keep on reading */
+-			nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "Proper connection close frame received id=%d, shutting down", conn->id);
++			nopoll_log (conn->ctx, NOPOLL_LEVEL_INFO, "Proper connection close frame received id=%d, shutting down", conn->id);
+ 			nopoll_msg_unref (msg);
+ 			nopoll_conn_shutdown (conn);
+ 			return NULL;
+@@ -2823,12 +3087,12 @@ noPollMsg   * nopoll_conn_get_msg (noPollConn * conn)
+ 
+ 	if (msg->op_code == NOPOLL_PING_FRAME) {
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "PING received over connection id=%d, replying PONG", conn->id);
+-		nopoll_msg_unref (msg);
++		/*nopoll_msg_unref (msg);
+ 
+-		/* call to send pong */
+-		nopoll_conn_send_pong (conn);
++		 call to send pong */
++		/*nopoll_conn_send_pong (conn);
+ 
+-		return NULL;
++		return NULL;*/
+ 	} /* end if */
+ 
+ 	/* get more bytes */
+@@ -2930,6 +3194,8 @@ read_payload:
+ 	/* update was a fragment */
+ 	conn->previous_was_fragment = msg->is_fragment && msg->has_fin == 0;
+ 
++	nopoll_log(conn->ctx, NOPOLL_LEVEL_DEBUG, "bytes %d, msg->payload_size %d, msg->remain_bytes %d, msg->has_fin %d, msg->op_code %d\n",bytes,msg->payload_size,msg->remain_bytes,msg->has_fin,msg->op_code);
++
+ 	/* do not notify any frame since no content was found */
+ 	if (bytes == 0 && msg == conn->previous_msg) {
+ 		nopoll_log (conn->ctx, NOPOLL_LEVEL_DEBUG, "bytes == %d, msg (%p) == conn->previous_msg (%p)",
+@@ -3370,6 +3636,20 @@ void          nopoll_conn_set_on_msg (noPollConn              * conn,
+ 
+ 	return;
+ }
++void          nopoll_conn_set_on_ping_msg (noPollConn              * conn,
++				      noPollOnMessageHandler    on_ping_msg,
++				      noPollPtr                 user_data)
++{
++	if (conn == NULL)
++		return;
++
++	/* configure on message handler */
++	conn->on_ping_msg      = on_ping_msg;
++	conn->on_ping_msg_data = user_data;
++
++	return;
++}
++
+ 
+ /** 
+  * @brief Allows to configure a handler that is called when the
+@@ -4129,14 +4409,18 @@ nopoll_bool nopoll_conn_accept_complete (noPollCtx * ctx, noPollConn * listener,
+  * @param timeout The timeout operation to limit the wait
+  * operation. Timeout is provided in seconds.
+  *
++ * @param message in-out parameter of 64 byte. The response message string description indicating 
++ * "Success", "Failure" or "Redirect: Redirect_URL". Caller needs to allocate memory for this. 
++ *
+  * @return The function returns when the timeout was reached or the
+  * connection is ready. In the case the connection is ready when the
+  * function finished nopoll_true is returned, otherwise nopoll_false.
+  */
+ nopoll_bool      nopoll_conn_wait_until_connection_ready (noPollConn * conn,
+-							  int          timeout)
++							  int          timeout, char * message)
+ {
+ 	long int total_timeout = timeout * 1000000;
++	nopoll_bool result = nopoll_false;
+ 
+ 	/* check if the connection already finished its connection
+ 	   handshake */
+@@ -4153,8 +4437,31 @@ nopoll_bool      nopoll_conn_wait_until_connection_ready (noPollConn * conn,
+ 		total_timeout = total_timeout - 500;
+ 	} /* end if */
+ 
++	result = nopoll_conn_is_ok (conn) && nopoll_conn_is_ready (conn);
++	
++	if(conn->handshake->received_307 == nopoll_true && (conn->handshake->redirectURL != NULL))
++	{
++		if(message != NULL)
++		{
++			snprintf(message, strlen(conn->handshake->redirectURL) + 10, "Redirect:%s", conn->handshake->redirectURL);
++			nopoll_free (conn->handshake->redirectURL);
++		}
++		conn->handshake->received_307 = nopoll_false;
++		nopoll_log (conn->ctx, NOPOLL_LEVEL_INFO, "nopoll_conn_wait_until_connection_ready() response: message: %s" ,message );		
++		return nopoll_false; /* retry with redirection URLs */
++	}
++	else if(result && message != NULL)
++	{
++		strncpy(message, "Success", strlen("Success")+1);
++	}
++	else if(message != NULL)
++	{
++		strncpy(message, "Failure", strlen("Failure")+1);
++	}
++	nopoll_log (conn->ctx, NOPOLL_LEVEL_INFO, "*****End nopoll_conn_wait_until_connection_ready ****");	
++		    
+ 	/* report if the connection is ok */
+-	return nopoll_conn_is_ok (conn) && nopoll_conn_is_ready (conn);
++	return result;
+ }
+ 
+ /* @} */
+diff --git a/src/nopoll_conn.h b/src/nopoll_conn.h
+index aff440f..8beeb32 100644
+--- a/src/nopoll_conn.h
++++ b/src/nopoll_conn.h
+@@ -49,7 +49,11 @@ noPollConn * nopoll_conn_new (noPollCtx  * ctx,
+ 			      const char * host_name,
+ 			      const char * get_url, 
+ 			      const char * protocols,
+-			      const char * origin);
++			      const char * origin,
++			      const char * outbound_interface,
++		          const char * headerNames[],
++			      const char * headerValues[],
++			      const int headerCount);
+ 
+ noPollConn * nopoll_conn_new_opts (noPollCtx       * ctx,
+ 				   noPollConnOpts  * opts,
+@@ -58,8 +62,12 @@ noPollConn * nopoll_conn_new_opts (noPollCtx       * ctx,
+ 				   const char      * host_name,
+ 				   const char      * get_url, 
+ 				   const char      * protocols,
+-				   const char      * origin);
+-
++				   const char * origin,
++				   const char * outbound_interface,
++                   const char * headerNames[],
++			       const char * headerValues[],
++				   const int headerCount);
++				   
+ noPollConn * nopoll_conn_tls_new (noPollCtx  * ctx,
+ 				  noPollConnOpts * options,
+ 				  const char * host_ip, 
+@@ -67,12 +75,18 @@ noPollConn * nopoll_conn_tls_new (noPollCtx  * ctx,
+ 				  const char * host_name,
+ 				  const char * get_url, 
+ 				  const char * protocols,
+-				  const char * origin);
++				  const char * origin,
++				  const char * outbound_interface,
++                  const char * headerNames[],
++			      const char * headerValues[],
++				  const int headerCount);
+ 
+ noPollConn   * nopoll_conn_accept (noPollCtx * ctx, noPollConn * listener);
+ 
+ noPollConn   * nopoll_conn_accept_socket (noPollCtx * ctx, noPollConn * listener, NOPOLL_SOCKET session);
+ 
++void  nopoll_conn_set_on_ping_msg (noPollConn * conn, noPollOnMessageHandler    on_ping_msg, noPollPtr user_data);
++
+ nopoll_bool    nopoll_conn_accept_complete (noPollCtx      * ctx, 
+ 					    noPollConn     * listener, 
+ 					    noPollConn     * conn, 
+@@ -97,6 +111,8 @@ void           nopoll_conn_set_socket (noPollConn * conn, NOPOLL_SOCKET _socket)
+ 
+ int           nopoll_conn_get_id (noPollConn * conn);
+ 
++const char * nopoll_conn_get_requested_url (noPollConn * conn);
++
+ noPollCtx   * nopoll_conn_ctx    (noPollConn * conn);
+ 
+ noPollRole    nopoll_conn_role   (noPollConn * conn);
+@@ -182,7 +198,7 @@ int           __nopoll_conn_send_common (noPollConn * conn,
+ 					 noPollOpCode frame_type);
+ 
+ nopoll_bool      nopoll_conn_wait_until_connection_ready (noPollConn * conn,
+-							  int          timeout);
++							  int          timeout, char * message);
+ 
+ /** internal api **/
+ void nopoll_conn_complete_handshake (noPollConn * conn);
+diff --git a/src/nopoll_conn_opts.c b/src/nopoll_conn_opts.c
+index 142402e..438274c 100644
+--- a/src/nopoll_conn_opts.c
++++ b/src/nopoll_conn_opts.c
+@@ -70,6 +70,8 @@ noPollConnOpts * nopoll_conn_opts_new (void)
+ 
+ 	/* by default, disable ssl peer verification */
+ 	result->disable_ssl_verify = nopoll_true;
++	/* by default, enable hostname validation */
++	result->host_verify = nopoll_true;
+ 
+ 	return result;
+ }
+@@ -169,6 +171,24 @@ void nopoll_conn_opts_ssl_peer_verify (noPollConnOpts * opts, nopoll_bool verify
+ 	return;
+ }
+ 
++/** 
++ * @brief Allows to enable hostname validation
++ *
++ * @param opts The connection option to configure.
++ *
++ * @param hostVerify nopoll_true to enable hostname validation
++ * otherwise, nopoll_false should be used. By default hostname validation 
++ * is enabled.
++ */
++
++void nopoll_conn_opts_ssl_host_verify (noPollConnOpts * opts, nopoll_bool hostVerify)
++{
++	if (opts == NULL)
++		return;
++	opts->host_verify = hostVerify;
++	return;
++}
++
+ /** 
+  * @brief Allows to set Cookie header content to be sent during the
+  * connection handshake. If configured and the remote side server is a
+diff --git a/src/nopoll_conn_opts.h b/src/nopoll_conn_opts.h
+index 5aeb571..d57f82f 100644
+--- a/src/nopoll_conn_opts.h
++++ b/src/nopoll_conn_opts.h
+@@ -64,6 +64,8 @@ void        nopoll_conn_opts_unref (noPollConnOpts * opts);
+ void nopoll_conn_opts_set_reuse        (noPollConnOpts * opts, nopoll_bool reuse);
+ 
+ void nopoll_conn_opts_free (noPollConnOpts * opts);
++/* hostname validation */
++void nopoll_conn_opts_ssl_host_verify (noPollConnOpts * opts, nopoll_bool verify);
+ 
+ /** internal API **/
+ void __nopoll_conn_opts_release_if_needed (noPollConnOpts * options);
+diff --git a/src/nopoll_ctx.c b/src/nopoll_ctx.c
+index de01024..84ab438 100644
+--- a/src/nopoll_ctx.c
++++ b/src/nopoll_ctx.c
+@@ -334,8 +334,8 @@ void           nopoll_ctx_unregister_conn (noPollCtx  * ctx,
+ 
+ 			/* acquire a reference to the conection */
+ 			nopoll_conn_unref (conn);
+-
+-			break;
++            nopoll_log (ctx, NOPOLL_LEVEL_INFO, "Returning, unlock of mutex is not required ");
++			return;
+ 		} /* end if */
+ 		
+ 		iterator++;
+@@ -650,6 +650,19 @@ void           nopoll_ctx_set_on_msg    (noPollCtx              * ctx,
+ 	return;
+ }
+ 
++void           nopoll_ctx_set_on_ping_msg    (noPollCtx              * ctx,
++					 noPollOnMessageHandler   on_ping_msg,
++					 noPollPtr                user_data)
++{
++	nopoll_return_if_fail (ctx, ctx);
++
++	/* set new handler */
++	ctx->on_ping_msg      = on_ping_msg;
++	ctx->on_ping_msg_data = user_data;
++
++	return;
++}
++
+ /** 
+  * @brief Allows to configure the handler that will be used to let
+  * user land code to define OpenSSL SSL_CTX object.
+diff --git a/src/nopoll_ctx.h b/src/nopoll_ctx.h
+index a9e4154..0ef8e42 100644
+--- a/src/nopoll_ctx.h
++++ b/src/nopoll_ctx.h
+@@ -87,6 +87,10 @@ void           nopoll_ctx_set_on_msg    (noPollCtx              * ctx,
+ 					 noPollOnMessageHandler   on_msg,
+ 					 noPollPtr                user_data);
+ 
++void           nopoll_ctx_set_on_ping_msg    (noPollCtx              * ctx,
++					 noPollOnMessageHandler   on_ping_msg,
++					 noPollPtr                user_data);
++
+ void           nopoll_ctx_set_ssl_context_creator (noPollCtx                * ctx,
+ 						   noPollSslContextCreator    context_creator,
+ 						   noPollPtr                  user_data);
+diff --git a/src/nopoll_decl.h b/src/nopoll_decl.h
+index 72fe194..0b7be76 100644
+--- a/src/nopoll_decl.h
++++ b/src/nopoll_decl.h
+@@ -95,6 +95,7 @@
+  * @brief Portable definition for EWOULDBLOCK errno code.
+  */
+ #define NOPOLL_EWOULDBLOCK     EWOULDBLOCK
++#define NOPOLL_ETIMEDOUT       ETIMEDOUT
+ #define NOPOLL_EINPROGRESS     EINPROGRESS
+ #define NOPOLL_ENOTCONN        ENOTCONN
+ #define NOPOLL_EAGAIN          EAGAIN
+@@ -255,7 +256,12 @@ typedef enum {
+ 	 * @brief Debug level. Only used to report common
+ 	 * circumstances that represent the proper functionality.
+ 	 */
+-	NOPOLL_LEVEL_DEBUG, 
++	NOPOLL_LEVEL_DEBUG,
++	/** 
++	 * @brief Info level. Only used to report information for debugging, common
++	 * circumstances that represent the proper functionality.
++	 */
++	NOPOLL_LEVEL_INFO,  
+ 	/** 
+ 	 * @brief Warning level. Only used to report that an internal
+ 	 * issue have happend that could be interesting while
+@@ -447,6 +453,13 @@ typedef enum {
+ 	 */
+ 	NOPOLL_METHOD_TLSV1_1     = 5
+ #endif
++	/** 
++	 * @brief Allows to define TLSv1.2 as SSL protocol used by the
++	 * client or server connection. A connection/listener
++	 * established with this method will only understand this
++	 * method.
++	 */
++	NOPOLL_METHOD_TLSV1_2     = 6
+ } noPollSslProtocol ;
+ 
+ BEGIN_C_DECLS
+diff --git a/src/nopoll_hostcheck.c b/src/nopoll_hostcheck.c
+new file mode 100644
+index 0000000..140b62f
+--- /dev/null
++++ b/src/nopoll_hostcheck.c
+@@ -0,0 +1,124 @@
++/***************************************************************************
++ *
++ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
++ *
++ * This software is licensed as described in the file COPYING, which
++ * you should have received as part of this distribution. The terms
++ * are also available at https://curl.haxx.se/docs/copyright.html.
++ *
++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
++ * copies of the Software, and permit persons to whom the Software is
++ * furnished to do so, under the terms of the COPYING file.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ***************************************************************************/
++
++#include <nopoll_hostname_validation.h>
++
++static int hostmatch(char *hostname, char *pattern);
++
++/*
++ * Match a hostname against a wildcard pattern.
++ * E.g.
++ *  "foo.host.com" matches "*.host.com".
++ *
++ * We use the matching rule described in RFC6125, section 6.4.3.
++ * https://tools.ietf.org/html/rfc6125#section-6.4.3
++ *
++ * In addition: ignore trailing dots in the host names and wildcards, so that
++ * the names are used normalized. This is what the browsers do.
++ *
++ * Do not allow wildcard matching on IP numbers. There are apparently
++ * certificates being used with an IP address in the CN field, thus making no
++ * apparent distinction between a name and an IP. We need to detect the use of
++ * an IP address and not wildcard match on such names.
++ *
++ * NOTE: hostmatch() gets called with copied buffers so that it can modify the
++ * contents at will.
++ */
++
++static int hostmatch(char *hostname, char *pattern)
++{
++  const char *pattern_label_end, *pattern_wildcard, *hostname_label_end;
++  int wildcard_enabled;
++  size_t prefixlen, suffixlen;
++  struct in_addr ignored;
++  struct sockaddr_in6 si6;
++
++  /* normalize pattern and hostname by stripping off trailing dots */
++  size_t len = strlen(hostname);
++  if(hostname[len-1]=='.')
++    hostname[len-1]=0;
++  len = strlen(pattern);
++  if(pattern[len-1]=='.')
++    pattern[len-1]=0;
++
++  pattern_wildcard = strchr(pattern, '*');
++  if(pattern_wildcard == NULL)
++    return nopoll_strcasecompare(pattern, hostname) ?
++      NOPOLL_HOST_MATCH : NOPOLL_HOST_NOMATCH;
++
++  /* detect IP address as hostname and fail the match if so */
++  if(nopoll_inet_pton(AF_INET, hostname, &ignored) > 0)
++    return NOPOLL_HOST_NOMATCH;
++  else if(nopoll_inet_pton(AF_INET6, hostname, &si6.sin6_addr) > 0)
++    return NOPOLL_HOST_NOMATCH;
++
++  /* We require at least 2 dots in pattern to avoid too wide wildcard
++     match. */
++  wildcard_enabled = 1;
++  pattern_label_end = strchr(pattern, '.');
++  if(pattern_label_end == NULL || strchr(pattern_label_end+1, '.') == NULL ||
++     pattern_wildcard > pattern_label_end ||
++     nopoll_strncasecompare(pattern, "xn--", 4)) {
++    wildcard_enabled = 0;
++  }
++  if(!wildcard_enabled)
++    return nopoll_strcasecompare(pattern, hostname) ?
++      NOPOLL_HOST_MATCH : NOPOLL_HOST_NOMATCH;
++
++  hostname_label_end = strchr(hostname, '.');
++  if(hostname_label_end == NULL ||
++     !nopoll_strcasecompare(pattern_label_end, hostname_label_end))
++    return NOPOLL_HOST_NOMATCH;
++
++  /* The wildcard must match at least one character, so the left-most
++     label of the hostname is at least as large as the left-most label
++     of the pattern. */
++  if(hostname_label_end - hostname < pattern_label_end - pattern)
++    return NOPOLL_HOST_NOMATCH;
++
++  prefixlen = pattern_wildcard - pattern;
++  suffixlen = pattern_label_end - (pattern_wildcard+1);
++  return nopoll_strncasecompare(pattern, hostname, prefixlen) &&
++    nopoll_strncasecompare(pattern_wildcard+1, hostname_label_end - suffixlen,
++                    suffixlen) ?
++    NOPOLL_HOST_MATCH : NOPOLL_HOST_NOMATCH;
++}
++
++int nopoll_cert_hostcheck(const char *match_pattern, const char *hostname)
++{
++  char *matchp;
++  char *hostp;
++  int res = 0;
++  if(!match_pattern || !*match_pattern ||
++      !hostname || !*hostname) 
++    ;
++  else {
++    matchp = strdup(match_pattern);
++    if(matchp) {
++      hostp = strdup(hostname);
++      if(hostp) {
++        if(hostmatch(hostp, matchp) == NOPOLL_HOST_MATCH)
++          res= 1;
++        free(hostp);
++      }
++      free(matchp);
++    }
++  }
++
++  return res;
++}
++
+diff --git a/src/nopoll_hostcheck.h b/src/nopoll_hostcheck.h
+new file mode 100644
+index 0000000..52f9b1f
+--- /dev/null
++++ b/src/nopoll_hostcheck.h
+@@ -0,0 +1,27 @@
++/***************************************************************************
++ *
++ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
++ *
++ * This software is licensed as described in the file COPYING, which
++ * you should have received as part of this distribution. The terms
++ * are also available at https://curl.haxx.se/docs/copyright.html.
++ *
++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
++ * copies of the Software, and permit persons to whom the Software is
++ * furnished to do so, under the terms of the COPYING file.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ***************************************************************************/
++
++#ifndef __NOPOLL_HOSTCHECK_H__
++#define __NOPOLL_HOSTCHECK_H__
++
++#define NOPOLL_HOST_NOMATCH 0
++#define NOPOLL_HOST_MATCH   1
++
++int nopoll_cert_hostcheck(const char *match_pattern, const char *hostname);
++
++#endif /* __NOPOLL_HOSTCHECK_H__ */
++
+diff --git a/src/nopoll_hostname_validation.c b/src/nopoll_hostname_validation.c
+new file mode 100644
+index 0000000..bf4f0d9
+--- /dev/null
++++ b/src/nopoll_hostname_validation.c
+@@ -0,0 +1,151 @@
++/*
++*Copyright (C) 2012, iSEC Partners.
++
++* Permission is hereby granted, free of charge, to any person obtaining a copy of 
++* this software and associated documentation files (the "Software"), to deal in 
++* the Software without restriction, including without limitation the rights to 
++* use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
++* of the Software, and to permit persons to whom the Software is furnished to do 
++* so, subject to the following conditions:
++
++* The above copyright notice and this permission notice shall be included in all 
++* copies or substantial portions of the Software.
++
++* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
++* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
++* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
++* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
++* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
++* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
++* SOFTWARE.
++*
++*/
++
++#include <nopoll_hostname_validation.h>
++
++static HostnameValidationResult matches_common_name(const char *hostname, const X509 *server_cert);
++static HostnameValidationResult matches_subject_alternative_name(const char *hostname, const X509 *server_cert);
++
++/**
++* Tries to find a match for hostname in the certificate's Common Name field.
++*
++* Returns MatchFound if a match was found.
++* Returns MatchNotFound if no matches were found.
++* Returns MalformedCertificate if the Common Name had a NUL character embedded in it.
++* Returns Error if the Common Name could not be extracted.
++*/
++static HostnameValidationResult matches_common_name(const char *hostname, const X509 *server_cert) 
++{
++	int common_name_loc = -1;
++	X509_NAME_ENTRY *common_name_entry = NULL;
++	ASN1_STRING *common_name_asn1 = NULL;
++	char *common_name_str = NULL;
++
++	/* Find the position of the CN field in the Subject field of the certificate*/
++	common_name_loc = X509_NAME_get_index_by_NID(X509_get_subject_name((X509 *) server_cert), NID_commonName, -1);
++	if (common_name_loc < 0) {
++		return Error;
++	}
++
++	/* Extract the CN field*/
++	common_name_entry = X509_NAME_get_entry(X509_get_subject_name((X509 *) server_cert), common_name_loc);
++	if (common_name_entry == NULL) {
++		return Error;
++	}
++
++	/* Convert the CN field to a C string*/
++	common_name_asn1 = X509_NAME_ENTRY_get_data(common_name_entry);
++	if (common_name_asn1 == NULL) {
++		return Error;
++	}			
++	common_name_str = (char *) ASN1_STRING_data(common_name_asn1);
++
++	/* Make sure there isn't an embedded NUL character in the CN*/
++	if (ASN1_STRING_length(common_name_asn1) != strlen(common_name_str)) {
++		return MalformedCertificate;
++	}
++
++	/* Compare expected hostname with the CN*/
++    if (nopoll_cert_hostcheck(common_name_str, hostname) == NOPOLL_HOST_MATCH) {
++            return MatchFound;
++    }
++    else {
++            return MatchNotFound;
++    }
++}
++
++
++/**
++* Tries to find a match for hostname in the certificate's Subject Alternative Name extension.
++*
++* Returns MatchFound if a match was found.
++* Returns MatchNotFound if no matches were found.
++* Returns MalformedCertificate if any of the hostnames had a NUL character embedded in it.
++* Returns NoSANPresent if the SAN extension was not present in the certificate.
++*/
++static HostnameValidationResult matches_subject_alternative_name(const char *hostname, const X509 *server_cert) {
++        HostnameValidationResult result = MatchNotFound;
++        int i;
++        int san_names_nb = -1;
++        STACK_OF(GENERAL_NAME) *san_names = NULL;
++
++        /* Try to extract the names within the SAN extension from the certificate*/
++        san_names = X509_get_ext_d2i((X509 *) server_cert, NID_subject_alt_name, NULL, NULL);
++        if (san_names == NULL) {
++                return NoSANPresent;
++        }
++        san_names_nb = sk_GENERAL_NAME_num(san_names);
++
++        /* Check each name within the extension*/
++        for (i=0; i<san_names_nb; i++) {
++                const GENERAL_NAME *current_name = sk_GENERAL_NAME_value(san_names, i);
++
++                if (current_name->type == GEN_DNS) {
++                        /* Current name is a DNS name, let's check it*/
++                        char *dns_name = (char *) ASN1_STRING_data(current_name->d.dNSName);
++
++                        /* Make sure there isn't an embedded NUL character in the DNS name*/
++                        if ((size_t)ASN1_STRING_length(current_name->d.dNSName) != strlen(dns_name)) {
++                                result = MalformedCertificate;
++                                break;
++                        }
++                        else { /* Compare expected hostname with the DNS name*/
++                                if (nopoll_cert_hostcheck(dns_name, hostname) == NOPOLL_HOST_MATCH) {
++                                        result = MatchFound;
++                                        break;
++                                }
++                        }
++                }
++        }
++        sk_GENERAL_NAME_pop_free(san_names, GENERAL_NAME_free);
++
++        return result;
++}
++
++
++/**
++* Validates the server's identity by looking for the expected hostname in the
++* server's certificate. As described in RFC 6125, it first tries to find a match
++* in the Subject Alternative Name extension. If the extension is not present in
++* the certificate, it checks the Common Name instead.
++*
++* Returns MatchFound if a match was found.
++* Returns MatchNotFound if no matches were found.
++* Returns MalformedCertificate if any of the hostnames had a NUL character embedded in it.
++* Returns Error if there was an error.
++*/
++HostnameValidationResult nopoll_validate_hostname(const char *hostname, const X509 *server_cert) {
++	HostnameValidationResult result;
++
++	if((hostname == NULL) || (server_cert == NULL))
++		return Error;
++
++	/* First try the Subject Alternative Names extension*/
++	result = matches_subject_alternative_name(hostname, server_cert);
++	if (result == NoSANPresent) {
++		/* Extension was not found: try the Common Name*/
++		result = matches_common_name(hostname, server_cert);
++	}
++
++	return result;
++}
+diff --git a/src/nopoll_hostname_validation.h b/src/nopoll_hostname_validation.h
+new file mode 100644
+index 0000000..afd0555
+--- /dev/null
++++ b/src/nopoll_hostname_validation.h
+@@ -0,0 +1,57 @@
++/*
++*Copyright (C) 2012, iSEC Partners.
++
++* Permission is hereby granted, free of charge, to any person obtaining a copy of 
++* this software and associated documentation files (the "Software"), to deal in 
++* the Software without restriction, including without limitation the rights to 
++* use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
++* of the Software, and to permit persons to whom the Software is furnished to do 
++* so, subject to the following conditions:
++
++* The above copyright notice and this permission notice shall be included in all 
++* copies or substantial portions of the Software.
++
++* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
++* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
++* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
++* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
++* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
++* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
++* SOFTWARE.
++*
++*/
++
++#ifndef __NOPOLL_HOSTNAME_VALIDATION_H__
++#define __NOPOLL_HOSTNAME_VALIDATION_H__
++
++#include <nopoll_conn.h>
++#include <nopoll_private.h>
++
++BEGIN_C_DECLS
++
++#include <nopoll_hostcheck.h>
++#include <nopoll_strcase.h>
++#include <nopoll_inet_pton.h>
++
++typedef enum {
++	MatchFound,
++	MatchNotFound,
++	NoSANPresent,
++	MalformedCertificate,
++	Error
++} HostnameValidationResult;
++
++/**
++* Validates the server's identity by looking for the expected hostname in the
++* server's certificate. As described in RFC 6125, it first tries to find a match
++* in the Subject Alternative Name extension. If the extension is not present in
++* the certificate, it checks the Common Name instead.
++*
++* Returns MatchFound if a match was found.
++* Returns MatchNotFound if no matches were found.
++* Returns MalformedCertificate if any of the hostnames had a NULL character embedded in it.
++* Returns Error if there was an error.
++*/
++HostnameValidationResult nopoll_validate_hostname(const char *hostname, const X509 *server_cert);
++END_C_DECLS
++#endif /* __NOPOLL_HOSTNAME_VALIDATION_H__ */
+diff --git a/src/nopoll_inet_pton.c b/src/nopoll_inet_pton.c
+new file mode 100644
+index 0000000..70cc4a4
+--- /dev/null
++++ b/src/nopoll_inet_pton.c
+@@ -0,0 +1,207 @@
++/* This is from the BIND 4.9.4 release, modified to compile by itself */
++
++/* Copyright (c) 1996 by Internet Software Consortium.
++ *
++ * Permission to use, copy, modify, and distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND INTERNET SOFTWARE CONSORTIUM DISCLAIMS
++ * ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
++ * OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL INTERNET SOFTWARE
++ * CONSORTIUM BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
++ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
++ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
++ * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
++ * SOFTWARE.
++ */
++
++#include <nopoll_hostname_validation.h>
++
++/*
++ * WARNING: Don't even consider trying to compile this on a system where
++ * sizeof(int) < 4.  sizeof(int) > 4 is fine; all the world's not a VAX.
++ */
++
++static int  inet_pton4(const char *src, unsigned char *dst);
++static int  inet_pton6(const char *src, unsigned char *dst);
++
++/* int
++ * inet_pton(af, src, dst)
++ *      convert from presentation format (which usually means ASCII printable)
++ *      to network format (which is usually some kind of binary format).
++ * return:
++ *      1 if the address was valid for the specified address family
++ *      0 if the address wasn't valid (`dst' is untouched in this case)
++ *      -1 if some other error occurred (`dst' is untouched in this case, too)
++ * notice:
++ *      On Windows we store the error in the thread errno, not
++ *      in the winsock error code. This is to avoid losing the
++ *      actual last winsock error. So use macro ERRNO to fetch the
++ *      errno this function sets when returning (-1), not SOCKERRNO.
++ * author:
++ *      Paul Vixie, 1996.
++ */
++int nopoll_inet_pton(int af, const char *src, void *dst)
++{
++  switch(af) {
++  case AF_INET:
++    return (inet_pton4(src, (unsigned char *)dst));
++  case AF_INET6:
++    return (inet_pton6(src, (unsigned char *)dst));
++  default:
++    errno = EAFNOSUPPORT;
++    return (-1);
++  }
++  /* NOTREACHED */
++}
++
++/* int
++ * inet_pton4(src, dst)
++ *      like inet_aton() but without all the hexadecimal and shorthand.
++ * return:
++ *      1 if `src' is a valid dotted quad, else 0.
++ * notice:
++ *      does not touch `dst' unless it's returning 1.
++ * author:
++ *      Paul Vixie, 1996.
++ */
++static int inet_pton4(const char *src, unsigned char *dst)
++{
++  static const char digits[] = "0123456789";
++  int saw_digit, octets, ch;
++  unsigned char tmp[INTADDRSZ], *tp;
++
++  saw_digit = 0;
++  octets = 0;
++  tp = tmp;
++  *tp = 0;
++  while((ch = *src++) != '\0') {
++    const char *pch;
++
++    pch = strchr(digits, ch);
++    if(pch) {
++      unsigned int val = *tp * 10 + (unsigned int)(pch - digits);
++
++      if(saw_digit && *tp == 0)
++        return (0);
++      if(val > 255)
++        return (0);
++      *tp = (unsigned char)val;
++      if(! saw_digit) {
++        if(++octets > 4)
++          return (0);
++        saw_digit = 1;
++      }
++    }
++    else if(ch == '.' && saw_digit) {
++      if(octets == 4)
++        return (0);
++      *++tp = 0;
++      saw_digit = 0;
++    }
++    else
++      return (0);
++  }
++  if(octets < 4)
++    return (0);
++  memcpy(dst, tmp, INTADDRSZ);
++  return (1);
++}
++
++/* int
++ * inet_pton6(src, dst)
++ *      convert presentation level address to network order binary form.
++ * return:
++ *      1 if `src' is a valid [RFC1884 2.2] address, else 0.
++ * notice:
++ *      (1) does not touch `dst' unless it's returning 1.
++ *      (2) :: in a full address is silently ignored.
++ * credit:
++ *      inspired by Mark Andrews.
++ * author:
++ *      Paul Vixie, 1996.
++ */
++static int inet_pton6(const char *src, unsigned char *dst)
++{
++  static const char xdigits_l[] = "0123456789abcdef",
++    xdigits_u[] = "0123456789ABCDEF";
++  unsigned char tmp[INT6ADDRSZ], *tp, *endp, *colonp;
++  const char *xdigits, *curtok;
++  int ch, saw_xdigit;
++  size_t val;
++
++  memset((tp = tmp), 0, INT6ADDRSZ);
++  endp = tp + INT6ADDRSZ;
++  colonp = NULL;
++  /* Leading :: requires some special handling. */
++  if(*src == ':')
++    if(*++src != ':')
++      return (0);
++  curtok = src;
++  saw_xdigit = 0;
++  val = 0;
++  while((ch = *src++) != '\0') {
++    const char *pch;
++
++    pch = strchr((xdigits = xdigits_l), ch);
++    if(!pch)
++      pch = strchr((xdigits = xdigits_u), ch);
++    if(pch != NULL) {
++      val <<= 4;
++      val |= (pch - xdigits);
++      if(++saw_xdigit > 4)
++        return (0);
++      continue;
++    }
++    if(ch == ':') {
++      curtok = src;
++      if(!saw_xdigit) {
++        if(colonp)
++          return (0);
++        colonp = tp;
++        continue;
++      }
++      if(tp + INT16SIZE > endp)
++        return (0);
++      *tp++ = (unsigned char) ((val >> 8) & 0xff);
++      *tp++ = (unsigned char) (val & 0xff);
++      saw_xdigit = 0;
++      val = 0;
++      continue;
++    }
++    if(ch == '.' && ((tp + INTADDRSZ) <= endp) &&
++        inet_pton4(curtok, tp) > 0) {
++      tp += INTADDRSZ;
++      saw_xdigit = 0;
++      break;    /* '\0' was seen by inet_pton4(). */
++    }
++    return (0);
++  }
++  if(saw_xdigit) {
++    if(tp + INT16SIZE > endp)
++      return (0);
++    *tp++ = (unsigned char) ((val >> 8) & 0xff);
++    *tp++ = (unsigned char) (val & 0xff);
++  }
++  if(colonp != NULL) {
++    /*
++     * Since some memmove()'s erroneously fail to handle
++     * overlapping regions, we'll do the shift by hand.
++     */
++    const ssize_t n = tp - colonp;
++    ssize_t i;
++
++    if(tp == endp)
++      return (0);
++    for(i = 1; i <= n; i++) {
++      *(endp - i) = *(colonp + n - i);
++      *(colonp + n - i) = 0;
++    }
++    tp = endp;
++  }
++  if(tp != endp)
++    return (0);
++  memcpy(dst, tmp, INT6ADDRSZ);
++  return (1);
++}
+diff --git a/src/nopoll_inet_pton.h b/src/nopoll_inet_pton.h
+new file mode 100644
+index 0000000..09b2904
+--- /dev/null
++++ b/src/nopoll_inet_pton.h
+@@ -0,0 +1,29 @@
++/***************************************************************************
++ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
++ *
++ * This software is licensed as described in the file COPYING, which
++ * you should have received as part of this distribution. The terms
++ * are also available at https://curl.haxx.se/docs/copyright.html.
++ *
++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
++ * copies of the Software, and permit persons to whom the Software is
++ * furnished to do so, under the terms of the COPYING file.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ***************************************************************************/
++
++#ifndef __NOPOLL_INET_PTON_H__
++#define __NOPOLL_INET_PTON_H__
++
++#include <nopoll_hostname_validation.h>
++
++#define INT6ADDRSZ       16
++#define INTADDRSZ         4
++#define INT16SIZE          2
++
++int nopoll_inet_pton(int, const char *, void *);
++
++#endif /* __NOPOLL_INET_PTON_H__ */
++
+diff --git a/src/nopoll_log.c b/src/nopoll_log.c
+index d05fc5c..7f5a01c 100644
+--- a/src/nopoll_log.c
++++ b/src/nopoll_log.c
+@@ -203,6 +203,9 @@ void __nopoll_log (noPollCtx * ctx, const char * function_name, const char * fil
+ 		case NOPOLL_LEVEL_DEBUG:
+ 			printf ("(\e[1;32mdebug\e[0m) ");
+ 			break;
++		case NOPOLL_LEVEL_INFO:
++			printf ("(\e[1;32minfo\e[0m) ");
++			break;
+ 		case NOPOLL_LEVEL_WARNING:
+ 			printf ("(\e[1;33mwarning\e[0m) ");
+ 			break;
+@@ -215,6 +218,9 @@ void __nopoll_log (noPollCtx * ctx, const char * function_name, const char * fil
+ 		case NOPOLL_LEVEL_DEBUG:
+ 			printf ("(debug)");
+ 			break;
++		case NOPOLL_LEVEL_INFO:
++			printf ("(info)");
++			break;
+ 		case NOPOLL_LEVEL_WARNING:
+ 			printf ("(warning)");
+ 			break;
+diff --git a/src/nopoll_loop.c b/src/nopoll_loop.c
+index fb142ff..08e44e5 100644
+--- a/src/nopoll_loop.c
++++ b/src/nopoll_loop.c
+@@ -48,6 +48,12 @@
+  * @{
+  */
+ 
++/*----------------------------------------------------------------------------*/
++/*                            File Scoped Variables                           */
++/*----------------------------------------------------------------------------*/
++noPollMsg * fragMsg;
++int isPreviousMsgFragment = 0;
++
+ /** 
+  * @internal Function used by nopoll_loop_wait to register all
+  * connections into the io waiting object.
+@@ -72,6 +78,15 @@ nopoll_bool nopoll_loop_register (noPollCtx * ctx, noPollConn * conn, noPollPtr
+ 	return nopoll_false; /* keep foreach, don't stop */
+ }
+ 
++noPollMsg * __nopoll_msg_join(noPollMsg *fragMsg, noPollMsg *msg)
++{
++	noPollMsg *tempMsg = nopoll_msg_join(fragMsg,msg);					
++	nopoll_msg_unref (fragMsg);
++	nopoll_msg_unref (msg);
++	
++	return tempMsg;
++}
++
+ /** 
+  * @internal Function used to handle incoming data from from the
+  * connection and to notify this data on the connection.
+@@ -85,11 +100,64 @@ void nopoll_loop_process_data (noPollCtx * ctx, noPollConn * conn)
+ 	if (msg == NULL)
+ 		return;
+ 
+-	/* found message, notify it */
+-	if (conn->on_msg) 
+-		conn->on_msg (ctx, conn, msg, conn->on_msg_data);
+-	else if (ctx->on_msg)
+-		ctx->on_msg (ctx, conn, msg, ctx->on_msg_data);
++	if(msg->op_code == NOPOLL_PING_FRAME)
++	{
++		/* Initialized ping msg handler */
++		if (conn->on_ping_msg)
++			conn->on_ping_msg (ctx, conn, msg, conn->on_ping_msg_data);
++		else if (ctx->on_ping_msg)
++			ctx->on_ping_msg (ctx, conn, msg, ctx->on_ping_msg_data);
++	}
++	else {
++		/* found message, notify it */
++		/* Initialized msg handler */
++		
++		if(msg->has_fin == 0)
++		{
++			nopoll_log(ctx, NOPOLL_LEVEL_INFO, "Received Fragment - FIN: %d, Opcode: %d, payload size: %d, Remaining bytes: %d",msg->has_fin,msg->op_code,nopoll_msg_get_payload_size(msg),msg->remain_bytes);
++			isPreviousMsgFragment = 1;
++			if(fragMsg == NULL)
++			{
++				fragMsg = msg;
++				nopoll_log(ctx, NOPOLL_LEVEL_INFO, "Received fragment, joined the message, waiting for last fragment");
++				return;
++			}
++			else
++			{
++				if(nopoll_msg_get_payload_size(msg) == msg->remain_bytes)			
++				{
++					nopoll_log(ctx, NOPOLL_LEVEL_DEBUG,"nopoll_msg_ref_count(fragMsg) %d, nopoll_msg_ref_count(msg) %d\n",nopoll_msg_ref_count(fragMsg),nopoll_msg_ref_count(msg));
++					msg = __nopoll_msg_join(fragMsg,msg);
++					nopoll_log(ctx, NOPOLL_LEVEL_INFO,"Received all the pending bytes, hence which means the complete message is received");
++					fragMsg = NULL;
++					isPreviousMsgFragment = 0;
++					nopoll_log(ctx, NOPOLL_LEVEL_INFO,"Received last fragment payload size %d, joined the old fragment messages",msg->payload_size);
++				}
++				else
++				{
++					nopoll_log(ctx, NOPOLL_LEVEL_DEBUG,"nopoll_msg_ref_count(fragMsg) %d, nopoll_msg_ref_count(msg) %d\n",nopoll_msg_ref_count(fragMsg),nopoll_msg_ref_count(msg));
++					fragMsg = __nopoll_msg_join(fragMsg,msg);	
++					nopoll_log(ctx, NOPOLL_LEVEL_INFO, "Received fragment, joined the message, waiting for last fragment");
++					return;
++				}
++			
++			}
++		}
++		else if(msg->has_fin == 1 && isPreviousMsgFragment && msg->op_code == NOPOLL_CONTINUATION_FRAME)
++		{
++			nopoll_log(ctx, NOPOLL_LEVEL_INFO, "Received Fragment - FIN: %d, Opcode: %d, payload size: %d, Remaining bytes: %d",msg->has_fin,msg->op_code,nopoll_msg_get_payload_size(msg),msg->remain_bytes);
++			nopoll_log(ctx, NOPOLL_LEVEL_DEBUG,"nopoll_msg_ref_count(fragMsg) %d, nopoll_msg_ref_count(msg) %d\n",nopoll_msg_ref_count(fragMsg),nopoll_msg_ref_count(msg));
++			msg = __nopoll_msg_join(fragMsg,msg);
++			fragMsg = NULL;
++			isPreviousMsgFragment = 0;
++			nopoll_log(ctx, NOPOLL_LEVEL_INFO,"Received last fragment payload size %d, joined the old fragment messages",msg->payload_size);					
++		}
++
++		if (conn->on_msg)
++			conn->on_msg (ctx, conn, msg, conn->on_msg_data);
++		else if (ctx->on_msg)
++			ctx->on_msg (ctx, conn, msg, ctx->on_msg_data);
++	}
+ 
+ 	/* release message */
+ 	nopoll_msg_unref (msg);
+@@ -264,6 +332,21 @@ int nopoll_loop_wait (noPollCtx * ctx, long timeout)
+ 	return 0;
+ }
+ 
++/** 
++ * @brief To determine if nopoll loop wait has ended/terminated. 
++ * This is to identify termination i.e. when the nopoll loop wait stops and 
++ * there are no connections then this returns 1 else 0.
++ *
++ * @param ctx The context object.
++ *
++ * @return The function returns 0 nopoll loop wait is running and
++ * 1 when the nopoll loop wait has ended/terminatedss 
++ */
++int nopoll_loop_ended (noPollCtx * ctx)
++{
++    return (NULL == ctx->io_engine);
++}
++
+ /* @} */
+ 
+ 
+diff --git a/src/nopoll_loop.h b/src/nopoll_loop.h
+index 245d973..338e71a 100644
+--- a/src/nopoll_loop.h
++++ b/src/nopoll_loop.h
+@@ -47,6 +47,8 @@ int  nopoll_loop_wait (noPollCtx * ctx, long timeout);
+  
+ void nopoll_loop_stop (noPollCtx * ctx);
+ 
++int nopoll_loop_ended (noPollCtx * ctx);
++
+ END_C_DECLS
+ 
+ #endif
+diff --git a/src/nopoll_private.h b/src/nopoll_private.h
+index 847e0cf..9570cb1 100644
+--- a/src/nopoll_private.h
++++ b/src/nopoll_private.h
+@@ -123,7 +123,9 @@ struct _noPollCtx {
+ 	 */
+ 	noPollOnMessageHandler on_msg;
+ 	noPollPtr              on_msg_data;
+-
++	
++	noPollOnMessageHandler on_ping_msg;
++	noPollPtr              on_ping_msg_data;
+ 	/** 
+ 	 * @internal Basic fake support for protocol version, by
+ 	 * default: 13, due to RFC6455 standard
+@@ -231,7 +233,9 @@ struct _noPollConn {
+ 	 */
+ 	noPollOnMessageHandler on_msg;
+ 	noPollPtr              on_msg_data;
+-
++	
++	noPollOnMessageHandler on_ping_msg;
++	noPollPtr              on_ping_msg_data;
+ 	/** 
+ 	 * @internal Reference to defined on ready handling.
+ 	 */
+@@ -357,6 +361,7 @@ struct _noPollHandshake {
+ 	nopoll_bool     upgrade_websocket;
+ 	nopoll_bool     connection_upgrade;
+ 	nopoll_bool     received_101; 
++	nopoll_bool     received_307;
+ 	char          * websocket_key;
+ 	char          * websocket_version;
+ 	char          * websocket_accept;
+@@ -364,6 +369,8 @@ struct _noPollHandshake {
+ 
+ 	/* reference to cookie header */
+ 	char          * cookie;
++	/* redirect Location URL */
++	char * redirectURL;
+ };
+ 
+ struct _noPollConnOpts {
+@@ -384,6 +391,7 @@ struct _noPollConnOpts {
+ 	char * ca_certificate;
+ 
+ 	nopoll_bool  disable_ssl_verify;
++	nopoll_bool host_verify;
+ 
+ 	/* cookie support */
+ 	char * cookie;
+diff --git a/src/nopoll_strcase.c b/src/nopoll_strcase.c
+new file mode 100644
+index 0000000..8bdf2e3
+--- /dev/null
++++ b/src/nopoll_strcase.c
+@@ -0,0 +1,61 @@
++/***************************************************************************
++ * 
++ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
++ *
++ * This software is licensed as described in the file COPYING, which
++ * you should have received as part of this distribution. The terms
++ * are also available at https://curl.haxx.se/docs/copyright.html.
++ *
++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
++ * copies of the Software, and permit persons to whom the Software is
++ * furnished to do so, under the terms of the COPYING file.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ***************************************************************************/
++
++
++#include <nopoll_hostname_validation.h>
++
++/* Portable, consistent toupper (remember EBCDIC). Do not use toupper() because
++   its behavior is altered by the current locale. */
++char nopoll_raw_toupper(char in)
++{
++  if(in >= 'a' && in <= 'z')
++    return (char)('A' + in - 'a');
++  return in;
++}
++
++int nopoll_strcasecompare(const char *first, const char *second)
++{
++  while(*first && *second) {
++    if(nopoll_raw_toupper(*first) != nopoll_raw_toupper(*second))
++      /* get out of the loop as soon as they don't match */
++      break;
++    first++;
++    second++;
++  }
++  /* we do the comparison here (possibly again), just to make sure that if the
++     loop above is skipped because one of the strings reached zero, we must not
++     return this as a successful match */
++  return (nopoll_raw_toupper(*first) == nopoll_raw_toupper(*second));
++}
++
++
++int nopoll_strncasecompare(const char *first, const char *second, size_t max)
++{
++  while(*first && *second && max) {
++    if(nopoll_raw_toupper(*first) != nopoll_raw_toupper(*second)) {
++      break;
++    }
++    max--;
++    first++;
++    second++;
++  }
++  if(0 == max)
++    return 1; /* they are equal this far */
++
++  return nopoll_raw_toupper(*first) == nopoll_raw_toupper(*second);
++}
++
+diff --git a/src/nopoll_strcase.h b/src/nopoll_strcase.h
+new file mode 100644
+index 0000000..15ec7ca
+--- /dev/null
++++ b/src/nopoll_strcase.h
+@@ -0,0 +1,33 @@
++/***************************************************************************
++ *
++ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
++ *
++ * This software is licensed as described in the file COPYING, which
++ * you should have received as part of this distribution. The terms
++ * are also available at https://curl.haxx.se/docs/copyright.html.
++ *
++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
++ * copies of the Software, and permit persons to whom the Software is
++ * furnished to do so, under the terms of the COPYING file.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ***************************************************************************/
++
++#ifndef __NOPOLL_STRCASE_H__
++#define __NOPOLL_STRCASE_H__
++
++/*
++ * Only "raw" case insensitive strings. This is meant to be locale independent
++ * and only compare strings we know are safe for this.
++ *
++ * The function is capable of comparing a-z case insensitively even for
++ * non-ascii.
++ */
++int nopoll_strcasecompare(const char *first, const char *second);
++int nopoll_strncasecompare(const char *first, const char *second, size_t max);
++
++char nopoll_raw_toupper(char in);
++
++#endif /* __NOPOLL_STRCASE_H__ */
+diff --git a/test/nopoll-regression-client.c b/test/nopoll-regression-client.c
+index bd68694..5e56a7e 100644
+--- a/test/nopoll-regression-client.c
++++ b/test/nopoll-regression-client.c
+@@ -267,6 +267,122 @@ nopoll_bool test_01_masking (void) {
+ 	return nopoll_true;
+ }
+ 
++
++nopoll_bool test_01_hostname_check (void) {
++
++     /*success case*/
++    if(! nopoll_cert_hostcheck("www.example.com", "www.example.com"))
++    {
++		printf ("ERROR (1): expected to match hostname validation www.example.com..\n");
++		return nopoll_false;
++	}
++	if(! nopoll_cert_hostcheck("*.example.com", "www.example.com"))
++    {
++		printf ("ERROR (1): expected to match hostname validation *.example.com..\n");
++		return nopoll_false;
++	}
++	if(! nopoll_cert_hostcheck("xxx*.example.com", "xxxwww.example.com"))
++    {
++		printf ("ERROR (1): expected to match hostname validation xxx*.example.com..\n");
++		return nopoll_false;
++	}
++	if(! nopoll_cert_hostcheck("f*.example.com", "foo.example.com"))
++    {
++		printf ("ERROR (1): expected to match hostname validation f*.example.com..\n");
++		return nopoll_false;
++	}
++	if(! nopoll_cert_hostcheck("192.168.0.0", "192.168.0.0"))
++    {
++		printf ("ERROR (1): expected to match hostname validation 192.168.0.0..\n");
++		return nopoll_false;
++	}
++	if(! nopoll_cert_hostcheck("example.com","example.com"))
++    {
++		printf ("ERROR (1): expected to match hostname validation example.com..\n");
++		return nopoll_false;
++	}
++	if(! nopoll_cert_hostcheck("fe80::3285:a9ff:fe46:b619","fe80::3285:a9ff:fe46:b619"))
++    {
++		printf ("ERROR (1): expected to match hostname validation fe80::3285:a9ff:fe46:b619..\n");
++		return nopoll_false;
++	}
++
++    /*Failure case*/
++
++    if(nopoll_cert_hostcheck("xxx.example.com", "www.example.com"))
++    {
++		printf ("ERROR (1): expected not to match hostname validation xxx.example.com\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*", "www.example.com"))
++    {
++		printf ("ERROR (1): expected not to match hostname validation for * with www.example.com\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*.*.com", "www.example.com"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation *.*.com\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*.example.com", "baa.foo.example.com"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation *.example.com with baa.foo.example.com..\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("f*.example.com", "baa.example.com"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation f*.example.com with baa.example.com\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*.com", "example.com"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation *.com with example.com.\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*fail.com", "example.com"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation for *fail.com with example.com\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*.example.", "www.example."))
++    {
++		printf ("ERROR (1): expected to not match hostname validation for *.example. with www.example.\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*.example.", "www.example"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation for *.example. with www.example\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("", "www"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation NULL with www \n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*", "www"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation * with www\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*::3285:a9ff:fe46:b619","fe80::3285:a9ff:fe46:b619"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation *::3285:a9ff:fe46:b619 with  fe80::3285:a9ff:fe46:b619 \n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("*.168.0.0", "192.168.0.0"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation *.168.0.0 with 192.168.0.0\n");
++		return nopoll_false;
++	}
++	if(nopoll_cert_hostcheck("www.example.com", "192.168.0.0"))
++    {
++		printf ("ERROR (1): expected to not match hostname validation for www.example.com with 192.168.0.0\n");
++		return nopoll_false;
++	}
++    return nopoll_true;
++}
++
++
+ nopoll_bool test_01 (void) {
+ 	noPollCtx  * ctx;
+ 	noPollConn * conn;
+@@ -286,7 +402,7 @@ nopoll_bool test_01 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 	        printf ("ERROR: Expected to find proper client connection status, but found error (conn=%p, conn->session=%d, NOPOLL_INVALID_SOCKET=%d)..\n",
+ 			conn, (int) nopoll_conn_socket (conn), (int) NOPOLL_INVALID_SOCKET);
+@@ -352,7 +468,7 @@ nopoll_bool test_02 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error.. (conn=%p, conn->session=%d, NOPOLL_INVALID_SOCKET=%d, errno=%d, strerr=%s)..\n",
+ 			conn, (int) nopoll_conn_socket (conn), (int) NOPOLL_INVALID_SOCKET, errno, strerror (errno));
+@@ -424,7 +540,7 @@ nopoll_bool test_03 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -493,7 +609,7 @@ nopoll_bool test_04 (int chunk_size) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -584,7 +700,7 @@ nopoll_bool test_04a (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -642,14 +758,14 @@ nopoll_bool test_04b (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+ 	}
+ 
+ 	printf ("Test 04-b: waiting until connection is ok\n");
+-	nopoll_conn_wait_until_connection_ready (conn, 5);
++	nopoll_conn_wait_until_connection_ready (conn, 5, NULL);
+ 
+ 	printf ("Test 04-b: sending was quick as possible to flood local buffers..\n");
+ 	
+@@ -709,14 +825,14 @@ nopoll_bool test_04b (void) {
+ 	nopoll_conn_close (conn);
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+ 	}
+ 
+ 	printf ("Test 04-b: waiting until connection is ok\n");
+-	nopoll_conn_wait_until_connection_ready (conn, 5);
++	nopoll_conn_wait_until_connection_ready (conn, 5, NULL);
+ 
+ 	/* send a cleanup message */
+ 	bytes_written = nopoll_conn_send_text (conn, "release-message", 15);
+@@ -757,14 +873,14 @@ nopoll_bool test_04c (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+ 	}
+ 
+ 	printf ("Test 04-c: waiting until connection is ok\n");
+-	nopoll_conn_wait_until_connection_ready (conn, 5);
++	nopoll_conn_wait_until_connection_ready (conn, 5, NULL);
+ 
+ 	/* remove local file */
+ 	if (stat ("copy-test-04c.txt", &file_info) == 0) {
+@@ -920,7 +1036,7 @@ nopoll_bool test_05 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -958,6 +1074,50 @@ nopoll_bool test_05 (void) {
+ 	return nopoll_true;
+ }
+ 
++
++nopoll_bool test_05_hostname_validation (void) {
++
++	char * fileName = "hostname-check.pem";
++	char *hostname_valid = "test.nopoll.com";
++	char *hostname_invalid = "invalid.com";
++	FILE *fp = NULL;
++
++	#if defined(NOPOLL_OS_WIN32)
++	fp = fopen (fileName, "rb");
++    #else
++	fp = fopen (fileName, "r");
++    #endif
++    
++    if(!fp)
++    {
++	    printf("unable to open cert file for hostname validation: %s\n", fileName);
++	    return nopoll_false;
++    }
++
++    X509 *cert = PEM_read_X509(fp, NULL, NULL, NULL);
++    if(!cert)
++    {
++	    printf("unable to parse certificate for hostname validation : %s\n", fileName);
++	    fclose(fp);
++	    return nopoll_false;
++    }
++   
++    if(nopoll_validate_hostname(hostname_valid, cert))
++    {
++        printf("hostname %s doesn't match with dnsname \n",hostname_valid);
++        return nopoll_false;
++    }
++    
++    if(!nopoll_validate_hostname(hostname_invalid, cert))
++    {
++        printf("hostname %s matched with dnsname \n",hostname_invalid);
++        return nopoll_false;
++    }
++    X509_free(cert);
++    fclose(fp);
++	return nopoll_true;
++}
++
+ nopoll_bool test_06 (void) {
+ 
+ 	noPollCtx      * ctx;
+@@ -972,7 +1132,7 @@ nopoll_bool test_06 (void) {
+ 	nopoll_conn_opts_ssl_peer_verify (opts, nopoll_false);
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1018,9 +1178,10 @@ nopoll_bool test_07 (void) {
+ 	/* disable verification */
+ 	opts = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_ssl_peer_verify (opts, nopoll_false);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1062,7 +1223,7 @@ nopoll_bool test_08 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to connect to TLS port expecting non-TLS protocol */
+-	conn = nopoll_conn_new (ctx, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1235", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 
+ 	/* wait a bit 100ms */
+ 	nopoll_sleep (100000);
+@@ -1093,7 +1254,7 @@ nopoll_bool test_09 (void) {
+ 	nopoll_ctx_set_protocol_version (ctx, 12);
+ 
+ 	/* call to connect to TLS port expecting non-TLS protocol */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 
+ 	/* wait a bit 100ms */
+ 	nopoll_sleep (100000);
+@@ -1121,7 +1282,7 @@ nopoll_bool test_10 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to connect from an origining that shouldn't be allowed */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, "http://deny.aspl.es");
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, "http://deny.aspl.es",NULL, NULL,NULL,0);
+ 
+ 	/* wait a bit 100ms */
+ 	nopoll_sleep (100000);
+@@ -1149,9 +1310,9 @@ nopoll_bool test_11 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* create a working connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 
+-	if (! nopoll_conn_wait_until_connection_ready (conn, 5)) {
++	if (! nopoll_conn_wait_until_connection_ready (conn, 5, NULL)) {
+ 		printf ("ERROR: Expected a FAILING connection status due to origing denied, but it working..\n");
+ 		return nopoll_false;
+ 	} /* end if */
+@@ -1191,9 +1352,9 @@ nopoll_bool test_12 (void) {
+ 	iterator = 0;
+ 	while (iterator < 1000) {
+ 		/* create a working connection */
+-		conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++		conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 		
+-		if (! nopoll_conn_wait_until_connection_ready (conn, 5)) {
++		if (! nopoll_conn_wait_until_connection_ready (conn, 5, NULL)) {
+ 			printf ("ERROR: Expected NOT to find a FAILING connection status, errno is=%d..\n", errno);
+ 			return nopoll_false;
+ 		} /* end if */
+@@ -1325,7 +1486,7 @@ nopoll_bool test_14 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1395,7 +1556,7 @@ nopoll_bool test_15 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1469,7 +1630,7 @@ nopoll_bool test_16 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1627,7 +1788,7 @@ nopoll_bool test_17 (void) {
+ 	} /* end if */
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "22351", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "22351", NULL, NULL, NULL, NULL,NULL, NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1709,9 +1870,10 @@ nopoll_bool test_18 (void) {
+ 	/* disable verification */
+ 	opts = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_ssl_peer_verify (opts, nopoll_false);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 
+ 	/* call to create a connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1746,9 +1908,10 @@ nopoll_bool test_19 (void) {
+ 	/* create options */
+ 	opts     = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_set_ssl_protocol (opts, NOPOLL_METHOD_SSLV23);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1236", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1236", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 
+ 	/* check connection */
+ 	if (! nopoll_conn_is_ok (conn)) {
+@@ -1767,9 +1930,10 @@ nopoll_bool test_19 (void) {
+ 	/* create options */
+ 	opts     = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_set_ssl_protocol (opts, NOPOLL_METHOD_SSLV23);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 
+ 	/* check connection */
+ 	if (! nopoll_conn_is_ok (conn)) {
+@@ -1786,10 +1950,11 @@ nopoll_bool test_19 (void) {
+ 	/* create options */
+ 	opts     = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_set_ssl_protocol (opts, NOPOLL_METHOD_SSLV3);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 
+ 	/* create connection */
+ 	printf ("Test 19: checking SSLv3 with TLSv1..\n");
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 
+ 	/* check connection */
+ 	if (nopoll_conn_is_ok (conn)) {
+@@ -1850,7 +2015,7 @@ nopoll_bool test_21 (void) {
+ 
+ 	/* call to create a connection */
+ 	printf ("Test 21: check ssl connection (with auth certificate)..\n");
+-	conn = nopoll_conn_tls_new (ctx, NULL, "localhost", "1239", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, NULL, "localhost", "1239", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to FAILURE client connection status, but ok..\n");
+ 		return nopoll_false;
+@@ -1868,7 +2033,8 @@ nopoll_bool test_21 (void) {
+ 					NULL,
+ 					/* ca certificate */
+ 					"root.pem");
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1239", NULL, NULL, NULL, NULL);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1239", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! test_sending_and_check_echo (conn, "Test 21", "This is a test")) {
+ 		printf ("ERROR: it should WORK, client certificate isn't working..\n");
+ 		return nopoll_false;
+@@ -1908,7 +2074,7 @@ nopoll_bool test_22 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -1947,9 +2113,9 @@ nopoll_bool test_22 (void) {
+ 	/* disable verification */
+ 	opts = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_ssl_peer_verify (opts, nopoll_false);
+-
++    nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 	/* call to create a connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2037,7 +2203,7 @@ nopoll_bool test_23 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2052,7 +2218,7 @@ nopoll_bool test_23 (void) {
+ 	nopoll_conn_close (conn);
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2075,9 +2241,9 @@ nopoll_bool test_23 (void) {
+ 	/* disable verification */
+ 	opts = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_ssl_peer_verify (opts, nopoll_false);
+-
++    nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 	/* call to create a connection */
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2093,7 +2259,8 @@ nopoll_bool test_23 (void) {
+ 	/* call to create a connection second connection */
+ 	opts = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_ssl_peer_verify (opts, nopoll_false);
+-	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL);
++	nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
++	conn = nopoll_conn_tls_new (ctx, opts, "localhost", "1235", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2129,9 +2296,10 @@ nopoll_bool test_24 (void) {
+ 	/* configure cookie */
+ 	opts = nopoll_conn_opts_new ();
+ 	nopoll_conn_opts_set_cookie (opts, "theme=light; sessionToken=abc123");
+-
++    nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
++    
+ 	/* create connection */
+-	conn = nopoll_conn_new_opts (ctx, opts, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new_opts (ctx, opts, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2184,9 +2352,9 @@ nopoll_bool test_25_check_cookie (noPollCtx * ctx, const char * cookie) {
+ 
+ 	/* set a cookie bigger than 1044 */
+ 	nopoll_conn_opts_set_cookie (opts, cookie);
+-
++    nopoll_conn_opts_ssl_host_verify (opts, nopoll_false);
+ 	/* create connection */
+-	conn = nopoll_conn_new_opts (ctx, opts, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new_opts (ctx, opts, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2237,7 +2405,7 @@ nopoll_bool test_26 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "echo.websocket.org", "80", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "echo.websocket.org", "80", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2265,7 +2433,7 @@ nopoll_bool test_27 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, "/", "chat-protocol", "http://www.aspl.es");
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, "/", "chat-protocol", "http://www.aspl.es",NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2288,7 +2456,7 @@ nopoll_bool test_27 (void) {
+ 	nopoll_conn_close (conn);	
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, "/", "hello-protocol", "http://www.aspl.es");
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, "/", "hello-protocol", "http://www.aspl.es",NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+@@ -2328,14 +2496,14 @@ nopoll_bool test_28 (void) {
+ 	ctx = create_ctx ();
+ 
+ 	/* create connection */
+-	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL);
++	conn = nopoll_conn_new (ctx, "localhost", "1234", NULL, NULL, NULL, NULL,NULL,NULL,NULL,0);
+ 	if (! nopoll_conn_is_ok (conn)) {
+ 		printf ("ERROR: Expected to find proper client connection status, but found error..\n");
+ 		return nopoll_false;
+ 	} /* end if */
+ 
+ 	/* wait until it is connected */
+-	nopoll_conn_wait_until_connection_ready (conn, 5);
++	nopoll_conn_wait_until_connection_ready (conn, 5, NULL);
+ 
+ 	/* send a message to request connection close with a particular message */
+ 	if (nopoll_conn_send_text (conn, "close with message", 18) != 18) {
+@@ -2431,6 +2599,13 @@ int main (int argc, char ** argv)
+ 		printf ("Test 01-masking: Library websocket content masking support [ FAILED ]\n");
+ 		return -1;
+ 	}
++	
++	if (test_01_hostname_check ()) {
++		printf ("Test 01_hostname_check: Library websocket hostname validation [   OK   ]\n");
++	}else {
++		printf ("Test 01_hostname_check: Library websocket hostname validation [ FAILED ]\n");
++		return -1;
++	}
+ 
+ 	if (test_01 ()) {	
+ 		printf ("Test 01: Simple connect and disconnect [   OK   ]\n");
+@@ -2510,6 +2685,13 @@ int main (int argc, char ** argv)
+ 		return -1;
+ 	}
+ 
++    if (test_05_hostname_validation()) {
++		printf ("Test 05 hostname_validation: testing basic TLS connect with hostname validation [   OK   ]\n");
++	} else {
++		printf ("Test 05 hostname_validation: testing basic TLS connect with hostname validation[ FAILED ]\n");
++		return -1;
++	}
++    
+ 	if (test_06 ()) {
+ 		printf ("Test 06: testing basic TLS connect [   OK   ]\n");
+ 	} else {
+-- 
+1.9.1
+
+
